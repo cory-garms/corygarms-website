@@ -1,5 +1,11 @@
 # Progress Log
 
+## [2026-03-04 16:35:00 EST]
+* **Status:** Completed Day 2 (5-Day Sprint)
+* **Focus:** Astro Content Collections & Dynamic CMS
+* **Summary:** Integrated Astro Content Collections for technical notes. Wrote the Zod schema (`config.ts`), created a dynamic layout page (`[slug].astro`), and updated `NotesList.astro` to query and render markdown files recursively. Fixed a text formatting bug in `index.astro` and successfully embedded the user's `Google Photos` flower album dynamically into `PortfolioGrid.astro` alongside a new fetch function that dynamically pulls the newest GitHub repositories into the selected works grid.
+* **Technical Debt/Next Steps:** Pushing Day 2 features to GitHub to trigger Vercel deployment. Awaiting user verification before kicking off Day 3 (Aesthetics & Animations).
+
 ## [2026-03-04 16:15:00 EST]
 * **Status:** Completed Day 1 (5-Day Sprint)
 * **Focus:** Advanced 3D Viewer & UI Toggles

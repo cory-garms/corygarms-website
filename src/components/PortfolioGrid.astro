@@ -1,42 +1,70 @@
 ---
-// Portfolio Data
-const projects = [
+import { fetchLatestGithubProjects } from '../utils/github.js';
+
+// Local Professional Portfolio Data
+const localProjects = [
   {
     title: "USDA STTR: Forest Reconstruction",
     description: "High-resolution 3D point cloud processing pipeline for agricultural and forestry analysis using Python and Lidar.",
     image: "/images/STTR_device.jpg",
     tags: ["Lidar", "Python", "Computer Vision"],
-    link: "#"
+    link: "#",
+    isGithub: false
   },
   {
     title: "Hyperspectral Data Pipeline",
     description: "Containerized, high-throughput pipeline for analyzing hyperspectral imagery from remote sensing platforms.",
     image: "/images/CUTMAP_apparatus.jpg",
     tags: ["Docker", "Data Pipeline", "Remote Sensing"],
-    link: "#"
+    link: "#",
+    isGithub: false
   },
   {
-    title: "WebGL Point Cloud Viewer",
-    description: "Performant browser-based visualization of massive point cloud datasets utilizing Three.js and octree structures.",
-    image: "/images/portfolio-placeholder-3.jpg", // Kept generic placeholder for the third item for now
-    tags: ["Three.js", "React", "WebGL"],
-    link: "#"
+    title: "Flower Photography Collection",
+    description: "A personal catalog of my floral photography across various expeditions and hikes.",
+    image: "/images/amanda.jpg", // Reusing the high-quality amanda photo as a placeholder until explicit flower images are added
+    tags: ["Photography", "Outdoors", "Hobby"],
+    link: "https://photos.app.goo.gl/WkiMmQssqR9htN478",
+    isGithub: false
   }
 ];
+
+// Content Sync: Fetch recent GitHub projects
+const githubRepos = await fetchLatestGithubProjects('cory-garms', 3);
+const formattedGithubProjects = githubRepos.map(repo => ({
+    title: repo.title,
+    description: repo.description,
+    image: "", // Handled conditionally in markup
+    tags: ["GitHub", "Open Source"],
+    link: repo.link,
+    isGithub: true
+}));
+
+const allProjects = [...localProjects, ...formattedGithubProjects];
 ---
 
 <section id="portfolio" class="py-24 bg-surface/50 border-t border-primary-800/30">
 	<div class="max-w-7xl mx-auto px-6">
-		<h3 class="text-3xl font-bold mb-12 text-white inline-block border-b-2 border-accent pb-2">Selected Work</h3>
+		<h3 class="text-3xl font-bold mb-12 text-white inline-block border-b-2 border-accent pb-2">Selected Work & Code</h3>
 		
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-			{projects.map((project) => (
-				<a href={project.link} class="group block bg-background rounded-2xl border border-primary-800/30 overflow-hidden hover:border-primary-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,43,136,0.15)] flex flex-col h-full">
+			{allProjects.map((project) => (
+				<a href={project.link} target={project.link.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" class="group block bg-background rounded-2xl border border-primary-800/30 overflow-hidden hover:border-primary-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,43,136,0.15)] flex flex-col h-full">
 					
-					{/* Project Image */}
-					<div class="aspect-video w-full bg-surface relative overflow-hidden border-b border-primary-800/30 items-center justify-center flex">
-						<div class="absolute inset-0 bg-gradient-to-tr from-primary-900/30 to-transparent z-10 pointer-events-none group-hover:opacity-0 transition-opacity duration-500"></div>
-						<img src={project.image} alt={project.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 relative z-0" />
+					{/* Project Image or GitHub Fallback */}
+					<div class="aspect-video w-full bg-surface/30 relative overflow-hidden border-b border-primary-800/30 flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary-900/30 to-transparent z-10 pointer-events-none group-hover:opacity-0 transition-opacity duration-500"></div>
+                        
+                        {project.isGithub || !project.image ? (
+                            <div class="w-full h-full flex items-center justify-center bg-background/50 text-primary-600 group-hover:text-accent transition-colors duration-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
+                            </div>
+                        ) : (
+                            <img src={project.image} alt={project.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 relative z-0" />
+                        )}
 					</div>
 
 					<div class="p-6 flex flex-col flex-grow">
