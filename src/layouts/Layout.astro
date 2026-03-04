@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Cory Glenn Garms - Senior Scientist & Web Developer" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Cory Glenn Garms</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+	</head>
+	<body class="min-h-screen flex flex-col antialiased">
+		<header class="w-full border-b border-primary-800/50 bg-surface/80 backdrop-blur-md sticky top-0 z-50">
+			<div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+				<a href="/" class="text-xl font-bold tracking-tight text-white hover:text-accent transition-colors">Cory Glenn Garms<span class="text-accent">, Ph.D.</span></a>
+				<nav class="hidden md:flex gap-8">
+					<a href="#about" class="text-sm font-medium text-text-muted hover:text-white transition-colors">About</a>
+					<a href="#portfolio" class="text-sm font-medium text-text-muted hover:text-white transition-colors">Portfolio</a>
+					<a href="#notes" class="text-sm font-medium text-text-muted hover:text-white transition-colors">Notes</a>
+					<a href="#contact" class="text-sm font-medium text-text-muted hover:text-white transition-colors">Contact</a>
+				</nav>
+			</div>
+		</header>
+
+		<main class="flex-grow">
+			<slot />
+		</main>
+
+		<footer class="w-full border-t border-primary-800/50 bg-surface mt-20">
+			<div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
+				<div class="text-text-muted text-sm">
+					&copy; {new Date().getFullYear()} Cory Glenn Garms. All rights reserved.
+				</div>
+				<div class="flex gap-6">
+					<a href="https://github.com/cory-garms" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-white transition-colors">GitHub</a>
+					<a href="https://www.linkedin.com/in/cory-g-garms-5a29a7139/" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-white transition-colors">LinkedIn</a>
+					<a href="https://x.com/cory_garms" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-white transition-colors">𝕏 (Twitter)</a>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

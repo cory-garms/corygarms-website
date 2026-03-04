@@ -1,0 +1,35 @@
+---
+const notes = [
+  {
+    title: "Optimizing Massive Lidar Renders in WebGL",
+    date: "March 2026",
+    excerpt: "Notes on maintaining 60 FPS while streaming millions of points in the browser...",
+    link: "#"
+  },
+  {
+    title: "Containerizing Python Processing Pipelines",
+    date: "February 2026",
+    excerpt: "Best practices for writing PEP 8 compliant, Docker-ready code for scientific computing.",
+    link: "#"
+  }
+];
+---
+
+<section id="notes" class="py-24 bg-background border-t border-primary-800/30">
+	<div class="max-w-7xl mx-auto px-6">
+		<div class="flex justify-between items-end mb-12 border-b-2 border-primary-800/50 pb-4">
+			<h3 class="text-3xl font-bold text-white">Technical Notes</h3>
+			<a href="#" class="text-accent hover:text-white transition-colors font-medium">View All &rarr;</a>
+		</div>
+		
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+			{notes.map((note) => (
+				<a href={note.link} class="p-6 bg-surface rounded-xl border border-primary-800/30 hover:border-primary-500 transition-colors group">
+					<div class="text-xs text-primary-400 font-mono mb-2">{note.date}</div>
+					<h4 class="text-lg font-semibold text-white mb-2 group-hover:text-accent transition-colors">{note.title}</h4>
+					<p class="text-text-muted text-sm">{note.excerpt}</p>
+				</a>
+			))}
+		</div>
+	</div>
+</section>

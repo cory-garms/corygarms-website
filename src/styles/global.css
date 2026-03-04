@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  /* Scientific Dark Theme - Inspired by Viridis/Magma color scales */
+  --color-primary-900: #1a002b;
+  --color-primary-800: #3b0964;
+  --color-primary-700: #5d1879;
+  --color-primary-600: #8b2b88;
+  --color-primary-500: #b54784;
+  --color-primary-400: #df6677;
+  --color-primary-300: #f58860;
+  --color-primary-200: #fdb45c;
+  --color-primary-100: #fdeca5;
+  --color-primary-50: #fcfdbf;
+
+  --color-background: #0d0d12;
+  --color-surface: #15151e;
+  --color-text-main: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-accent: #f58860; /* Magma vivid orange/salmon */
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+    font-family: var(--font-sans);
+  }
+}
