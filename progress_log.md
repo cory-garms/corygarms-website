@@ -1,5 +1,17 @@
 # Progress Log
 
+## [2026-03-04 17:05:00 EST]
+* **Status:** Completed Day 5. **Sprint Finished.**
+* **Focus:** SEO, A11y, and Final Polish
+* **Summary:** Conducted final accessibility checks on the Dark/Scientific color palette. Configured the `@astrojs/sitemap` integration inside `astro.config.mjs` and generated a `robots.txt` file to enable robust search engine crawling. Added dynamic OpenGraph and Twitter Cards to `Layout.astro` for professional link previews on X/LinkedIn. Addressed the user's mid-day request to update the Google Photos link pointing to their new flower photography album link. 
+* **Technical Debt/Next Steps:** The 5-Day Sprint is officially complete. The code has been comprehensively pushed to GitHub `main` branch, automatically deploying to Vercel. Awaiting final user approval of the finished `corygarms.com` site.
+
+## [2026-03-04 16:55:00 EST]
+* **Status:** Completed Day 4 (5-Day Sprint)
+* **Focus:** DevOps Automation & CI/CD
+* **Summary:** Built out the "Automated Architect" features. Wrote a reliable GitHub Actions workflow (`ci.yml`) to automatically build and audit on every push. Created `scripts/health-check.js` to programmatically verify NPM vulnerabilities, build integrity, and check the DNS/SSL status of `corygarms.com`. Finally, integrated Lighthouse CI (`.lighthouserc.json`) to programmatically assert Performance (>85%), Accessibility (>95%), and SEO (>90%) benchmarks on the production build output.
+* **Technical Debt/Next Steps:** Committing Day 4 infrastructure to GitHub. Day 5 (SEO/A11y Manual Checks) is next.
+
 ## [2026-03-04 16:45:00 EST]
 * **Status:** Completed Day 3 (5-Day Sprint)
 * **Focus:** UI Polish & Scientific Aesthetics

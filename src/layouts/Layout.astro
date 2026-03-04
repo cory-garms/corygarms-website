@@ -9,13 +9,31 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Cory Glenn Garms - Senior Scientist & Web Developer" />
+		<meta name="description" content="Cory Glenn Garms, Ph.D. - Senior Scientist specializing in Remote Sensing, Lidar, and 3D Computer Vision at Spectral Sciences, Inc." />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+        
+        <!-- OpenGraph Meta Tags for Social Media -->
+        <meta property="og:title" content={`${title} | Cory Glenn Garms, Ph.D.`} />
+        <meta property="og:description" content="Portfolio of Cory Glenn Garms: Senior Scientist in Remote Sensing, Lidar, and 3D Computer Vision." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://corygarms.com/" />
+        <!-- Set a fallback feature image for link previews if possible, pointing to the profile picture -->
+        <meta property="og:image" content="https://corygarms.com/images/profile.jpg" />
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@cory_garms" />
+        <meta name="twitter:creator" content="@cory_garms" />
+        <meta name="twitter:title" content={`${title} | Cory Glenn Garms`} />
+        <meta name="twitter:description" content="Senior Scientist in Remote Sensing, Lidar, and 3D Computer Vision." />
+        <meta name="twitter:image" content="https://corygarms.com/images/profile.jpg" />
+
 		<title>{title} | Cory Glenn Garms</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
