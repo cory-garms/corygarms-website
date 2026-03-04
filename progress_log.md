@@ -1,10 +1,22 @@
 # Progress Log
 
+## [2026-03-04 16:15:00 EST]
+* **Status:** Completed Day 1 (5-Day Sprint)
+* **Focus:** Advanced 3D Viewer & UI Toggles
+* **Summary:** Added `OrbitControls` to `<PointCloudHero>` enabling zooming and panning on the homepage. Built an overlay UI with simulated color maps (Default/Viridis/Magma) leveraging `React.useState`. Successfully researched and scaffolded a `<PcdViewer>` component that uses Three.js `PCDLoader` to ingest actual `.pcd` Lidar files into the application.
+* **Technical Debt/Next Steps:** Committing Day 1 code to trigger a Vercel build. Awaiting user verification before kicking off Day 2 (Astro Content Collections CMS).
+
+## [2026-03-04 16:15:00 EST]
+* **Status:** Planning 5-Day Sprint
+* **Focus:** Feature Roadmap
+* **Summary:** The Phase 1 MVP is officially complete, checked into GitHub, and ready for free Vercel hosting. Transitioning to a 5-Day Development Sprint. Drafted a comprehensive roadmap focusing on advanced 3D (Day 1), CMS integration (Day 2), UI animations (Day 3), DevOps (Day 4), and SEO/A11y (Day 5).
+* **Technical Debt/Next Steps:** Awaiting user approval on the sprint roadmap before beginning Day 1 execution.
+
 ## [2026-03-04 15:37:00 EST]
 * **Status:** MVP Complete
 * **Focus:** Pre-Deployment Verification
-* **Summary:** Added the provided X/Twitter and LinkedIn URLs to the site footer. Also amended the "About Me" section to correctly attribute the 5-year anniversary with Amanda having occurred in August 2025. The MVP for `corygarms.com` is now fully coded, localized, and styled according to the scientific persona.
-* **Technical Debt/Next Steps:** User wants to avoid GoDaddy's $6/mo hosting fee. Pivoting the deployment strategy to use a free tier on Vercel/Netlify, while simply pointing the GoDaddy domain (which is already paid for) to the free host. Updating the `walkthrough.md` with these Git-based instructions.
+* **Summary:** The code is completely finished and fully checked into GitHub under `cory-garms/corygarms-website`.
+* **Technical Debt/Next Steps:** Awaiting user to import the GitHub repo into Vercel/Netlify and configure the required GoDaddy custom nameserver DNS records. Once the DNS propagates, Phase 1 is officially done and `corygarms.com` will be live for free!
 
 ## [2026-03-04 15:35:00 EST]
 * **Status:** Completed Phase 3
