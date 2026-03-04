@@ -103,7 +103,7 @@ export default function PointCloudHero() {
       >
         <color attach="background" args={['#0d0d12']} />
         <fog attach="fog" args={['#0d0d12', 10, 40]} />
-        <Points count={50000} colormap={colormap} />
+        <Points key={colormap} count={50000} colormap={colormap} />
         <OrbitControls 
           autoRotate 
           autoRotateSpeed={0.5} 
