@@ -3,7 +3,7 @@
 ## [2026-03-04 16:15:00 EST]
 * **Status:** Completed Day 1 (5-Day Sprint)
 * **Focus:** Advanced 3D Viewer & UI Toggles
-* **Summary:** Added `OrbitControls` to `<PointCloudHero>` enabling zooming and panning on the homepage. Built an overlay UI with simulated color maps (Default/Viridis/Magma) leveraging `React.useState`. Successfully researched and scaffolded a `<PcdViewer>` component that uses Three.js `PCDLoader` to ingest actual `.pcd` Lidar files into the application.
+* **Summary:** Added `OrbitControls` to `<PointCloudHero>` enabling zooming and panning on the homepage. Built an overlay UI with simulated color maps (Default/Viridis/Magma) leveraging `React.useState`. Successfully researched and scaffolded a `<PcdViewer>` component that uses Three.js `PCDLoader` to ingest actual `.pcd` Lidar files into the application. (Update: Also swapped `family.jpg` out for `amanda.jpg` per user request).
 * **Technical Debt/Next Steps:** Committing Day 1 code to trigger a Vercel build. Awaiting user verification before kicking off Day 2 (Astro Content Collections CMS).
 
 ## [2026-03-04 16:15:00 EST]
