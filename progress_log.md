@@ -3,7 +3,7 @@
 ## [2026-03-04 17:15:00 EST]
 * **Status:** Post-Sprint Revisions
 * **Focus:** Addressing User Feature Requests
-* **Summary:** Updated the flower album thumbnail to `thistle.jpg`. Added the user's Google Scholar profile link to both the "About Me" section and the main footer.
+* **Summary:** Updated the flower album thumbnail to `thistle.jpg`. Added the user's Google Scholar profile link to both the "About Me" section and the main footer. Replaced the thumbnail for the Hyperspectral Data Pipeline project with the user-provided `hsi_thumbnal.jpg` image.
 * **Technical Debt/Next Steps:** Continue to monitor for any other user feedback on the completed sprint.
 
 ## [2026-03-04 17:05:00 EST]
