@@ -58,10 +58,11 @@ const { title } = Astro.props;
 
 		<footer class="w-full border-t border-primary-800/50 bg-surface mt-20">
 			<div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
-				<div class="text-text-muted text-sm">
-					&copy; {new Date().getFullYear()} Cory Glenn Garms. All rights reserved.
+				<div class="text-text-muted text-sm flex gap-4">
+					<span>&copy; {new Date().getFullYear()} Cory Glenn Garms. All rights reserved.</span>
 				</div>
-				<div class="flex gap-6">
+				<div class="flex gap-6 flex-wrap justify-center">
+					<a href="https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-white transition-colors">Google Scholar</a>
 					<a href="https://github.com/cory-garms" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-white transition-colors">GitHub</a>
 					<a href="https://www.linkedin.com/in/cory-g-garms-5a29a7139/" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-white transition-colors">LinkedIn</a>
 					<a href="https://x.com/cory_garms" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-white transition-colors">𝕏 (Twitter)</a>
