@@ -29,4 +29,25 @@
     color: var(--color-text-main);
     font-family: var(--font-sans);
   }
+
+  /* Micro-animations: Scroll Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform;
+  }
+  
+  .reveal.reveal-left {
+    transform: translateX(-40px);
+  }
+
+  .reveal.reveal-right {
+    transform: translateX(40px);
+  }
+
+  .reveal-visible {
+    opacity: 1 !important;
+    transform: translate(0, 0) !important;
+  }
 }

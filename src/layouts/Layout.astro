@@ -50,5 +50,29 @@ const { title } = Astro.props;
 				</div>
 			</div>
 		</footer>
+
+		<script>
+			// Performance-optimized Intersection Observer for scroll-reveal micro-animations
+			document.addEventListener('DOMContentLoaded', () => {
+				const observerOptions = {
+					root: null,
+					rootMargin: '0px',
+					threshold: 0.15 // Trigger when 15% of the element is visible
+				};
+
+				const observer = new IntersectionObserver((entries, observer) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('reveal-visible');
+							observer.unobserve(entry.target); // Only animate once
+						}
+					});
+				}, observerOptions);
+
+				document.querySelectorAll('.reveal').forEach((element) => {
+					observer.observe(element);
+				});
+			});
+		</script>
 	</body>
 </html>

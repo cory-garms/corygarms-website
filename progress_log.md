@@ -1,5 +1,11 @@
 # Progress Log
 
+## [2026-03-04 16:45:00 EST]
+* **Status:** Completed Day 3 (5-Day Sprint)
+* **Focus:** UI Polish & Scientific Aesthetics
+* **Summary:** Updated the `mailto:` link in the hero section to the correct email address (`coryglenngarms@gmail.com`). Wrote a custom IntersectionObserver script in `Layout.astro` and implemented performant `.reveal` CSS classes globally for scroll-triggered micro-animations, applied them to the About me section, Portfolio Grid, and Notes list. Finally, designed a responsive `PublicationLayout.astro` complete with DOI linking and PDF viewer shortcuts tailored for academic posters.
+* **Technical Debt/Next Steps:** Pushing Day 3 UI/UX improvements to the repo. Next up is Day 4 (DevOps, CI/CD, and Lighthouse Automated Checking).
+
 ## [2026-03-04 16:35:00 EST]
 * **Status:** Completed Day 2 (5-Day Sprint)
 * **Focus:** Astro Content Collections & Dynamic CMS
