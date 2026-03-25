@@ -1,5 +1,10 @@
 # Progress Log
 
+## [2026-03-25 13:19:00 EST]
+* **Status:** Completed Sprint 2
+* **Focus:** 3D Scene Viewer, MDX MathJax, Contact Form
+* **Summary:** Successfully completed the `<PointCloudHero />` refactor to dynamically load and display massive native `.glb` assets (Boston, Supra, SR-71, Battleship) inside both a Native Texture view and a synthetic Viridis/Magma Lidar view. Engineered an MDX pipeline with `remark-math` and `rehype-mathjax` for LaTeX equations in technical notes, along with new `<Alert>` and `<CodeSnippet>` components. Replaced the basic mailto link with a fully functional React Web3Forms endpoint in a dedicated Contact Section.
+* **Technical Debt/Next Steps:** Handoff to user for Git push. Awaiting user to insert their valid Web3Forms Access Key into `ContactForm.jsx` for production emailing processing.
 ## [2026-03-04 17:15:00 EST]
 * **Status:** Post-Sprint Revisions
 * **Focus:** Addressing User Feature Requests

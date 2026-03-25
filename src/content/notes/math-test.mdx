@@ -1,0 +1,30 @@
+---
+title: "Testing MDX and MathJax"
+publishDate: 2026-03-25T12:00:00.000Z
+tags: ["math", "updates"]
+---
+
+Welcome to the new MDX-powered blog system! We now support complex mathematical equations natively using standard LaTeX syntax.
+
+### The Navier-Stokes Equation
+Below is the famous Navier-Stokes equation for incompressible flow:
+
+$$
+\rho \left( \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u} \cdot \nabla \mathbf{u} \right) = -\nabla p + \mu \nabla^2 \mathbf{u} + \mathbf{f}
+$$
+
+<Alert type="info" title="Fluid Dynamics Notes">
+This equation is fundamental to fluid mechanics, atmospheric sciences, and climate modeling—areas closely related to my work in remote sensing applications!
+</Alert>
+
+<Alert type="paper" title="Scientific Citation">
+Please consult Einstein's general relativity for other exciting inline $E=mc^2$ equations perfectly rendered by the new MathJax Rehype plugin.
+</Alert>
+
+<CodeSnippet title="velocity_field.py" lang="python">
+{`# You can also use our custom snippet wrappers now!
+import numpy as np
+
+def calculate_velocity(density, time):
+    return np.array([0, 1, 0]) * (density / time)`}
+</CodeSnippet>

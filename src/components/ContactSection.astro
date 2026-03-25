@@ -1,0 +1,22 @@
+---
+import ContactFormReact from './ContactForm.jsx';
+---
+
+<section id="contact" class="py-24 bg-background relative overflow-hidden">
+	<div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(139,43,136,0.05),transparent_50%)] pointer-events-none"></div>
+	
+	<div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
+		<div class="max-w-3xl mx-auto">
+			<div class="reveal reveal-bottom text-center mb-12">
+				<h3 class="text-3xl font-bold mb-4 text-white inline-block border-b-2 border-accent pb-2">Get in Touch</h3>
+				<p class="text-text-muted font-mono leading-relaxed mt-6">
+					Whether you want to discuss Lidar processing algorithms, remote sensing applications, or just chat about the Red Sox, feel free to reach out using the form below!
+				</p>
+			</div>
+
+			<div class="bg-surface/50 border border-primary-800/30 p-8 md:p-10 rounded-2xl shadow-xl backdrop-blur-sm reveal reveal-bottom" style="transition-delay: 200ms;">
+				<ContactFormReact client:visible />
+			</div>
+		</div>
+	</div>
+</section>
