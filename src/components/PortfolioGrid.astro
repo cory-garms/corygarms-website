@@ -11,14 +11,7 @@ const localProjects = [
     link: "#",
     isGithub: false
   },
-  {
-    title: "Hyperspectral Data Pipeline",
-    description: "Containerized, high-throughput pipeline for analyzing hyperspectral imagery from remote sensing platforms.",
-    image: "/images/hsi_thumbnal.jpg",
-    tags: ["Docker", "Data Pipeline", "Remote Sensing"],
-    link: "#",
-    isGithub: false
-  },
+
   {
     title: "Flower Photography Collection",
     description: "A personal catalog of my floral photography across various expeditions and hikes.",
@@ -35,16 +28,23 @@ const formattedGithubProjects = githubRepos.map(repo => {
     let customImage = "";
     // repo.link contains the raw slug, whereas repo.title was modified by fetchLatestGithubProjects to be Title Cased
     const isLidarExtractor = repo.link && repo.link.includes("lidar-canopy-extractor");
+    const isHsiPipeline = repo.link && repo.link.includes("hsi-pipeline");
     
     if (isLidarExtractor) {
         customImage = "/images/output_chm_render.png";
+    } else if (isHsiPipeline) {
+        customImage = "/images/HSI-pipeline_thumbnail.png";
     }
     
     return {
         title: repo.title,
-        description: isLidarExtractor ? "Python pipeline for Lidar point cloud classification and Canopy Height Model (CHM) generation" : repo.description,
+        description: isLidarExtractor 
+            ? "Python pipeline for Lidar point cloud classification and Canopy Height Model (CHM) generation" 
+            : (isHsiPipeline ? "A scientific Python pipeline for processing hyperspectral data" : repo.description),
         image: customImage,
-        tags: isLidarExtractor ? ["Python", "Docker", "Lidar"] : ["GitHub", "Open Source"],
+        tags: isLidarExtractor 
+            ? ["Python", "Docker", "Lidar"] 
+            : (isHsiPipeline ? ["Python", "Spectral", "Remote Sensing"] : ["GitHub", "Open Source"]),
         link: repo.link,
         isGithub: customImage === ""
     };
