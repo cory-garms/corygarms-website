@@ -14,7 +14,7 @@ export default function ContactForm() {
 
         // Required Web3Forms generic access key. 
         // Note: The user should replace this or pass it in via ENV in a real production repo.
-        formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY");
+        formData.append("access_key", "0ef65564-243f-4f50-872b-f17bd650973d");
         formData.append("subject", "New Contact from corygarms.com");
 
         try {
