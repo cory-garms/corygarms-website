@@ -23,32 +23,38 @@ const localProjects = [
 ];
 
 // Content Sync: Fetch recent GitHub projects
-const githubRepos = await fetchLatestGithubProjects('cory-garms', 3);
-const formattedGithubProjects = githubRepos.map(repo => {
-    let customImage = "";
-    // repo.link contains the raw slug, whereas repo.title was modified by fetchLatestGithubProjects to be Title Cased
-    const isLidarExtractor = repo.link && repo.link.includes("lidar-canopy-extractor");
-    const isHsiPipeline = repo.link && repo.link.includes("hsi-pipeline");
-    
-    if (isLidarExtractor) {
-        customImage = "/images/output_chm_render.png";
-    } else if (isHsiPipeline) {
-        customImage = "/images/HSI-pipeline_thumbnail.png";
-    }
-    
-    return {
-        title: repo.title,
-        description: isLidarExtractor 
-            ? "Python pipeline for Lidar point cloud classification and Canopy Height Model (CHM) generation" 
-            : (isHsiPipeline ? "A scientific Python pipeline for processing hyperspectral data" : repo.description),
-        image: customImage,
-        tags: isLidarExtractor 
-            ? ["Python", "Docker", "Lidar"] 
-            : (isHsiPipeline ? ["Python", "Spectral", "Remote Sensing"] : ["GitHub", "Open Source"]),
-        link: repo.link,
-        isGithub: customImage === ""
-    };
-});
+const githubRepos = await fetchLatestGithubProjects('cory-garms', 4);
+const formattedGithubProjects = githubRepos
+    .filter(repo => !repo.link.includes('corygarms-website'))
+    .slice(0, 3)
+    .map(repo => {
+        let customImage = "";
+        // repo.link contains the raw slug, whereas repo.title was modified by fetchLatestGithubProjects to be Title Cased
+        const isLidarExtractor = repo.link && repo.link.includes("lidar-canopy-extractor");
+        const isHsiPipeline = repo.link && repo.link.includes("hsi-pipeline");
+        const isBassDetector = repo.link && repo.link.includes("bass-detector");
+        
+        if (isLidarExtractor) {
+            customImage = "/images/output_chm_render.png";
+        } else if (isHsiPipeline) {
+            customImage = "/images/HSI-pipeline_thumbnail.png";
+        } else if (isBassDetector) {
+            customImage = "/images/bass_detection.jpg";
+        }
+        
+        return {
+            title: repo.title,
+            description: isLidarExtractor 
+                ? "Python pipeline for Lidar point cloud classification and Canopy Height Model (CHM) generation" 
+                : (isHsiPipeline ? "A scientific Python pipeline for processing hyperspectral data" : (isBassDetector ? "A Computer Vision pipeline for real-time identification and detection of North American Bass species." : repo.description)),
+            image: customImage,
+            tags: isLidarExtractor 
+                ? ["Python", "Docker", "Lidar"] 
+                : (isHsiPipeline ? ["Python", "Spectral", "Remote Sensing"] : (isBassDetector ? ["Python", "YOLOv8", "Computer Vision"] : ["GitHub", "Open Source"])),
+            link: repo.link,
+            isGithub: customImage === ""
+        };
+    });
 
 const allProjects = [...localProjects, ...formattedGithubProjects];
 ---

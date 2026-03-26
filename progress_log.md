@@ -1,5 +1,17 @@
 # Progress Log
 
+## [2026-03-26 12:20:00 EST]
+* **Status:** Completed
+* **Focus:** Library & Reading List Implementation
+* **Summary:** Built a dedicated "Reading List" page showcasing 22 personal book favorites across philosophy, the American West, science, and technology. Integrated a dynamic link in the "About" section of the homepage.
+* **Technical Debt/Next Steps:** None.
+
+## [2026-03-26 11:05:00 EST]
+* **Status:** Completed
+* **Focus:** Portfolio Synchronization - Bass Detector
+* **Summary:** Integrated the `bass-detector` GitHub repository into the `corygarms.com` portfolio grid. Updated the logic to exclude the `corygarms-website` source repository from the "Selected Work & Code" section to keep the focus on scientific projects. Mapped the new project to its custom thumbnail (`bass_detection.jpg`) and a refined scientific description focusing on North American Bass species.
+* **Technical Debt/Next Steps:** Awaiting user verification on the live site.
+
 ## [2026-03-25 13:52:00 EST]
 * **Status:** Completed pipeline implementation
 * **Focus:** Project 1 - Lidar Canopy Profile Extractor

@@ -1,0 +1,243 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const categories = [
+  {
+    name: "I. Existential Resilience & Philosophy",
+    books: [
+      {
+        title: "Man’s Search for Meaning",
+        author: "Viktor Frankl",
+        summary: "A profound psychological memoir that explores our fundamental human need for purpose and our capacity to find meaning even in extreme suffering."
+      },
+      {
+        title: "Night",
+        author: "Elie Wiesel",
+        summary: "A devastatingly honest account of survival in the Holocaust, serving as a powerful testament to the resilience and fragility of the human spirit."
+      },
+      {
+        title: "An Unquiet Mind",
+        author: "Kay Redfield Jamison",
+        summary: "A seminal memoir on manic-depressive illness by one of the world's leading authorities on the subject, bridging clinical expertise with personal struggle."
+      },
+      {
+        title: "The Stranger",
+        author: "Albert Camus",
+        summary: "A core existentialist novel that confronts the inherent absurdity of the universe through the detached perspective of its protagonist."
+      },
+      {
+        title: "Meditations",
+        author: "Marcus Aurelius",
+        summary: "A collection of private Stoic reflections from the Roman Emperor, offering timeless wisdom on discipline, duty, and emotional composure."
+      },
+      {
+        title: "The Myth of Sisyphus",
+        author: "Albert Camus",
+        summary: "A philosophical essay that explores the concept of the absurd and the human struggle to find meaning in an indifferent universe."
+      },
+      {
+        title: "The Art of Exceptional Living",
+        author: "Jim Rohn",
+        summary: "A foundational guide to personal development, focusing on the philosophy of success and the habits required for a fulfilling life."
+      }
+    ]
+  },
+  {
+    name: "II. The American West & Gritty Realism",
+    books: [
+      {
+        title: "Empire of the Summer Moon",
+        author: "S. C. Gwynne",
+        summary: "A sweeping historical narrative of the 40-year struggle between the Comanche Nation and white settlers, documenting the brutal birth of the American West."
+      },
+      {
+        title: "Blood Meridian",
+        author: "Cormac McCarthy",
+        summary: "A hauntingly poetic and unflinching Western that explores the primal nature of violence and the vast, indifferent landscape of the borderlands."
+      },
+      {
+        title: "Lonesome Dove",
+        author: "Larry McMurtry",
+        summary: "A legendary epic of a long-range cattle drive, capturing the spirit and complexity of the fading frontier with deep humanity."
+      },
+      {
+        title: "No Country for Old Men",
+        author: "Cormac McCarthy",
+        summary: "A stark, suspenseful meditation on morality, fate, and the shifting nature of justice in a world governed by chance."
+      },
+      {
+        title: "Misery",
+        author: "Stephen King",
+        summary: "A claustrophobic masterpiece of psychological horror that examines the obsessive and destructive relationship between a creator and their audience."
+      },
+      {
+        title: "Undaunted Courage",
+        author: "Stephen Ambrose",
+        summary: "The definitive account of the Lewis and Clark expedition, blending rigorous historical detail with the high-stakes drama of American exploration."
+      }
+    ]
+  },
+  {
+    name: "III. Scientific Inquiry & The Natural World",
+    books: [
+      {
+        title: "Silent Spring",
+        author: "Rachel Carson",
+        summary: "The foundational text of the modern environmental movement, uncovering the catastrophic ecological impact of widespread pesticide use."
+      },
+      {
+        title: "Walden",
+        author: "Henry David Thoreau",
+        summary: "A classic reflection on simple living in natural surroundings, advocating for self-reliance and the deliberate observation of the natural world."
+      },
+      {
+        title: "Desert Solitaire",
+        author: "Edward Abbey",
+        summary: "A lyrical and defiant collection of essays highlighting the stark beauty of the American Southwest and the necessity of preserving wild spaces."
+      },
+      {
+        title: "Lab Girl",
+        author: "Hope Jahren",
+        summary: "A vibrant memoir that interweaves the life's work of a geobiologist with the complex life of plants, celebrating the tenacity Required for scientific discovery."
+      },
+      {
+        title: "A Sand County Almanac",
+        author: "Aldo Leopold",
+        summary: "A cornerstone of conservation ethics, presenting the 'land ethic'—a call for humans to see themselves as members, not masters, of the biotic community."
+      },
+      {
+        title: "The Hidden Life of Trees",
+        author: "Peter Wohlleben",
+        summary: "A fascinating look at the social network of forests, revealing how trees communicate, share nutrients, and support one another."
+      },
+      {
+        title: "What a Plant Knows",
+        author: "Daniel Chamovitz",
+        summary: "A sensory exploration into the world of botany, explaining how plants see, smell, feel, and remember their environment."
+      }
+    ]
+  },
+  {
+    name: "IV. Technological Narratives & Speculative Fiction",
+    books: [
+      {
+        title: "The Soul of a New Machine",
+        author: "Tracy Kidder",
+        summary: "A gripping and human account of the high-stakes engineering required to build a next-generation computer, celebrating the passion of creation."
+      },
+      {
+        title: "Project Hail Mary",
+        author: "Andy Weir",
+        summary: "A brilliant sci-fi thriller that uses rigorous scientific problem-solving as the primary mechanism for a high-stakes interstellar survival story."
+      },
+      {
+        title: "Slaughterhouse-Five",
+        author: "Kurt Vonnegut",
+        summary: "A genre-defying anti-war novel that uses non-linear time and dark satire to grapple with the trauma of history and the mechanics of fate."
+      },
+      {
+        title: "1984",
+        author: "George Orwell",
+        summary: "The definitive dystopian vision of absolute state control, surveillance, and the systematic erosion of truth and personal identity."
+      },
+      {
+        title: "Brave New World",
+        author: "Aldous Huxley",
+        summary: "A cautionary tale of a scientifically engineered utopia, where comfort and stability are purchased at the price of human emotion and individuality."
+      },
+      {
+        title: "Fahrenheit 451",
+        author: "Ray Bradbury",
+        summary: "A predictive masterpiece on the dangers of anti-intellectualism and the loss of culture, set in a society where books are burned and critical thought is forbidden."
+      },
+      {
+        title: "The Martian",
+        author: "Andy Weir",
+        summary: "A brilliant survival thriller that uses hard science and relentless problem-solving as the primary tools for enduring on the Martian surface."
+      },
+      {
+        title: "Children of Time",
+        author: "Adrian Tchaikovsky",
+        summary: "A grand space epic exploring evolution, artificial intelligence, and the desperate search for humanity's future among the stars."
+      }
+    ]
+  }
+];
+---
+
+<Layout title="Reading List | Cory Glenn Garms">
+  <main class="pt-32 pb-24 bg-background relative overflow-hidden min-h-screen">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,43,136,0.05),transparent_50%)] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      <div class="mb-12 reveal">
+        <a href="/" class="inline-flex items-center text-accent hover:text-accent-300 transition-colors font-mono text-sm mb-8 group">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Home
+        </a>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+          The Library: <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary-400">Personal Favorites</span>
+        </h1>
+        <p class="text-text-muted max-w-2xl font-mono leading-relaxed">
+          A collection of works that have shaped my scientific perspective, philosophical outlook, and love for technical and natural narratives.
+        </p>
+      </div>
+
+      <div class="space-y-20">
+        {categories.map((category, catIdx) => (
+          <section class="reveal" style={`transition-delay: ${catIdx * 100}ms;`}>
+            <h2 class="text-2xl font-bold text-white mb-10 border-b border-primary-800/30 pb-4 inline-block pr-12">
+              {category.name}
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {category.books.map((book, bookIdx) => (
+                <div class="bg-surface/50 p-6 rounded-2xl border border-primary-800/30 hover:border-accent/50 transition-all duration-300 group hover:shadow-[0_0_30px_rgba(139,43,136,0.1)] flex flex-col">
+                  <h3 class="text-lg font-bold text-white mb-1 group-hover:text-accent transition-colors">
+                    {book.title}
+                  </h3>
+                  <div class="text-primary-400 text-sm font-mono mb-4">{book.author}</div>
+                  <p class="text-text-muted text-sm leading-relaxed flex-grow">
+                    {book.summary}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  function revealOnScroll() {
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(el => {
+      const windowHeight = window.innerHeight;
+      const elementTop = el.getBoundingClientRect().top;
+      const elementVisible = 150;
+      if (elementTop < windowHeight - elementVisible) {
+        el.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', revealOnScroll);
+  // Initial check
+  document.addEventListener('DOMContentLoaded', revealOnScroll);
+</script>
