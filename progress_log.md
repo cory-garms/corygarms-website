@@ -1,5 +1,12 @@
 # Progress Log
 
+## [2026-03-27 16:55:00 EST]
+
+* **Status:** In Progress
+* **Focus:** Portfolio Update: Spurs and Sox Trackers
+* **Summary:** Adding the `spurs-tracker` and `sox-tracker` repositories to the featured portfolio grid with custom retro logos. Increasing the displayed GitHub repository limit from 3 to 6 to provide a more comprehensive view of recent activity.
+* **Technical Debt/Next Steps:** Verify UI rendering and push to GitHub.
+
 ## [2026-03-26 13:17:00 EST]
 * **Status:** Completed
 * **Focus:** Environment Variable Fix - Contact Form
