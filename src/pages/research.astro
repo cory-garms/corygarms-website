@@ -18,6 +18,24 @@ interface Publication {
 const publications: Publication[] = [
   // Group I: Lidar & Forestry
   {
+    id: "cutmap-calibration",
+    title: "Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation",
+    authors: "Cory G. Garms, Bogdan Strimbu, et al.",
+    venue: "Journal of Field Robotics (In Preparation)",
+    year: 2026,
+    category: "lidar",
+    categoryLabel: "3D Lidar & Forestry",
+    takeaway: "Exposes how standard scale-invariant reprojection metrics remain blind to 2.5 mm target curvature, propagating into 140 mm phantom extrinsic shifts. Introduces three physical calibration gates that condition the weak axis and restore sub-millimeter precision on mobile forest mapping rigs.",
+    bibtex: `@article{garms2026cutmap_calibration,
+  title={Calibrating a Low-SWaP-C Lidar--Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation},
+  author={Garms, Cory G. and Strimbu, Bogdan M. and others},
+  journal={Journal of Field Robotics},
+  year={2026},
+  note={In Final Preparation}
+}`,
+    codeLink: "/cutmap"
+  },
+  {
     id: "douglas-fir-lean",
     title: "Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors",
     authors: "Cory G. Garms, et al.",

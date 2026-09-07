@@ -1,5 +1,14 @@
 # Progress Log
 
+## [2026-09-07 17:12:00 EDT]
+
+* **Status:** Completed
+* **Focus:** CUTMAP Paper 1 Integration in CV & Research Dossier
+* **Summary:** Integrated CUTMAP primary methodological paper ("Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation") as in progress / in preparation across the site:
+  - Added citation to `src/pages/cv.astro` under Select Publications & Proceedings (*Journal of Field Robotics*, in progress / in preparation).
+  - Added entry to `src/pages/research.astro` under Group I: Lidar & Forestry with BibTeX citation and link to `/cutmap`.
+* **Build Verification:** Tested with `npm run build`; all 19 static pages compiled cleanly in 6.06s with 0 errors.
+
 ## [2026-09-07 17:08:00 EDT]
 
 * **Status:** Completed
