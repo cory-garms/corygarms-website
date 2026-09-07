@@ -1,0 +1,84 @@
+---
+title: "Pit-Free Canopy Height Models: Processing 100M+ LiDAR Points"
+publishDate: 2025-07-30
+description: "Eliminating raster interpolation artifacts in high-density forest point clouds using Cloth Simulation Filtering and Delaunay rasterization."
+tags: ["LiDAR", "Forestry", "Open3D", "Python"]
+---
+
+import Alert from '../../components/mdx/Alert.astro';
+import CodeSnippet from '../../components/mdx/CodeSnippet.astro';
+
+A Canopy Height Model (CHM) is one of the most fundamental products derived from airborne and terrestrial laser scanning in forestry. In theory, generating a CHM is straightforward: subtract the bare-earth Digital Terrain Model (DTM) from the first-return Digital Surface Model (DSM):
+
+$$
+\text{CHM}(x, y) = \text{DSM}(x, y) - \text{DTM}(x, y)
+$$
+
+In practice, high-density LiDAR data ($> 30\,\text{pts/m}^2$) collected over mature conifer stands frequently produces severe rasterization artifacts known as **canopy pits**—deep, artificial depressions inside the interior of tree crowns where narrow laser pulses penetrate between needle clusters and reflect off lower branches.
+
+These pits corrupt automated individual tree segmentation (watershed algorithms mistakenly divide a single tree into 4–5 micro-crowns) and degrade biomass regression models.
+
+---
+
+### Step 1: Robust Ground Classification with Cloth Simulation (CSF)
+
+Before canopy height can be computed, ground returns must be cleanly separated from low understory vegetation. In steep mountain topography, simple elevation thresholding fails.
+
+We use the **Cloth Simulation Filter (CSF)**:
+1. Invert the 3D point cloud upside-down along the Z-axis ($z' = -z$).
+2. Simulate a virtual elastic cloth dropping over the inverted points.
+3. Compute the equilibrium position of each cloth node governed by gravitational force and internal fabric stiffness:
+   $$
+   m \frac{d^2 \mathbf{x}_j}{dt^2} = \mathbf{F}_{\text{ext}} + \mathbf{F}_{\text{int}}
+   $$
+4. Points whose vertical distance to the resting cloth is less than a tolerance $\delta_{\text{ground}} = 0.3\,\text{m}$ are labeled as true ground returns.
+
+```python
+import numpy as np
+from scipy.spatial import Delaunay
+
+def rasterize_pit_free_chm(canopy_pts, dtm_grid, resolution=0.5, height_cutoffs=[2.0, 10.0, 20.0, 35.0]):
+    """
+    Multi-scale Delaunay triangulation approach to eliminate canopy pits.
+    Constructs successive TIN envelopes and merges upper surfaces.
+    """
+    x_min, y_min = canopy_pts[:, :2].min(axis=0)
+    x_max, y_max = canopy_pts[:, :2].max(axis=0)
+    
+    grid_x = np.arange(x_min, x_max, resolution)
+    grid_y = np.arange(y_min, y_max, resolution)
+    chm_master = np.zeros((len(grid_y), len(grid_x)), dtype=np.float32)
+    
+    for h_thresh in height_cutoffs:
+        # Subset points above this height threshold
+        subset = canopy_pts[canopy_pts[:, 2] >= h_thresh]
+        if len(subset) < 10:
+            continue
+            
+        # 2D Delaunay triangulation on subset coordinates
+        tri = Delaunay(subset[:, :2])
+        
+        # Interpolate z onto regular grid for this TIN layer
+        layer_grid = interpolate_tin_surface(tri, subset[:, 2], grid_x, grid_y)
+        
+        # Merge by taking element-wise maximum with master canopy
+        chm_master = np.maximum(chm_master, layer_grid)
+        
+    # Subtract ground DTM
+    final_chm = np.maximum(0.0, chm_master - dtm_grid)
+    return final_chm
+```
+
+---
+
+### Step 2: Multi-Scale Delaunay TIN Stacking
+
+To replace the pits without smoothing away real sharp apex tree tops (which Gaussian blurring or morphological closing would do), we build a stack of successive 2D Delaunay Triangulated Irregular Networks (TINs) restricted to points above ascending height thresholds ($h \ge 2\text{m}, 10\text{m}, 20\text{m}, 35\text{m}$).
+
+By evaluating points above each stratum independently, laser pulses that penetrate deep into the crown cannot form triangular faces with apex returns. Merging the raster layers via an element-wise maximum ($\max(\text{TIN}_k)$) produces a smooth, continuous outer canopy envelope that perfectly preserves crown apex peaks.
+
+<Alert type="success" title="Processing 100M+ Points in Docker">
+In our open-source pipeline [lidar-canopy-extractor](https://github.com/cory-garms/lidar-canopy-extractor), we chunk massive LAS point clouds into spatial tiles with 15-meter edge buffers using memory-mapped arrays, allowing full 100M+ point forest acquisitions to process inside containerized Docker workers with less than 4GB of RAM.
+</Alert>
+
+The resulting pit-free CHMs feed directly into tree segmentation algorithms and forest inventory workflows. Check out the pipeline repository on [GitHub](https://github.com/cory-garms/lidar-canopy-extractor).

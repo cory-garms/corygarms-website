@@ -1,0 +1,85 @@
+---
+title: "In-Flight MTF and Radiometric Verification for Hyperspectral Payloads"
+publishDate: 2025-11-19
+description: "Verifying Modulation Transfer Function (MTF) and radiometric fidelity using deployable ground calibration targets at Spectral Sciences."
+tags: ["Hyperspectral", "RemoteSensing", "Calibration", "Optics"]
+---
+
+import Alert from '../../components/mdx/Alert.astro';
+import CodeSnippet from '../../components/mdx/CodeSnippet.astro';
+
+High-resolution airborne hyperspectral imaging (HSI) payloads operating across the visible, near-infrared, and shortwave infrared (VNIR/SWIR: 400–2500 nm) promise dense biochemical and mineralogical classification. However, laboratory calibrations rarely survive the harsh physical environment of flight. Aircraft engine vibration, pressure differentials, and thermal gradients distort the optical bench, while varying atmospheric path radiance obscures surface reflectance.
+
+At Spectral Sciences, Inc. (SSI), we developed field-deployable spatial-spectral ground targets to independently verify spatial Modulation Transfer Function (MTF) and radiometric accuracy during active flight operations.
+
+---
+
+### The Slanted-Edge MTF Technique
+
+Spatial resolution in remote sensing is not simply a function of Ground Sampling Distance (GSD); it is governed by the Modulation Transfer Function (MTF) of the integrated optical, detector, and platform motion system.
+
+To measure in-flight MTF across all spectral bands without relying on subjective visual resolution charts, we deploy high-contrast tarp targets oriented at a deliberate shallow angle ($5^\circ$ to $8^\circ$) relative to the sensor's cross-track scan line:
+
+1. **Edge Spread Function (ESF)**: Extracting sub-pixel profile samples perpendicular to the knife-edge boundary across the target transition.
+2. **Line Spread Function (LSF)**: Differentiating the oversampled ESF:
+   $$
+   \text{LSF}(x) = \frac{d}{dx} \text{ESF}(x)
+   $$
+3. **Modulation Transfer Function (MTF)**: The modulus of the 1D Fourier transform of the LSF, normalized to unity at zero spatial frequency:
+   $$
+   \text{MTF}(\xi) = \left| \frac{\int_{-\infty}^\infty \text{LSF}(x) \, e^{-i 2 \pi \xi x} \, dx}{\int_{-\infty}^\infty \text{LSF}(x) \, dx} \right|
+   $$
+
+```python
+import numpy as np
+from scipy.ndimage import gaussian_filter1d
+
+def compute_spectral_mtf(edge_pixels, oversample_factor=8):
+    """
+    Compute 1D MTF from an oversampled slanted-edge profile.
+    """
+    # 1. Sort sub-pixel distances from fitted edge line
+    distances, raw_dn = edge_pixels[:, 0], edge_pixels[:, 1]
+    sort_idx = np.argsort(distances)
+    sorted_d, sorted_dn = distances[sort_idx], raw_dn[sort_idx]
+    
+    # 2. Regular binning for smoothed Edge Spread Function (ESF)
+    bins = np.linspace(sorted_d.min(), sorted_d.max(), len(sorted_d) // oversample_factor)
+    bin_centers = 0.5 * (bins[:-1] + bins[1:])
+    esf, _ = np.histogram(sorted_d, bins=bins, weights=sorted_dn)
+    counts, _ = np.histogram(sorted_d, bins=bins)
+    esf = np.divide(esf, counts, out=np.zeros_like(esf), where=counts > 0)
+    
+    # 3. Numerical derivative -> Line Spread Function (LSF)
+    lsf = np.gradient(gaussian_filter1d(esf, sigma=1.5))
+    
+    # 4. Fourier Transform -> MTF
+    mtf = np.abs(np.fft.rfft(lsf))
+    mtf /= mtf[0] # Normalize to 1.0 at DC
+    
+    freqs = np.fft.rfftfreq(len(lsf), d=(bin_centers[1] - bin_centers[0]))
+    return freqs, mtf
+```
+
+---
+
+### Radiometric Calibration & The Empirical Line Method
+
+At-sensor radiance $L_{\text{sensor}}(\lambda)$ includes both direct reflected solar photons and atmospheric path radiance $L_{\text{path}}(\lambda)$ from Rayleigh and aerosol scattering:
+
+$$
+L_{\text{sensor}}(\lambda) = \frac{\rho(\lambda)}{\pi} \cdot E_{\text{ground}}(\lambda) \cdot \tau_{\text{atm}}(\lambda) + L_{\text{path}}(\lambda)
+$$
+
+Deploying paired multi-reflectance calibration targets (calibrated black $4\%$, neutral gray $32\%$, and white $64\%$ panels) measured simultaneously on the ground with an ASD FieldSpec 4 spectroradiometer allows direct inversion via the **Empirical Line Method (ELM)**:
+
+$$
+\rho(\lambda) = \text{Gain}(\lambda) \cdot \text{DN}(\lambda) + \text{Offset}(\lambda)
+$$
+
+<Alert type="paper" title="SPIE Proceedings Citation">
+This target methodology was presented at SPIE Optical Engineering + Applications (San Diego, CA):
+*Garms, C.G., et al., "Spectral-spatial ground targets for airborne imaging performance verification", Proc. SPIE (2023).*
+</Alert>
+
+By combining slanted-edge spatial verification with ground-truth ELM radiometric panels, we can decouple platform optical blurring from atmospheric absorption lines across complex flight lines.

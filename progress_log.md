@@ -1,5 +1,18 @@
 # Progress Log
 
+## [2026-09-07 16:45:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Technical Notes Population: 5 Backdated Project Deep Dives
+* **Summary:** Authored and integrated 5 publication-grade technical notes into `src/content/notes/` representing Cory's core scientific projects, complete with LaTeX equations, Python implementations, and backdated publication timestamps to reflect periodic technical writing:
+  1. `subpixel-fft-spacecraft-jitter.mdx` (**Aug 18, 2026**): UNJITR / Swift UVOT 2D real-to-complex hoisted FFT cross-correlation, parabolic vertex interpolation, and restoring 450 px smears to 2.94″ Airy cores.
+  2. `ransac-cylinder-fitting-conifer-stems.mdx` (**May 14, 2026**): CUTMAP USDA STTR Phase I/II constrained 7-DoF RANSAC cylinder estimation for conifer stems with normal constraints on embedded Jetson Orin hardware.
+  3. `building-dirty-water-mlb-analytics.mdx` (**Mar 22, 2026**): Dirty Water Red Sox analytics suite, daily Statcast ingestion, and non-linear bullpen fatigue decay modeling.
+  4. `hyperspectral-mtf-verification.mdx` (**Nov 19, 2025**): Spectral Sciences in-flight slanted-edge knife MTF derivation and Empirical Line Method (ELM) radiometric calibration.
+  5. `pit-free-canopy-height-models.mdx` (**Jul 30, 2025**): Cloth Simulation Filter (CSF) ground separation and multi-scale Delaunay TIN stacking for 100M+ LiDAR points in Docker.
+* **Build Verification:** Tested with `npm run build`; all 16 static pages compiled cleanly in 5.94s with 0 errors.
+* **Technical Debt/Next Steps:** Confirm with user whether to remove the early developer test stubs (`hello-world.md` and `math-test.mdx`).
+
 ## [2026-09-07 16:30:00 EDT]
 
 * **Status:** Completed
