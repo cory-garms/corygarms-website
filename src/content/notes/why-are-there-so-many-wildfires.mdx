@@ -1,0 +1,89 @@
+---
+title: "Why Are There So Many Fires Now? A Forest Remote Sensing Perspective"
+publishDate: 2025-09-14
+description: "Examining the three physical drivers behind modern megafires: fuel loading from fire suppression, Vapor Pressure Deficit (VPD), and fuel moisture thresholds."
+tags: ["Wildfire", "RemoteSensing", "Forestry", "Climate"]
+---
+
+import Alert from '../../components/mdx/Alert.astro';
+import CodeSnippet from '../../components/mdx/CodeSnippet.astro';
+
+Every summer, North Americans wake up to hazy orange skies and smoky air quality alerts. People naturally ask: *Is this just recency bias and 24-hour news coverage, or has something fundamentally changed in our forests?*
+
+As someone with a Ph.D. in forestry who works daily with satellite remote sensing (VIIRS, MODIS, Landsat) and 3D LiDAR canopy modeling, the data is unequivocal: megafire frequency, burned area, and fire intensity have grown exponentially over the last three decades.
+
+This trend is not a mystery. It is the direct physical consequence of three compounding variables: **century-long fuel accumulation, atmospheric vapor pressure deficit (VPD), and fuel moisture tipping points**.
+
+---
+
+### 1. The Fuel Accumulation Trap: 100 Years of Suppression
+
+Before European settlement, western North American dry conifer forests (ponderosa pine, mixed conifer) experienced frequent, low-severity surface fires every 5 to 15 years ignited by lightning and Indigenous cultural burning. These fires burned grass, brush, and fallen needles, keeping forest stands open, park-like, and resilient: typically 30 to 70 mature trees per acre.
+
+Following the devastating "Big Blowup" of 1910, the U.S. Forest Service enacted the aggressive **"10:00 AM Policy"**—a federal mandate to suppress every detected wildfire by 10:00 AM the morning following discovery.
+
+For nearly a century, we successfully removed fire from the landscape. But fire suppression did not eliminate fuel; it accumulated it. Today, those same forests frequently host **400 to 1,000+ stems per acre**. 
+
+When a lightning strike or spark occurs today, fire does not stay on the forest floor. Dense understory saplings act as **ladder fuels**, allowing flames to climb into the canopy and ignite high-intensity crown fires that kill mature stands and sterilize soils.
+
+---
+
+### 2. The Atmospheric Sponge: Vapor Pressure Deficit (VPD)
+
+The single most predictive climatic variable for annual burned area in the western United States is **Vapor Pressure Deficit (VPD)**.
+
+VPD measures the difference between how much moisture the air *could* hold when saturated ($e_s$) and the actual amount of moisture in the air ($e_a$):
+
+$$
+\text{VPD} = e_s(T) - e_a = e_s(T) \cdot \left( 1 - \frac{\text{RH}}{100} \right)
+$$
+
+Because the saturation vapor pressure $e_s(T)$ scales exponentially with temperature via the Clausius-Clapeyron equation:
+
+$$
+e_s(T) \approx 0.6108 \exp\left( \frac{17.27 T}{T + 237.3} \right) \quad [\text{kPa}]
+$$
+
+even a $1.5^\circ\text{C}$ to $2.0^\circ\text{C}$ increase in summer temperatures produces a disproportionately large jump in atmospheric thirst. High VPD acts like a giant vacuum pulling moisture directly out of living foliage and dead logs.
+
+```python
+import numpy as np
+
+def calculate_vpd_kpa(temp_celsius, relative_humidity_pct):
+    """
+    Calculate atmospheric Vapor Pressure Deficit (VPD) in kilopascals (kPa).
+    VPD > 2.5 kPa indicates extreme wildfire spread conditions in dry conifers.
+    """
+    # Tetens equation for saturation vapor pressure
+    es = 0.61078 * np.exp((17.27 * temp_celsius) / (temp_celsius + 237.3))
+    # Actual vapor pressure
+    ea = es * (relative_humidity_pct / 100.0)
+    vpd = es - ea
+    return round(float(vpd), 3)
+
+# Example: 35C (95F) afternoon with 15% RH
+# VPD = 4.78 kPa -> Catastrophic fuel drying regime
+```
+
+---
+
+### 3. Fuel Moisture Content (FMC) Tipping Points
+
+Wildfire spread is governed by phase transitions. Dead fuels (fallen needles, 1-hour twigs, 1000-hour downed logs) equilibrate with ambient humidity and VPD:
+
+* **When Dead Fuel Moisture $> 16\%$**: Surface fires struggle to propagate; flame lengths remain under 2 feet.
+* **When Fuel Moisture $< 8\%$**: Combustion efficiency jumps drastically. Spotting from windblown embers ignites spot fires miles ahead of the main fire front.
+* **When Live Fuel Moisture Content (LFMC) $< 80\%$**: Green conifer needles lose the ability to act as heat sinks and become explosive fuel themselves.
+
+---
+
+### The Remote Sensing View: Mapping Risk from Space
+
+Today, remote sensing allows us to monitor these risks continuously:
+* **VIIRS I-Band (375m)** and **GOES-18 ABI (2km at 5-min cadence)** detect thermal anomalies within minutes of ignition.
+* **Sentinel-2 & Landsat 8/9** calculate the Normalized Difference Moisture Index (NDMI) across forest canopies to track drought-induced leaf desiccation.
+* **Airborne & Terrestrial LiDAR** (the core of my work with CUTMAP) measures 3D vertical canopy fuel profiles, mapping the exact height and density of ladder fuels to guide mechanical thinning and prescribed fire treatments.
+
+<Alert type="warning" title="The Path Forward: Restoring Good Fire">
+We cannot suppress our way out of the wildfire crisis. The physics of heavy fuel loads combined with high VPD means fires will ignite. The solution requires proactive mechanical thinning to reduce ladder fuels, followed by the reintroduction of **controlled, low-intensity prescribed burns** during mild weather windows.
+</Alert>

@@ -1,5 +1,17 @@
 # Progress Log
 
+## [2026-09-07 16:52:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Technical Takes on Everyday & Sports Questions: 5 New Reflections
+* **Summary:** Authored and published 5 long-form notes applying quantitative, scientific, and ecological perspectives to everyday questions and personal interests:
+  1. `do-trees-have-senses.mdx` (**Jun 28, 2026**): Mechanosensation, thigmomorphogenesis, cambium strain gauges, phytochrome Red/Far-Red wavelength detection, and ultrasonic acoustic emissions during drought cavitation.
+  2. `red-sox-turnaround-pitch-design.mdx` (**Jun 2, 2026**): Statcast analysis of Andrew Bailey's pitching turnaround, eliminating dead-zone 4-seamers, sweeper/sinker tunneling, and 0-1 count leverage.
+  3. `how-i-use-ai-daily-scientific-research.mdx` (**Apr 18, 2026**): Grounded look at AI as a Senior Scientist—agentic coding, NumPy tensor vectorization, zero-shot vision (YOLOv8/SAM), and guardrails against unverified outputs.
+  4. `why-are-there-so-many-wildfires.mdx` (**Sep 14, 2025**): Forest remote sensing perspective on century-long fire suppression, Vapor Pressure Deficit (VPD) Clausius-Clapeyron scaling, and live/dead fuel moisture thresholds.
+  5. `lsu-nfl-retroactive-eligibility-controversy.mdx` (**Apr 5, 2025**): Analytical critique of NCAA retroactive win vacations—relational database asymmetry, graph conservation violations, NFL proof-of-skill, and NIL temporal inconsistency.
+* **Build Verification:** Tested with `npm run build`; all 19 static pages compiled cleanly in 6.09s with 0 errors.
+
 ## [2026-09-07 16:48:00 EDT]
 
 * **Status:** Completed

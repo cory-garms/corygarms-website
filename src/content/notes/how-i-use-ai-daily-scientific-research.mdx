@@ -1,0 +1,71 @@
+---
+title: "How I Actually Use AI Every Day as a Senior Research Scientist"
+publishDate: 2026-04-18
+description: "Moving past the chatbot hype: How modern LLMs, computer vision models, and agentic IDEs integrate into a real scientific and remote sensing workflow."
+tags: ["AI", "MachineLearning", "Productivity", "Python"]
+---
+
+import Alert from '../../components/mdx/Alert.astro';
+import CodeSnippet from '../../components/mdx/CodeSnippet.astro';
+
+In the tech press, discussions around Artificial Intelligence usually vacillate between breathless hype (*"AI will replace all programmers next month"*) and cynical dismissals (*"It's just an autocorrect that hallucinates fake citations"*).
+
+Neither extreme describes the reality of a working research scientist. As a Senior Scientist at Spectral Sciences, Inc. developing algorithms for remote sensing, satellite jitter restoration, 3D point cloud processing, and Docker pipelines, AI is neither a toy nor an existential threat. It is an indispensable, high-leverage cognitive tool.
+
+Here is an honest look at how I actually integrate AI into my daily technical workflow—and what I never trust it to do.
+
+---
+
+### 1. Agentic Pair Programming & Architecture Scaffolding
+
+Writing code is rarely the limiting factor in scientific research; the bottleneck is navigating unfamiliar framework APIs, writing repetitive data plumbing, and setting up reproducible containerized build environments.
+
+Using context-aware agentic tools (such as Google Antigravity and modern LLM coding assistants), I delegate:
+* **Boilerplate Scaffolding**: Generating Astro layout components, Three.js shader vertex/fragment buffers, or Docker multi-stage builds in minutes.
+* **Vectorized Refactoring**: Taking naive Python nested loops that take 45 seconds to execute and asking the model to re-express them as vectorized NumPy tensor broadcasts or SciPy sparse matrix routines.
+
+```python
+# Before: Slow nested Python loop for point-to-plane distance (100k points)
+# def slow_dist(pts, plane_pt, normal): ...
+
+# After: Instant AI-vectorized NumPy broadcast
+def fast_point_to_plane_distances(points_nx3, plane_pt_1x3, plane_normal_1x3):
+    """
+    Compute signed orthogonal distances from N points to a 3D plane in a single vectorized operation.
+    """
+    diff = points_nx3 - plane_pt_1x3
+    distances = np.dot(diff, plane_normal_1x3.T).flatten()
+    return distances
+```
+
+---
+
+### 2. Zero-Shot Vision Models for Scientific Segmentation
+
+Outside language models, the most transformative recent shift in computer vision has been the arrival of **foundation vision models** like YOLOv8 and Meta’s Segment Anything Model (SAM).
+
+Instead of spending weeks annotating thousands of bounding boxes from scratch:
+* **Ecology & Fisheries**: For my [`bass-detector`](https://github.com/cory-garms/bass-detector) project, I fine-tuned YOLOv8 on small hand-curated datasets to detect and track black bass in murky underwater video streams.
+* **Understory Forestry**: In CUTMAP, we use lightweight neural backbones to segment foreground tree trunks from complex forest background clutter before feeding points to our analytical RANSAC cylinder solver.
+* **Hyperspectral Calibration**: In airborne flight lines, foundation segmentation models isolate calibration ground targets automatically, saving hours of manual GIS digitizing.
+
+---
+
+### 3. Rapid Literature Synthesis & LaTeX Mathematical Formulations
+
+When reviewing a new mathematical technique—such as sub-pixel cross-power phase correlation or Delaunay TIN surface interpolation—I frequently use LLMs to:
+* Explain the physical intuition behind obscure matrix formulations.
+* Translate complex equations from academic PDFs directly into clean, documented Python function signatures.
+* Draft initial BibTeX manifests and check citations against arXiv and CrossRef registries.
+
+<Alert type="warning" title="What I NEVER Use AI For">
+1. **Unverified Numerical Outputs**: Never trust an LLM to calculate a floating-point number, eigenvalue, or statistical p-value. Use Python, NumPy, and dedicated scientific libraries.
+2. **Proprietary Data**: Never paste proprietary client data or unreleased raw mission datasets into public cloud APIs.
+3. **Scientific Logic Without Verification**: Every algorithm produced with AI assistance must undergo automated unit tests, sanity checks against synthetic ground truth, and real-world field verification.
+</Alert>
+
+---
+
+### The Bottom Line
+
+AI has not replaced domain expertise; it has amplified it. A junior engineer using AI might generate plausible-looking code that fails in production due to edge-case bugs. But an expert scientist who understands the underlying physics, linear algebra, and data structures can use AI to compress two weeks of tedious implementation into an afternoon of high-leverage execution.
