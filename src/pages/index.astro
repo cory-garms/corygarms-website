@@ -102,6 +102,14 @@ import ContactSection from "../components/ContactSection.astro";
           <!-- Academic & Research Links -->
           <div class="flex flex-wrap gap-3">
             <a 
+              href="/unjitr"
+              class="inline-flex items-center gap-2 text-xs font-mono text-cyan-300 hover:text-cyan-200 px-4 py-2.5 rounded-lg bg-cyan-950/70 border border-cyan-500/40 hover:border-cyan-400/80 transition-all shadow-sm group"
+            >
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span class="font-semibold">UNJITR</span>
+              <span class="text-cyan-400/80 font-normal hidden sm:inline">&bull; NASA Swift Dossier</span>
+            </a>
+            <a 
               href="/research"
               class="inline-flex items-center gap-2 text-xs font-mono text-accent hover:text-accent-light px-4 py-2.5 rounded-lg bg-forest-900 border border-border hover:border-accent/40 transition-all"
             >
@@ -149,7 +157,23 @@ import ContactSection from "../components/ContactSection.astro";
         </a>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-surface rounded-2xl border border-cyan-500/30 hover:border-cyan-400/70 flex flex-col justify-between transition-all group">
+          <div>
+            <div class="flex items-center gap-1.5 text-[11px] font-mono text-cyan-300 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span>NASA Swift UVOT &bull; 2026</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-cyan-200 transition-colors">UNJITR: Spacecraft Attitude Jitter Recovery</h3>
+            <p class="text-xs text-text-muted leading-relaxed mb-4">
+              Catalog-free sub-pixel photon event restoration engine collapsing 450 px reaction-wheel smears into 2.94″ Airy diffraction cores across 282 Swift observations.
+            </p>
+          </div>
+          <a href="/unjitr" class="text-xs font-mono text-cyan-300 hover:text-cyan-200 transition-colors flex items-center gap-1">
+            <span>View mission dossier & benchmarks &rarr;</span>
+          </a>
+        </div>
+
         <div class="p-6 bg-surface rounded-2xl border border-border flex flex-col justify-between hover:border-accent/40 transition-all">
           <div>
             <div class="text-[11px] font-mono text-accent mb-2">3D Lidar & Forestry &bull; 2021</div>

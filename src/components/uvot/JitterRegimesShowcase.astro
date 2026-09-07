@@ -90,26 +90,67 @@
     </button>
   </div>
 
-  <!-- Dynamic Graphic & Zoom Viewport -->
-  <div class="relative w-full overflow-hidden bg-black aspect-[3200/1644] group">
-    <img 
-      id="regimes-img"
-      src="/images/uvot-jitter/jitter_regimes_showcase.png" 
-      alt="Four Spacecraft Attitude Jitter Regimes: Low Jitter Control, Linear Slew, 15s Limit Cycle, and Extreme Random Walk with matched pointing drift curves."
-      class="w-full h-full object-cover transition-transform duration-700 ease-out will-change-transform"
-      loading="lazy"
-      decoding="async"
-    />
+  <!-- Dynamic Graphic & Vertically Stretched Zoom Viewport -->
+  <div class="relative w-full overflow-hidden bg-black min-h-[540px] sm:min-h-[640px] md:min-h-[720px] lg:min-h-[780px] h-[75vh] max-h-[820px] flex items-center justify-center group" id="regimes-viewport">
+    
+    <!-- Image Canvas Container with Smooth Transition -->
+    <div class="w-full h-full flex items-center justify-center overflow-hidden relative">
+      <img 
+        id="regimes-img"
+        src="/images/uvot-jitter/jitter_regimes_showcase.png" 
+        alt="Four Spacecraft Attitude Jitter Regimes: Low Jitter Control, Linear Slew, 15s Limit Cycle, and Extreme Random Walk with matched pointing drift curves."
+        class="w-full h-full object-contain transition-transform duration-700 ease-out will-change-transform select-none"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
 
-    <!-- View Mode Pill Overlay -->
-    <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-forest-950/90 border border-border/80 px-3 py-1.5 rounded-lg text-xs font-mono backdrop-blur-md">
+    <!-- Active Regime Sub-Framing Control Toolbar -->
+    <div class="absolute top-4 left-4 flex flex-wrap items-center gap-1.5 p-1 rounded-lg bg-forest-950/90 border border-border/80 text-xs font-mono backdrop-blur-md z-10">
+      <button 
+        type="button" 
+        id="btn-frame-column"
+        class="px-2.5 py-1 rounded text-xs font-medium transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+        title="Frame entire column: both Star PSF stamp and bottom drift curves"
+      >
+        Full Column
+      </button>
+      <button 
+        type="button" 
+        id="btn-frame-psf"
+        class="px-2.5 py-1 rounded text-xs font-medium transition-all text-text-muted hover:text-white border border-transparent"
+        title="Focus on top stellar PSF stamps"
+      >
+        Top Star PSF
+      </button>
+      <button 
+        type="button" 
+        id="btn-frame-curve"
+        class="px-2.5 py-1 rounded text-xs font-medium transition-all text-text-muted hover:text-white border border-transparent"
+        title="Focus on bottom pointing drift curve plots"
+      >
+        Bottom Drift Plot
+      </button>
+    </div>
+
+    <!-- Reset / Full Panorama Button -->
+    <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-forest-950/90 border border-border/80 px-3 py-1.5 rounded-lg text-xs font-mono backdrop-blur-md z-10">
       <button 
         type="button" 
         id="btn-regime-reset-zoom"
-        class="text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+        class="text-cyan-400 hover:text-cyan-300 font-medium transition-colors flex items-center gap-1.5"
       >
-        Show All 4 Regimes
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+        </svg>
+        <span>All 4 Regimes Panorama</span>
       </button>
+    </div>
+
+    <!-- Telemetry Status Overlay Tag -->
+    <div class="absolute bottom-4 left-4 px-3 py-1.5 rounded-lg bg-forest-950/90 border border-border/80 text-xs font-mono text-text-muted backdrop-blur-md flex items-center gap-2 pointer-events-none z-10">
+      <span class="w-2 h-2 rounded-full bg-emerald-400" id="regime-status-dot"></span>
+      <span id="regime-status-text">Regime 01: Low Jitter (Null Baseline) • Both PSF & Drift Curves In Frame</span>
     </div>
   </div>
 
@@ -135,7 +176,9 @@
       cadence: "6.7 Hz (dt = 0.15s)",
       sharpening: "+1.3% (Preserved)",
       gateStatus: "PASSED (DO-NO-HARM GATE)",
-      zoomStyle: "scale(2.2) translate(36%, 10%)",
+      statusText: "Regime 01: Low Jitter (Null Baseline) • Both PSF & Drift Curves In Frame",
+      // Translations to center column horizontally (+37.5%, +12.5%, -12.5%, -37.5%)
+      colX: "37.5%",
       description: "When the Swift spacecraft operates in a nominal, quiescent attitude state with drift under 0.8 pixels, the algorithm's automated Do-No-Harm gate actively passes the null test. No artificial distortion or numerical noise is injected into undisturbed photon streams, guaranteeing 100% preservation of archival photometry."
     },
     {
@@ -151,7 +194,8 @@
       cadence: "6.7 Hz (dt = 0.15s)",
       sharpening: "+53.7% Spatial Sharpening",
       gateStatus: "ACCEPTED (FULL RECONSTRUCTION)",
-      zoomStyle: "scale(2.2) translate(12%, 10%)",
+      statusText: "Regime 02: Linear Attitude Slew (38 px) • Both PSF & Drift Curves In Frame",
+      colX: "12.5%",
       description: "A steady, unidirectional 38-pixel slew across the detector plane smears field stars into linear bars. The hoisted 2D FFT engine recovers the uniform motion vector with sub-pixel parabolic vertex interpolation, collapsing the 7.36″ streak into a round, symmetric 3.41″ stellar core with +53.7% spatial sharpening."
     },
     {
@@ -167,7 +211,8 @@
       cadence: "6.7 Hz (1.0s Slab Half)",
       sharpening: "+51.4% Spatial Sharpening",
       gateStatus: "ACCEPTED (HIGH-FREQUENCY SOLVE)",
-      zoomStyle: "scale(2.2) translate(-12%, 10%)",
+      statusText: "Regime 03: 15s Limit Cycle • Both PSF & Drift Curves In Frame",
+      colX: "-12.5%",
       description: "Spacecraft attitude limit-cycling with a 15-second turnaround period produces a distinctive dumbbell elongation. Legacy 5.0-second correlation windows suffered severe phase lag and ringing. Shortening the correlation temporal slab to 1.0s (`slab_half=1.0s`) accurately tracks the rapid oscillation turnarounds, completely eliminating the dumbbell distortion."
     },
     {
@@ -183,7 +228,8 @@
       cadence: "6.7 Hz (dt = 0.15s)",
       sharpening: "+77.6% Spatial Sharpening",
       gateStatus: "ACCEPTED (SALVAGED OBSERVATION)",
-      zoomStyle: "scale(2.2) translate(-36%, 10%)",
+      statusText: "Regime 04: Extreme Serpentine Wander • Both PSF & Drift Curves In Frame",
+      colX: "-37.5%",
       description: "Severe reaction-wheel saturation causes the spacecraft optical axis to wander across more than 400 detector pixels over the exposure, rendering the standard pipeline product completely unusable. UNJITR tracks the entire serpentine trajectory through phase space, inverting every photon arrival and fully recovering the observation."
     }
   ];
@@ -193,6 +239,54 @@
     const img = document.getElementById('regimes-img');
     const panel = document.getElementById('regime-detail-panel');
     const btnReset = document.getElementById('btn-regime-reset-zoom');
+    const statusText = document.getElementById('regime-status-text');
+
+    const btnFrameCol = document.getElementById('btn-frame-column');
+    const btnFramePsf = document.getElementById('btn-frame-psf');
+    const btnFrameCurve = document.getElementById('btn-frame-curve');
+
+    let activeRegimeIdx = 0;
+    let currentFrameMode = 'column'; // 'column' | 'psf' | 'curve' | 'panorama'
+
+    function resetFrameButtons() {
+      [btnFrameCol, btnFramePsf, btnFrameCurve].forEach(btn => {
+        if (btn) {
+          btn.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all text-text-muted hover:text-white border border-transparent';
+        }
+      });
+    }
+
+    function applyZoom() {
+      if (!img) return;
+      const data = regimesData[activeRegimeIdx];
+
+      if (currentFrameMode === 'panorama') {
+        img.style.transform = 'scale(1) translate(0%, 0%)';
+        if (statusText) statusText.textContent = 'All 4 Regimes Optical Bench Panorama (Full Perspective)';
+        resetFrameButtons();
+        return;
+      }
+
+      if (currentFrameMode === 'column') {
+        resetFrameButtons();
+        if (btnFrameCol) btnFrameCol.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+        // In the tall viewport, scale 2.0x fits the column width and keeps both top and bottom in view with zero cutoff!
+        img.style.transform = `scale(2.0) translate(${data.colX}, 0%)`;
+        if (statusText) statusText.textContent = data.statusText;
+      } else if (currentFrameMode === 'psf') {
+        resetFrameButtons();
+        if (btnFramePsf) btnFramePsf.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        // Zoom close into top star stamps
+        img.style.transform = `scale(2.6) translate(${data.colX}, 18%)`;
+        if (statusText) statusText.textContent = `Regime 0${activeRegimeIdx + 1}: Zoom Focus on Restored Stellar PSF Core`;
+      } else if (currentFrameMode === 'curve') {
+        resetFrameButtons();
+        if (btnFrameCurve) btnFrameCurve.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all bg-amber-500/20 text-amber-300 border border-amber-500/40';
+        // Zoom close into bottom drift curves
+        img.style.transform = `scale(2.6) translate(${data.colX}, -18%)`;
+        if (statusText) statusText.textContent = `Regime 0${activeRegimeIdx + 1}: Zoom Focus on Pointing Drift Curve Series`;
+      }
+    }
 
     function renderDetail(index) {
       const data = regimesData[index];
@@ -239,11 +333,12 @@
 
     // Set initial detail
     renderDetail(0);
+    applyZoom();
 
     // Tab switcher
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
-        const index = parseInt(tab.getAttribute('data-regime') || '0', 10);
+        activeRegimeIdx = parseInt(tab.getAttribute('data-regime') || '0', 10);
 
         tabs.forEach(t => {
           t.className = 'regime-tab text-left p-3.5 sm:p-4 transition-all hover:bg-forest-900/80 text-text-muted border-b-2 border-transparent group';
@@ -251,20 +346,35 @@
 
         tab.className = 'regime-tab text-left p-3.5 sm:p-4 transition-all bg-surface border-b-2 border-emerald-400 text-white group';
 
-        // Zoom image to regime column
-        if (img) {
-          img.style.transform = regimesData[index].zoomStyle;
+        if (currentFrameMode === 'panorama') {
+          currentFrameMode = 'column';
         }
 
-        renderDetail(index);
+        applyZoom();
+        renderDetail(activeRegimeIdx);
       });
     });
 
-    // Reset zoom
+    // Sub-framing toolbar buttons
+    btnFrameCol?.addEventListener('click', () => {
+      currentFrameMode = 'column';
+      applyZoom();
+    });
+
+    btnFramePsf?.addEventListener('click', () => {
+      currentFrameMode = 'psf';
+      applyZoom();
+    });
+
+    btnFrameCurve?.addEventListener('click', () => {
+      currentFrameMode = 'curve';
+      applyZoom();
+    });
+
+    // Reset zoom to full panorama
     btnReset?.addEventListener('click', () => {
-      if (img) {
-        img.style.transform = 'scale(1) translate(0%, 0%)';
-      }
+      currentFrameMode = 'panorama';
+      applyZoom();
     });
   });
 </script>

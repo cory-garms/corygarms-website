@@ -1,5 +1,23 @@
 # Progress Log
 
+## [2026-09-07 16:30:00 EDT]
+
+* **Status:** Completed
+* **Focus:** UNJITR Refinements: Hotspots Removed, Viewport Stretched, Homepage Badges & Links Updated
+* **Summary:** Implemented the three requested refinements for UNJITR across the personal website:
+  1. **Top Figure Hotspots Removed (`JitterHeroComparison.astro`):** Removed all hotspot overlay markers (`#hotspot-layer`), popover tooltips (`.hotspot-tooltip`), and the hotspot toggle button from the primary side-by-side comparison figure (`hero_before_after.png`), keeping the UI clean and undistracted while preserving the three focus modes (`Full View`, `Raw Smear`, `Restored Core`) and the 6-column telemetry breakdown HUD.
+  2. **Regimes Viewport Vertically Stretched (`JitterRegimesShowcase.astro`):** Replaced the squat `aspect-[3200/1644]` container with a generous, responsive vertical viewport (`min-h-[540px] sm:min-h-[640px] md:min-h-[720px] lg:min-h-[780px] h-[75vh] max-h-[820px]`) and `object-contain`. Introduced a creative sub-framing toolbar with 4 dedicated framing modes:
+     - `Full Column`: Frames both the top stellar PSF stamps and bottom pointing drift curves $\Delta X(t), \Delta Y(t)$ simultaneously with zero vertical clipping (`scale(2.0)`).
+     - `Top Star PSF`: Deep focus on the restored diffraction cores (`scale(2.6)`).
+     - `Bottom Drift Plot`: Dedicated focus on the spacecraft pointing jitter curves (`scale(2.6)`).
+     - `All 4 Regimes Panorama`: Full uncropped overview of the entire optical bench comparison graphic.
+  3. **Homepage Badges & Links Updated (`index.astro` & `PortfolioGrid.astro`):**
+     - Updated UNJITR project card in `PortfolioGrid.astro` to feature the `NASA Swift UVOT` badge with an animated cyan pulse indicator (`bg-cyan-950/80 text-cyan-300 border-cyan-500/40`), titled `"UNJITR: NASA Spacecraft Jitter Recovery"` linking directly to `/unjitr`.
+     - In `src/pages/index.astro`, added a prominent `UNJITR • NASA Swift Dossier` pill with an animated cyan pulse in the Academic & Research Links action row.
+     - Upgraded the homepage `Research Preview Section` from 2 to 3 columns, featuring a dedicated UNJITR card (`NASA Swift UVOT • 2026`) linking to `/unjitr`.
+  4. **Build Verification:** Tested with `npm run build`; all 11 static pages compiled cleanly in 5.49s with 0 errors.
+* **Technical Debt/Next Steps:** Changes ready for production deployment to Vercel.
+
 ## [2026-09-07 15:58:00 EDT]
 
 * **Status:** Completed

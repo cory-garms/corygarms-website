@@ -35,13 +35,13 @@ const coreProjects: Project[] = [
     isGithub: false
   },
   {
-    title: "UNJITR: UV/Optical Nonlinear Jitter Recovery",
-    badge: "Astrophysics Engine",
+    title: "UNJITR: NASA Spacecraft Jitter Recovery",
+    badge: "NASA Swift UVOT",
     description: "UNJITR (UV/Optical Nonlinear Jitter & Instability Trajectory Recovery): Catalog-free sub-pixel photon-event jitter restoration engine achieving a 99.7% archive recovery rate across 282 Swift UVOT galaxy observations, collapsing 450 px serpentine smears back into 2.94″ Airy diffraction cores.",
     image: "/images/uvot-jitter/hero_before_after.png",
-    tags: ["UNJITR", "NASA Swift UVOT", "Sub-Pixel FFT", "Astrophysics"],
+    tags: ["NASA Swift UVOT", "Sub-Pixel FFT", "UNJITR", "Astrophysics"],
     link: "/unjitr",
-    linkText: "View Project Showcase",
+    linkText: "View Project Dossier",
     isGithub: false
   },
   {
@@ -140,15 +140,29 @@ const allProjects = [...coreProjects, ...dynamicRepos];
 
 					<div class="p-6 flex flex-col flex-grow">
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-forest-900 text-accent border border-border">
-                                {project.badge}
+                            <span class={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                              project.link === '/unjitr' 
+                                ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40 flex items-center gap-1.5' 
+                                : project.link === '/cutmap'
+                                ? 'bg-forest-900 text-accent border-accent/40 flex items-center gap-1.5'
+                                : 'bg-forest-900 text-accent border-border'
+                            }`}>
+                              {project.link === '/unjitr' && <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>}
+                              {project.link === '/cutmap' && <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>}
+                              <span>{project.badge}</span>
                             </span>
-                            <span class="text-xs font-mono text-text-dim group-hover:text-accent transition-colors">
+                            <span class={`text-xs font-mono transition-colors ${
+                              project.link === '/unjitr' 
+                                ? 'text-cyan-400 group-hover:text-cyan-300 font-semibold' 
+                                : 'text-text-dim group-hover:text-accent'
+                            }`}>
                                 {project.linkText} &rarr;
                             </span>
                         </div>
 
-						<h4 class="text-lg font-semibold text-white mb-2.5 group-hover:text-accent transition-colors">{project.title}</h4>
+						<h4 class={`text-lg font-semibold text-white mb-2.5 transition-colors ${
+              project.link === '/unjitr' ? 'group-hover:text-cyan-300' : 'group-hover:text-accent'
+            }`}>{project.title}</h4>
 						<p class="text-text-muted text-xs leading-relaxed mb-6 flex-grow">{project.description}</p>
 						
 						<div class="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-border-subtle">
