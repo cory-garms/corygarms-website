@@ -9,8 +9,9 @@
   - Configured backwards-compatible redirects for `/uvot-jitter` and `/astro-jitter`.
   - Added official scientific attribution for Lead Scientist Dr. Jonathan Gelbord with verified ORCID (`0000-0001-9092-8619`) and Co-Investigator Dr. Cory Glenn Garms with Google Scholar badge.
   - Updated home page portfolio card in `src/components/PortfolioGrid.astro` and user bio in `src/pages/index.astro`.
-  - Static compilation verified across all 11 pages with 0 errors via `npm run build`.
-* **Technical Debt/Next Steps:** Monitor Vercel build and live DNS propagation at `https://corygarms.com/unjitr`.
+  - Pushed commit `b1774ba` to `origin main`. GitHub Actions CI passed cleanly (`✓`) in 51s.
+  - Vercel automatically completed production deployment to `https://corygarms.com/unjitr`. Verified live HTTP 200 responses for the page and all high-resolution assets.
+* **Technical Debt/Next Steps:** UNJITR project showcase sprint fully delivered and live in production. Future enhancements can add interactive 3D WebGL point-spread function wireframes if desired.
 
 ## [2026-09-07 15:38:00 EDT]
 
