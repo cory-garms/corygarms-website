@@ -1,0 +1,283 @@
+---
+// src/components/CutmapPipelineDiagram.astro
+// Algorithmic Pipeline & System Architecture component for CUTMAP
+
+const stages = [
+  {
+    step: "01",
+    id: "stage-1",
+    name: "Additive Point Cloud Creation",
+    tag: "Sensor Fusion & SLAM",
+    color: "accent",
+    borderColor: "border-accent/40",
+    badgeBg: "bg-accent/10 text-accent border-accent/20",
+    summary: "Fuses prior aerial laser scanning (ALS) with continuous terrestrial mobile LiDAR-inertial odometry and stereo depth.",
+    inputs: [
+      { label: "Prior Aerial ALS", desc: "USGS 3DEP / airborne lidar canopy DSM" },
+      { label: "Solid-State LiDAR", desc: "Livox Mid-360 non-repetitive rosette (200k pts/s)" },
+      { label: "Stereo Machine Vision", desc: "Dual FLIR Blackfly S global shutter (457.2 mm baseline)" },
+      { label: "High-Rate IMU", desc: "200 Hz 6-DOF industrial inertial odometry" }
+    ],
+    algorithms: [
+      {
+        name: "FAST-LIO2 SLAM",
+        desc: "Iterated error-state Kalman filter tight-coupled to IMU, mapping dense understory geometry without GPS ephemeris."
+      },
+      {
+        name: "PSM / SGBM Stereo Matching",
+        desc: "Semi-Global / Pyramid Stereo deep matching computing dense pixel disparities for foreground vegetation."
+      },
+      {
+        name: "Aerial-to-Terrestrial Coregistration",
+        desc: "Progressive multi-resolution ICP aligning terrestrial stem manifolds to aerial top-of-canopy crowns."
+      }
+    ],
+    outputs: [
+      { metric: "1.0098 ± 0.0137", label: "SLAM Scale Rigidity", note: "<1% scale dilation over 97m loops" },
+      { metric: "0.87 mm", label: "Extrinsic Precision", note: "Pitch-symmetric weak-axis conditioning" }
+    ]
+  },
+  {
+    step: "02",
+    id: "stage-2",
+    name: "Stem Segmentation & Mensuration",
+    tag: "Computer Vision & AI",
+    color: "spectral",
+    borderColor: "border-spectral/40",
+    badgeBg: "bg-spectral/10 text-spectral border-spectral/20",
+    summary: "Extracts individual tree identities, computes sub-centimeter DBH, vectors 3D stem lean, and refines boundaries with SAM.",
+    inputs: [
+      { label: "Breast-Height LiDAR Slice", desc: "z = 1.37 m ± 0.05 m point ring band" },
+      { label: "Calibrated Camera Frames", desc: "Undistorted optical machine vision frames" },
+      { label: "3D Trunk Centroids", desc: "Rough spatial coordinate seeds for prompting" }
+    ],
+    algorithms: [
+      {
+        name: "SAM ViT-B Prior Prompting",
+        desc: "Forward-projecting 3D LiDAR stem bounds to prompt Segment Anything Model, isolating optical bark boundaries."
+      },
+      {
+        name: "Angular Coverage Bias Correction",
+        desc: "Compensates for the systematic -2.79 cm / 100° diameter overestimation inherent to partial-arc stationary LiDAR scans."
+      },
+      {
+        name: "3D Lean & Taper Vectoring",
+        desc: "Garms & Strimbu (2021) non-destructive cylinder fitting modeling stem curvature, lean angle, and true merchantable volume."
+      }
+    ],
+    outputs: [
+      { metric: "+1.60 ± 2.78 cm", label: "Single-View Camera DBH", note: "Zero walkaround traverse penalty" },
+      { metric: "+2.83 ± 1.45 cm", label: "360° Ring DBH Accuracy", note: "R² = 0.9833 vs. 65 physical taped stems" }
+    ]
+  },
+  {
+    step: "03",
+    id: "stage-3",
+    name: "Heuristic Silvicultural Thinning",
+    tag: "Prescription Optimization",
+    color: "topo",
+    borderColor: "border-topo/40",
+    badgeBg: "bg-topo/10 text-topo border-topo/20",
+    summary: "Computes spatial competition indices and executes heuristic combinatorial search to prescribe optimal tree harvests.",
+    inputs: [
+      { label: "Tree Coordinate Map (x,y,z)", desc: "Meter-precision individual stem positions" },
+      { label: "Individual DBH & Taper", desc: "Empirically measured stem metrics" },
+      { label: "Crown Projection Area", desc: "Extracted crown radius and height to base" }
+    ],
+    algorithms: [
+      {
+        name: "Hegyi Spatial Competition Index",
+        desc: "Quantifies distance-dependent competitive pressure between neighboring stems: CI_i = Σ (DBH_j / DBH_i) / Dist_ij."
+      },
+      {
+        name: "Hero Heuristic Optimization",
+        desc: "West, Sessions & Strimbu (2021) rapid combinatorial selection evaluating thinning interventions in O(N log N) time."
+      },
+      {
+        name: "Monte Carlo & Genetic Algorithms",
+        desc: "Simulated Annealing and Tabu Search exploring complex spatial harvest regimes across rotation intervals."
+      }
+    ],
+    outputs: [
+      { metric: "+5.1% to 10.1%", label: "LEV Improvement", note: "Land Expectation Value gain over status quo" },
+      { metric: "100%", label: "Prescription Traceability", note: "Every stem mapped with cut/leave justification" }
+    ]
+  }
+];
+---
+
+<div class="w-full">
+  
+  <!-- Section Title & Subtitle -->
+  <div class="text-center max-w-3xl mx-auto mb-10">
+    <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+      Algorithmic Pipeline &amp; System Architecture
+    </h2>
+    <p class="text-xs sm:text-sm text-text-muted">
+      A 3-stage computational pipeline converting raw spatial photon returns into operational silvicultural harvest prescriptions.
+    </p>
+  </div>
+
+  <!-- Interactive Pipeline Flow Visual / Tabs Header -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8" id="pipeline-stepper">
+    {stages.map((stg, idx) => (
+      <button 
+        type="button"
+        class={`pipeline-tab-btn text-left p-4 rounded-xl border transition-all cursor-pointer ${
+          idx === 0 
+            ? 'bg-surface border-accent shadow-lg shadow-accent/5' 
+            : 'bg-surface/60 border-border hover:border-border-hover'
+        }`}
+        data-target={stg.id}
+      >
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-mono font-bold text-text-dim">STAGE {stg.step}</span>
+          <span class={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border ${stg.badgeBg}`}>
+            {stg.tag}
+          </span>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-1">{stg.name}</h3>
+        <p class="text-xs text-text-muted line-clamp-2 leading-relaxed">{stg.summary}</p>
+      </button>
+    ))}
+  </div>
+
+  <!-- Stage Detail Cards Container -->
+  <div class="space-y-6">
+    {stages.map((stg, idx) => (
+      <div 
+        id={stg.id} 
+        class={`pipeline-card p-6 sm:p-8 rounded-2xl bg-surface border ${stg.borderColor} transition-all duration-300 ${idx !== 0 ? 'hidden' : ''}`}
+      >
+        
+        <!-- Stage Header Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 mb-6 border-b border-border/80">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-mono font-bold text-accent">PHASE {stg.step}</span>
+              <span class="text-text-dim">&bull;</span>
+              <span class={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border ${stg.badgeBg}`}>
+                {stg.tag}
+              </span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              {stg.name}
+            </h3>
+          </div>
+          <p class="text-xs sm:text-sm text-text-muted max-w-md leading-relaxed">
+            {stg.summary}
+          </p>
+        </div>
+
+        <!-- 3-Column Pipeline Architecture Grid: Inputs -> Core Algorithms -> Verified Outputs -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Column 1: Input Sources (3 cols) -->
+          <div class="lg:col-span-4 space-y-3">
+            <h4 class="text-xs font-mono uppercase tracking-wider text-text-dim flex items-center gap-1.5 mb-3">
+              <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+              <span>Input Data Stream</span>
+            </h4>
+            
+            <div class="space-y-2">
+              {stg.inputs.map(input => (
+                <div class="p-3 rounded-xl bg-forest-950 border border-border/80 text-xs font-mono">
+                  <span class="text-white font-semibold block mb-0.5">{input.label}</span>
+                  <span class="text-text-dim text-[11px] block">{input.desc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Column 2: Algorithmic Engine & Formulation (5 cols) -->
+          <div class="lg:col-span-5 space-y-3">
+            <h4 class="text-xs font-mono uppercase tracking-wider text-text-dim flex items-center gap-1.5 mb-3">
+              <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>
+              <span>Computational Engine</span>
+            </h4>
+
+            <div class="space-y-3">
+              {stg.algorithms.map(alg => (
+                <div class="p-3.5 rounded-xl bg-forest-900/60 border border-border">
+                  <h5 class="text-xs sm:text-sm font-bold text-white mb-1 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                    <span>{alg.name}</span>
+                  </h5>
+                  <p class="text-xs text-text-muted leading-relaxed font-sans">
+                    {alg.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Column 3: Output Deliverables & Benchmark Metrics (3 cols) -->
+          <div class="lg:col-span-3 space-y-3">
+            <h4 class="text-xs font-mono uppercase tracking-wider text-text-dim flex items-center gap-1.5 mb-3">
+              <svg class="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>Empirical Deliverables</span>
+            </h4>
+
+            <div class="space-y-3">
+              {stg.outputs.map(out => (
+                <div class="p-4 rounded-xl bg-forest-950 border border-border text-center">
+                  <div class="text-lg sm:text-xl font-mono font-extrabold text-accent mb-0.5">
+                    {out.metric}
+                  </div>
+                  <div class="text-xs font-mono font-semibold text-white mb-1">
+                    {out.label}
+                  </div>
+                  <div class="text-[10px] font-mono text-text-dim leading-tight">
+                    {out.note}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- View Full Pipeline Link -->
+            <div class="p-3 rounded-xl bg-forest-900/30 border border-border/50 text-[11px] font-mono text-text-dim text-center">
+              Deterministic ROS 2 Edge Pipeline
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    ))}
+  </div>
+
+</div>
+
+<script>
+  // Interactive Pipeline Tab Switching
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.pipeline-tab-btn');
+    const cards = document.querySelectorAll('.pipeline-card');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetId = tab.getAttribute('data-target');
+
+        // Reset tab styles
+        tabs.forEach(t => {
+          t.classList.remove('bg-surface', 'border-accent', 'shadow-lg', 'shadow-accent/5');
+          t.classList.add('bg-surface/60', 'border-border');
+        });
+
+        // Activate clicked tab
+        tab.classList.remove('bg-surface/60', 'border-border');
+        tab.classList.add('bg-surface', 'border-accent', 'shadow-lg', 'shadow-accent/5');
+
+        // Toggle cards
+        cards.forEach(card => {
+          if (card.id === targetId) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  });
+</script>

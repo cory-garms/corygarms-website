@@ -1,124 +1,1297 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import CutmapLidarViewer from "../components/CutmapLidarViewer.jsx";
+import CutmapPipelineDiagram from "../components/CutmapPipelineDiagram.astro";
+
+// Publication references with full BibTeX and DOIs
+const publications = [
+  {
+    id: "cutmap-calibration-2026",
+    authors: "Garms, C.G., Strimbu, B., et al. (2026)",
+    title: "Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation",
+    venue: "Target: Journal of Field Robotics (In Final Preparation)",
+    tag: "Primary Methodological Paper",
+    status: "In Final Preparation",
+    takeaway: "Exposes how standard scale-invariant reprojection metrics (0.31 px RMS) remain blind to 2.5 mm target curvature, propagating into 140 mm phantom extrinsic shifts. Introduces three physical calibration gates that condition the weak axis and restore sub-millimeter precision.",
+    bibtex: `@article{garms2026cutmap_calibration,
+  title={Calibrating a Low-SWaP-C Lidar--Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation},
+  author={Garms, Cory G. and Strimbu, Bogdan M. and others},
+  journal={Journal of Field Robotics},
+  year={2026},
+  note={In Final Preparation}
+}`
+  },
+  {
+    id: "cutmap-nemo-2026",
+    authors: "Garms, C.G., Strimbu, B., Zamora, D., et al. (2026)",
+    title: "CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping",
+    venue: "2026 Joint Meeting of the Northeastern Mensurationist Organization (NEMO) & Southern Mensurationists (SOMENS), Portland, ME",
+    tag: "Conference Proceeding",
+    status: "Accepted / Invited",
+    takeaway: "Presents the field-deployed all-terrain push-cart, FAST-LIO2 understory loop trajectories, and empirical validation against 65 taped stems across white pine and hardwood groves in Burlington, MA.",
+    bibtex: `@inproceedings{garms2026cutmap_nemo,
+  title={CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping},
+  author={Garms, Cory G. and Strimbu, Bogdan M. and Zamora, Diomy and others},
+  booktitle={2026 Joint Meeting of the Northeastern Mensurationist Organization (NEMO) and Southern Mensurationists (SOMENS)},
+  address={Portland, ME},
+  year={2026}
+}`
+  },
+  {
+    id: "west-thinning-2021",
+    authors: "West, T., Sessions, J., & Strimbu, B.M. (2021)",
+    title: "Heuristic Optimization of Thinning Individual Douglas-Fir",
+    venue: "Forests, 12(3), 280",
+    tag: "Foundational Thinning Algorithm",
+    status: "Published (Peer-Reviewed)",
+    doi: "https://doi.org/10.3390/f12030280",
+    takeaway: "Establishes the combinatorial 'Hero' and Monte Carlo heuristic optimization models integrated into CUTMAP Stage 3. Evaluates thinning interventions based on spatial competition indices, increasing Land Expectation Value (LEV) by +5.1% to 10.1%.",
+    bibtex: `@article{west2021heuristic_thinning,
+  title={Heuristic Optimization of Thinning Individual Douglas-Fir},
+  author={West, Todd and Sessions, John and Strimbu, Bogdan M.},
+  journal={Forests},
+  volume={12},
+  number={3},
+  pages={280},
+  year={2021},
+  publisher={MDPI},
+  doi={10.3390/f12030280}
+}`
+  },
+  {
+    id: "garms-stemlean-2021",
+    authors: "Garms, C.G. & Strimbu, B. (2021)",
+    title: "Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans",
+    venue: "Canadian Journal of Forest Research, 51(8), 1184–1195",
+    tag: "Foundational Lean Research",
+    status: "Published (Peer-Reviewed)",
+    doi: "https://doi.org/10.1139/cjfr-2020-0082",
+    takeaway: "Formulates the 3D stem vectoring and non-destructive cylinder fitting models embedded in CUTMAP Stage 2. Demonstrates that accounting for 3D trunk lean and sweep eliminates systemic underestimation in merchantable volume calculations.",
+    bibtex: `@article{garms2021stemlean,
+  title={Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans},
+  author={Garms, Cory G. and Strimbu, Bogdan M.},
+  journal={Canadian Journal of Forest Research},
+  volume={51},
+  number={8},
+  pages={1184--1195},
+  year={2021},
+  publisher={NRC Research Press},
+  doi={10.1139/cjfr-2020-0082}
+}`
+  },
+  {
+    id: "garms-sensors-2020",
+    authors: "Garms, C.G., et al. (2020)",
+    title: "Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors",
+    venue: "Remote Sensing, 12(14), 2278",
+    tag: "Foundational Sensor Fusion",
+    status: "Published (Peer-Reviewed)",
+    doi: "https://doi.org/10.3390/rs12142278",
+    takeaway: "Compares active spatial LiDAR scans with high-resolution passive optical imagery, proving that multi-sensor triangulation isolates tree curvature and positional drift under dense canopy.",
+    bibtex: `@article{garms2020lean_sensors,
+  title={Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors},
+  author={Garms, Cory G. and others},
+  journal={Remote Sensing},
+  volume={12},
+  number={14},
+  pages={2278},
+  year={2020},
+  publisher={MDPI},
+  doi={10.3390/rs12142278}
+}`
+  }
+];
+
+// KPI Metrics Grid
+const kpis = [
+  {
+    value: "~$2,200",
+    label: "Core Payload Cost",
+    baseline: "≥ $50,000 commercial MLS",
+    delta: "25× cost reduction",
+    deltaColor: "text-accent"
+  },
+  {
+    value: "65 Stems",
+    label: "Field Ground Truth",
+    baseline: "3 Wooded Groves (Burlington, MA)",
+    delta: "Logger's-tape calibrated",
+    deltaColor: "text-accent-light"
+  },
+  {
+    value: "+2.83 cm",
+    subVal: "± 1.45 cm",
+    label: "360° Ring DBH Accuracy",
+    baseline: "R² = 0.9833, RMSE 3.18 cm",
+    delta: "Bark furrow envelope (n=43)",
+    deltaColor: "text-topo"
+  },
+  {
+    value: "+1.60 cm",
+    subVal: "± 2.78 cm",
+    label: "Single-View Camera DBH",
+    baseline: "MAE = 2.58 cm (n=9 stations)",
+    delta: "Zero walkaround required",
+    deltaColor: "text-spectral"
+  },
+  {
+    value: "1.0098",
+    subVal: "± 0.0137",
+    label: "SLAM Metric Scale Rigidity",
+    baseline: "82–97 m understory loops",
+    delta: "<1% scale dilation (No GPS)",
+    deltaColor: "text-accent"
+  },
+  {
+    value: "0.87 mm",
+    label: "Extrinsic Vertical Precision",
+    baseline: "One-sided pitch was 3.48 mm",
+    delta: "2.7× weak-axis resolution",
+    deltaColor: "text-accent-light"
+  }
+];
+
+// Hardware Payload Specifications
+const hardwareSpecs = [
+  {
+    component: "Livox Mid-360S LiDAR",
+    spec: "Solid-state non-repetitive circular rosette, 200,000 pts/sec, 360° × 59° FOV",
+    role: "Primary spatial geometry & understory traverse SLAM",
+    cost: "~$700",
+    powerWeight: "8.5 W • 265 g"
+  },
+  {
+    component: "Dual FLIR Blackfly S",
+    spec: "1.3 MP global shutter (1280 × 1024), 457.2 mm (18.0 in) calibrated baseline",
+    role: "Optical silhouette segmentation & visual edge mensuration",
+    cost: "~$1,100 (pair)",
+    powerWeight: "6.0 W • 180 g (pair)"
+  },
+  {
+    component: "Industrial 6-DOF IMU",
+    spec: "200 Hz sampling rate, hardware-synchronized to LiDAR clock",
+    role: "Inertial pre-integration for FAST-LIO2 state prediction",
+    cost: "Embedded",
+    powerWeight: "Integrated in Mid-360"
+  },
+  {
+    component: "NVIDIA Jetson AGX Orin",
+    spec: "32 GB 256-bit LPDDR5, 200 TOPS AI compute, native ROS 2 Humble",
+    role: "Real-time SLAM odometry, camera logging & edge AI",
+    cost: "Host Compute",
+    powerWeight: "15–40 W • 650 g"
+  },
+  {
+    component: "All-Terrain Chassis",
+    spec: "High-clearance pneumatic wheels, rear-looking optics mount",
+    role: "Pedestrian mobility traversing fallen logs and heavy duff",
+    cost: "Chassis",
+    powerWeight: "4.8 kg Total Payload"
+  }
+];
 ---
 
-<Layout title="CUTMAP: Autonomous Forest Mensuration">
-  <main class="max-w-5xl mx-auto px-6 py-16">
+<Layout title="CUTMAP: Autonomous Forest Mensuration | Dr. Cory Glenn Garms">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
     
-    <!-- Navigation Back Link -->
-    <div class="mb-8">
+    <!-- Top Breadcrumbs / Navigation -->
+    <nav aria-label="Breadcrumbs" class="mb-8 flex items-center justify-between">
       <a 
         href="/#portfolio" 
-        class="inline-flex items-center gap-2 text-xs font-mono text-text-muted hover:text-accent transition-colors"
+        class="inline-flex items-center gap-2 text-xs font-mono text-text-muted hover:text-accent transition-colors group"
       >
-        <span>&larr; Back to Projects</span>
+        <span class="group-hover:-translate-x-0.5 transition-transform">&larr;</span>
+        <span>Back to Projects &amp; Portfolio</span>
       </a>
-    </div>
-
-    <!-- Project Header -->
-    <div class="mb-12 border-b border-border pb-8">
-      <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="w-2 h-2 rounded-sm bg-accent"></span>
-        <span class="text-xs font-mono uppercase tracking-widest text-accent-light">USDA STTR Phase I / II</span>
-        <span class="text-text-dim">&bull;</span>
-        <span class="text-xs font-mono text-topo bg-topo/10 px-2 py-0.5 rounded border border-topo/30">Active Development</span>
+      <div class="flex items-center gap-2 text-[11px] font-mono text-text-dim">
+        <span>PROJECT DOSSIER</span>
+        <span>/</span>
+        <span class="text-accent-light">CUTMAP</span>
       </div>
-      
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
-        CUTMAP
-      </h1>
-      <p class="text-lg text-text-main font-medium max-w-3xl leading-relaxed mb-3">
-        Autonomous Forest Mensuration & Silvicultural Thinning Platform
-      </p>
-      <p class="text-sm text-text-muted max-w-2xl leading-relaxed font-mono">
-        Lead Scientist: Cory Glenn Garms &bull; Spectral Sciences, Inc. &amp; Oregon State University
-      </p>
-    </div>
+    </nav>
 
-    <!-- Sprint Roadmap Notice -->
-    <div class="p-6 rounded-2xl bg-forest-950/80 border border-accent/30 mb-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-      <div class="space-y-1">
-        <div class="text-xs font-mono uppercase tracking-wider text-accent font-semibold flex items-center gap-2">
-          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-          Next Sprint Integration Roadmap
+    <!-- SECTION: HERO & KPIS -->
+    <section class="mb-16 md:mb-20">
+      
+      <!-- Eyebrow Tags & Metadata -->
+      <div class="flex flex-wrap items-center gap-2.5 mb-5">
+        <span class="px-2.5 py-1 rounded bg-forest-900 border border-accent/40 text-accent text-[11px] font-mono font-medium tracking-wide flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          USDA SBIR/STTR Phase I &amp; II
+        </span>
+        <span class="px-2.5 py-1 rounded bg-forest-900 border border-border text-text-muted text-[11px] font-mono">
+          Proprietary Technology
+        </span>
+        <span class="px-2.5 py-1 rounded bg-forest-900 border border-border text-text-muted text-[11px] font-mono">
+          Spectral Sciences, Inc.
+        </span>
+      </div>
+
+      <!-- Main Heading & Subtitle -->
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1] mb-5">
+        CUTMAP: Autonomous Under-Canopy Forest Mensuration
+      </h1>
+      <p class="text-lg sm:text-xl md:text-2xl font-semibold text-accent-light max-w-4xl leading-snug mb-6">
+        Sub-Centimeter Metric Precision from a $2,200 Mobile Sensor Payload
+      </p>
+
+      <!-- Institutional Attribution Bar -->
+      <div class="p-4 rounded-xl bg-surface border border-border mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+        <div>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Principal Investigator &amp; Lead Scientist</span>
+          <span class="text-text-main font-semibold">Dr. Cory Glenn Garms</span>
+          <span class="text-text-muted block text-[11px]">Senior Scientist, Spectral Sciences, Inc.</span>
         </div>
-        <p class="text-xs text-text-muted leading-relaxed">
-          This project page is being established as the dedicated home for CUTMAP. In the upcoming sprint, we will connect the edge data processing pipelines, 3D point cloud viewers, and field telemetry directly to this site.
+        <div>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Academic Co-Investigator</span>
+          <span class="text-text-main font-semibold">Dr. Bogdan Strimbu</span>
+          <span class="text-text-muted block text-[11px]">Associate Professor, Oregon State University</span>
+        </div>
+        <div>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Agency Sponsor &amp; Program Director</span>
+          <span class="text-text-main font-semibold">Dr. Diomy Zamora</span>
+          <span class="text-text-muted block text-[11px]">USDA Forest Service</span>
+        </div>
+      </div>
+
+      <!-- Executive Lead Narrative -->
+      <div class="prose prose-invert max-w-none text-text-muted text-sm sm:text-base leading-relaxed mb-10">
+        <p>
+          Commercial mobile laser scanning (MLS) platforms for forestry applications routinely cost upwards of $50,000 to $100,000+, creating a prohibitive capital barrier that restricts operational adoption in silviculture, inventory mensuration, and ecological monitoring. <strong class="text-white">CUTMAP</strong> (<em>Continuous Under-Canopy Traverse and Mapping</em>) bridges the divide between low-cost robotics hardware and survey-grade forestry biometrics.
+        </p>
+        <p class="mt-3">
+          Engineered by <strong class="text-white">Spectral Sciences, Inc.</strong> under USDA SBIR/STTR support, CUTMAP couples a low-cost solid-state LiDAR with calibrated global-shutter stereo cameras on a mobile push-cart. The system achieves automated individual-tree diameter at breast height (DBH) mensuration, enforces multi-sensor calibration integrity, and maintains metric SLAM scale rigidity without GPS in dense understory conditions.
         </p>
       </div>
-      <a 
-        href="/research#mobile-lidar-volume" 
-        class="shrink-0 px-3.5 py-2 bg-forest-800 hover:bg-forest-750 text-white rounded-lg text-xs font-mono border border-border hover:border-accent/40 transition-all"
-      >
-        <span>View Published Research &rarr;</span>
-      </a>
-    </div>
 
-    <!-- Template Content Grid (Architecture Placeholder) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-      
-      <!-- Hardware & Edge Platform -->
-      <div class="p-6 sm:p-8 bg-surface rounded-2xl border border-border flex flex-col justify-between">
-        <div>
-          <div class="aspect-video w-full rounded-xl overflow-hidden mb-5 bg-forest-950 border border-border">
-            <img 
-              src="/images/STTR_device.jpg" 
-              alt="CUTMAP Field Apparatus" 
-              class="w-full h-full object-cover"
-            />
-          </div>
-          <span class="text-[11px] font-mono uppercase tracking-wider text-accent-light">Hardware System</span>
-          <h2 class="text-xl font-bold text-white mt-1 mb-3">Edge-Computed Sensor Rig</h2>
-          <p class="text-xs text-text-muted leading-relaxed mb-4">
-            Ruggedized mobile robotics platform integrating multi-beam LiDAR (Velodyne / Livox), calibrated stereoscopic camera pairs, and industrial edge computing for real-time understory forest data acquisition.
-          </p>
-        </div>
-        <div class="pt-4 border-t border-border/60 flex flex-wrap gap-2 text-[10px] font-mono text-text-dim">
-          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Mobile LiDAR</span>
-          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Stereo Vision</span>
-          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">NVIDIA Jetson</span>
-        </div>
-      </div>
-
-      <!-- Algorithmic Pipeline -->
-      <div class="p-6 sm:p-8 bg-surface rounded-2xl border border-border flex flex-col justify-between">
-        <div>
-          <div class="aspect-video w-full rounded-xl overflow-hidden mb-5 bg-forest-950 border border-border flex items-center justify-center topo-grid">
-            <div class="text-center p-6">
-              <span class="text-xs font-mono text-accent uppercase tracking-widest block mb-1">Pipeline Mockup</span>
-              <span class="text-sm font-semibold text-white">Additive Point Cloud &amp; Heuristic Thinning</span>
+      <!-- KPI Metric Counter Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        {kpis.map((kpi) => (
+          <div class="p-4 rounded-xl bg-surface border border-border hover:border-accent/40 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <span class="text-[10px] font-mono text-text-dim uppercase tracking-wider block mb-1">
+                {kpi.label}
+              </span>
+              <div class="text-xl sm:text-2xl font-bold font-mono text-white group-hover:text-accent transition-colors flex items-baseline gap-1">
+                <span>{kpi.value}</span>
+                {kpi.subVal && <span class="text-xs text-text-muted font-normal">{kpi.subVal}</span>}
+              </div>
+            </div>
+            <div class="pt-3 mt-3 border-t border-border/60">
+              <span class={`text-[10px] font-mono block font-medium ${kpi.deltaColor}`}>
+                {kpi.delta}
+              </span>
+              <span class="text-[10px] font-mono text-text-dim block mt-0.5 truncate" title={kpi.baseline}>
+                {kpi.baseline}
+              </span>
             </div>
           </div>
-          <span class="text-[11px] font-mono uppercase tracking-wider text-accent-light">Software Architecture</span>
-          <h2 class="text-xl font-bold text-white mt-1 mb-3">Stem Mensuration &amp; Thinning Heuristics</h2>
-          <p class="text-xs text-text-muted leading-relaxed mb-4">
-            Multi-stage spatial processing pipeline: progressive aerial-terrestrial coregistration, automated individual tree segmentation, stem diameter at breast height (DBH) and lean estimation, and heuristic tree selection for silvicultural harvesting.
+        ))}
+      </div>
+    </section>
+
+    <!-- SECTION 01: INTERACTIVE 3D UNDERSTORY LIDAR VIEWER -->
+    <section class="mb-20 md:mb-28">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Interactive 3D Point Cloud</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+          Interactive Understory LiDAR Viewer
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted">
+          Actual FAST-LIO2 SLAM forest survey data collected by the CUTMAP rig at 200,000 pts/sec. Rendered with custom elevation GLSL shaders.
+        </p>
+      </div>
+
+      <!-- React Three Fiber Point Cloud Canvas -->
+      <div class="mb-4">
+        <CutmapLidarViewer client:load />
+      </div>
+
+      <!-- Interactive Stand Guide -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+        <div class="p-4 rounded-xl bg-surface border border-border">
+          <div class="text-accent font-semibold mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Stand 1: White Pine Grove
+          </div>
+          <p class="text-text-muted text-[11px] leading-relaxed">
+            Towering mature <em>Pinus strobus</em> with high crown base. Clean ground-duff surface and vertical trunks ideal for circular RANSAC slice fitting.
           </p>
         </div>
-        <div class="pt-4 border-t border-border/60 flex flex-wrap gap-2 text-[10px] font-mono text-text-dim">
-          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Point Cloud Coregistration</span>
-          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Stem Taper Vectoring</span>
-          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Heuristics</span>
+        <div class="p-4 rounded-xl bg-surface border border-border">
+          <div class="text-accent font-semibold mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Stand 2: Deciduous Grove
+          </div>
+          <p class="text-text-muted text-[11px] leading-relaxed">
+            Mixed northern hardwoods with lateral trunk lean and multi-stem forks. Tests the 3D stem vectoring and taper algorithms from Garms &amp; Strimbu (2021).
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-surface border border-border">
+          <div class="text-accent font-semibold mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Stand 3: Dense Understory Loop
+          </div>
+          <p class="text-text-muted text-[11px] leading-relaxed">
+            High shrub and sapling occlusion. Demonstrates FAST-LIO2 metric scale rigidity (1.0098) through complex pedestrian obstacle avoidance maneuvers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: HARDWARE PLATFORM & SWAP-C OPTIMIZATION -->
+    <section class="mb-20 md:mb-28">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 01 // Hardware Rig</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+      
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+          Ruggedized Low-SWaP-C Sensor Architecture
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted">
+          Optimizing Size, Weight, Power, and Cost (SWaP-C) for continuous pedestrian understory traverses.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-10">
+        
+        <!-- Left: Hardware Photo Showcase -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="rounded-2xl border border-border overflow-hidden bg-forest-950 p-2 shadow-2xl">
+            <div 
+              class="relative group cursor-pointer overflow-hidden rounded-xl lightbox-trigger" 
+              data-src="/images/STTR_device.jpg" 
+              data-caption="CUTMAP mobile sensor apparatus deployed during field validation in Burlington, MA. Integrates Livox Mid-360S LiDAR, dual FLIR Blackfly S stereo cameras, and Jetson Orin edge computing." 
+              data-title="CUTMAP Field Mobile Sensor Apparatus"
+            >
+              <img 
+                src="/images/STTR_device.jpg" 
+                alt="CUTMAP Mobile Sensor Rig" 
+                class="w-full h-auto object-cover rounded-lg group-hover:scale-[1.02] transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span class="px-3 py-1.5 rounded-md bg-forest-950/90 border border-accent/50 text-accent text-xs font-mono flex items-center gap-1.5 shadow-lg">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                  Click to Expand Field Rig
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface border border-border text-xs text-text-muted leading-relaxed font-mono">
+            <span class="text-accent font-semibold block mb-1">Field Apparatus In Situ:</span>
+            Deployed on an all-terrain cross-country wheeled push-cart. Dual cameras face rearward at a calibrated depression angle to observe mapped geometry without human operator occlusion or footstep artifacts.
+          </div>
+        </div>
+
+        <!-- Right: Modular Hardware Specifications Cards -->
+        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <!-- Mid-360 LiDAR -->
+          <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/20">Active Ranging</span>
+              <span class="text-xs font-mono text-text-dim">~$700</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">Livox Mid-360S LiDAR</h3>
+            <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
+              <li>&bull; <strong class="text-text-main">Scanning Architecture:</strong> Solid-state non-repetitive circular rosette pattern at 200,000 pts/sec.</li>
+              <li>&bull; <strong class="text-text-main">Field of View:</strong> 360° horizontal &times; 59° vertical coverage, providing dense canopy-to-ground photon coverage.</li>
+              <li>&bull; <strong class="text-text-main">Embedded IMU:</strong> 200 Hz 6-DOF industrial inertial sensor tight-coupled to LiDAR clock.</li>
+            </ul>
+          </div>
+
+          <!-- FLIR Blackfly S Stereo -->
+          <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-spectral bg-spectral/10 px-2 py-0.5 rounded border border-spectral/20">Optical Stereo</span>
+              <span class="text-xs font-mono text-text-dim">~$1,100 Pair</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">Dual FLIR Blackfly S</h3>
+            <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
+              <li>&bull; <strong class="text-text-main">Sensors:</strong> Global-shutter machine vision cameras (1.3 MP, 1280 &times; 1024 px).</li>
+              <li>&bull; <strong class="text-text-main">Rigid Baseline:</strong> 457.2 mm (18.0 in) precision aluminum crossbar providing high disparity resolution.</li>
+              <li>&bull; <strong class="text-text-main">Global Shutter:</strong> Eliminates rolling-shutter spatial skew and motion blur during mobile traverses.</li>
+            </ul>
+          </div>
+
+          <!-- NVIDIA Jetson AGX Orin -->
+          <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-topo bg-topo/10 px-2 py-0.5 rounded border border-topo/20">Edge Compute</span>
+              <span class="text-xs font-mono text-text-dim">Edge AI</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">NVIDIA Jetson AGX Orin</h3>
+            <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
+              <li>&bull; <strong class="text-text-main">Middleware:</strong> Native ROS 2 Humble operating under real-time determinism.</li>
+              <li>&bull; <strong class="text-text-main">Onboard SLAM:</strong> GPU-accelerated FAST-LIO2 LiDAR-inertial odometry executing in real time.</li>
+              <li>&bull; <strong class="text-text-main">Data Logging:</strong> Multi-sensor synchronized Rosbag2 streaming directly to high-end NVMe.</li>
+            </ul>
+          </div>
+
+          <!-- Cross-Country Wheeled Chassis -->
+          <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light bg-forest-900 px-2 py-0.5 rounded border border-border">Mobility Platform</span>
+              <span class="text-xs font-mono text-text-dim">All-Terrain</span>
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">Cross-Country Chassis</h3>
+            <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
+              <li>&bull; <strong class="text-text-main">Low-Impact Design:</strong> High-clearance pneumatic wheels traversable over fallen logs and dense duff.</li>
+              <li>&bull; <strong class="text-text-main">Rear-Looking Optics:</strong> Cameras aimed backwards at mapped scene to prevent operator obscuration.</li>
+              <li>&bull; <strong class="text-text-main">Total Payload:</strong> ~$2,200 sensor core, achieving an order-of-magnitude reduction vs. $50k+ commercial rigs.</li>
+            </ul>
+          </div>
+
         </div>
       </div>
 
-    </div>
-
-    <!-- Related Publications & Dossier Reference -->
-    <div class="p-6 bg-surface/50 rounded-2xl border border-border">
-      <h3 class="text-xs font-mono uppercase tracking-widest text-accent-light mb-4 flex items-center gap-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-        Foundational Publications
-      </h3>
-      <div class="space-y-3 text-xs leading-relaxed text-text-muted">
-        <div>
-          <span class="text-white font-medium">Garms, C.G. &amp; Strimbu, B. (2021).</span> Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans. <em>Canadian Journal of Forest Research</em>.
+      <!-- Sensor Payload & SWaP-C Specification Table -->
+      <div class="p-6 rounded-2xl bg-surface border border-border overflow-x-auto">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-white">Sensor Payload &amp; SWaP-C Architecture Specifications</h3>
+          <span class="text-xs font-mono text-accent">Total Payload: ~$2,200 &bull; 4.8 kg</span>
         </div>
-        <div>
-          <span class="text-white font-medium">Garms, C.G. et al. (2020).</span> Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors. <em>Canadian Journal of Forest Research</em>.
+        <table class="w-full text-left text-xs font-mono">
+          <thead>
+            <tr class="border-b border-border text-text-dim uppercase text-[10px] tracking-wider">
+              <th class="pb-2">Subsystem</th>
+              <th class="pb-2">Component / Model</th>
+              <th class="pb-2">Technical Specification</th>
+              <th class="pb-2">Power / Weight</th>
+              <th class="pb-2 text-right">Cost</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border/60 text-text-muted">
+            {hardwareSpecs.map(row => (
+              <tr class="hover:bg-forest-900/40 transition-colors">
+                <td class="py-2.5 font-bold text-white">{row.role.split('&')[0]}</td>
+                <td class="py-2.5 text-accent-light">{row.component}</td>
+                <td class="py-2.5 text-[11px] text-text-muted">{row.spec}</td>
+                <td class="py-2.5 text-text-dim">{row.powerWeight}</td>
+                <td class="py-2.5 text-right text-text-main font-semibold">{row.cost}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- SECTION 03: ALGORITHMIC PIPELINE & ARCHITECTURE DIAGRAMS -->
+    <section class="mb-20 md:mb-28">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 02 // Algorithmic Pipeline</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <!-- Dedicated Architectural Component -->
+      <CutmapPipelineDiagram />
+    </section>
+
+    <!-- SECTION 04: CALIBRATION INTEGRITY & THE FAILURE COUPLING DISCOVERY -->
+    <section class="mb-20 md:mb-28">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 03 // Methodological Discovery</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+          Methodological Rigor: Solving Multi-Sensor Failure Coupling
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted">
+          How an undetected 2.5 mm target bow triggered a 140 mm phantom extrinsic shift—and the 3 physical gates that resolved it.
+        </p>
+      </div>
+
+      <!-- Narrative Box: The Phantom Shift -->
+      <div class="p-6 md:p-8 rounded-2xl bg-surface border border-border mb-8">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-lg bg-topo/10 border border-topo/30 flex items-center justify-center shrink-0 text-topo font-mono text-lg font-bold">
+            !
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white mb-2">The Phantom Shift &amp; The Scale-Invariance Trap</h3>
+            <div class="text-xs sm:text-sm text-text-muted leading-relaxed space-y-3">
+              <p>
+                In staged multi-sensor calibration, subtle geometric errors introduced in early stages propagate silently into downstream transformations. A mere <strong class="text-white">2.50 mm moisture-induced concave bow</strong> across a standard 600 &times; 800 mm printed calibration checkerboard induced a <strong class="text-topo font-mono">-4.6% focal length divergence</strong> (<span class="font-mono text-text-main">f_x = 1544.3 px</span> vs. <span class="font-mono text-text-main">1614.7 px</span> nominal).
+              </p>
+              <p>
+                Because standard camera calibration metrics optimize for scale-invariant angular reprojection, the optimizer reported a deceptively pristine <strong class="text-accent font-mono">0.31 px RMS error</strong>. When these corrupted optical rays met rigid 3D LiDAR point clouds in extrinsic calibration, the solver compensated for the focal distortion by translating the camera <strong class="text-topo font-mono">133 mm laterally</strong> and <strong class="text-topo font-mono">140 mm fore-aft</strong> into phantom space.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- Figures 4 & 5 Side by Side: Error Propagation & Scale Gate -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        
+        <!-- Fig 4: Error Propagation -->
+        <div class="p-4 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div 
+            class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 bg-forest-950 border border-border/80 lightbox-trigger" 
+            data-src="/images/cutmap/fig4_error_propagation.png" 
+            data-caption="Figure 4: Error propagation mechanism. (a) Top-down sensor geometry showing the 140 mm phantom extrinsic displacement; (b) Bar chart comparing parameter recovery with uncorrected bowed board vs. corrected planar board." 
+            data-title="Figure 4: Failure Coupling &amp; 140 mm Phantom Shift"
+          >
+            <img 
+              src="/images/cutmap/fig4_error_propagation.png" 
+              alt="Figure 4: Calibration Error Propagation" 
+              class="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span class="px-2.5 py-1 rounded bg-forest-950/90 border border-accent/50 text-accent text-[11px] font-mono flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                Inspect Figure 4 (300 DPI)
+              </span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-1.5 py-0.5 rounded">Diagnostic Geometry</span>
+              <span class="text-[11px] font-mono text-text-dim">Figure 4 &bull; 2-Panel Analysis</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">Top-Down Sensor Geometry &amp; Phantom Shift</h4>
+            <p class="text-xs text-text-muted leading-relaxed">
+              Exposes how standard reprojection metrics remain blind to focal distortion, forcing downstream extrinsic solvers to displace the sensor origin by 140 mm along the fore-aft axis.
+            </p>
+          </div>
+        </div>
+
+        <!-- Fig 5: Scale Gate -->
+        <div class="p-4 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div 
+            class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 bg-forest-950 border border-border/80 lightbox-trigger" 
+            data-src="/images/cutmap/fig5_scale_gate.png" 
+            data-caption="Figure 5: Planarity-free laser ruler scale gate. Multi-distance regression against a Leica Disto laser rangefinder from 1.2 m to 8.0 m reveals the -4.6% focal divergence and verifies post-correction metric recovery." 
+            data-title="Figure 5: Planarity-Free Laser Ruler Scale Gate"
+          >
+            <img 
+              src="/images/cutmap/fig5_scale_gate.png" 
+              alt="Figure 5: Planarity-Free Scale Gate" 
+              class="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span class="px-2.5 py-1 rounded bg-forest-950/90 border border-accent/50 text-accent text-[11px] font-mono flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                Inspect Figure 5 (300 DPI)
+              </span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-spectral bg-spectral/10 px-1.5 py-0.5 rounded">Physical Verification</span>
+              <span class="text-[11px] font-mono text-text-dim">Figure 5 &bull; Metric Validation</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">Planarity-Free Laser Ruler Scale Gate</h4>
+            <p class="text-xs text-text-muted leading-relaxed">
+              Decouples focal scale estimation from target flatness by checking optical triangulation distances against a calibrated Leica Disto laser rangefinder from 1.2 m to 8.0 m (slope = 0.9904).
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- The Three Physical Solution Gates (3-Card Layout) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        
+        <div class="p-5 rounded-xl bg-surface border border-border/80">
+          <div class="text-xs font-mono text-accent font-semibold mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Gate 1: Physical Laser Ruler
+          </div>
+          <h4 class="text-sm font-bold text-white mb-2">Planarity-Free Triangulation</h4>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Measures external range benchmarks independent of board planarity. Corrects the 4.6% scale divergence, bringing regression slope from 1.046 to a near-perfect <span class="font-mono text-text-main">0.9904</span>.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl bg-surface border border-border/80">
+          <div class="text-xs font-mono text-accent font-semibold mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Gate 2: Pitch Symmetry
+          </div>
+          <h4 class="text-sm font-bold text-white mb-2">Observability Conditioning</h4>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Monte Carlo SVD nullspace analysis revealed that target pitch symmetry (&plusmn;20&deg;) conditions the ill-posed vertical weak axis, reducing vertical error by <span class="font-mono text-text-main">2.7&times;</span> to <span class="font-mono text-text-main">0.87 mm</span> (&kappa; = 3.66).
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl bg-surface border border-border/80">
+          <div class="text-xs font-mono text-accent font-semibold mb-1 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Gate 3: Point-Count² Weighting
+          </div>
+          <h4 class="text-sm font-bold text-white mb-2">Density Degradation Filter</h4>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Penalizes range-attenuated point sparsity in non-repetitive solid-state LiDAR scans, collapsing lateral plane centering error from <span class="font-mono text-text-main">40.9 mm</span> down to <span class="font-mono text-text-main">+6.8 mm</span>.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Wide Visual Projection Matrix Showcase (Figure Extrinsic Trunk Projections) -->
+      <div class="p-4 sm:p-6 rounded-2xl bg-surface border border-border">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light">Empirical Verification Matrix</span>
+            <h3 class="text-base sm:text-lg font-bold text-white">Sub-Pixel Lateral Alignment Down-Range</h3>
+          </div>
+          <span class="text-xs font-mono text-text-dim">Depth Fields: 3 m to 25 m</span>
+        </div>
+
+        <div 
+          class="relative group cursor-pointer overflow-hidden rounded-xl bg-forest-950 border border-border lightbox-trigger" 
+          data-src="/images/cutmap/fig_extrinsic_trunk_projections.png" 
+          data-caption="2×3 visual projection matrix demonstrating extrinsic alignment. 3D LiDAR stem cylinders projected directly into Blackfly S camera frames across depth fields from 3 m to 25 m, proving sub-pixel lateral fidelity across close, medium, and far ranges." 
+          data-title="Figure: 3D LiDAR Stem Projections into Camera Frames (3m–25m)"
+        >
+          <img 
+            src="/images/cutmap/fig_extrinsic_trunk_projections.png" 
+            alt="3D LiDAR Stem Projections into Camera Frames" 
+            class="w-full h-auto object-cover rounded-lg group-hover:scale-[1.01] transition-transform duration-500"
+          />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3 py-1.5 rounded bg-forest-950/90 border border-accent/50 text-accent text-xs font-mono flex items-center gap-1.5 shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+              View Full 2&times;3 Projection Matrix (15 MB High-Res)
+            </span>
+          </div>
+        </div>
+
+        <p class="text-xs text-text-muted leading-relaxed mt-3 font-mono">
+          <strong class="text-white">Visual Proof:</strong> Once failure-coupling was decoupled and corrected, 3D LiDAR stem cylinders (green wireframes) project with sub-pixel lateral congruence onto physical tree trunks across near (3 m), mid (10 m), and far (25 m) depth fields.
+        </p>
+      </div>
+
+    </section>
+
+    <!-- SECTION 05: GROUND-TRUTH FIELD MENSURATION (65 STEMS IN BURLINGTON GROVES) -->
+    <section class="mb-20 md:mb-28">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 04 // Field Mensuration</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+          Operational Field Prototyping: 65 Taped Stems
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted">
+          Validation across three contrasting wooded groves at a corporate research campus in Burlington, MA.
+        </p>
+      </div>
+
+      <!-- Multi-Stand Stem Maps: FAST-LIO2 Cart Paths and Stem Slices -->
+      <div class="p-4 sm:p-6 rounded-2xl bg-surface border border-border mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light">Under-Canopy SLAM Trajectories</span>
+            <h3 class="text-base sm:text-lg font-bold text-white">Multi-Stand Cart Paths &amp; Breast-Height LiDAR Slices</h3>
+          </div>
+          <span class="text-xs font-mono text-text-dim">Breast-Height Slice: z = 1.37 m &plusmn; 0.05 m</span>
+        </div>
+
+        <div 
+          class="relative group cursor-pointer overflow-hidden rounded-xl bg-forest-950 border border-border lightbox-trigger" 
+          data-src="/images/cutmap/fig_multi_stand_stem_maps.png" 
+          data-caption="Multi-stand stem maps across Stands 1, 2, and 3 in Burlington, MA. Top-down 2D LiDAR breast-height slices (z = 1.37 m ± 0.05 m) with FAST-LIO2 cart trajectories, stationary dwell stations, and extracted individual stem rings." 
+          data-title="Multi-Stand Stem Maps &amp; FAST-LIO2 Trajectories (Stands 1, 2, 3)"
+        >
+          <img 
+            src="/images/cutmap/fig_multi_stand_stem_maps.png" 
+            alt="Multi-Stand SLAM Trajectories and Stem Maps" 
+            class="w-full h-auto object-cover rounded-lg group-hover:scale-[1.01] transition-transform duration-500"
+          />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3 py-1.5 rounded bg-forest-950/90 border border-accent/50 text-accent text-xs font-mono flex items-center gap-1.5 shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+              View 3-Stand SLAM Map in Full Resolution
+            </span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-border/70 text-xs text-text-muted font-mono">
+          <div>
+            <strong class="text-white block">Stand 1 (White Pine):</strong>
+            Open mature stand with towering single-stem Pinus strobus. Fast continuous loops with minimal multipath.
+          </div>
+          <div>
+            <strong class="text-white block">Stand 2 (Deciduous Grove):</strong>
+            Mixed northern hardwoods with multi-stem forks, lateral leaning trunks, and irregular cross-sections.
+          </div>
+          <div>
+            <strong class="text-white block">Stand 3 (Dense Understory):</strong>
+            Heavy shrub, vine undergrowth, and dense sapling clusters presenting extreme obstacle navigation.
+          </div>
+        </div>
+      </div>
+
+      <!-- Figure 7: Empirical Centerpiece -->
+      <div class="p-4 sm:p-6 rounded-2xl bg-surface border border-border mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light">Figure 7 &bull; Empirical Centerpiece</span>
+            <h3 class="text-base sm:text-lg font-bold text-white">Multi-Stand Field Mensuration Validation (n = 65)</h3>
+          </div>
+          <span class="text-xs font-mono text-accent">R&sup2; = 0.9833 &bull; RMSE = 3.18 cm</span>
+        </div>
+
+        <div 
+          class="relative group cursor-pointer overflow-hidden rounded-xl bg-forest-950 border border-border lightbox-trigger" 
+          data-src="/images/cutmap/fig7_multi_stand_validation.png" 
+          data-caption="Figure 7: 4-panel empirical validation. (a) Arc vs. complete ring diameter dilation; (b) Angular coverage bias regression (-2.79 cm per 100° missing arc); (c) SLAM metric scale rigidity across loops; (d) 1:1 scatter plot vs. 65 taped stems highlighting the +1.4 cm radial bark-furrow envelope." 
+          data-title="Figure 7: 4-Panel Multi-Stand Validation Centerpiece"
+        >
+          <img 
+            src="/images/cutmap/fig7_multi_stand_validation.png" 
+            alt="Figure 7: Multi-Stand Validation Centerpiece" 
+            class="w-full h-auto object-contain rounded-lg group-hover:scale-[1.01] transition-transform duration-500"
+          />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3 py-1.5 rounded bg-forest-950/90 border border-accent/50 text-accent text-xs font-mono flex items-center gap-1.5 shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+              Inspect Figure 7 in High Resolution (300 DPI)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Analytical Pillar Cards: Coverage, Paradox, Bark Envelope, Rigidity -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        
+        <!-- Angular Coverage Effect -->
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono text-topo uppercase tracking-wider font-semibold">Discovery 01</span>
+            <span class="text-xs font-mono text-text-dim">p = 8 &times; 10⁻⁶</span>
+          </div>
+          <h3 class="text-base font-bold text-white mb-2">The Angular Coverage Effect</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3">
+            Fitting circles to partial stationary LiDAR arcs results in systematic diameter overestimation. We established an exact linear regression rate:
+          </p>
+          <div class="p-3 rounded-lg bg-forest-950 border border-border text-xs font-mono text-accent text-center">
+            &Delta;DBH = -2.79 cm per 100&deg; of Missing Angular Arc
+          </div>
+          <p class="text-xs text-text-dim leading-relaxed mt-3">
+            A single stationary viewpoint capturing only ~120&deg; of trunk circumference suffers an average diameter inflation penalty of <strong class="text-text-main">+6.7 cm (+11.9%)</strong> unless semantic guidance is introduced.
+          </p>
+        </div>
+
+        <!-- The Residual Paradox -->
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono text-spectral uppercase tracking-wider font-semibold">Discovery 02</span>
+            <span class="text-xs font-mono text-text-dim">Metric Illusion</span>
+          </div>
+          <h3 class="text-base font-bold text-white mb-2">The Residual Paradox</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3">
+            Circle fits to incomplete arcs return <em>lower</em> residual errors than complete rings, creating a dangerous algorithmic trap:
+          </p>
+          <div class="p-3 rounded-lg bg-forest-950 border border-border text-xs font-mono text-spectral text-center">
+            Partial Arcs: 8–17 mm Residuals &bull; Full Rings: 20–36 mm
+          </div>
+          <p class="text-xs text-text-dim leading-relaxed mt-3">
+            An optimizer blindly minimizing RMSE will falsely select a partial-arc fit as "cleaner," despite carrying severe metric bias. Complete rings span real stem ovality and bark irregularities, producing higher residuals but ground-truth physical accuracy.
+          </p>
+        </div>
+
+        <!-- The Physical Bark Furrow Envelope -->
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono text-accent uppercase tracking-wider font-semibold">Physical Reality</span>
+            <span class="text-xs font-mono text-text-dim">+2.83 &plusmn; 1.45 cm</span>
+          </div>
+          <h3 class="text-base font-bold text-white mb-2">The Bark Furrow Envelope</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            Across all 43 fully traversed stems, LiDAR 360&deg; rings exhibited a consistent <strong class="text-white">+2.83 cm</strong> offset against flexible steel logger's tape. This bias does not represent sensor drift—it reflects a physical difference in surface contact:
+          </p>
+          <p class="text-xs text-text-dim leading-relaxed mt-2 font-mono">
+            LiDAR photon returns bounce from outermost bark ridge peaks, whereas flexible logger's tape compresses tightly across fissures and furrow valleys. The resulting +1.4 cm radial envelope matches measured conifer bark depths.
+          </p>
+        </div>
+
+        <!-- SLAM Metric Scale Rigidity -->
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono text-accent-light uppercase tracking-wider font-semibold">Trajectory Integrity</span>
+            <span class="text-xs font-mono text-text-dim">FAST-LIO2 Loops</span>
+          </div>
+          <h3 class="text-base font-bold text-white mb-2">SLAM Metric Scale Rigidity</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-3">
+            Without access to GPS under dense tree canopies, SLAM trajectories risk insidious metric scale drift. We recovered inter-station baselines across 82–97 m loops:
+          </p>
+          <div class="p-3 rounded-lg bg-forest-950 border border-border text-xs font-mono text-accent-light text-center">
+            Scale Ratio: 1.0098 &plusmn; 0.0137 &bull; Collinearity: 0.3%–1.1%
+          </div>
+          <p class="text-xs text-text-dim leading-relaxed mt-3">
+            Proves that solid-state LiDAR tight-coupled to a 200 Hz IMU preserves true metric scale within &lt;1% across real forest traverses with zero satellite ephemeris.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Real-World Quantitative Mensuration Benchmark Table -->
+      <div class="p-6 rounded-2xl bg-surface border border-border overflow-x-auto">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-white">Empirical Accuracy Benchmarks vs. Field Ground Truth</h3>
+          <span class="text-xs font-mono text-accent">Validation Stems: n = 65</span>
+        </div>
+        <table class="w-full text-left text-xs font-mono">
+          <thead>
+            <tr class="border-b border-border text-text-dim uppercase text-[10px] tracking-wider">
+              <th class="pb-2">Biometric Target</th>
+              <th class="pb-2">Evaluation Condition</th>
+              <th class="pb-2">Measured Bias / Precision</th>
+              <th class="pb-2">Correlation / Significance</th>
+              <th class="pb-2">Operational Interpretation</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border/60 text-text-muted">
+            <tr class="hover:bg-forest-900/40 transition-colors">
+              <td class="py-2.5 font-bold text-white">360° Ring DBH</td>
+              <td class="py-2.5 text-accent">Full Loop Traverse (n=43)</td>
+              <td class="py-2.5 text-white font-semibold">+2.83 ± 1.45 cm</td>
+              <td class="py-2.5 text-accent-light">R² = 0.9833 (RMSE 3.18 cm)</td>
+              <td class="py-2.5 text-[11px] text-text-dim">Matches physical bark furrow envelope (+1.4 cm radial)</td>
+            </tr>
+            <tr class="hover:bg-forest-900/40 transition-colors">
+              <td class="py-2.5 font-bold text-white">Single-View Camera DBH</td>
+              <td class="py-2.5 text-spectral">LiDAR-Prompted SAM (cam_1)</td>
+              <td class="py-2.5 text-white font-semibold">+1.60 ± 2.78 cm</td>
+              <td class="py-2.5 text-spectral">MAE = 2.58 cm (n=9 stations)</td>
+              <td class="py-2.5 text-[11px] text-text-dim">Eliminates walkaround requirement without arc inflation</td>
+            </tr>
+            <tr class="hover:bg-forest-900/40 transition-colors">
+              <td class="py-2.5 font-bold text-white">Angular Coverage Rate</td>
+              <td class="py-2.5 text-topo">Stationary Partial LiDAR Arcs</td>
+              <td class="py-2.5 text-white font-semibold">-2.79 cm / 100°</td>
+              <td class="py-2.5 text-topo">p = 8 × 10⁻⁶ (Strong Linear)</td>
+              <td class="py-2.5 text-[11px] text-text-dim">120° partial sweep yields +6.7 cm (+11.9%) diameter error</td>
+            </tr>
+            <tr class="hover:bg-forest-900/40 transition-colors">
+              <td class="py-2.5 font-bold text-white">SLAM Metric Scale</td>
+              <td class="py-2.5 text-accent-light">82–97 m Forest Loops</td>
+              <td class="py-2.5 text-white font-semibold">1.0098 ± 0.0137</td>
+              <td class="py-2.5 text-accent-light">Collinearity 0.3%–1.1%</td>
+              <td class="py-2.5 text-[11px] text-text-dim">&lt;1% trajectory dilation in GPS-denied understory</td>
+            </tr>
+            <tr class="hover:bg-forest-900/40 transition-colors">
+              <td class="py-2.5 font-bold text-white">Extrinsic Vertical Vector</td>
+              <td class="py-2.5 text-accent">Pitch-Symmetric Gate</td>
+              <td class="py-2.5 text-white font-semibold">0.87 mm (2.7× gain)</td>
+              <td class="py-2.5 text-accent">Condition κ = 3.66</td>
+              <td class="py-2.5 text-[11px] text-text-dim">Resolves vertical weak-axis sensor coupling down-range</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- SECTION 06: SINGLE-VIEWPOINT SEMANTIC MENSURATION (SAM ViT-B) -->
+    <section class="mb-20 md:mb-28">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 05 // Cross-Modality AI</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+          Breaking the Walkaround Barrier: Single-Viewpoint SAM Mensuration
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted">
+          LiDAR-prompted foundation models (SAM ViT-B) bypassing the 360&deg; walkaround penalty.
+        </p>
+      </div>
+
+      <!-- Figure 8: SAM Camera Mensuration Showcase -->
+      <div class="p-4 sm:p-6 rounded-2xl bg-surface border border-border mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light">Figure 8 &bull; Foundation Model Mensuration</span>
+            <h3 class="text-base sm:text-lg font-bold text-white">LiDAR-Guided Visual Segmentation (SAM ViT-B)</h3>
+          </div>
+          <span class="text-xs font-mono text-accent">+1.60 &plusmn; 2.78 cm vs Tape &bull; MAE 2.58 cm</span>
+        </div>
+
+        <div 
+          class="relative group cursor-pointer overflow-hidden rounded-xl bg-forest-950 border border-border lightbox-trigger" 
+          data-src="/images/cutmap/fig8_sam_camera_mensuration.png" 
+          data-caption="Figure 8: 4-panel camera mensuration figure. (a) Multi-range camera segmentation gallery; (b) Sub-pixel bark boundary contour zoom; (c) 1:1 validation vs. tape (+1.60 cm on cam_1); (d) Figure-ground contrast correlation (r = -0.65, p = 0.003)." 
+          data-title="Figure 8: Cross-Modality SAM ViT-B Mensuration &amp; Edge Delineation"
+        >
+          <img 
+            src="/images/cutmap/fig8_sam_camera_mensuration.png" 
+            alt="Figure 8: SAM ViT-B Camera Mensuration" 
+            class="w-full h-auto object-contain rounded-lg group-hover:scale-[1.01] transition-transform duration-500"
+          />
+          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <span class="px-3 py-1.5 rounded bg-forest-950/90 border border-accent/50 text-accent text-xs font-mono flex items-center gap-1.5 shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+              Inspect Figure 8 in High Resolution (300 DPI)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Core Mechanism Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        
+        <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div>
+            <div class="text-[10px] font-mono text-accent uppercase tracking-wider mb-2">Step 01</div>
+            <h3 class="text-base font-bold text-white mb-2">Prior-Guided Prompting</h3>
+            <p class="text-xs text-text-muted leading-relaxed mb-4">
+              Projecting 3D LiDAR trunk centroids and an adaptive bounding box (2.6&times; predicted width) directly into the Blackfly S camera plane prompts SAM ViT-B.
+            </p>
+          </div>
+          <div class="p-3 rounded-xl bg-forest-950 border border-border text-[11px] font-mono text-accent-light">
+            92%–98% of LiDAR returns land inside optical mask bounds.
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div>
+            <div class="text-[10px] font-mono text-accent uppercase tracking-wider mb-2">Step 02</div>
+            <h3 class="text-base font-bold text-white mb-2">Single-Perspective DBH</h3>
+            <p class="text-xs text-text-muted leading-relaxed mb-4">
+              Combining segmented optical silhouette boundaries with direct LiDAR centroid depth yields <strong class="text-white">+1.60 &plusmn; 2.78 cm</strong> agreement against physical tape (<span class="font-mono">MAE = 2.58 cm</span>).
+            </p>
+          </div>
+          <div class="p-3 rounded-xl bg-forest-950 border border-border text-[11px] font-mono text-accent">
+            Eliminates walkaround traverse time completely.
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div>
+            <div class="text-[10px] font-mono text-topo uppercase tracking-wider mb-2">Physical Insight</div>
+            <h3 class="text-base font-bold text-white mb-2">Contrast Physics &amp; Stereo</h3>
+            <p class="text-xs text-text-muted leading-relaxed mb-4">
+              Photometric contrast (<span class="font-mono text-topo">r = -0.65, p = 0.003</span>) dictates boundary edge leakage. Where trunks contrast against backdrops, contour precision is sub-pixel.
+            </p>
+          </div>
+          <div class="p-3 rounded-xl bg-forest-950 border border-border text-[11px] font-mono text-topo-light">
+            457.2 mm stereo baseline provides 2 diverse background angles to defeat camouflage.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Expanded Dual-Camera Comparison & Sub-Pixel Zoom Gallery -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Cam 0 vs Cam 1 Comparison -->
+        <div class="p-4 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div 
+            class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 bg-forest-950 border border-border/80 lightbox-trigger" 
+            data-src="/images/cutmap/cam_compare.png" 
+            data-caption="Stereo viewpoint comparison: Direct comparison of cam_0 vs. cam_1 SAM ViT-B segmentation masks across 3m, 5m, and 8m dwell stations. The 457.2 mm physical baseline provides two disparate optical backgrounds, ensuring background contrast separation even under dense foliage." 
+            data-title="Stereo Comparison: cam_0 vs. cam_1 SAM Masks (3m, 5m, 8m)"
+          >
+            <img 
+              src="/images/cutmap/cam_compare.png" 
+              alt="Stereo Viewpoint SAM Mask Comparison" 
+              class="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500 max-h-[380px]"
+            />
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span class="px-2.5 py-1 rounded bg-forest-950/90 border border-accent/50 text-accent text-[11px] font-mono flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                Inspect Stereo Pair Masks (4.3 MB)
+              </span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-spectral bg-spectral/10 px-1.5 py-0.5 rounded">Stereo Baseline Diversity</span>
+              <span class="text-[11px] font-mono text-text-dim">457.2 mm Offset</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">cam_0 vs. cam_1 Multi-Range Segmentation</h4>
+            <p class="text-xs text-text-muted leading-relaxed">
+              When one camera suffers from foliage camouflage, the secondary perspective provides independent background contrast separation, guaranteeing boundary convergence.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sub-Pixel Bark Boundary Zoom -->
+        <div class="p-4 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div 
+            class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 bg-forest-950 border border-border/80 lightbox-trigger" 
+            data-src="/images/cutmap/sam_zoom.png" 
+            data-caption="Sub-pixel bark boundary delineation: High-resolution detail showing how SAM ViT-B masks precisely trace physical bark ridges and furrows against complex forest backgrounds without optical leakage." 
+            data-title="Sub-Pixel Bark Contour Detail (SAM ViT-B)"
+          >
+            <img 
+              src="/images/cutmap/sam_zoom.png" 
+              alt="Sub-Pixel Bark Boundary Delineation" 
+              class="w-full h-auto object-contain rounded-lg group-hover:scale-[1.02] transition-transform duration-500 max-h-[380px]"
+            />
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span class="px-2.5 py-1 rounded bg-forest-950/90 border border-accent/50 text-accent text-[11px] font-mono flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                Inspect Contour Inset (3.5 MB)
+              </span>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-1.5 py-0.5 rounded">Sub-Pixel Contour</span>
+              <span class="text-[11px] font-mono text-text-dim">Edge Fidelity</span>
+            </div>
+            <h4 class="text-sm font-bold text-white mb-1">Sub-Pixel Bark Boundary Contour Detail</h4>
+            <p class="text-xs text-text-muted leading-relaxed">
+              Optical segmentation isolates micro-furrows along the trunk boundary, eliminating edge blooming and capturing the outermost geometric envelope.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECTION 07: DIRECT CITATION & PUBLICATION HUB -->
+    <section class="mb-16">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 06 // Research &amp; Citations</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+          Foundational Publications &amp; Citation Hub
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted">
+          Peer-reviewed forestry mensuration literature, algorithmic foundations, and one-click BibTeX citations.
+        </p>
+      </div>
+
+      <!-- Publications List with One-Click BibTeX Copy -->
+      <div class="space-y-4 mb-10">
+        {publications.map((pub) => (
+          <div class="p-5 sm:p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-colors" id={pub.id}>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/20">
+                {pub.tag}
+              </span>
+              <span class="text-xs font-mono text-text-dim">
+                {pub.status}
+              </span>
+            </div>
+            
+            <h3 class="text-base sm:text-lg font-bold text-white mb-1.5">
+              {pub.title}
+            </h3>
+            
+            <p class="text-xs sm:text-sm text-text-muted mb-3">
+              <span class="font-semibold text-text-main">{pub.authors}</span> &bull; <span class="italic">{pub.venue}</span>
+            </p>
+
+            <!-- Plain-English Scientific Takeaway -->
+            <div class="p-3 rounded-xl bg-forest-950 border border-border/80 text-xs text-text-muted mb-4 font-sans leading-relaxed">
+              <span class="text-accent font-semibold font-mono block mb-1">Algorithmic Connection to CUTMAP:</span>
+              {pub.takeaway}
+            </div>
+
+            <!-- Action Buttons: DOI Link + One-Click BibTeX Copy -->
+            <div class="flex flex-wrap items-center gap-3">
+              {pub.doi && (
+                <a 
+                  href={pub.doi} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-forest-900 border border-border hover:border-accent/50 text-xs font-mono text-accent hover:text-white transition-colors"
+                >
+                  <span>Read Publication</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                </a>
+              )}
+
+              <button
+                type="button"
+                class="bibtex-copy-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-forest-900 border border-border hover:border-accent/50 text-xs font-mono text-text-muted hover:text-accent transition-colors cursor-pointer"
+                data-bibtex={pub.bibtex}
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                <span class="btn-text">Copy BibTeX</span>
+              </button>
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+      <!-- Proprietary Technology & Intellectual Property Card -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-forest-950 border border-border relative overflow-hidden">
+        <div class="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-accent/5 pointer-events-none blur-3xl"></div>
+        
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-lg bg-forest-900 border border-border flex items-center justify-center shrink-0 text-accent font-mono text-base">
+            &sect;
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
+              <span>Proprietary Technology &amp; Federal Sponsor Attribution</span>
+              <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light px-2 py-0.5 rounded bg-forest-900 border border-accent/30">USDA STTR</span>
+            </h3>
+            <div class="text-xs text-text-muted leading-relaxed space-y-2">
+              <p>
+                <strong class="text-white">CUTMAP</strong> (<em>Continuous Under-Canopy Traverse and Mapping</em>) is proprietary technology developed by <strong class="text-white">Spectral Sciences, Inc.</strong> in collaboration with <strong class="text-white">Oregon State University</strong> and the <strong class="text-white">USDA Forest Service</strong> under federal Small Business Technology Transfer (SBIR/STTR) Phase I &amp; II contracts.
+              </p>
+              <p class="font-mono text-text-dim text-[11px]">
+                Notice: All sensor designs, multi-sensor calibration solvers, real-time edge processing nodes, and algorithmic mensuration codebases are proprietary intellectual property of Spectral Sciences, Inc. and are not distributed under open-source licenses.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
 
   </main>
+
+  <!-- LIGHTBOX / FULLSCREEN INSPECTOR MODAL -->
+  <div 
+    id="lightbox-modal" 
+    class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4 sm:p-6"
+    role="dialog" 
+    aria-modal="true"
+    aria-label="Image Lightbox"
+  >
+    <!-- Close Button -->
+    <button 
+      id="lightbox-close"
+      class="absolute top-5 right-5 z-50 p-2.5 rounded-full bg-forest-900/90 text-text-muted hover:text-white hover:bg-forest-800 border border-border transition-colors cursor-pointer"
+      aria-label="Close image modal"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+
+    <!-- Modal Content -->
+    <div class="relative max-w-5xl w-full max-h-[92vh] flex flex-col items-center justify-center">
+      
+      <!-- Image Container -->
+      <div class="w-full flex items-center justify-center overflow-hidden rounded-xl bg-forest-950/80 border border-border/80 p-2 sm:p-4 mb-3">
+        <img 
+          id="lightbox-img" 
+          src="" 
+          alt="" 
+          class="max-h-[75vh] w-auto object-contain rounded-lg shadow-2xl transition-transform duration-300"
+        />
+      </div>
+
+      <!-- Caption & Metadata HUD -->
+      <div class="w-full text-center px-4">
+        <h4 id="lightbox-title" class="text-sm sm:text-base font-bold text-white mb-1"></h4>
+        <p id="lightbox-caption" class="text-xs text-text-muted max-w-3xl mx-auto leading-relaxed"></p>
+        <span class="text-[10px] font-mono text-text-dim block mt-1">Press ESC or click outside to close &bull; High-Resolution Scientific Asset</span>
+      </div>
+
+    </div>
+  </div>
+
 </Layout>
+
+<script>
+  // Lightbox Modal Logic & BibTeX Copy
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Lightbox
+    const modal = document.getElementById('lightbox-modal');
+    const modalImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const modalTitle = document.getElementById('lightbox-title');
+    const modalCaption = document.getElementById('lightbox-caption');
+    const closeBtn = document.getElementById('lightbox-close');
+
+    if (modal && modalImg && modalTitle && modalCaption && closeBtn) {
+      function openModal(src: string, alt: string, caption: string, title: string) {
+        modalImg.src = src;
+        modalImg.alt = alt;
+        modalTitle.textContent = title || alt;
+        modalCaption.textContent = caption || '';
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+          modal.classList.add('opacity-100');
+        }, 10);
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+          modalImg.src = '';
+        }, 300);
+        document.body.style.overflow = '';
+      }
+
+      // Trigger listeners
+      document.querySelectorAll('.lightbox-trigger').forEach((el) => {
+        el.addEventListener('click', () => {
+          const src = el.getAttribute('data-src') || '';
+          const caption = el.getAttribute('data-caption') || '';
+          const title = el.getAttribute('data-title') || '';
+          const img = el.querySelector('img');
+          const alt = img ? img.alt : title;
+          openModal(src, alt, caption, title);
+        });
+      });
+
+      // Close on button click
+      closeBtn.addEventListener('click', closeModal);
+
+      // Close on backdrop click (click outside image)
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || (e.target as HTMLElement).closest('.max-w-5xl') === null) {
+          closeModal();
+        }
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+          closeModal();
+        }
+      });
+    }
+
+    // 2. BibTeX Copy Logic
+    document.querySelectorAll('.bibtex-copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const bibtex = btn.getAttribute('data-bibtex');
+        const textSpan = btn.querySelector('.btn-text');
+        if (!bibtex || !textSpan) return;
+
+        try {
+          await navigator.clipboard.writeText(bibtex);
+          const originalText = textSpan.textContent;
+          textSpan.textContent = "Copied!";
+          btn.classList.add('text-accent', 'border-accent');
+          setTimeout(() => {
+            textSpan.textContent = originalText;
+            btn.classList.remove('text-accent', 'border-accent');
+          }, 2000);
+        } catch (err) {
+          console.error("Failed to copy BibTeX: ", err);
+        }
+      });
+    });
+  });
+</script>

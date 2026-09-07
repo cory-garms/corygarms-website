@@ -1,5 +1,18 @@
 # Progress Log
 
+## [2026-09-07 15:15:00 EDT]
+
+* **Status:** Completed
+* **Focus:** CUTMAP Project Integration Sprint: 3D LiDAR Viewer, Algorithmic Pipeline, Apparatus Specs, and Publication Hub
+* **Summary:** Completed all four core technical milestones for the CUTMAP showcase on `/cutmap`:
+  1. **Milestone 1 (Interactive 3D Understory LiDAR Viewer):** Created `src/components/CutmapLidarViewer.jsx` using React Three Fiber. Implemented custom GLSL vertex and fragment shaders providing an elevation-based gradient (forest duff &rarr; emerald trunk &rarr; canopy cyan) or monochrome laser emerald, multi-stand dataset selector (Stand 1: White Pine `118,591 pts`, Stand 2: Deciduous `118,240 pts`, Stand 3: Dense Understory `117,994 pts`), camera presets (Understory Walkthrough, 3D Orbit, 2D Slice), auto-rotation toggle, and real-time telemetry HUD.
+  2. **Milestone 2 (Algorithmic Pipeline & System Architecture):** Created `src/components/CutmapPipelineDiagram.astro` with interactive stage tabs illustrating: Stage 1 (Additive Point Cloud Creation with FAST-LIO2 SLAM and PSM/SGBM stereo matching), Stage 2 (Stem Segmentation & Mensuration with SAM ViT-B prior prompting and Garms & Strimbu 2021 stem lean vectoring), and Stage 3 (Heuristic Silvicultural Thinning with West, Sessions & Strimbu 2021 Hero/Monte Carlo optimization maximizing Land Expectation Value).
+  3. **Milestone 3 (Field Apparatus Specs & Demonstration Media):** Integrated sensor payload and SWaP-C comparison tables (~$2,200 payload vs. &ge;$50k commercial MLS), quantitative accuracy benchmark table ($R^2 = 0.9833$, RMSE 3.18 cm, $+2.83\text{ cm}$ bark furrow envelope, $-2.79\text{ cm}/100^\circ$ angular coverage decay rate), and expanded high-resolution lightbox gallery featuring `cam_compare.png` (stereo comparison across 3m, 5m, 8m) and `sam_zoom.png` (sub-pixel bark boundary contour tracing).
+  4. **Milestone 4 (Direct Citation & Publication Hub):** Added comprehensive publication cards for Garms & Strimbu (2021), Garms et al. (2020), West, Sessions & Strimbu (2021), and 2026 preprints (JFR and NEMO/SOMENS), complete with plain-English algorithmic connections, DOI links, and one-click copyable BibTeX buttons with animated clipboard feedback.
+* **Test Results:** `npm run build` compiled with 0 errors across all 8 static pages in 5.32s (`/cutmap/index.html` built cleanly). Verified HTTP 200 response on local dev server (`http://localhost:4321/cutmap`).
+* **Scientific Integrity:** Maintained web-optimized ~118k point cloud density per grove loop from Dr. Garms' real Livox Mid-360 field datasets (`3D_models/clouds_work_20260903/`) to achieve smooth 60fps in-browser rendering while preserving understory stem geometry.
+* **Technical Debt/Next Steps:** Handoff to Dr. Garms for review on `localhost:4321/cutmap`.
+
 ## [2026-09-07 14:36:00 EDT]
 
 * **Status:** Completed
