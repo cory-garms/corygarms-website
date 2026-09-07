@@ -1,5 +1,12 @@
 # Progress Log
 
+## [2026-09-07 16:48:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Technical Notes Polish: Removed Developer Test Stubs (`hello-world.md` and `math-test.mdx`)
+* **Summary:** Removed the early developer test notes (`hello-world.md` and `math-test.mdx`) via `git rm`. The Notes section now exclusively features the 5 authentic technical deep dives spanning UNJITR, CUTMAP, Dirty Water, Hyperspectral MTF, and LiDAR Canopy modeling.
+* **Build Verification:** Tested with `npm run build`; all 14 static pages compiled cleanly in 6.15s with 0 errors.
+
 ## [2026-09-07 16:45:00 EDT]
 
 * **Status:** Completed
