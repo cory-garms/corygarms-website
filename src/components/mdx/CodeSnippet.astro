@@ -2,12 +2,12 @@
 const { title, lang } = Astro.props;
 ---
 
-<div class="my-6 rounded-lg overflow-hidden border border-primary-800/50 shadow-lg group">
+<div class="my-6 rounded-lg overflow-hidden border border-border shadow-lg group">
   {title && (
-    <div class="bg-surface/80 px-4 py-2 border-b border-primary-800/50 flex justify-between items-center text-xs font-mono text-text-muted">
+    <div class="bg-surface px-4 py-2 border-b border-border flex justify-between items-center text-xs font-mono text-text-muted">
       <span>{title}</span>
-      {lang && <span class="uppercase text-primary-400">{lang}</span>}
+      {lang && <span class="uppercase text-accent-light">{lang}</span>}
     </div>
   )}
-  <pre class="p-4 bg-[#0d0d12] overflow-x-auto text-[0.85rem] font-mono relative leading-relaxed whitespace-pre text-primary-100"><code><slot /></code></pre>
+  <pre class="p-4 bg-forest-950 overflow-x-auto text-[0.85rem] font-mono relative leading-relaxed whitespace-pre text-emerald-100/90"><code><slot /></code></pre>
 </div>

@@ -9,26 +9,35 @@ const sortedNotes = allNotes.sort((a, b) => b.data.publishDate.valueOf() - a.dat
 const recentNotes = sortedNotes.slice(0, 4);
 ---
 
-<section id="notes" class="py-24 bg-background border-t border-primary-800/30">
+<section id="notes" class="py-24 bg-background border-t border-border">
 	<div class="max-w-7xl mx-auto px-6 reveal">
-		<div class="flex justify-between items-end mb-12 border-b-2 border-primary-800/50 pb-4">
-			<h3 class="text-3xl font-bold text-white">Technical Notes</h3>
-			<a href="/notes" class="text-accent hover:text-white transition-colors font-medium">View All &rarr;</a>
+		<div class="flex items-center justify-between mb-10">
+			<div class="flex items-center gap-3 flex-grow mr-6">
+				<span class="w-2 h-2 rounded-sm bg-accent"></span>
+				<h2 class="text-xs font-mono uppercase tracking-widest text-accent-light">Notes</h2>
+				<div class="h-px bg-border flex-grow ml-4"></div>
+			</div>
+			<a href="/notes" class="text-xs font-mono text-accent hover:text-accent-light transition-colors shrink-0">
+				<span>Archive &rarr;</span>
+			</a>
 		</div>
 		
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 			{recentNotes.map((note, index) => (
-				<a href={`/notes/${note.slug}`} class="p-6 bg-surface rounded-xl border border-primary-800/30 hover:border-primary-500 transition-colors group reveal" style={`transition-delay: ${index * 150}ms;`}>
-					<div class="text-xs text-primary-400 font-mono mb-2">
-                        {note.data.publishDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                    </div>
-					<h4 class="text-lg font-semibold text-white mb-2 group-hover:text-accent transition-colors">{note.data.title}</h4>
-					<p class="text-text-muted text-sm">{note.data.description}</p>
-                    <div class="mt-4 flex gap-2">
-                        {note.data.tags.map((tag: string) => (
-                            <span class="text-xs text-primary-300 bg-primary-900/40 px-2 py-0.5 rounded border border-primary-800">#{tag}</span>
-                        ))}
-                    </div>
+				<a href={`/notes/${note.slug}`} class="p-6 bg-surface rounded-2xl border border-border hover:border-accent/60 transition-all duration-300 group hover:shadow-lg flex flex-col justify-between reveal" style={`transition-delay: ${index * 120}ms;`}>
+					<div>
+						<div class="text-[11px] text-accent font-mono mb-2.5 flex items-center gap-2">
+							<span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+							{note.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+						</div>
+						<h4 class="text-lg font-semibold text-white mb-2 group-hover:text-accent transition-colors">{note.data.title}</h4>
+						<p class="text-text-muted text-xs leading-relaxed">{note.data.description}</p>
+					</div>
+					<div class="mt-5 flex gap-2 flex-wrap pt-4 border-t border-border-subtle">
+						{note.data.tags.map((tag: string) => (
+							<span class="text-[10px] font-mono text-accent-light bg-forest-900 px-2 py-0.5 rounded border border-border">#{tag}</span>
+						))}
+					</div>
 				</a>
 			))}
 		</div>

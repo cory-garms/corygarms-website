@@ -66,8 +66,8 @@ export default function ContactForm() {
                         id="name" 
                         name="name" 
                         required 
-                        className="w-full bg-[#0d0d12] border border-primary-800/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
-                        placeholder="Dr. Example"
+                        className="w-full bg-forest-950 border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-dim text-sm"
+                        placeholder="Dr. Jane Doe"
                     />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -77,8 +77,8 @@ export default function ContactForm() {
                         id="email" 
                         name="email" 
                         required 
-                        className="w-full bg-[#0d0d12] border border-primary-800/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
-                        placeholder="scientist@university.edu"
+                        className="w-full bg-forest-950 border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-dim text-sm"
+                        placeholder="scientist@institution.org"
                     />
                 </div>
             </div>
@@ -90,31 +90,31 @@ export default function ContactForm() {
                     name="message" 
                     required 
                     rows={5}
-                    className="w-full bg-[#0d0d12] border border-primary-800/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50 resize-y"
-                    placeholder="Hello Cory, I am reaching out regarding a fascinating application of hyperspectral rendering..."
+                    className="w-full bg-forest-950 border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-dim text-sm resize-y"
+                    placeholder="Hello Dr. Garms, reaching out regarding 3D point cloud workflows or potential research collaboration..."
                 />
             </div>
 
             <button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="self-start px-8 py-3 bg-primary-600 hover:bg-primary-500 text-white font-medium rounded-lg transition-all duration-300 shadow-[0_0_15px_rgba(139,43,136,0.3)] hover:shadow-[0_0_25px_rgba(139,43,136,0.5)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[160px]"
+                className="self-start px-7 py-3 bg-accent hover:bg-accent-light text-forest-950 font-semibold text-sm rounded-lg transition-all shadow-sm hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[160px] cursor-pointer"
             >
                 {isSubmitting ? (
-                    <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                    <span className="w-5 h-5 border-2 border-forest-950/30 border-t-forest-950 rounded-full animate-spin"></span>
                 ) : (
                     "Send Message"
                 )}
             </button>
 
             {status === 'error' && (
-                <div className="p-4 bg-red-900/20 border border-red-500/50 rounded-lg text-red-200 text-sm font-mono mt-2">
-                    ⚠️ Something went wrong trying to send your message. Please try again later or email directly.
+                <div className="p-4 bg-red-950/30 border border-red-500/40 rounded-lg text-red-200 text-xs font-mono mt-2">
+                    ⚠️ Something went wrong transmitting your message. Please try again or reach out directly at coryglenngarms@gmail.com.
                 </div>
             )}
             
-            <p className="text-xs font-mono text-text-muted/60 mt-4">
-                This form currently requires a valid Web3Forms Access Key in the source code to transmit emails.
+            <p className="text-[11px] font-mono text-text-dim mt-2">
+                Transmitted securely via Web3Forms endpoint to coryglenngarms@gmail.com.
             </p>
         </form>
     );

@@ -2,29 +2,25 @@
 import ContactFormReact from "./ContactForm.jsx";
 ---
 
-<section id="contact" class="py-24 bg-background relative overflow-hidden">
-  <div
-    class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(139,43,136,0.05),transparent_50%)] pointer-events-none"
-  >
-  </div>
-
+<section id="contact" class="py-20 bg-surface/30 relative overflow-hidden border-t border-border">
   <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
-    <div class="max-w-3xl mx-auto">
-      <div class="reveal reveal-bottom text-center mb-12">
-        <h3
-          class="text-3xl font-bold mb-4 text-white inline-block border-b-2 border-accent pb-2"
-        >
+    <div class="max-w-2xl mx-auto">
+      <div class="reveal text-center mb-10">
+        <div class="flex items-center justify-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-sm bg-accent"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Contact</span>
+        </div>
+        <h3 class="text-3xl font-bold text-white tracking-tight">
           Get in Touch
         </h3>
-        <p class="text-text-muted font-mono leading-relaxed mt-6">
-          Whether you want to discuss computer vision, remote sensing, UAS, or
-          just talk sports, feel free to reach out using the form below!
+        <p class="text-text-muted text-sm max-w-sm mx-auto mt-2">
+          Feel free to send a message below.
         </p>
       </div>
 
       <div
-        class="bg-surface/50 border border-primary-800/30 p-8 md:p-10 rounded-2xl shadow-xl backdrop-blur-sm reveal reveal-bottom"
-        style="transition-delay: 200ms;"
+        class="bg-surface border border-border p-6 md:p-8 rounded-2xl shadow-xl backdrop-blur-sm reveal"
+        style="transition-delay: 100ms;"
       >
         <ContactFormReact client:visible />
       </div>

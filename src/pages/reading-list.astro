@@ -166,39 +166,45 @@ const categories = [
 ---
 
 <Layout title="Reading List | Cory Glenn Garms">
-  <main class="pt-32 pb-24 bg-background relative overflow-hidden min-h-screen">
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,43,136,0.05),transparent_50%)] pointer-events-none"></div>
-
+  <main class="pt-28 pb-24 bg-background relative overflow-hidden min-h-screen">
     <div class="max-w-7xl mx-auto px-6 relative z-10">
-      <div class="mb-12 reveal">
-        <a href="/" class="inline-flex items-center text-accent hover:text-accent-300 transition-colors font-mono text-sm mb-8 group">
+      <div class="mb-14 reveal">
+        <a href="/" class="inline-flex items-center text-accent hover:text-accent-light transition-colors font-mono text-xs mb-6 group">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Back to Home
+          Back to Overview
         </a>
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
-          The Library: <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-primary-400">Personal Favorites</span>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full bg-topo"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-topo">Curated Bibliography</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+          The Library: <span class="text-accent">Personal Favorites</span>
         </h1>
-        <p class="text-text-muted max-w-2xl font-mono leading-relaxed">
-          A collection of works that have shaped my scientific perspective, philosophical outlook, and love for technical and natural narratives.
+        <p class="text-text-muted max-w-2xl text-sm leading-relaxed">
+          A collection of 22 works that have deeply influenced my scientific perspective, philosophical resilience, and love for technical, historic, and natural narratives.
         </p>
       </div>
 
-      <div class="space-y-20">
+      <div class="space-y-16">
         {categories.map((category, catIdx) => (
-          <section class="reveal" style={`transition-delay: ${catIdx * 100}ms;`}>
-            <h2 class="text-2xl font-bold text-white mb-10 border-b border-primary-800/30 pb-4 inline-block pr-12">
-              {category.name}
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {category.books.map((book, bookIdx) => (
-                <div class="bg-surface/50 p-6 rounded-2xl border border-primary-800/30 hover:border-accent/50 transition-all duration-300 group hover:shadow-[0_0_30px_rgba(139,43,136,0.1)] flex flex-col">
-                  <h3 class="text-lg font-bold text-white mb-1 group-hover:text-accent transition-colors">
+          <section class="reveal" style={`transition-delay: ${catIdx * 80}ms;`}>
+            <div class="flex items-center gap-3 mb-6">
+              <span class="w-2 h-2 rounded-sm bg-accent"></span>
+              <h2 class="text-xl font-bold text-white tracking-tight">
+                {category.name}
+              </h2>
+              <div class="h-px bg-border flex-grow ml-4"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {category.books.map((book) => (
+                <div class="bg-surface p-6 rounded-2xl border border-border hover:border-accent/60 transition-all duration-300 group hover:shadow-lg flex flex-col">
+                  <h3 class="text-base font-bold text-white mb-1.5 group-hover:text-accent transition-colors">
                     {book.title}
                   </h3>
-                  <div class="text-primary-400 text-sm font-mono mb-4">{book.author}</div>
-                  <p class="text-text-muted text-sm leading-relaxed flex-grow">
+                  <div class="text-accent-light text-xs font-mono mb-3">{book.author}</div>
+                  <p class="text-text-muted text-xs leading-relaxed flex-grow">
                     {book.summary}
                   </p>
                 </div>
@@ -210,34 +216,3 @@ const categories = [
     </div>
   </main>
 </Layout>
-
-<style>
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  
-  .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
-
-<script>
-  function revealOnScroll() {
-    const reveals = document.querySelectorAll('.reveal');
-    reveals.forEach(el => {
-      const windowHeight = window.innerHeight;
-      const elementTop = el.getBoundingClientRect().top;
-      const elementVisible = 150;
-      if (elementTop < windowHeight - elementVisible) {
-        el.classList.add('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', revealOnScroll);
-  // Initial check
-  document.addEventListener('DOMContentLoaded', revealOnScroll);
-</script>

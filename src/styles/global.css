@@ -1,53 +1,118 @@
 @import "tailwindcss";
 
 @theme {
-  /* Scientific Dark Theme - Inspired by Viridis/Magma color scales */
-  --color-primary-900: #1a002b;
-  --color-primary-800: #3b0964;
-  --color-primary-700: #5d1879;
-  --color-primary-600: #8b2b88;
-  --color-primary-500: #b54784;
-  --color-primary-400: #df6677;
-  --color-primary-300: #f58860;
-  --color-primary-200: #fdb45c;
-  --color-primary-100: #fdeca5;
-  --color-primary-50: #fcfdbf;
+  /* Earth Observation & Field Science Theme: Technology Meets Nature */
+  --color-forest-950: #050a08;
+  --color-forest-900: #0a130f;
+  --color-forest-850: #0f1c16;
+  --color-forest-800: #15261f;
+  --color-forest-700: #1e352b;
+  --color-forest-600: #29473a;
+  --color-forest-500: #386150;
+  --color-forest-400: #4a7d67;
+  --color-forest-300: #6ca38b;
+  --color-forest-200: #9bc5b2;
+  --color-forest-100: #cde4d9;
+  --color-forest-50:  #eef7f2;
 
-  --color-background: #0d0d12;
-  --color-surface: #15151e;
-  --color-text-main: #e2e8f0;
-  --color-text-muted: #94a3b8;
-  --color-accent: #f58860; /* Magma vivid orange/salmon */
+  /* Primary Theme Aliases */
+  --color-background: #070b09;
+  --color-surface: #0e1713;
+  --color-surface-elevated: #14221c;
+  --color-surface-card: #111e18;
+  --color-border: #1d3327;
+  --color-border-subtle: #16281f;
+  --color-border-hover: #2e523f;
 
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, monospace;
+  /* Scientific Accents */
+  --color-accent: #10b981; /* Lidar Canopy Emerald */
+  --color-accent-light: #34d399;
+  --color-accent-dim: #059669;
+  --color-accent-glow: rgba(16, 185, 129, 0.15);
+
+  --color-topo: #f59e0b; /* Topographic Contour Amber / Solar */
+  --color-topo-light: #fbbf24;
+  --color-spectral: #06b6d4; /* Hyperspectral Cyan */
+
+  /* Text hierarchy */
+  --color-text-main: #edf4f0;
+  --color-text-muted: #8ba295;
+  --color-text-dim: #5c7366;
+
+  /* Typography */
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Roboto Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Newsreader", Georgia, serif;
 }
 
 @layer base {
+  html {
+    background-color: var(--color-background);
+    color-scheme: dark;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-text-main);
     font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  /* Refined selection highlight */
+  ::selection {
+    background-color: rgba(16, 185, 129, 0.3);
+    color: #ffffff;
+  }
+
+  /* Topographic / Coordinate Grid Background */
+  .topo-grid {
+    background-size: 32px 32px;
+    background-image: 
+      linear-gradient(to right, rgba(29, 51, 39, 0.3) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(29, 51, 39, 0.3) 1px, transparent 1px);
+  }
+
+  .topo-grid-dense {
+    background-size: 16px 16px;
+    background-image: 
+      linear-gradient(to right, rgba(29, 51, 39, 0.25) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(29, 51, 39, 0.25) 1px, transparent 1px);
   }
 
   /* Micro-animations: Scroll Reveal */
   .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
   }
   
   .reveal.reveal-left {
-    transform: translateX(-40px);
+    transform: translateX(-30px);
   }
 
   .reveal.reveal-right {
-    transform: translateX(40px);
+    transform: translateX(30px);
   }
 
-  .reveal-visible {
+  .reveal-visible, .reveal.active {
     opacity: 1 !important;
     transform: translate(0, 0) !important;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #070b09;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e3328;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2e523f;
   }
 }

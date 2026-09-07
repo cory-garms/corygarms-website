@@ -1,5 +1,98 @@
 # Progress Log
 
+## [2026-09-07 14:23:00 EDT]
+
+* **Status:** Completed
+* **Focus:** CUTMAP Dedicated Mockup Page & Route Architecture
+* **Summary:** Created `src/pages/cutmap.astro` as a clean, standalone project template for Dr. Garms' USDA STTR Phase I/II platform ("CUTMAP: Autonomous Forest Mensuration & Silvicultural Thinning Platform"). Built a structured mockup layout highlighting the edge sensor rig (with field photo `/images/STTR_device.jpg`), software architecture (additive point cloud coregistration, stem taper/lean vectoring, thinning heuristics), foundational citations, and a next-sprint integration banner. Updated the CUTMAP project card in `src/components/PortfolioGrid.astro` to route directly to `/cutmap`. Verified clean build across all 8 static pages in 7.13s with 0 errors.
+* **Technical Debt/Next Steps:** Plan next sprint to connect CUTMAP edge data pipelines, interactive 3D point cloud datasets, and field telemetry directly to this page.
+
+## [2026-09-07 13:58:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Portfolio Upgrade: CUTMAP, SWIFT-UVOT Jitter, and Dirty Water Red Sox Suite
+* **Summary:**
+  1. **Flower Photos Link:** Removed the Flower Photography card from the Projects/My Work portfolio (`src/components/PortfolioGrid.astro`), keeping the dedicated field flower catalog card next to the reading list in the About section of `src/pages/index.astro`.
+  2. **CUTMAP:** Upgraded the project card from generic STTR text to **"CUTMAP: Autonomous Forest Mensuration"** with its USDA STTR Phase I/II badge, field apparatus image (`/images/STTR_device.jpg`), and direct link to published stem volume/lean research (`/research#mobile-lidar-volume`).
+  3. **SWIFT-UVOT Jitter Correction:** Added a dedicated card for the astronomical toolkit (`astro-jitter`) with the official title **"SWIFT-UVOT Jitter Correction"**, star PSF before-and-after comparison imagery (`/images/swift_uvot_jitter.png`), astrophysics badges, and GitHub source repository link.
+  4. **Dirty Water Red Sox Analytics:** Updated the Boston Red Sox project to **"Dirty Water: Boston Red Sox Analytics Suite"**, linking directly to the live production deployment at [`https://dirtywater.corygarms.com`](https://dirtywater.corygarms.com) with "Live Web App" badge and retro logo. Also hyperlinked the Red Sox mention in the About bio directly to the live suite.
+  5. **Build Verification:** Production build verified cleanly across all 7 routes in 6.78s with 0 errors.
+* **Technical Debt/Next Steps:** Handoff to user for review on `localhost:4321`.
+
+## [2026-09-07 13:45:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Point Cloud Viewer Streamlining: Filter, Slice, and Colormaps Removed
+* **Summary:** Completely removed the return classification filter (All / Canopy / Ground), the elevation slice slider (Slice Z), and the 5 colormap selector buttons from `src/components/PointCloudHero.jsx` per user direction. Replaced the multi-branch shader pipeline with a lightweight, rock-solid GLSL shader rendering smooth, antialiased circular LiDAR points in crisp laser emerald (`#10b981`). Retained the top scene selector (`Grove A`, `Grove B`, `Grove C`) with asset preloading, the bottom-right scene telemetry pill (`Grove A • Livox Mid-360 LiDAR`), and OrbitControls auto-rotation toggle. Verified clean build across all 7 pages with 0 errors and 0 warnings.
+* **Technical Debt/Next Steps:** Handoff to user for review on `localhost:4321`.
+
+## [2026-09-07 12:59:00 EDT]
+
+* **Status:** Completed
+* **Focus:** New Publication (HortScience 2026) & Subtitle Cleanup
+* **Summary:** Added peer-reviewed paper: Strauss, S.H., Garms, A.L., Garms, C.G., Hart, C.M., Ma, C., Heinhold, Z., Goralogia, G., McEldowney, M., Wheeler, P., Schimleck, L., & An, X. (2026). *"Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar."* *HortScience* (ASHS), 61(9), 1925–1934 (DOI: `10.21273/HORTSCI19524-26`). Added complete entry with BibTeX to `src/pages/research.astro` under Plant Genetics & Spectral Phenotyping, and added the citation to `src/pages/cv.astro`. Removed the `"Why it matters in plain English"` subtitle from all publication cards on `/research` to maintain a clean, dignified academic presentation. Build verified cleanly across all 7 pages in 6.97s.
+* **Technical Debt/Next Steps:** Handoff to user for review on `localhost:4321`.
+
+## [2026-09-07 12:52:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Scene Curation: Pure Field Lidar (Grove A, Grove B, Grove C)
+* **Summary:** Removed the synthetic bathymetry and SR-71 models from the viewer. Converted `grovec_loop/map.pcd` (6.13M raw points) into a web-optimized 1.35MB asset with 117,994 real Livox Mid-360 LiDAR points (`livox_grove_loop_c.glb`). Configured the 3D Point Cloud Hero to exclusively feature Dr. Garms' three real outdoor forest grove SLAM surveys: **Grove A**, **Grove B**, and **Grove C**. Streamlined the bottom-right HUD to remove the irrelevant "Solid Surface" toggle, leaving focused point cloud controls (All/Canopy/Ground returns, Slice Z slider, and 5 spectral colormaps). Build verified cleanly in 5.55s.
+* **Technical Debt/Next Steps:** Handoff to user for visual review on `localhost:4321`.
+
+## [2026-09-07 12:49:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Header Brand Refinement
+* **Summary:** Removed the "Ph.D." credential badge from the top-left site brand in `src/layouts/Layout.astro`. The header brand now simply and cleanly reads "Cory Glenn Garms" with the subtle green operational indicator. Academic degrees and credentials remain properly detailed on the CV and About pages.
+* **Technical Debt/Next Steps:** None.
+
+## [2026-09-07 12:48:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Hero Text Overlay Removal & Point Cloud Canvas Maximization
+* **Summary:** Completely removed the hero overlay text block (name heading, job title, and redundant navigation buttons) from `src/pages/index.astro`. Dr. Garms' name and credentials are prominently anchored in the persistent top-left header, his job title and bio are detailed immediately below in About, and all site sections are accessible via the sticky nav bar. The 3D Point Cloud Canvas now occupies the entire viewport without visual obstruction or click interception, allowing visitors to immediately view, rotate, zoom, slice, and interact with the real Livox field Lidar data. Added `sr-only` H1 for accessibility and SEO. Build verified in 5.67s with 0 errors.
+* **Technical Debt/Next Steps:** Verify live interaction on `localhost:4321`.
+
+## [2026-09-07 12:43:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Curating Real Field Lidar Datasets & Eliminating Visitor Upload Mechanism
+* **Summary:** Completely removed visitor file upload and drag-and-drop mechanisms per user direction. Located real Livox Mid-360 LiDAR FAST-LIO2 forest grove SLAM data in `3D_models/clouds_work_20260903/` (`grovea_loop_ccw/map.pcd` and `groveb_loop/map.pcd`). Built a direct binary converter that extracted 118,591 points from the 4.98M-point raw scans, oriented coordinates with vertical Z-elevation, centered geometry, and exported compact 1.36MB web-optimized `.glb` point clouds (`livox_forest_grove.glb` and `livox_grove_loop_b.glb`). Integrated these real field scans directly as curated default scenes in `<PointCloudHero />`. All real scans support real-time GPU canopy height slicing (`Slice Z`) and return classification filtering. Build verified cleanly in 6.16s.
+* **Technical Debt/Next Steps:** Awaiting user review of the real Livox forest scans rendering live on `localhost:4321`.
+
+## [2026-09-07 11:39:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Academic Architecture Expansion: Real Lidar Loader, Canopy Slicing, Research & CV Dossier
+* **Summary:** Implemented the full contest-winning academic website architecture:
+  1. **Real Lidar Cloud Support & Slicing Tools (`PointCloudHero.jsx`):** Integrated Three.js `PLYLoader` and `PCDLoader` with file upload and drag-and-drop capabilities, enabling instant in-browser loading of custom field Lidar `.ply` and `.pcd` data. Added real-time GPU-evaluated Canopy Slicing (`uSliceHeight` range slider), Return Classification filter (`All` / `Canopy` / `Ground`), and a 3-tier Forestry Classification colormap.
+  2. **Dedicated Research & Publications (`src/pages/research.astro`):** Implemented Dr. Ana Rebeka Kamšek's award-winning SciComm design: thematic research clusters (Douglas-fir stem lean, single-tree inventory, UAS Pinus strobiformis phenomics, SSI radiometric ground targets) with "Why it matters in plain English" takeaways, direct DOI links, and one-click BibTeX copying.
+  3. **Academic Curriculum Vitae (`src/pages/cv.astro`):** Created a clean, printable academic CV detailing Dr. Garms' Senior Scientist appointment, USDA STTR PI leadership, education, computational toolkit, and community service.
+  4. **Site Navigation & Notes Archive:** Added `RESEARCH` and `CV` to site header navigation, added a compact research preview to `index.astro`, and created `src/pages/notes/index.astro` to provide a complete archive for technical writing.
+* **Technical Debt/Next Steps:** Handoff to user to test loading their real Lidar `.ply` point cloud files and review the live site at `localhost:4321`.
+
+## [2026-09-07 11:28:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Page Simplification & Anti-Fluff Text Reduction
+* **Summary:** Stripped ~90% of the long-winded marketing text across the entire site per user direction. Removed the grandiloquent hero headline ("Decoding Ecosystems in High-Dimensional 3D...") and replaced it with a clean, understated introduction ("Cory Glenn Garms, Ph.D. / Senior Scientist at Spectral Sciences, Inc."). Completely eliminated the "ACTIVE LIDAR SENSOR SIMULATION" telemetry badge from the 3D Point Cloud viewer. Streamlined the About section from four dense essays and four repetitive domain pillar boxes down to two concise, authentic paragraphs highlighting remote sensing background and personal interests. Simplified headings across Projects, Notes, and Contact for a calm, confident academic aesthetic.
+* **Technical Debt/Next Steps:** Verify build output and await user feedback on contest directions (e.g. publication takeaways).
+
+## [2026-09-07 11:24:00 EDT]
+
+* **Status:** In Progress
+* **Focus:** Academic Website Contest Strategy & Scientific Architecture Expansion
+* **Summary:** Analyzed the judging criteria and 12 award winners of the 2025 Best Personal Academic Websites Contest (hosted by The Academic Designer). Formulated a strategy targeting Overall Best Website, Best Academic Portfolio, and Best Interactive Website: creating dedicated `/research` (with plain-language takeaways, thematic groupings, BibTeX, DOI/PDF links), `/cv` (academic metrics & appointments dossier), and connecting the 3D Point Cloud viewer directly to published forestry algorithms (interactive canopy slicing / ground classification filter).
+* **Technical Debt/Next Steps:** Awaiting user feedback on proposed research and CV expansion plan.
+
+## [2026-09-07 11:06:00 EDT]
+
+* **Status:** Completed
+* **Focus:** UI Aesthetics Overhaul ("Technology Meets Nature") & Point Cloud GPU Optimization
+* **Summary:** Completely redesigned the website from the generic "AI-generated" dark/purple synthwave look to an authentic "Technology Meets Nature" Earth Observation & Field Science theme. Replaced purple glows with deep forest obsidian (`#070b09`), peat slate (`#0e1713`), Lidar canopy emerald (`#10b981`), and topographic amber accents. Re-engineered `<PointCloudHero />` with GPU-accelerated GLSL vertex/fragment shaders for real-time elevation colormapping (Canopy NDVI, Viridis, Magma, Elevation) without CPU vertex loops or GC freezes. Replaced the floating minimize card with an integrated scientific HUD overlay. Replaced generic numbered boxes in About with rich domain pillars (Forestry & Canopy Lidar, Hyperspectral Fusion, Containerized Pipelines, Field Craft) and curated visual showcases for Amanda, Flower Photography, and the Reading List.
+* **Technical Debt/Next Steps:** Handoff to user for manual visual verification on `localhost:4321`. Push to GitHub when user confirms satisfaction.
+
 ## [2026-03-27 16:55:00 EST]
 
 * **Status:** In Progress

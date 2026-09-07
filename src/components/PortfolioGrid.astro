@@ -1,108 +1,160 @@
 ---
 import { fetchLatestGithubProjects } from '../utils/github.js';
 
-// Local Professional Portfolio Data
-const localProjects = [
+interface Project {
+  title: string;
+  badge: string;
+  description: string;
+  image: string;
+  tags: string[];
+  link: string;
+  linkText: string;
+  isGithub?: boolean;
+}
+
+// Curated Core Projects
+const coreProjects: Project[] = [
   {
-    title: "USDA STTR: Forest Reconstruction",
-    description: "High-resolution 3D point cloud processing pipeline for agricultural and forestry analysis using Python and Lidar.",
+    title: "CUTMAP: Autonomous Forest Mensuration",
+    badge: "USDA STTR Phase I/II",
+    description: "Edge-computed mobile LiDAR and stereo-vision robotics platform for individual tree detection, stem taper and lean mensuration, and automated silvicultural thinning prescriptions.",
     image: "/images/STTR_device.jpg",
-    tags: ["Lidar", "Python", "Computer Vision"],
-    link: "#",
+    tags: ["USDA STTR", "Mobile LiDAR", "Stereo Vision", "Edge AI", "Forestry"],
+    link: "/cutmap",
+    linkText: "View Project Dossier",
     isGithub: false
   },
-
   {
-    title: "Flower Photography Collection",
-    description: "A personal catalog of my floral photography across various expeditions and hikes.",
-    image: "/images/thistle.jpg",
-    tags: ["Photography", "Outdoors", "Hobby"],
-    link: "https://photos.app.goo.gl/7yoaVpVCb5m7QZxs6",
+    title: "Dirty Water: Boston Red Sox Analytics Suite",
+    badge: "Live Web App",
+    description: "Production MLB analytics suite featuring today's matchup previews, starting pitcher platoon advantage modeling, bullpen rest metrics, rolling win% trends, and franchise streak comparisons.",
+    image: "/images/sox_retro_logo.png",
+    tags: ["MLB Analytics", "Python", "Plotly", "Live App"],
+    link: "https://dirtywater.corygarms.com",
+    linkText: "Launch Web Suite",
     isGithub: false
+  },
+  {
+    title: "SWIFT-UVOT Jitter Correction",
+    badge: "Astro Toolkit",
+    description: "Mission-agnostic photon-event jitter restoration toolkit using sub-pixel 2D cross-correlation, B-spline trajectory filtering, PSF encircled energy verification, and Gaia astrometric alignment.",
+    image: "/images/swift_uvot_jitter.png",
+    tags: ["Astrophysics", "Python", "Astrometry", "Photometry", "FITS"],
+    link: "https://github.com/cory-garms/astro-jitter",
+    linkText: "Source Repository",
+    isGithub: true
+  },
+  {
+    title: "LiDAR Canopy Height Extractor",
+    badge: "Open Source Pipeline",
+    description: "Automated Python pipeline for processing airborne and terrestrial LiDAR point clouds, classifying ground returns, and generating high-resolution Canopy Height Models (CHM).",
+    image: "/images/output_chm_render.png",
+    tags: ["Python", "Docker", "LiDAR", "Open3D"],
+    link: "https://github.com/cory-garms/lidar-canopy-extractor",
+    linkText: "Source Repository",
+    isGithub: true
+  },
+  {
+    title: "Hyperspectral Processing Pipeline",
+    badge: "Remote Sensing",
+    description: "Scientific Python pipeline for calibrating and processing multi-band hyperspectral imaging data cubes, radiometric ground truth validation, and reflectance curve analysis.",
+    image: "/images/HSI-pipeline_thumbnail.png",
+    tags: ["Python", "Hyperspectral", "Remote Sensing"],
+    link: "https://github.com/cory-garms/hsi-pipeline",
+    linkText: "Source Repository",
+    isGithub: true
+  },
+  {
+    title: "Autonomous Bass Species Detector",
+    badge: "Computer Vision",
+    description: "Real-time underwater object detection pipeline powered by YOLOv8, trained to identify, classify, and track North American black bass species in variable water clarity.",
+    image: "/images/bass_detection.jpg",
+    tags: ["YOLOv8", "Computer Vision", "Python", "Ecology"],
+    link: "https://github.com/cory-garms/bass-detector",
+    linkText: "Source Repository",
+    isGithub: true
   }
 ];
 
-// Content Sync: Fetch recent GitHub projects
+// Content Sync: Optionally append other recent GitHub repos
 const githubRepos = await fetchLatestGithubProjects('cory-garms', 8);
-const formattedGithubProjects = githubRepos
-    .filter(repo => !repo.link.includes('corygarms-website'))
-    .slice(0, 6)
-    .map(repo => {
-        let customImage = "";
-        // repo.link contains the raw slug, whereas repo.title was modified by fetchLatestGithubProjects to be Title Cased
-        const isLidarExtractor = repo.link && repo.link.includes("lidar-canopy-extractor");
-        const isHsiPipeline = repo.link && repo.link.includes("hsi-pipeline");
-        const isBassDetector = repo.link && repo.link.includes("bass-detector");
-        const isSpursTracker = repo.link && repo.link.includes("spurs-tracker");
-        const isSoxTracker = repo.link && repo.link.includes("sox-tracker");
-        
-        if (isLidarExtractor) {
-            customImage = "/images/output_chm_render.png";
-        } else if (isHsiPipeline) {
-            customImage = "/images/HSI-pipeline_thumbnail.png";
-        } else if (isBassDetector) {
-            customImage = "/images/bass_detection.jpg";
-        } else if (isSpursTracker) {
-            customImage = "/images/spurs_retro_logo.png";
-        } else if (isSoxTracker) {
-            customImage = "/images/sox_retro_logo.png";
-        }
-        
-        return {
-            title: repo.title,
-            description: isLidarExtractor 
-                ? "Python pipeline for Lidar point cloud classification and Canopy Height Model (CHM) generation" 
-                : (isHsiPipeline ? "A scientific Python pipeline for processing hyperspectral data" : 
-                  (isBassDetector ? "A Computer Vision pipeline for real-time identification and detection of North American Bass species." : 
-                  (isSpursTracker ? "A dedicated tracker for San Antonio Spurs game schedules, stats, and live updates." :
-                  (isSoxTracker ? "A data-driven tracker for Boston Red Sox games, featuring historical stats and retro visuals." : repo.description)))),
-            image: customImage,
-            tags: isLidarExtractor 
-                ? ["Python", "Docker", "Lidar"] 
-                : (isHsiPipeline ? ["Python", "Spectral", "Remote Sensing"] : 
-                  (isBassDetector ? ["Python", "YOLOv8", "Computer Vision"] : 
-                  (isSpursTracker ? ["Python", "Data Viz", "Sports"] :
-                  (isSoxTracker ? ["Python", "Analytics", "Sports"] : ["GitHub", "Open Source"])))),
-            link: repo.link,
-            isGithub: customImage === ""
-        };
-    });
+const dynamicRepos: Project[] = githubRepos
+  .filter(repo => {
+    const slug = repo.link ? repo.link.toLowerCase() : '';
+    // Filter out repos already featured above or internal site repo
+    return !slug.includes('corygarms-website') &&
+           !slug.includes('lidar-canopy-extractor') &&
+           !slug.includes('hsi-pipeline') &&
+           !slug.includes('bass-detector') &&
+           !slug.includes('sox-tracker') &&
+           !slug.includes('astro-jitter');
+  })
+  .slice(0, 3)
+  .map(repo => {
+    const isSpurs = repo.link && repo.link.includes('spurs-tracker');
+    return {
+      title: isSpurs ? "Spurs Performance Tracker" : repo.title,
+      badge: isSpurs ? "Sports Analytics" : "GitHub Resource",
+      description: isSpurs 
+        ? "Interactive NBA dashboard monitoring San Antonio Spurs season pace, offensive/defensive ratings, and player efficiency trends." 
+        : (repo.description || "A public GitHub repository."),
+      image: isSpurs ? "/images/spurs_retro_logo.png" : "",
+      tags: isSpurs ? ["NBA Analytics", "Python", "Data Viz"] : ["Open Source", "Python"],
+      link: repo.link,
+      linkText: "Source Repository",
+      isGithub: true
+    };
+  });
 
-const allProjects = [...localProjects, ...formattedGithubProjects];
+const allProjects = [...coreProjects, ...dynamicRepos];
 ---
 
-<section id="portfolio" class="py-24 bg-surface/50 border-t border-primary-800/30">
+<section id="portfolio" class="py-24 bg-surface/40 border-t border-border">
 	<div class="max-w-7xl mx-auto px-6 reveal">
-		<h3 class="text-3xl font-bold mb-12 text-white inline-block border-b-2 border-accent pb-2">Selected Work & Code</h3>
+		<div class="flex items-center gap-3 mb-10">
+			<span class="w-2 h-2 rounded-sm bg-accent"></span>
+			<h2 class="text-xs font-mono uppercase tracking-widest text-accent-light">Projects</h2>
+			<div class="h-px bg-border flex-grow ml-4"></div>
+		</div>
 		
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
 			{allProjects.map((project, index) => (
-				<a href={project.link} target={project.link.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" class="group block bg-background rounded-2xl border border-primary-800/30 overflow-hidden hover:border-primary-500 transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,43,136,0.15)] flex flex-col h-full reveal" style={`transition-delay: ${index * 150}ms;`}>
+				<a href={project.link} target={project.link.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" class="group block bg-surface rounded-2xl border border-border hover:border-accent/60 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 flex flex-col h-full overflow-hidden reveal" style={`transition-delay: ${index * 100}ms;`}>
 					
-					{/* Project Image or GitHub Fallback */}
-					<div class="aspect-video w-full bg-surface/30 relative overflow-hidden border-b border-primary-800/30 flex items-center justify-center">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-primary-900/30 to-transparent z-10 pointer-events-none group-hover:opacity-0 transition-opacity duration-500"></div>
+					{/* Project Image or Fallback */}
+					<div class="aspect-video w-full bg-forest-950 relative overflow-hidden border-b border-border flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent z-10 pointer-events-none group-hover:opacity-30 transition-opacity duration-500"></div>
                         
-                        {project.isGithub || !project.image ? (
-                            <div class="w-full h-full flex items-center justify-center bg-background/50 text-primary-600 group-hover:text-accent transition-colors duration-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        {project.isGithub && !project.image ? (
+                            <div class="w-full h-full flex flex-col items-center justify-center topo-grid bg-forest-900/60 text-accent/80 group-hover:text-accent transition-colors duration-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                                     <polyline points="16 18 22 12 16 6"></polyline>
                                     <polyline points="8 6 2 12 8 18"></polyline>
                                 </svg>
+								<span class="text-[10px] font-mono mt-2 text-text-dim uppercase tracking-wider">Source Repository</span>
                             </div>
                         ) : (
-                            <img src={project.image} alt={project.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 relative z-0" />
+                            <img src={project.image} alt={project.title} class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 relative z-0" />
                         )}
 					</div>
 
 					<div class="p-6 flex flex-col flex-grow">
-						<h4 class="text-xl font-semibold text-white mb-3 group-hover:text-accent transition-colors">{project.title}</h4>
-						<p class="text-text-muted text-sm leading-relaxed mb-6 flex-grow">{project.description}</p>
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-forest-900 text-accent border border-border">
+                                {project.badge}
+                            </span>
+                            <span class="text-xs font-mono text-text-dim group-hover:text-accent transition-colors">
+                                {project.linkText} &rarr;
+                            </span>
+                        </div>
+
+						<h4 class="text-lg font-semibold text-white mb-2.5 group-hover:text-accent transition-colors">{project.title}</h4>
+						<p class="text-text-muted text-xs leading-relaxed mb-6 flex-grow">{project.description}</p>
 						
-						<div class="flex flex-wrap gap-2 mt-auto">
+						<div class="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-border-subtle">
 							{project.tags.map((tag) => (
-								<span class="px-3 py-1 bg-primary-900/50 text-primary-300 text-xs font-mono rounded-full border border-primary-800/50">
-									{tag}
+								<span class="px-2.5 py-0.5 bg-forest-900 text-accent-light text-[10px] font-mono rounded-md border border-border">
+									#{tag}
 								</span>
 							))}
 						</div>

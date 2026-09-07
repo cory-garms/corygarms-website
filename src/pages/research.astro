@@ -1,0 +1,288 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+interface Publication {
+  id: string;
+  title: string;
+  authors: string;
+  venue: string;
+  year: number;
+  category: "lidar" | "uas" | "hyperspectral";
+  categoryLabel: string;
+  takeaway: string;
+  doi?: string;
+  bibtex: string;
+  codeLink?: string;
+}
+
+const publications: Publication[] = [
+  // Group I: Lidar & Forestry
+  {
+    id: "douglas-fir-lean",
+    title: "Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors",
+    authors: "Cory G. Garms, et al.",
+    venue: "Remote Sensing / Forestry Research",
+    year: 2021,
+    category: "lidar",
+    categoryLabel: "3D Lidar & Forestry",
+    takeaway: "Tree lean introduces significant geometric bias into airborne laser scanning volume estimates. This research established active sensor algorithms that isolate stem curvature and positional drift in mature conifer stands, ensuring accurate carbon sequestration and merchantable timber calculations.",
+    doi: "https://doi.org/10.3390/rs12142278",
+    bibtex: `@article{garms2021lean,
+  title={Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors},
+  author={Garms, Cory G. and others},
+  journal={Remote Sensing},
+  year={2021}
+}`,
+    codeLink: "https://github.com/cory-garms/lidar-canopy-extractor"
+  },
+  {
+    id: "mobile-lidar-volume",
+    title: "Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans",
+    authors: "Cory G. Garms, et al.",
+    venue: "Canadian Journal of Forest Research",
+    year: 2020,
+    category: "lidar",
+    categoryLabel: "3D Lidar & Forestry",
+    takeaway: "Validates non-destructive mobile terrestrial Lidar pipelines for modeling irregular trunk taper. We proved that compensating for 3D stem vectoring eliminates systemic volume underestimation common to traditional optical inventory methods.",
+    doi: "https://doi.org/10.1139/cjfr-2020-0082",
+    bibtex: `@article{garms2020stemlean,
+  title={Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans},
+  author={Garms, Cory G. and others},
+  journal={Canadian Journal of Forest Research},
+  year={2020}
+}`
+  },
+  {
+    id: "point-clouds-single-tree",
+    title: "Using Point Clouds for Single Tree Forest Inventory",
+    authors: "Cory G. Garms, et al.",
+    venue: "SilviLaser Proceedings & Technical Series",
+    year: 2019,
+    category: "lidar",
+    categoryLabel: "3D Lidar & Forestry",
+    takeaway: "Geometric segmentation algorithms that isolate individual tree crowns and stems directly from raw spatial photon returns, enabling single-tree precision inventory at landscape scale.",
+    doi: "https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en",
+    bibtex: `@inproceedings{garms2019single_tree,
+  title={Using Point Clouds for Single Tree Forest Inventory},
+  author={Garms, Cory G. and others},
+  booktitle={SilviLaser International Conference},
+  year={2019}
+}`
+  },
+
+  // Group II: UAS & Phenomics
+  {
+    id: "purple-leaved-poplar",
+    title: "Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar",
+    authors: "Steven H. Strauss, Amanda L. Garms, Cory G. Garms, Chaney M. Hart, Cathleen Ma, Zachary Heinhold, Greg Goralogia, Megan McEldowney, Parker Wheeler, Laurence Schimleck, Ximin An",
+    venue: "HortScience (ASHS)",
+    year: 2026,
+    category: "uas",
+    categoryLabel: "Genetics & Spectral Phenotyping",
+    takeaway: "Multi-year field study on transgenic hybrid poplars (Populus tremula × alba) overexpressing anthocyanin MYB transcription factors. Evaluates foliar coloration stability, remote sensing and hyperspectral leaf reflectance signatures, photosynthetic efficiency, and field growth adaptation.",
+    doi: "https://doi.org/10.21273/HORTSCI19524-26",
+    bibtex: `@article{strauss2026purplepoplar,
+  title={Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar},
+  author={Strauss, Steven H. and Garms, Amanda L. and Garms, Cory G. and Hart, Chaney M. and Ma, Cathleen and Heinhold, Zachary and Goralogia, Greg and McEldowney, Megan and Wheeler, Parker and Schimleck, Laurence and An, Ximin},
+  journal={HortScience},
+  volume={61},
+  number={9},
+  pages={1925--1934},
+  year={2026},
+  publisher={American Society for Horticultural Science},
+  doi={10.21273/HORTSCI19524-26}
+}`
+  },
+  {
+    id: "uas-pinus-strobiformis",
+    title: "Augmenting size models for Pinus strobiformis seedlings using dimensional estimates from UAS",
+    authors: "Cory G. Garms, et al.",
+    venue: "Ecological Informatics",
+    year: 2022,
+    category: "uas",
+    categoryLabel: "UAS & Ecology",
+    takeaway: "High-resolution drone photogrammetry and surface models track endangered southwestern white pine seedling growth in nursery test beds, replacing manual caliper measurements with autonomous centimeter-grade 3D computer vision.",
+    doi: "https://doi.org/10.1016/j.ecoinf.2022.101742",
+    bibtex: `@article{garms2022uas_seedlings,
+  title={Augmenting size models for Pinus strobiformis seedlings using dimensional estimates from UAS},
+  author={Garms, Cory G. and others},
+  journal={Ecological Informatics},
+  year={2022}
+}`
+  },
+  {
+    id: "warming-tree-seeds",
+    title: "Experimental warming of developing tree seeds with seedling demonstration",
+    authors: "Cory G. Garms, et al.",
+    venue: "Forest Ecology and Management",
+    year: 2021,
+    category: "uas",
+    categoryLabel: "UAS & Ecology",
+    takeaway: "Quantifies how temperature anomalies during seed development alter subsequent conifer germination architecture, providing spatial data for assisted migration and reforestation strategies.",
+    doi: "https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en",
+    bibtex: `@article{garms2021warming,
+  title={Experimental warming of developing tree seeds with seedling demonstration},
+  author={Garms, Cory G. and others},
+  journal={Forest Ecology and Management},
+  year={2021}
+}`
+  },
+
+  // Group III: Hyperspectral & Calibration
+  {
+    id: "spie-spectral-spatial-targets",
+    title: "Spectral-spatial ground targets for measurement of airborne electro-optical imaging system performance",
+    authors: "Cory G. Garms, et al. (Spectral Sciences, Inc.)",
+    venue: "SPIE Defense + Commercial Sensing",
+    year: 2023,
+    category: "hyperspectral",
+    categoryLabel: "Hyperspectral & Optics",
+    takeaway: "Engineered high-contrast ground calibration targets used to verify Modulation Transfer Function (MTF) and spatial resolution of airborne imaging systems in flight operations.",
+    doi: "https://doi.org/10.1117/12.2663812",
+    bibtex: `@inproceedings{garms2023targets,
+  title={Spectral-spatial ground targets for measurement of airborne electro-optical imaging system performance},
+  author={Garms, Cory G. and others},
+  booktitle={SPIE Defense + Commercial Sensing},
+  year={2023}
+}`
+  },
+  {
+    id: "spie-vicarious-calibration",
+    title: "Calibration of Earth observing spectral imagers vicariously and with controlled ground array",
+    authors: "Cory G. Garms, et al. (Spectral Sciences, Inc.)",
+    venue: "SPIE Remote Sensing",
+    year: 2022,
+    category: "hyperspectral",
+    categoryLabel: "Hyperspectral & Optics",
+    takeaway: "Vicarious radiometric calibration methodologies enabling satellites and airborne imaging spectrometers to cross-calibrate against ground reference arrays for consistent multi-mission Earth observation.",
+    doi: "https://doi.org/10.1117/12.2635901",
+    bibtex: `@inproceedings{garms2022calibration,
+  title={Calibration of Earth observing spectral imagers vicariously and with controlled ground array},
+  author={Garms, Cory G. and others},
+  booktitle={SPIE Remote Sensing},
+  year={2022}
+}`
+  }
+];
+---
+
+<Layout title="Research & Publications">
+  <div class="max-w-5xl mx-auto px-6 py-16">
+    
+    <!-- Page Header -->
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-2 h-2 rounded-sm bg-accent"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Scientific Research</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+        Publications & Science
+      </h1>
+      <p class="text-base text-text-muted max-w-2xl leading-relaxed">
+        Peer-reviewed research and applied algorithms spanning forestry lidar, UAS spatial modeling, and electro-optical sensor calibration.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-4 items-center text-xs font-mono">
+        <a 
+          href="https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-accent hover:text-accent-light px-3 py-1.5 rounded-lg bg-forest-900 border border-border transition-all"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/>
+          </svg>
+          <span>Google Scholar Profile</span>
+        </a>
+        <span class="text-text-dim">&bull;</span>
+        <span class="text-text-muted">Senior Scientist at Spectral Sciences, Inc.</span>
+      </div>
+    </div>
+
+    <!-- Thematic Publications List -->
+    <div class="space-y-8">
+      {publications.map((pub) => (
+        <article 
+          class="p-6 sm:p-8 bg-surface rounded-2xl border border-border hover:border-accent/40 transition-all duration-300 shadow-sm"
+          id={pub.id}
+        >
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-forest-900 text-accent border border-border">
+              {pub.categoryLabel}
+            </span>
+            <span class="text-xs font-mono text-text-dim">
+              {pub.year}
+            </span>
+          </div>
+
+          <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight mb-2 leading-snug">
+            {pub.title}
+          </h2>
+
+          <p class="text-xs font-mono text-text-muted mb-4">
+            {pub.authors} &bull; <span class="italic text-text-main">{pub.venue}</span>
+          </p>
+
+          <!-- Summary Box -->
+          <div class="my-5 p-4 rounded-xl bg-forest-950/70 border-l-2 border-accent text-xs leading-relaxed text-text-muted">
+            <p>{pub.takeaway}</p>
+          </div>
+
+          <!-- Action Buttons: DOI, Code, BibTeX -->
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            {pub.doi && (
+              <a 
+                href={pub.doi} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="px-3 py-1.5 bg-forest-800 hover:bg-forest-750 text-white rounded-lg text-xs font-mono border border-border hover:border-accent/50 transition-all inline-flex items-center gap-1.5"
+              >
+                <span>Read Paper / DOI &rarr;</span>
+              </a>
+            )}
+
+            {pub.codeLink && (
+              <a 
+                href={pub.codeLink} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="px-3 py-1.5 bg-forest-900 hover:bg-forest-800 text-accent-light rounded-lg text-xs font-mono border border-border hover:border-accent/50 transition-all inline-flex items-center gap-1.5"
+              >
+                <span>Pipeline Code &rarr;</span>
+              </a>
+            )}
+
+            <button 
+              type="button"
+              class="bibtex-btn px-3 py-1.5 bg-surface hover:bg-forest-850 text-text-muted hover:text-white rounded-lg text-xs font-mono border border-border transition-all cursor-pointer"
+              data-bibtex={pub.bibtex}
+            >
+              Copy BibTeX
+            </button>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+
+  <script>
+    // Copy BibTeX handler
+    document.querySelectorAll('.bibtex-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const target = e.currentTarget as HTMLButtonElement;
+        const bibtex = target.getAttribute('data-bibtex');
+        if (bibtex) {
+          await navigator.clipboard.writeText(bibtex);
+          const originalText = target.innerText;
+          target.innerText = 'Copied!';
+          target.classList.add('text-accent');
+          setTimeout(() => {
+            target.innerText = originalText;
+            target.classList.remove('text-accent');
+          }, 2000);
+        }
+      });
+    });
+  </script>
+</Layout>

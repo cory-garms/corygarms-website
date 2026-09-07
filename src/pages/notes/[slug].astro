@@ -18,17 +18,17 @@ const { Content } = await entry.render();
 ---
 
 <Layout title={`${entry.data.title} | Cory Garms`}>
-  <main class="pt-32 pb-16 px-6 sm:px-12 md:px-24">
+  <main class="pt-28 pb-16 px-6 sm:px-12 md:px-24 bg-background min-h-screen">
     <div class="max-w-3xl mx-auto">
-        <a href="/" class="text-accent hover:text-accent-300 transition-colors mb-8 inline-block font-mono text-sm">
-            &larr; Back to Home
+        <a href="/#notes" class="text-accent hover:text-accent-light transition-colors mb-8 inline-flex items-center gap-1.5 font-mono text-xs">
+            &larr; Back to Technical Notes
         </a>
         
-        <header class="mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+        <header class="mb-12 border-b border-border pb-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
                 {entry.data.title}
             </h1>
-            <div class="flex items-center gap-4 text-text-muted font-mono text-sm">
+            <div class="flex items-center gap-4 text-text-muted font-mono text-xs">
                 <time datetime={entry.data.publishDate.toISOString()}>
                     {entry.data.publishDate.toLocaleDateString('en-US', {
                         year: 'numeric',
@@ -38,7 +38,7 @@ const { Content } = await entry.render();
                 </time>
                 <div class="flex gap-2">
                     {entry.data.tags.map((tag) => (
-                        <span class="px-2 py-1 bg-primary-900/40 border border-primary-800 rounded-md text-primary-300">
+                        <span class="px-2.5 py-0.5 bg-forest-900 border border-border rounded text-accent-light text-[11px]">
                             #{tag}
                         </span>
                     ))}

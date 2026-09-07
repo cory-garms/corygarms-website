@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const allNotes = await getCollection('notes');
+const sortedNotes = allNotes.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+
+<Layout title="Notes & Technical Writing">
+  <main class="max-w-4xl mx-auto px-6 py-16">
+    <div class="mb-12">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-2 h-2 rounded-sm bg-accent"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Writing</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+        Technical Notes
+      </h1>
+      <p class="text-base text-text-muted max-w-xl leading-relaxed">
+        Field notes, algorithms, and computational insights on remote sensing, Docker pipelines, and 3D point cloud analysis.
+      </p>
+    </div>
+
+    <div class="space-y-6">
+      {sortedNotes.map((note) => (
+        <a 
+          href={`/notes/${note.slug}`} 
+          class="p-6 bg-surface rounded-2xl border border-border hover:border-accent/50 transition-all duration-300 group block shadow-sm"
+        >
+          <div class="text-xs text-accent font-mono mb-2">
+            {note.data.publishDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+          </div>
+          <h2 class="text-xl font-bold text-white mb-2 group-hover:text-accent transition-colors">
+            {note.data.title}
+          </h2>
+          <p class="text-text-muted text-sm leading-relaxed mb-4">
+            {note.data.description}
+          </p>
+          <div class="flex gap-2 flex-wrap">
+            {note.data.tags.map((tag: string) => (
+              <span class="text-[10px] font-mono text-accent-light bg-forest-900 px-2 py-0.5 rounded border border-border">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</Layout>

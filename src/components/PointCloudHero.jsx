@@ -1,266 +1,221 @@
-import React, { useMemo, useRef, useState, Suspense } from 'react';
-import { Canvas, useLoader } from '@react-three/fiber';
+import React, { useMemo, useState, Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader.js';
 
-const COLOR_MAPS = {
-  default: { dark: '#5d1879', main: '#df6677', accent: '#f58860' },
-  viridis: { dark: '#440154', main: '#21918c', accent: '#fde725' },
-  magma:   { dark: '#000004', main: '#b73779', accent: '#fcffa4' }
-};
-
+// Curated default scenes highlighting Remote Sensing & Field Science
 const SCENES = [
-  { id: 'pine_forest', name: 'Pine Forest', format: 'glb' },
-  { id: 'boston_massachusetts_usa', name: 'Boston', format: 'glb' },
-  { id: 'underwater_terrain_-_agisoftnaturechallenge', name: 'Underwater', format: 'glb' },
-  { id: 'lockheed_sr-71_blackbird', name: 'SR-71', format: 'glb' },
-  { id: 'toyota_supra_mk_iv_1994', name: 'Supra', format: 'glb' },
-  { id: 'us_battleship_louisiana', name: 'Battleship', format: 'glb' }
+  { 
+    id: 'livox_forest_grove', 
+    name: 'Grove A', 
+    spec: 'Livox Mid-360 LiDAR',
+    source: 'Outdoor Forest SLAM (118k pts)'
+  },
+  { 
+    id: 'livox_grove_loop_b', 
+    name: 'Grove B', 
+    spec: 'Livox Mid-360 LiDAR',
+    source: 'Outdoor Forest SLAM (118k pts)'
+  },
+  { 
+    id: 'livox_grove_loop_c', 
+    name: 'Grove C', 
+    spec: 'Livox Mid-360 LiDAR',
+    source: 'Outdoor Forest SLAM (118k pts)'
+  }
 ];
 
-// Reusable function to apply our custom colormap to a BufferGeometry
-const applyColormap = (geometry, colormap) => {
-    geometry.center();
+// Pre-load all 3 Livox scans for instant switching
+SCENES.forEach(scene => {
+  useGLTF.preload(`/models/${scene.id}.glb`);
+});
+
+// Clean, robust GLSL Shaders for antialiased circular LiDAR points
+const vertexShader = `
+  uniform float uPointSize;
+
+  void main() {
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    gl_PointSize = uPointSize * (280.0 / -mvPosition.z);
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
+
+const fragmentShader = `
+  uniform vec3 uColor;
+  uniform float uOpacity;
+
+  void main() {
+    // Smooth circular antialiased lidar points
+    vec2 coord = gl_PointCoord - vec2(0.5);
+    float dist = length(coord);
+    if (dist > 0.5) discard;
+    float alpha = smoothstep(0.5, 0.25, dist) * uOpacity;
+    gl_FragColor = vec4(uColor, alpha);
+  }
+`;
+
+// Global geometry cache to prevent repeated parsing
+const geometryCache = new Map();
+
+function extractOptimizedGeometry(scene, sceneId) {
+  if (geometryCache.has(sceneId)) {
+    return geometryCache.get(sceneId);
+  }
+
+  const meshes = [];
+  scene.traverse((child) => {
+    if ((child.isMesh || child.isPoints) && child.geometry && child.geometry.attributes.position) {
+      meshes.push(child);
+    }
+  });
+
+  let totalVertexCount = 0;
+  meshes.forEach(m => {
+    totalVertexCount += m.geometry.attributes.position.count;
+  });
+
+  const step = totalVertexCount > 120000 ? Math.ceil(totalVertexCount / 100000) : 1;
+  const targetCount = Math.floor(totalVertexCount / step);
+
+  const positions = new Float32Array(targetCount * 3);
+  let posIdx = 0;
+  const tempVec = new THREE.Vector3();
+
+  meshes.forEach(m => {
+    const posAttr = m.geometry.attributes.position;
+    const matrix = m.matrixWorld;
+    for (let i = 0; i < posAttr.count; i += step) {
+      if (posIdx >= targetCount) break;
+      tempVec.fromBufferAttribute(posAttr, i);
+      tempVec.applyMatrix4(matrix);
+      positions[posIdx * 3] = tempVec.x;
+      positions[posIdx * 3 + 1] = tempVec.y;
+      positions[posIdx * 3 + 2] = tempVec.z;
+      posIdx++;
+    }
+  });
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.center();
+  geometry.computeBoundingBox();
+
+  const box = geometry.boundingBox;
+  const maxDim = Math.max(box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z);
+  if (maxDim > 60) {
+    const scale = 40 / maxDim;
+    geometry.scale(scale, scale, scale);
     geometry.computeBoundingBox();
-    
-    const maxDim = Math.max(
-        geometry.boundingBox.max.x - geometry.boundingBox.min.x,
-        geometry.boundingBox.max.y - geometry.boundingBox.min.y,
-        geometry.boundingBox.max.z - geometry.boundingBox.min.z
-    );
-    if (maxDim > 100) {
-        const scale = 50 / maxDim;
-        geometry.scale(scale, scale, scale);
-        geometry.computeBoundingBox();
-    }
-    
-    // If not recoloring, bail out after center/scale
-    if (colormap === 'original') return geometry;
+  }
 
-    const minY = geometry.boundingBox.min.y;
-    const maxY = geometry.boundingBox.max.y;
-    const range = maxY - minY || 1;
+  const cachedData = {
+    geometry,
+    vertexCount: posIdx
+  };
 
-    const positions = geometry.attributes.position.array;
-    const count = positions.length / 3;
-    const colors = new Float32Array(count * 3);
+  geometryCache.set(sceneId, cachedData);
+  return cachedData;
+}
 
-    const cmap = COLOR_MAPS[colormap] || COLOR_MAPS['default'];
-    const colorMain = new THREE.Color(cmap.main);
-    const colorAccent = new THREE.Color(cmap.accent);
-    const colorDark = new THREE.Color(cmap.dark);
+// Point Cloud Render Component
+const PointCloudMesh = ({ sceneId }) => {
+  const { scene } = useGLTF(`/models/${sceneId}.glb`);
 
-    for(let i = 0; i < count; i++) {
-       const y = positions[i * 3 + 1];
-       const normalizedY = (y - minY) / range;
-       
-       const mixedColor = colorDark.clone();
-       if (normalizedY > 0.5) {
-           mixedColor.lerp(colorAccent, (normalizedY - 0.5) * 2);
-       } else {
-           mixedColor.lerp(colorMain, normalizedY * 2);
-       }
-       
-       colors[i*3] = mixedColor.r;
-       colors[i*3+1] = mixedColor.g;
-       colors[i*3+2] = mixedColor.b;
-    }
+  const sceneData = useMemo(() => {
+    return extractOptimizedGeometry(scene, sceneId);
+  }, [scene, sceneId]);
 
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-    return geometry;
-};
+  const uniforms = useMemo(() => ({
+    uPointSize: { value: 0.075 },
+    uColor: { value: new THREE.Color('#10b981') }, // Laser emerald
+    uOpacity: { value: 0.88 }
+  }), []);
 
-const GlbPointCloud = ({ sceneId, renderMode, colormap }) => {
-    try {
-        const { scene } = useGLTF(`/models/${sceneId}.glb`);
-        const pointsRef = useRef();
-
-        // Calculate bounding box and scale for the whole scene (used for both mesh and points)
-        const sceneMetrics = useMemo(() => {
-            const box = new THREE.Box3().setFromObject(scene);
-            const size = new THREE.Vector3();
-            const center = new THREE.Vector3();
-            box.getSize(size);
-            box.getCenter(center);
-            
-            const maxDim = Math.max(size.x, size.y, size.z);
-            const scaleFactor = maxDim > 100 ? 50 / maxDim : 1;
-            return { center, scaleFactor };
-        }, [scene, sceneId]);
-
-        const geometry = useMemo(() => {
-            if (renderMode !== 'points') return null;
-
-            const geometries = [];
-            scene.traverse((child) => {
-                if (child.isMesh && child.geometry) {
-                    const geom = child.geometry.clone();
-                    geom.applyMatrix4(child.matrixWorld);
-                    geometries.push(geom);
-                }
-            });
-
-            if (geometries.length === 0) return new THREE.BufferGeometry();
-
-            let totalArrayLength = 0;
-            geometries.forEach(g => {
-                if (g.attributes.position) totalArrayLength += g.attributes.position.array.length;
-            });
-            
-            const mergedPositions = new Float32Array(totalArrayLength);
-            let offset = 0;
-            geometries.forEach(g => {
-                if (g.attributes.position) {
-                    mergedPositions.set(g.attributes.position.array, offset);
-                    offset += g.attributes.position.array.length;
-                }
-            });
-
-            const mergedGeom = new THREE.BufferGeometry();
-            mergedGeom.setAttribute('position', new THREE.BufferAttribute(mergedPositions, 3));
-            
-            return applyColormap(mergedGeom, colormap);
-        }, [scene, colormap, sceneId, renderMode]);
-
-        // If 'mesh', render the native GLB model with its original textures
-        if (renderMode === 'mesh') {
-             return (
-                 <group 
-                     scale={sceneMetrics.scaleFactor} 
-                     position={[-sceneMetrics.center.x * sceneMetrics.scaleFactor, -sceneMetrics.center.y * sceneMetrics.scaleFactor, -sceneMetrics.center.z * sceneMetrics.scaleFactor]}
-                 >
-                     <primitive object={scene} />
-                 </group>
-             );
-        }
-
-        // If 'points', render the synthesized point cloud
-        return (
-            <points ref={pointsRef}>
-                <bufferGeometry attach="geometry" {...geometry} />
-                <pointsMaterial attach="material" size={0.05} vertexColors={true} sizeAttenuation={true} transparent opacity={0.8} />
-            </points>
-        );
-    } catch(e) {
-        return null; // Fallback if file doesn't exist
-    }
-};
-
-const PcdViewer = ({ sceneId, renderMode, colormap }) => {
-    try {
-        const pcd = useLoader(PCDLoader, `/models/${sceneId}.pcd`);
-        const pointsRef = useRef();
-
-        useMemo(() => {
-            if (!pcd || !pcd.geometry) return;
-            // Native PCD colors are requested via 'original' mapping
-            applyColormap(pcd.geometry, renderMode === 'mesh' ? 'original' : colormap);
-            pcd.material.size = 0.05;
-            pcd.material.vertexColors = true;
-            pcd.material.needsUpdate = true;
-        }, [pcd, colormap, sceneId, renderMode]);
-
-        return <primitive object={pcd} ref={pointsRef} />;
-    } catch(e) {
-        return null;
-    }
-};
-
-const DynamicModelViewer = ({ sceneConfig, renderMode, colormap }) => {
-    if (!sceneConfig) return null;
-    if (sceneConfig.format === 'glb') {
-        return <GlbPointCloud sceneId={sceneConfig.id} renderMode={renderMode} colormap={colormap} />;
-    }
-    return <PcdViewer sceneId={sceneConfig.id} renderMode={renderMode} colormap={colormap} />;
-};
-
-const getBackgroundColor = (sceneId, renderMode) => {
-    // Only apply custom background colors in solid mesh mode. 
-    // Point clouds always use the default slate to match the site aesthetic.
-    if (renderMode !== 'mesh') return '#0d0d12';
-
-    switch (sceneId) {
-        case 'underwater_terrain_-_agisoftnaturechallenge': return '#0f3b7d'; // Cobalt blue
-        case 'toyota_supra_mk_iv_1994': return '#292c33'; // Dark grey
-        case 'us_battleship_louisiana': return '#152e1f'; // Dark green
-        case 'lockheed_sr-71_blackbird': return '#8ea3b8'; // Light blue grey
-        default: return '#0d0d12';
-    }
+  return (
+    <points>
+      <primitive object={sceneData.geometry} attach="geometry" />
+      <shaderMaterial
+        attach="material"
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        transparent={true}
+        depthWrite={false}
+      />
+    </points>
+  );
 };
 
 export default function PointCloudHero() {
-  const [colormap, setColormap] = useState('default');
-  const [renderMode, setRenderMode] = useState('mesh');
-  const [currentScene, setCurrentScene] = useState('pine_forest');
+  const [currentSceneId, setCurrentSceneId] = useState('livox_forest_grove');
+  const [isRotating, setIsRotating] = useState(true);
 
-  const bgColor = getBackgroundColor(currentScene, renderMode);
+  const activeScene = SCENES.find(s => s.id === currentSceneId) || SCENES[0];
 
-  // We add some directional light exclusively for the 'mesh' view since point clouds don't need lighting
   return (
-    <div className="relative w-full h-full group">
+    <div className="relative w-full h-full select-none bg-[#070b09]">
       <Canvas 
-          camera={{ position: [25, 15, 25], fov: 45, near: 0.1, far: 500000 }}
-          gl={{ antialias: false, powerPreference: 'high-performance', logarithmicDepthBuffer: true }}
+        camera={{ position: [20, 12, 22], fov: 45, near: 0.5, far: 1200 }}
+        gl={{ antialias: true, powerPreference: 'high-performance' }}
       >
-        <color attach="background" args={[bgColor]} />
-        <fog attach="fog" args={[bgColor, 10, 40]} />
-
-        {renderMode === 'mesh' && (
-            <>
-                <ambientLight intensity={1.5} />
-                <directionalLight position={[10, 20, 10]} intensity={2.0} />
-                <directionalLight position={[-10, 10, -10]} intensity={1.0} color="#df6677" />
-            </>
-        )}
+        <color attach="background" args={['#070b09']} />
+        <fog attach="fog" args={['#070b09', 25, 75]} />
 
         <Suspense fallback={null}>
-            <DynamicModelViewer sceneConfig={SCENES.find(s => s.id === currentScene)} renderMode={renderMode} colormap={colormap} />
+          <PointCloudMesh sceneId={currentSceneId} />
         </Suspense>
         
         <OrbitControls 
-          autoRotate 
-          autoRotateSpeed={0.5} 
+          autoRotate={isRotating} 
+          autoRotateSpeed={0.4} 
           enablePan={true}
           enableZoom={true}
+          enableDamping={true}
+          dampingFactor={0.08}
         />
       </Canvas>
-      
-      {/* Scene Selectors Overlay */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 flex flex-wrap justify-center gap-2 z-10 opacity-30 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
-         {SCENES.map(scene => (
-             <button 
-                 key={scene.id} 
-                 onClick={() => setCurrentScene(scene.id)} 
-                 className={`px-3 py-1.5 text-xs font-mono rounded border ${currentScene === scene.id ? 'bg-primary-600/80 border-primary-400 text-white shadow-[0_0_10px_rgba(139,43,136,0.3)]' : 'bg-surface/80 border-primary-800/50 text-text-muted hover:border-primary-500 hover:text-white backdrop-blur-sm'} transition-all`}
-             >
-                 {scene.name}
-             </button>
-         ))}
+
+      {/* Top Center: Scene Selector */}
+      <div className="absolute top-5 right-6 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 flex items-center gap-1.5 z-20 pointer-events-auto bg-surface/80 p-1 rounded-xl border border-border/80 backdrop-blur-md shadow-lg">
+        {SCENES.map(scene => (
+          <button 
+            key={scene.id} 
+            onClick={() => setCurrentSceneId(scene.id)} 
+            className={`px-3 py-1 text-xs font-mono rounded-lg transition-all cursor-pointer ${
+              currentSceneId === scene.id 
+                ? 'bg-forest-700 text-white border border-accent/40 shadow-sm' 
+                : 'text-text-muted hover:text-white hover:bg-forest-850'
+            }`}
+          >
+            {scene.name}
+          </button>
+        ))}
       </div>
 
-      {/* View Mode & Colormap Toggles Overlay */}
-      <div className="absolute bottom-6 right-6 flex flex-col items-end gap-3 z-10 opacity-30 group-hover:opacity-100 transition-opacity duration-300 pointer-events-auto">
-         
-         {/* Top switch: Render mode */}
-         <div className="flex bg-surface/50 p-1 rounded-lg border border-primary-800/50 backdrop-blur-sm">
-             <button onClick={() => setRenderMode('points')} className={`px-4 py-1.5 text-xs font-mono rounded ${renderMode === 'points' ? 'bg-primary-600 text-white shadow-md' : 'text-text-muted hover:text-white'} transition-all`}>Lidar Points</button>
-             <button onClick={() => setRenderMode('mesh')} className={`px-4 py-1.5 text-xs font-mono rounded ${renderMode === 'mesh' ? 'bg-primary-600 text-white shadow-md' : 'text-text-muted hover:text-white'} transition-all`}>Native Texture</button>
-         </div>
+      {/* Bottom Right: Clean HUD Controls */}
+      <div className="absolute bottom-6 right-6 z-20 pointer-events-auto flex items-center gap-3">
+        {/* Scene Info Pill */}
+        <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-text-muted bg-surface/80 px-3 py-1.5 rounded-xl border border-border/80 backdrop-blur-md shadow-lg">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span className="text-white font-medium">{activeScene.name}</span>
+          <span className="text-text-dim">&bull;</span>
+          <span>{activeScene.spec}</span>
+        </div>
 
-         {/* Bottom switch: Colormaps (only visible in point cloud mode) */}
-         <div className={`flex gap-2 transition-all duration-300 ${renderMode === 'mesh' ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
-            <button onClick={() => setColormap('default')} className={`px-3 py-1.5 text-xs font-mono rounded border ${colormap === 'default' ? 'bg-[#df6677]/80 border-[#f58860] text-white shadow-[0_0_10px_rgba(223,102,119,0.5)]' : 'bg-surface/80 border-primary-800/50 text-text-muted hover:border-[#df6677] hover:text-white backdrop-blur-sm'} transition-all`}>Standard</button>
-            <button onClick={() => setColormap('viridis')} className={`px-3 py-1.5 text-xs font-mono rounded border ${colormap === 'viridis' ? 'bg-[#21918c]/80 border-[#fde725] text-white shadow-[0_0_10px_rgba(33,145,140,0.5)]' : 'bg-surface/80 border-primary-800/50 text-text-muted hover:border-[#21918c] hover:text-white backdrop-blur-sm'} transition-all`}>Viridis</button>
-            <button onClick={() => setColormap('magma')} className={`px-3 py-1.5 text-xs font-mono rounded border ${colormap === 'magma' ? 'bg-[#b73779]/80 border-[#fcffa4] text-white shadow-[0_0_10px_rgba(183,55,121,0.5)]' : 'bg-surface/80 border-primary-800/50 text-text-muted hover:border-[#b73779] hover:text-white backdrop-blur-sm'} transition-all`}>Magma</button>
-         </div>
-      </div>
-
-      <div className="absolute bottom-6 left-6 z-10 opacity-30 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none">
-        <p className="text-xs font-mono text-text-muted flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-            Interactive Viewer (Scroll to zoom, drag to pan)
-        </p>
+        {/* Orbit Auto-Rotation Toggle & Interaction Hint */}
+        <div className="flex items-center gap-2.5 text-[11px] font-mono text-text-muted bg-surface/80 px-3 py-1.5 rounded-xl border border-border/80 backdrop-blur-md shadow-lg">
+          <button 
+            onClick={() => setIsRotating(!isRotating)}
+            className="hover:text-accent text-text-main transition-colors flex items-center gap-1.5 cursor-pointer"
+            title={isRotating ? 'Pause automatic rotation' : 'Resume automatic rotation'}
+          >
+            <span className={`inline-block w-1.5 h-1.5 rounded-full ${isRotating ? 'bg-accent' : 'bg-text-dim'}`}></span>
+            <span>{isRotating ? 'Pause' : 'Rotate'}</span>
+          </button>
+          <span className="text-text-dim">&bull;</span>
+          <span className="text-text-dim">Drag to inspect</span>
+        </div>
       </div>
     </div>
   );

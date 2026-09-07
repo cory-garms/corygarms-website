@@ -1,0 +1,124 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="CUTMAP: Autonomous Forest Mensuration">
+  <main class="max-w-5xl mx-auto px-6 py-16">
+    
+    <!-- Navigation Back Link -->
+    <div class="mb-8">
+      <a 
+        href="/#portfolio" 
+        class="inline-flex items-center gap-2 text-xs font-mono text-text-muted hover:text-accent transition-colors"
+      >
+        <span>&larr; Back to Projects</span>
+      </a>
+    </div>
+
+    <!-- Project Header -->
+    <div class="mb-12 border-b border-border pb-8">
+      <div class="flex flex-wrap items-center gap-3 mb-3">
+        <span class="w-2 h-2 rounded-sm bg-accent"></span>
+        <span class="text-xs font-mono uppercase tracking-widest text-accent-light">USDA STTR Phase I / II</span>
+        <span class="text-text-dim">&bull;</span>
+        <span class="text-xs font-mono text-topo bg-topo/10 px-2 py-0.5 rounded border border-topo/30">Active Development</span>
+      </div>
+      
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+        CUTMAP
+      </h1>
+      <p class="text-lg text-text-main font-medium max-w-3xl leading-relaxed mb-3">
+        Autonomous Forest Mensuration & Silvicultural Thinning Platform
+      </p>
+      <p class="text-sm text-text-muted max-w-2xl leading-relaxed font-mono">
+        Lead Scientist: Cory Glenn Garms &bull; Spectral Sciences, Inc. &amp; Oregon State University
+      </p>
+    </div>
+
+    <!-- Sprint Roadmap Notice -->
+    <div class="p-6 rounded-2xl bg-forest-950/80 border border-accent/30 mb-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="space-y-1">
+        <div class="text-xs font-mono uppercase tracking-wider text-accent font-semibold flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          Next Sprint Integration Roadmap
+        </div>
+        <p class="text-xs text-text-muted leading-relaxed">
+          This project page is being established as the dedicated home for CUTMAP. In the upcoming sprint, we will connect the edge data processing pipelines, 3D point cloud viewers, and field telemetry directly to this site.
+        </p>
+      </div>
+      <a 
+        href="/research#mobile-lidar-volume" 
+        class="shrink-0 px-3.5 py-2 bg-forest-800 hover:bg-forest-750 text-white rounded-lg text-xs font-mono border border-border hover:border-accent/40 transition-all"
+      >
+        <span>View Published Research &rarr;</span>
+      </a>
+    </div>
+
+    <!-- Template Content Grid (Architecture Placeholder) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      
+      <!-- Hardware & Edge Platform -->
+      <div class="p-6 sm:p-8 bg-surface rounded-2xl border border-border flex flex-col justify-between">
+        <div>
+          <div class="aspect-video w-full rounded-xl overflow-hidden mb-5 bg-forest-950 border border-border">
+            <img 
+              src="/images/STTR_device.jpg" 
+              alt="CUTMAP Field Apparatus" 
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <span class="text-[11px] font-mono uppercase tracking-wider text-accent-light">Hardware System</span>
+          <h2 class="text-xl font-bold text-white mt-1 mb-3">Edge-Computed Sensor Rig</h2>
+          <p class="text-xs text-text-muted leading-relaxed mb-4">
+            Ruggedized mobile robotics platform integrating multi-beam LiDAR (Velodyne / Livox), calibrated stereoscopic camera pairs, and industrial edge computing for real-time understory forest data acquisition.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-border/60 flex flex-wrap gap-2 text-[10px] font-mono text-text-dim">
+          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Mobile LiDAR</span>
+          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Stereo Vision</span>
+          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">NVIDIA Jetson</span>
+        </div>
+      </div>
+
+      <!-- Algorithmic Pipeline -->
+      <div class="p-6 sm:p-8 bg-surface rounded-2xl border border-border flex flex-col justify-between">
+        <div>
+          <div class="aspect-video w-full rounded-xl overflow-hidden mb-5 bg-forest-950 border border-border flex items-center justify-center topo-grid">
+            <div class="text-center p-6">
+              <span class="text-xs font-mono text-accent uppercase tracking-widest block mb-1">Pipeline Mockup</span>
+              <span class="text-sm font-semibold text-white">Additive Point Cloud &amp; Heuristic Thinning</span>
+            </div>
+          </div>
+          <span class="text-[11px] font-mono uppercase tracking-wider text-accent-light">Software Architecture</span>
+          <h2 class="text-xl font-bold text-white mt-1 mb-3">Stem Mensuration &amp; Thinning Heuristics</h2>
+          <p class="text-xs text-text-muted leading-relaxed mb-4">
+            Multi-stage spatial processing pipeline: progressive aerial-terrestrial coregistration, automated individual tree segmentation, stem diameter at breast height (DBH) and lean estimation, and heuristic tree selection for silvicultural harvesting.
+          </p>
+        </div>
+        <div class="pt-4 border-t border-border/60 flex flex-wrap gap-2 text-[10px] font-mono text-text-dim">
+          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Point Cloud Coregistration</span>
+          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Stem Taper Vectoring</span>
+          <span class="px-2 py-0.5 rounded bg-forest-900 border border-border">Heuristics</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Related Publications & Dossier Reference -->
+    <div class="p-6 bg-surface/50 rounded-2xl border border-border">
+      <h3 class="text-xs font-mono uppercase tracking-widest text-accent-light mb-4 flex items-center gap-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+        Foundational Publications
+      </h3>
+      <div class="space-y-3 text-xs leading-relaxed text-text-muted">
+        <div>
+          <span class="text-white font-medium">Garms, C.G. &amp; Strimbu, B. (2021).</span> Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans. <em>Canadian Journal of Forest Research</em>.
+        </div>
+        <div>
+          <span class="text-white font-medium">Garms, C.G. et al. (2020).</span> Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors. <em>Canadian Journal of Forest Research</em>.
+        </div>
+      </div>
+    </div>
+
+  </main>
+</Layout>
