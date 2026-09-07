@@ -1,5 +1,25 @@
 # Progress Log
 
+## [2026-09-07 17:08:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Curriculum Vitae Overhaul (`src/pages/cv.astro`)
+* **Summary:** Completely updated [`src/pages/cv.astro`](file:///home/cgarms/Sandbox/website/src/pages/cv.astro) integrating the historical 2022 CV PDF with Cory's past three years of achievements at Spectral Sciences, Inc. (SSI):
+  1. **Executive Summary:** Professional framing as Senior Remote Sensing Scientist & Technical Architect bridging satellite photon event streams, hyperspectral cubes, and mobile 3D LiDAR point clouds.
+  2. **Professional Experience:**
+     - **Spectral Sciences, Inc. (2022–Present):** Senior Scientist. Detailed bullets on CUTMAP (USDA STTR Phase I & II Lead Algorithm Architect), UNJITR (NASA Swift UVOT de-jitter co-investigator), Hyperspectral MTF knife-edge calibration & ground targets (SPIE 2022, 2023), and containerized Docker/Podman pipelines.
+     - **AeroTract Geospatial (2021–2022):** UAS Scientist / Full-Stack Web Developer. AWS cloud geospatial processing app, Python analytics, team leadership.
+     - **CDR Maguire (2021):** UAS Scientist & Interim Aerial Section Chief. Post-2020 Oregon wildfire hazard tree assessment, DJI M300 RTK LiDAR/photogrammetry, virtual arborist workflows.
+     - **Greensense Remote Sensing (2018–2021):** Co-Founder. Precision agriculture UAS operations across 1,250+ acres, point cloud startup accelerator.
+  3. **Education Pedigree:**
+     - **Oregon State University (2016–2020):** Ph.D. in Sustainable Forest Management (Forest Remote Sensing, LiDAR & photogrammetry).
+     - **Louisiana State University (2013–2016):** M.S. in Renewable Natural Resources (Forestry concentration & in situ tree biomechanics).
+     - **University of Texas at San Antonio (2008–2012):** B.S. in Environmental Science & Biology (Cum Laude).
+  4. **Technical Arsenal & Skills:** Categorized into Scientific Programming & Math, Point Clouds & Geospatial, Remote Sensing & Sensors (Part 107), Computer Vision & AI, Full-Stack & Cloud Architecture, and DevOps, plus spoken languages (English, Spanish, Italian).
+  5. **Publications & Leadership:** Select peer-reviewed bibliography (PASP 2026, HortScience 2026, SPIE 2023, CJFR 2020, Remote Sensing 2021), Elks Lodge #915 officership, and personal avocations.
+  6. **Print / PDF Styling:** Clean `@media print` styles and button for crisp one-click PDF generation.
+* **Build Verification:** Tested with `npm run build`; all 19 static pages compiled cleanly in 6.10s with 0 errors.
+
 ## [2026-09-07 16:52:00 EDT]
 
 * **Status:** Completed

@@ -6,24 +6,33 @@ import Layout from "../layouts/Layout.astro";
   <div class="max-w-4xl mx-auto px-6 py-16">
     
     <!-- Top CV Action Bar -->
-    <div class="flex flex-wrap items-center justify-between gap-4 pb-8 mb-8 border-b border-border">
+    <div class="flex flex-wrap items-center justify-between gap-4 pb-8 mb-8 border-b border-border print:border-neutral-300">
       <div>
         <div class="flex items-center gap-2 mb-2">
           <span class="w-2 h-2 rounded-sm bg-accent"></span>
-          <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Academic Dossier</span>
+          <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Academic & Professional Dossier</span>
         </div>
-        <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">
+        <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight print:text-black">
           Cory Glenn Garms, Ph.D.
         </h1>
-        <p class="text-sm font-mono text-text-muted mt-1">
+        <p class="text-sm font-mono text-text-muted mt-1 print:text-neutral-700">
           Senior Scientist &bull; Spectral Sciences, Inc. &bull; Burlington, MA
         </p>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-mono text-text-dim mt-2 print:text-neutral-600">
+          <span>coryglenngarms@gmail.com</span>
+          <span>&bull;</span>
+          <a href="https://www.linkedin.com/in/cory-garms" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">linkedin.com/in/cory-garms</a>
+          <span>&bull;</span>
+          <a href="https://github.com/cory-garms" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">github.com/cory-garms</a>
+          <span>&bull;</span>
+          <a href="https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">Google Scholar</a>
+        </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 print:hidden">
         <button 
           onclick="window.print()" 
-          class="px-4 py-2 bg-surface hover:bg-forest-800 text-white rounded-lg text-xs font-mono border border-border hover:border-accent/40 transition-all flex items-center gap-2 cursor-pointer"
+          class="px-4 py-2 bg-surface hover:bg-forest-800 text-white rounded-lg text-xs font-mono border border-border hover:border-accent/40 transition-all flex items-center gap-2 cursor-pointer shadow-sm"
         >
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
@@ -35,26 +44,104 @@ import Layout from "../layouts/Layout.astro";
 
     <div class="space-y-12 text-text-main">
       
-      <!-- Section: Appointments -->
+      <!-- Section: Executive Summary -->
+      <section>
+        <h2 class="text-xs font-mono uppercase tracking-widest text-accent-light mb-4 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+          Executive Summary
+        </h2>
+        <div class="p-5 bg-surface/60 rounded-xl border border-border text-xs sm:text-sm text-text-muted leading-relaxed space-y-2.5 print:bg-transparent print:border-neutral-200 print:text-neutral-800">
+          <p>
+            Remote sensing data scientist, computer vision researcher, and technical architect with a Ph.D. in Sustainable Forest Management. Extensive experience bridging complex physical data—from satellite photon event streams and hyperspectral imaging cubes to mobile 3D LiDAR point clouds—into robust, scalable, container-ready software pipelines.
+          </p>
+          <p>
+            Proven track record leading federal Small Business Technology Transfer (STTR) robotics platforms, developing sub-pixel Fourier spacecraft de-jitter algorithms for NASA astrophysics data, and authoring peer-reviewed literature across remote sensing, forestry computer vision, and optical system calibration.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section: Professional Experience -->
       <section>
         <h2 class="text-xs font-mono uppercase tracking-widest text-accent-light mb-6 flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-          Professional Appointments
+          Professional Experience
         </h2>
 
         <div class="space-y-6">
-          <div class="p-6 bg-surface/70 rounded-xl border border-border">
+          
+          <!-- 1. Spectral Sciences, Inc. -->
+          <div class="p-6 bg-surface/70 rounded-xl border border-border hover:border-accent/40 transition-all print:border-neutral-300">
             <div class="flex flex-wrap justify-between items-baseline gap-2 mb-1">
-              <h3 class="text-lg font-bold text-white">Senior Scientist</h3>
-              <span class="text-xs font-mono text-accent">2021 – Present</span>
+              <div>
+                <h3 class="text-lg font-bold text-white print:text-black">Senior Scientist</h3>
+                <div class="text-xs font-mono text-cyan-300 print:text-neutral-700">Spectral Sciences, Inc. &bull; Burlington, MA</div>
+              </div>
+              <span class="text-xs font-mono text-accent font-semibold px-2 py-0.5 rounded bg-forest-900 border border-border">2022 – Present</span>
             </div>
-            <div class="text-xs font-mono text-text-muted mb-3">Spectral Sciences, Inc. &bull; Burlington, MA</div>
-            <ul class="list-disc list-outside ml-4 space-y-1.5 text-xs text-text-muted leading-relaxed">
-              <li>Lead Scientist and algorithm architect on USDA Small Business Technology Transfer (STTR) projects focused on automated 3D forest canopy modeling and mobile Lidar point cloud processing.</li>
-              <li>Engineered containerized Python pipelines for ground classification, canopy height model (CHM) generation, and volumetric biomass calculations.</li>
-              <li>Conducted research in hyperspectral and multispectral vicarious sensor calibration, airborne electro-optical target verification, and radiometric ground truth evaluation.</li>
+            <ul class="list-disc list-outside ml-4 mt-4 space-y-2 text-xs text-text-muted leading-relaxed print:text-neutral-800">
+              <li>
+                <strong class="text-white print:text-black">CUTMAP Lead Algorithm Architect (USDA STTR Phase I & Phase II):</strong> Directed software and sensor integration for an autonomous forest mensuration robotics platform. Formulated edge-computed mobile LiDAR and stereo-vision SLAM pipelines, 7-DoF constrained RANSAC cylinder stem modeling, individual tree lean/taper vectoring, and real-time silvicultural thinning prescription algorithms.
+              </li>
+              <li>
+                <strong class="text-white print:text-black">UNJITR Astrophysics Restoration Engine (NASA Swift UVOT):</strong> Co-investigator and algorithm architect (with Lead Scientist Dr. Jonathan Gelbord). Engineered a catalog-free sub-pixel 2D real-to-complex Fourier cross-correlation engine with parabolic vertex interpolation, collapsing 450 px reaction-wheel attitude jitter into 2.94″ Airy diffraction cores across 282 Swift galaxy observations (99.7% archival recovery rate).
+              </li>
+              <li>
+                <strong class="text-white print:text-black">Hyperspectral Sensor Calibration & MTF Ground Truth:</strong> Designed and deployed spatial-spectral ground targets to verify in-flight Modulation Transfer Function (MTF) knife-edge performance and radiometric fidelity (Empirical Line Method) across VNIR/SWIR bands for airborne electro-optical payloads (SPIE 2022, 2023).
+              </li>
+              <li>
+                <strong class="text-white print:text-black">High-Performance Containerized Pipelines:</strong> Architected reproducible Docker and Podman environments for streaming massive multi-gigabyte point clouds and hyperspectral cubes using NumPy, SciPy, Open3D, PDAL, and memory-mapped array tiling.
+              </li>
             </ul>
           </div>
+
+          <!-- 2. AeroTract Geospatial -->
+          <div class="p-6 bg-surface/70 rounded-xl border border-border hover:border-accent/40 transition-all print:border-neutral-300">
+            <div class="flex flex-wrap justify-between items-baseline gap-2 mb-1">
+              <div>
+                <h3 class="text-base font-bold text-white print:text-black">UAS Scientist / Full-Stack Web Developer</h3>
+                <div class="text-xs font-mono text-text-muted print:text-neutral-700">AeroTract Geospatial &bull; Albany, OR</div>
+              </div>
+              <span class="text-xs font-mono text-text-dim px-2 py-0.5 rounded bg-surface border border-border">Sep 2021 – 2022</span>
+            </div>
+            <ul class="list-disc list-outside ml-4 mt-3 space-y-1.5 text-xs text-text-muted leading-relaxed print:text-neutral-800">
+              <li>Provided agricultural, forestry, and utility enterprise clients with actionable analytics derived from cutting-edge UAS, sensor payloads, and custom algorithmic post-processing.</li>
+              <li>Designed, developed, and deployed a full-stack cloud web application on AWS (S3, Lambda, EC2) to process and deliver client geospatial data remotely; led two junior developers through prototype completion.</li>
+              <li>Authored statistical analysis pipelines, data post-processing tools, and automated Python workflows under rigorous Git version control.</li>
+            </ul>
+          </div>
+
+          <!-- 3. CDR Maguire -->
+          <div class="p-6 bg-surface/70 rounded-xl border border-border hover:border-accent/40 transition-all print:border-neutral-300">
+            <div class="flex flex-wrap justify-between items-baseline gap-2 mb-1">
+              <div>
+                <h3 class="text-base font-bold text-white print:text-black">UAS Scientist &bull; Interim Aerial Section Chief</h3>
+                <div class="text-xs font-mono text-text-muted print:text-neutral-700">CDR Maguire &bull; Salem, OR</div>
+              </div>
+              <span class="text-xs font-mono text-text-dim px-2 py-0.5 rounded bg-surface border border-border">Jan 2021 – Aug 2021</span>
+            </div>
+            <ul class="list-disc list-outside ml-4 mt-3 space-y-1.5 text-xs text-text-muted leading-relaxed print:text-neutral-800">
+              <li>Established the state disaster-recovery UAS division monitoring hazardous tree removal across highway rights-of-way following Oregon's historic 2020 wildfire season.</li>
+              <li>Trained and certified 5 commercial UAS pilots flying DJI Matrice 300 RTK platforms equipped with both LiDAR and high-resolution photogrammetry payloads.</li>
+              <li>Pioneered an innovative virtual arborist inspection workflow using 3D point clouds and high-resolution imagery to assess cliffside hazard trees inaccessible from the ground.</li>
+            </ul>
+          </div>
+
+          <!-- 4. Greensense Remote Sensing -->
+          <div class="p-6 bg-surface/70 rounded-xl border border-border hover:border-accent/40 transition-all print:border-neutral-300">
+            <div class="flex flex-wrap justify-between items-baseline gap-2 mb-1">
+              <div>
+                <h3 class="text-base font-bold text-white print:text-black">Co-Founder</h3>
+                <div class="text-xs font-mono text-text-muted print:text-neutral-700">Greensense Remote Sensing &bull; Corvallis, OR</div>
+              </div>
+              <span class="text-xs font-mono text-text-dim px-2 py-0.5 rounded bg-surface border border-border">Jan 2018 – Apr 2021</span>
+            </div>
+            <ul class="list-disc list-outside ml-4 mt-3 space-y-1.5 text-xs text-text-muted leading-relaxed print:text-neutral-800">
+              <li>Co-founded precision agriculture remote sensing venture to deliver actionable vegetation stress indices and canopy volume metrics to Oregon farmers.</li>
+              <li>Planned and flew autonomous UAS missions acquiring over 1,250 acres of calibrated multispectral and thermal imagery across hazelnut, blueberry, hops, and specialty crop operations.</li>
+              <li>Engineered point cloud processing infrastructure and participated in the Oregon State University Advantage Accelerator program (2020).</li>
+            </ul>
+          </div>
+
         </div>
       </section>
 
@@ -66,50 +153,99 @@ import Layout from "../layouts/Layout.astro";
         </h2>
 
         <div class="space-y-4">
-          <div class="p-5 bg-surface/50 rounded-xl border border-border">
+          <!-- Ph.D. -->
+          <div class="p-5 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
             <div class="flex flex-wrap justify-between items-baseline gap-2">
-              <h3 class="text-base font-semibold text-white">Doctor of Philosophy (Ph.D.)</h3>
-              <span class="text-xs font-mono text-text-dim">Completed</span>
+              <div>
+                <h3 class="text-base font-bold text-white print:text-black">Oregon State University</h3>
+                <div class="text-xs font-mono text-accent">Doctor of Sustainable Forest Management (Ph.D.)</div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-mono text-text-dim">Corvallis, OR</span>
+                <div class="text-xs font-mono text-text-dim">2016 – 2020</div>
+              </div>
             </div>
-            <div class="text-xs font-mono text-text-muted mt-1">Focus: Remote Sensing, Lidar Point Clouds & Forestry Computer Vision</div>
-            <p class="text-xs text-text-muted mt-2 leading-relaxed">
-              Dissertation research examining geometric bias and stem lean modeling of individual mature conifers using multi-platform terrestrial and aerial lidar systems.
+            <p class="text-xs text-text-muted mt-2.5 leading-relaxed print:text-neutral-700">
+              <strong class="text-white print:text-black">Focus:</strong> Forest remote sensing, 3D LiDAR point clouds, and photogrammetry. Dissertation investigated multi-sensor active and passive algorithms to isolate stem curvature, lean-induced geometric volume bias, and single-tree dimensions in mature conifer stands.
             </p>
           </div>
 
-          <div class="p-5 bg-surface/50 rounded-xl border border-border">
+          <!-- M.S. -->
+          <div class="p-5 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
             <div class="flex flex-wrap justify-between items-baseline gap-2">
-              <h3 class="text-base font-semibold text-white">Bachelor of Science (B.S.)</h3>
-              <span class="text-xs font-mono text-text-dim">Completed</span>
+              <div>
+                <h3 class="text-base font-bold text-white print:text-black">Louisiana State University</h3>
+                <div class="text-xs font-mono text-accent">Master of Science in Renewable Natural Resources (M.S.)</div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-mono text-text-dim">Baton Rouge, LA</span>
+                <div class="text-xs font-mono text-text-dim">2013 – 2016</div>
+              </div>
             </div>
-            <div class="text-xs font-mono text-text-muted mt-1">Natural Resource Ecology & Geospatial Sciences</div>
+            <p class="text-xs text-text-muted mt-2.5 leading-relaxed print:text-neutral-700">
+              <strong class="text-white print:text-black">Focus:</strong> Forestry concentration. Thesis researched in situ stem mechanical properties, acoustic velocity wave propagation, and wood quality modeling in living southern pine trees.
+            </p>
+          </div>
+
+          <!-- B.S. -->
+          <div class="p-5 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
+            <div class="flex flex-wrap justify-between items-baseline gap-2">
+              <div>
+                <h3 class="text-base font-bold text-white print:text-black">University of Texas at San Antonio</h3>
+                <div class="text-xs font-mono text-accent">Bachelor of Science in Environmental Science & Biology (B.S.)</div>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-mono text-text-dim">San Antonio, TX</span>
+                <div class="text-xs font-mono text-text-dim">2008 – 2012</div>
+              </div>
+            </div>
+            <p class="text-xs text-text-muted mt-2 leading-relaxed print:text-neutral-700">
+              Graduated <span class="text-white font-medium print:text-black">Cum Laude</span>. Foundation in ecological principles, botanical taxonomy, biological statistics, and GIS.
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- Section: Computational Skills -->
+      <!-- Section: Computational & Technical Arsenal -->
       <section>
         <h2 class="text-xs font-mono uppercase tracking-widest text-accent-light mb-6 flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-          Computational & Engineering Arsenal
+          Technical Expertise & Arsenal
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-          <div class="p-4 bg-surface/50 rounded-xl border border-border">
-            <div class="text-white font-semibold mb-1">Languages & Core Math</div>
-            <div class="text-text-muted font-mono leading-relaxed">Python (laspy, rasterio, NumPy, SciPy, Open3D, Pandas), C++, GLSL, TypeScript</div>
+          <div class="p-4 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
+            <div class="text-white font-semibold mb-1 print:text-black">Scientific Programming & Math</div>
+            <div class="text-text-muted font-mono leading-relaxed print:text-neutral-700">Python (NumPy, SciPy, Pandas, laspy, rasterio, Open3D), R (biometrics, spatial statistics), C++, GLSL, Bash scripting</div>
           </div>
-          <div class="p-4 bg-surface/50 rounded-xl border border-border">
-            <div class="text-white font-semibold mb-1">Point Clouds & Spatial</div>
-            <div class="text-text-muted font-mono leading-relaxed">PDAL, CloudCompare, GDAL/OGR, QGIS, Agisoft Metashape, Potree, Three.js</div>
+          <div class="p-4 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
+            <div class="text-white font-semibold mb-1 print:text-black">Point Clouds & Geospatial</div>
+            <div class="text-text-muted font-mono leading-relaxed print:text-neutral-700">PDAL, CloudCompare, GDAL/OGR, QGIS, Agisoft Metashape, Potree, Three.js, React Three Fiber</div>
           </div>
-          <div class="p-4 bg-surface/50 rounded-xl border border-border">
-            <div class="text-white font-semibold mb-1">Containers & DevOps</div>
-            <div class="text-text-muted font-mono leading-relaxed">Docker, Podman, Linux/Bash, Git CI/CD, Reproducible Science Environments</div>
+          <div class="p-4 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
+            <div class="text-white font-semibold mb-1 print:text-black">Remote Sensing & Sensors</div>
+            <div class="text-text-muted font-mono leading-relaxed print:text-neutral-700">Airborne & Terrestrial LiDAR (Livox, DJI L1, Riegl), Hyperspectral/Multispectral, MTF verification, UAS Operations (Part 107)</div>
           </div>
-          <div class="p-4 bg-surface/50 rounded-xl border border-border">
-            <div class="text-white font-semibold mb-1">Computer Vision & AI</div>
-            <div class="text-text-muted font-mono leading-relaxed">YOLOv8, 3D Point Segmentation, RANSAC Cylinder Fitting, Canopy Modeling</div>
+          <div class="p-4 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
+            <div class="text-white font-semibold mb-1 print:text-black">Computer Vision & AI</div>
+            <div class="text-text-muted font-mono leading-relaxed print:text-neutral-700">YOLOv8, 3D Point Segmentation, RANSAC Cylinder Fitting, SLAM, PyTorch, Detectron2, OpenCV</div>
+          </div>
+          <div class="p-4 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
+            <div class="text-white font-semibold mb-1 print:text-black">Full-Stack & Cloud Architecture</div>
+            <div class="text-text-muted font-mono leading-relaxed print:text-neutral-700">JavaScript/TypeScript (Astro, React, Node.js), AWS (S3, Lambda, EC2), Plotly/Dash, MERN stack</div>
+          </div>
+          <div class="p-4 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
+            <div class="text-white font-semibold mb-1 print:text-black">DevOps & Reproducible Science</div>
+            <div class="text-text-muted font-mono leading-relaxed print:text-neutral-700">Docker, Podman, Linux/POSIX environments, Git CI/CD, Automated Testing, Scientific Documentation</div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-surface/30 rounded-xl border border-border flex flex-wrap items-center justify-between gap-3 text-xs font-mono print:border-neutral-200">
+          <div>
+            <span class="text-text-dim">Languages: </span>
+            <span class="text-white print:text-black">English (Native)</span> &bull; 
+            <span class="text-text-muted">Spanish (Limited working proficiency)</span> &bull; 
+            <span class="text-text-muted">Italian (Elementary)</span>
           </div>
         </div>
       </section>
@@ -119,50 +255,69 @@ import Layout from "../layouts/Layout.astro";
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-xs font-mono uppercase tracking-widest text-accent-light flex items-center gap-2">
             <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-            Peer-Reviewed Publications
+            Select Publications & Proceedings
           </h2>
-          <a href="/research" class="text-xs font-mono text-accent hover:text-accent-light transition-colors">
-            View All Publications &rarr;
+          <a href="/research" class="text-xs font-mono text-accent hover:text-accent-light transition-colors print:hidden">
+            View Complete Dossier & BibTeX &rarr;
           </a>
         </div>
 
-        <div class="p-5 bg-surface/40 rounded-xl border border-border space-y-3 text-xs leading-relaxed text-text-muted">
+        <div class="p-5 bg-surface/40 rounded-xl border border-border space-y-3.5 text-xs leading-relaxed text-text-muted print:border-neutral-300 print:text-neutral-800">
           <div>
-            <span class="text-white font-medium">Strauss, S.H., Garms, A.L., Garms, C.G., et al. (2026).</span> Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar. <em>HortScience</em>, 61(9), 1925–1934.
+            <span class="text-white font-medium print:text-black">Gelbord, J., Garms, C.G., et al. (2026).</span> UNJITR: Catalog-Free Sub-Pixel Photon Jitter Restoration & Orbit Coregistration for NASA Swift UVOT. <em>Publications of the Astronomical Society of the Pacific (PASP)</em>, in preparation.
           </div>
           <div>
-            <span class="text-white font-medium">Garms, C.G. et al. (2021).</span> Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors. <em>Remote Sensing</em>.
+            <span class="text-white font-medium print:text-black">Strauss, S.H., Garms, A.L., Garms, C.G., et al. (2026).</span> Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar. <em>HortScience</em>, 61(9), 1925–1934.
           </div>
           <div>
-            <span class="text-white font-medium">Garms, C.G. et al. (2022).</span> Augmenting size models for Pinus strobiformis seedlings using dimensional estimates from UAS. <em>Ecological Informatics</em>.
+            <span class="text-white font-medium print:text-black">Garms, C.G. et al. (2023).</span> Spectral-spatial ground targets for measurement of airborne electro-optical imaging system performance. <em>Proc. SPIE Defense + Commercial Sensing</em>, 1254308.
           </div>
           <div>
-            <span class="text-white font-medium">Garms, C.G. et al. (2020).</span> Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans. <em>Canadian Journal of Forest Research</em>.
+            <span class="text-white font-medium print:text-black">Garms, C.G. et al. (2022).</span> Augmenting size models for Pinus strobiformis seedlings using dimensional estimates from UAS. <em>Ecological Informatics</em>, 69, 101625.
           </div>
           <div>
-            <span class="text-white font-medium">Garms, C.G. et al. (2023).</span> Spectral-spatial ground targets for measurement of airborne electro-optical imaging system performance. <em>SPIE Defense + Commercial Sensing</em>.
+            <span class="text-white font-medium print:text-black">Garms, C.G. et al. (2022).</span> Calibration of Earth observing spectral imagers vicariously and with controlled ground array. <em>Proc. SPIE Remote Sensing</em>.
           </div>
           <div>
-            <span class="text-white font-medium">Garms, C.G. et al. (2022).</span> Calibration of Earth observing spectral imagers vicariously and with controlled ground array. <em>SPIE Remote Sensing</em>.
+            <span class="text-white font-medium print:text-black">Garms, C.G., Temesgen, H., & Pulkki, R. (2021).</span> Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors. <em>Remote Sensing</em>, 12(14), 2278.
+          </div>
+          <div>
+            <span class="text-white font-medium print:text-black">Garms, C.G., Temesgen, H., & Pulkki, R. (2020).</span> Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans. <em>Canadian Journal of Forest Research</em>, 50(9), 920–931.
           </div>
         </div>
       </section>
 
-      <!-- Section: Community & Leadership -->
+      <!-- Section: Leadership & Community Service -->
       <section>
         <h2 class="text-xs font-mono uppercase tracking-widest text-accent-light mb-6 flex items-center gap-2">
           <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
           Leadership & Community Service
         </h2>
 
-        <div class="p-5 bg-surface/50 rounded-xl border border-border">
+        <div class="p-5 bg-surface/50 rounded-xl border border-border print:border-neutral-300">
           <div class="flex flex-wrap justify-between items-baseline gap-2">
-            <h3 class="text-sm font-semibold text-white">Medford Malden Elks Lodge #915</h3>
-            <span class="text-xs font-mono text-topo">Chaplain & Member</span>
+            <div>
+              <h3 class="text-sm font-bold text-white print:text-black">Medford Malden Elks Lodge #915</h3>
+              <div class="text-xs font-mono text-topo">Esteemed Lecturing Knight &bull; Chaplain &bull; Member</div>
+            </div>
+            <span class="text-xs font-mono text-text-dim">Medford, MA</span>
           </div>
-          <p class="text-xs text-text-muted mt-2 leading-relaxed">
-            Proudly serving as Chaplain, supporting community charitable initiatives, youth programs, and veterans outreach in greater Boston.
+          <p class="text-xs text-text-muted mt-2.5 leading-relaxed print:text-neutral-700">
+            Actively supporting benevolent community service initiatives, charitable fundraisers, youth scholarship programs, and veterans outreach programs across greater Boston and Middlesex County.
           </p>
+        </div>
+      </section>
+
+      <!-- Section: Personal Interests -->
+      <section class="print:hidden">
+        <h2 class="text-xs font-mono uppercase tracking-widest text-accent-light mb-4 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+          Interests & Avocations
+        </h2>
+        <div class="p-4 bg-surface/40 rounded-xl border border-border text-xs text-text-muted leading-relaxed">
+          <span class="text-white font-medium">Outdoor Field Science & Recreation:</span> Kayaking, fishing, hiking, camping, gardening & botany. <br/>
+          <span class="text-white font-medium">Sports & Quantitative Analytics:</span> Boston Red Sox (creator of <a href="https://dirtywater.corygarms.com" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">Dirty Water</a> MLB analytics suite), San Antonio Spurs, and LSU Tigers football. <br/>
+          <span class="text-white font-medium">Origins:</span> Native of Amarillo, Texas.
         </div>
       </section>
 
