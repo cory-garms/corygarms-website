@@ -1,0 +1,357 @@
+---
+// src/components/uvot/JitterHeroComparison.astro
+// Publication-grade interactive Before/After visualizer for Swift UVOT Jitter Restoration
+---
+
+<div class="relative w-full rounded-2xl overflow-hidden bg-surface-card border border-border/80 shadow-2xl transition-all duration-300">
+  <!-- Top Telemetry & Control Bar -->
+  <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-forest-950/90 border-b border-border/70 backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <span class="flex h-2.5 w-2.5 relative">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
+      </span>
+      <div class="flex items-center gap-2 text-xs font-mono">
+        <span class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40 text-[10px]">UNJITR</span>
+        <span class="text-white font-semibold tracking-wider">OBSID 00097137125</span>
+        <span class="text-text-dim">|</span>
+        <span class="text-text-muted">Swift UVOT • U-Band</span>
+        <span class="text-text-dim">|</span>
+        <span class="text-emerald-400 font-medium">T_exp = 497.6s</span>
+      </div>
+    </div>
+
+    <!-- View Modes & Controls -->
+    <div class="flex items-center gap-1.5 p-1 rounded-lg bg-forest-900 border border-border/50 text-xs font-mono">
+      <button 
+        type="button" 
+        id="btn-mode-full"
+        class="px-2.5 py-1 rounded text-xs font-medium transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+        title="Show complete side-by-side publication figure"
+      >
+        Full View
+      </button>
+      <button 
+        type="button" 
+        id="btn-mode-before"
+        class="px-2.5 py-1 rounded text-xs font-medium transition-all text-text-muted hover:text-white border border-transparent"
+        title="Focus on raw serpentine drift smear"
+      >
+        Raw Smear
+      </button>
+      <button 
+        type="button" 
+        id="btn-mode-after"
+        class="px-2.5 py-1 rounded text-xs font-medium transition-all text-text-muted hover:text-white border border-transparent"
+        title="Focus on restored 2.94'' Airy core"
+      >
+        Restored Core
+      </button>
+      <button 
+        type="button" 
+        id="btn-toggle-hotspots"
+        class="px-2.5 py-1 rounded text-xs font-medium transition-all text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 bg-emerald-500/10 ml-1"
+        title="Toggle scientific hotspot callouts"
+      >
+        Hotspots: ON
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Visual Canvas Frame -->
+  <div class="relative w-full overflow-hidden bg-black select-none aspect-[2690/1398] group" id="hero-viewer-container">
+    <!-- Base Publication Graphic -->
+    <img 
+      id="hero-comparison-img"
+      src="/images/uvot-jitter/hero_before_after.png" 
+      alt="NASA Swift UVOT Jitter Correction Before and After: 450-pixel reaction-wheel serpentine drift restored into a symmetric 2.94-arcsecond diffraction-limited Airy core."
+      class="w-full h-full object-cover transition-transform duration-700 ease-out will-change-transform"
+      loading="eager"
+      decoding="async"
+    />
+
+    <!-- Interactive Hotspot Pins -->
+    <div id="hotspot-layer" class="absolute inset-0 pointer-events-none transition-opacity duration-300">
+      
+      <!-- Hotspot 1: Raw Serpentine Streak (Left Field) -->
+      <div 
+        class="absolute pointer-events-auto transition-transform hover:scale-110 cursor-pointer"
+        style="top: 38%; left: 16%;"
+        data-hotspot="1"
+      >
+        <div class="relative flex items-center justify-center">
+          <span class="animate-ping absolute h-8 w-8 rounded-full bg-rose-500/40"></span>
+          <span class="relative flex items-center justify-center w-6 h-6 rounded-full bg-rose-500/90 text-white font-mono text-[11px] font-bold border border-rose-300 shadow-lg shadow-rose-950/60">
+            1
+          </span>
+        </div>
+        <!-- Tooltip Card -->
+        <div class="hotspot-tooltip absolute z-30 left-1/2 -translate-x-1/2 bottom-full mb-3 w-64 p-3 rounded-xl bg-forest-950/95 border border-rose-500/40 shadow-2xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200 text-left">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-rose-400 font-semibold">Distortion Metric</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300">450 px Smear</span>
+          </div>
+          <p class="text-xs text-text-main font-medium leading-snug">
+            Chaotic serpentine drift across 497.6s unguided reaction-wheel limit cycling. Point sources destroyed into winding ribbons.
+          </p>
+        </div>
+      </div>
+
+      <!-- Hotspot 2: Raw Star PSF Inset (Left Zoom) -->
+      <div 
+        class="absolute pointer-events-auto transition-transform hover:scale-110 cursor-pointer"
+        style="top: 24%; left: 41%;"
+        data-hotspot="2"
+      >
+        <div class="relative flex items-center justify-center">
+          <span class="animate-ping absolute h-8 w-8 rounded-full bg-amber-500/40"></span>
+          <span class="relative flex items-center justify-center w-6 h-6 rounded-full bg-amber-500/90 text-white font-mono text-[11px] font-bold border border-amber-300 shadow-lg shadow-amber-950/60">
+            2
+          </span>
+        </div>
+        <div class="hotspot-tooltip absolute z-30 right-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-3 w-64 p-3 rounded-xl bg-forest-950/95 border border-amber-500/40 shadow-2xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200 text-left">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-semibold">Raw Stellar PSF</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">&gt; 12.0″ FWHM</span>
+          </div>
+          <p class="text-xs text-text-main font-medium leading-snug">
+            Zoom inset of isolated field star. Photon counts smeared over wide spatial area, collapsing signal-to-noise ratio below detectability.
+          </p>
+        </div>
+      </div>
+
+      <!-- Hotspot 3: Attitude Trajectory Curve (Left Inset Bottom) -->
+      <div 
+        class="absolute pointer-events-auto transition-transform hover:scale-110 cursor-pointer"
+        style="top: 72%; left: 39%;"
+        data-hotspot="3"
+      >
+        <div class="relative flex items-center justify-center">
+          <span class="animate-ping absolute h-8 w-8 rounded-full bg-cyan-500/40"></span>
+          <span class="relative flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/90 text-white font-mono text-[11px] font-bold border border-cyan-300 shadow-lg shadow-cyan-950/60">
+            3
+          </span>
+        </div>
+        <div class="hotspot-tooltip absolute z-30 right-0 sm:left-1/2 sm:-translate-x-1/2 bottom-full mb-3 w-64 p-3 rounded-xl bg-forest-950/95 border border-cyan-500/40 shadow-2xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200 text-left">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-cyan-400 font-semibold">Reconstructed Telemetry</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">6.7 Hz Cadence</span>
+          </div>
+          <p class="text-xs text-text-main font-medium leading-snug">
+            Solved continuous drift curves $\Delta X(t), \Delta Y(t)$ extracted directly from the raw photon stream with parabolic vertex fitting.
+          </p>
+        </div>
+      </div>
+
+      <!-- Hotspot 4: Restored Diffraction-Limited Field (Right Field) -->
+      <div 
+        class="absolute pointer-events-auto transition-transform hover:scale-110 cursor-pointer"
+        style="top: 38%; left: 66%;"
+        data-hotspot="4"
+      >
+        <div class="relative flex items-center justify-center">
+          <span class="animate-ping absolute h-8 w-8 rounded-full bg-emerald-500/40"></span>
+          <span class="relative flex items-center justify-center w-6 h-6 rounded-full bg-emerald-500/90 text-white font-mono text-[11px] font-bold border border-emerald-300 shadow-lg shadow-emerald-950/60">
+            4
+          </span>
+        </div>
+        <div class="hotspot-tooltip absolute z-30 left-1/2 -translate-x-1/2 bottom-full mb-3 w-64 p-3 rounded-xl bg-forest-950/95 border border-emerald-500/40 shadow-2xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200 text-left">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-semibold">Do-No-Harm Contract</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">100% Invertible</span>
+          </div>
+          <p class="text-xs text-text-main font-medium leading-snug">
+            Photon events coordinate-shifted in-place ($X' = X - dx(t)$). Serpentine trail completely removed, unveiling hidden field stars.
+          </p>
+        </div>
+      </div>
+
+      <!-- Hotspot 5: Restored Airy Core Inset (Right Zoom Top) -->
+      <div 
+        class="absolute pointer-events-auto transition-transform hover:scale-110 cursor-pointer"
+        style="top: 24%; left: 91%;"
+        data-hotspot="5"
+      >
+        <div class="relative flex items-center justify-center">
+          <span class="animate-ping absolute h-8 w-8 rounded-full bg-emerald-400/50"></span>
+          <span class="relative flex items-center justify-center w-6 h-6 rounded-full bg-emerald-400 text-black font-mono text-[11px] font-extrabold border border-white shadow-lg shadow-emerald-950/60">
+            5
+          </span>
+        </div>
+        <div class="hotspot-tooltip absolute z-30 right-2 bottom-full mb-3 w-64 p-3 rounded-xl bg-forest-950/95 border border-emerald-400/50 shadow-2xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200 text-left">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-300 font-semibold">Restored Resolution</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">+85% Sharpening</span>
+          </div>
+          <p class="text-xs text-text-main font-medium leading-snug">
+            Symmetric $2.94''$ FWHM Airy diffraction core. Peak stellar intensity elevated by over 6.4×, enabling sub-percent precision aperture photometry.
+          </p>
+        </div>
+      </div>
+
+      <!-- Hotspot 6: 2D Spatial Motion Track (Right Inset Bottom) -->
+      <div 
+        class="absolute pointer-events-auto transition-transform hover:scale-110 cursor-pointer"
+        style="top: 72%; left: 89%;"
+        data-hotspot="6"
+      >
+        <div class="relative flex items-center justify-center">
+          <span class="animate-ping absolute h-8 w-8 rounded-full bg-cyan-400/40"></span>
+          <span class="relative flex items-center justify-center w-6 h-6 rounded-full bg-cyan-400/90 text-black font-mono text-[11px] font-bold border border-cyan-200 shadow-lg shadow-cyan-950/60">
+            6
+          </span>
+        </div>
+        <div class="hotspot-tooltip absolute z-30 right-2 bottom-full mb-3 w-64 p-3 rounded-xl bg-forest-950/95 border border-cyan-400/50 shadow-2xl backdrop-blur-md opacity-0 pointer-events-none transition-all duration-200 text-left">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-cyan-400 font-semibold">2D Motion Track</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Phase Space Inversion</span>
+          </div>
+          <p class="text-xs text-text-main font-medium leading-snug">
+            2D plane motion trajectory. Savitzky-Golay filtering ($k=2, w=15$) eliminates photon Poisson noise while following 15s turnarounds.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Active Mode Indicator Overlay -->
+    <div id="mode-badge" class="absolute bottom-4 left-4 px-3 py-1.5 rounded-lg bg-forest-950/85 border border-border/80 text-xs font-mono text-text-muted backdrop-blur-md flex items-center gap-2 pointer-events-none">
+      <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+      <span id="mode-badge-text">Interactive Publication View • Click Hotspots to Inspect</span>
+    </div>
+  </div>
+
+  <!-- Bottom Metric Breakdown Strip -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-border/60 bg-surface border-t border-border/70 text-xs font-mono">
+    <div class="p-3.5 flex flex-col justify-center">
+      <span class="text-[11px] text-text-dim uppercase tracking-wider">Smear Baseline</span>
+      <span class="text-base font-bold text-rose-400 mt-0.5">450+ px</span>
+      <span class="text-[10px] text-text-muted">&gt; 12.0″ filament</span>
+    </div>
+    <div class="p-3.5 flex flex-col justify-center">
+      <span class="text-[11px] text-text-dim uppercase tracking-wider">Restored FWHM</span>
+      <span class="text-base font-bold text-emerald-400 mt-0.5">2.94″</span>
+      <span class="text-[10px] text-text-muted">Diffraction limit</span>
+    </div>
+    <div class="p-3.5 flex flex-col justify-center">
+      <span class="text-[11px] text-text-dim uppercase tracking-wider">PSF Sharpening</span>
+      <span class="text-base font-bold text-emerald-300 mt-0.5">+85.2%</span>
+      <span class="text-[10px] text-text-muted">Encircled energy</span>
+    </div>
+    <div class="p-3.5 flex flex-col justify-center">
+      <span class="text-[11px] text-text-dim uppercase tracking-wider">Correlation Cadence</span>
+      <span class="text-base font-bold text-cyan-400 mt-0.5">6.7 Hz</span>
+      <span class="text-[10px] text-text-muted">dt = 0.15s / 1.0s slab</span>
+    </div>
+    <div class="p-3.5 flex flex-col justify-center">
+      <span class="text-[11px] text-text-dim uppercase tracking-wider">Vertex Precision</span>
+      <span class="text-base font-bold text-amber-300 mt-0.5">± 0.10 px</span>
+      <span class="text-[10px] text-text-muted">Parabolic peak fit</span>
+    </div>
+    <div class="p-3.5 flex flex-col justify-center">
+      <span class="text-[11px] text-text-dim uppercase tracking-wider">FITS Contract</span>
+      <span class="text-base font-bold text-white mt-0.5">100% Pass</span>
+      <span class="text-[10px] text-emerald-400">RAWX/RAWY/TIME</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Client-side interaction logic for JitterHeroComparison
+  document.addEventListener('DOMContentLoaded', () => {
+    const img = document.getElementById('hero-comparison-img');
+    const hotspotLayer = document.getElementById('hotspot-layer');
+    const badgeText = document.getElementById('mode-badge-text');
+    const btnFull = document.getElementById('btn-mode-full');
+    const btnBefore = document.getElementById('btn-mode-before');
+    const btnAfter = document.getElementById('btn-mode-after');
+    const btnToggleHotspots = document.getElementById('btn-toggle-hotspots');
+
+    let hotspotsVisible = true;
+
+    function resetButtons() {
+      [btnFull, btnBefore, btnAfter].forEach(btn => {
+        if (btn) {
+          btn.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all text-text-muted hover:text-white border border-transparent';
+        }
+      });
+    }
+
+    // Full View
+    btnFull?.addEventListener('click', () => {
+      resetButtons();
+      btnFull.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+      if (img) {
+        img.style.transform = 'scale(1) translate(0%, 0%)';
+      }
+      if (badgeText) badgeText.textContent = 'Interactive Publication View • Click Hotspots to Inspect';
+    });
+
+    // Zoom on Raw Smear (Left Half)
+    btnBefore?.addEventListener('click', () => {
+      resetButtons();
+      btnBefore.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all bg-rose-500/20 text-rose-300 border border-rose-500/40';
+      if (img) {
+        img.style.transform = 'scale(1.8) translate(22%, 0%)';
+      }
+      if (badgeText) badgeText.textContent = 'Focused: Raw 450-Pixel Unguided Telemetry Smear';
+    });
+
+    // Zoom on Restored Core (Right Half)
+    btnAfter?.addEventListener('click', () => {
+      resetButtons();
+      btnAfter.className = 'px-2.5 py-1 rounded text-xs font-medium transition-all bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+      if (img) {
+        img.style.transform = 'scale(1.8) translate(-22%, 0%)';
+      }
+      if (badgeText) badgeText.textContent = 'Focused: Restored 2.94″ Airy Core (+85% Sharpened)';
+    });
+
+    // Toggle Hotspots
+    btnToggleHotspots?.addEventListener('click', () => {
+      hotspotsVisible = !hotspotsVisible;
+      if (hotspotLayer) {
+        hotspotLayer.style.opacity = hotspotsVisible ? '1' : '0';
+        hotspotLayer.style.pointerEvents = hotspotsVisible ? 'auto' : 'none';
+      }
+      if (btnToggleHotspots) {
+        btnToggleHotspots.textContent = hotspotsVisible ? 'Hotspots: ON' : 'Hotspots: OFF';
+        btnToggleHotspots.className = hotspotsVisible 
+          ? 'px-2.5 py-1 rounded text-xs font-medium transition-all text-emerald-400 hover:text-emerald-300 border border-emerald-500/30 bg-emerald-500/10 ml-1'
+          : 'px-2.5 py-1 rounded text-xs font-medium transition-all text-text-dim hover:text-text-muted border border-border/50 bg-forest-900 ml-1';
+      }
+    });
+
+    // Hover tooltip toggle for hotspots
+    const hotspots = document.querySelectorAll('[data-hotspot]');
+    hotspots.forEach(hs => {
+      const tooltip = hs.querySelector('.hotspot-tooltip');
+      if (!tooltip) return;
+
+      hs.addEventListener('mouseenter', () => {
+        tooltip.classList.remove('opacity-0', 'pointer-events-none');
+        tooltip.classList.add('opacity-100');
+      });
+
+      hs.addEventListener('mouseleave', () => {
+        tooltip.classList.add('opacity-0', 'pointer-events-none');
+        tooltip.classList.remove('opacity-100');
+      });
+
+      hs.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = tooltip.classList.contains('opacity-100');
+        document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.add('opacity-0', 'pointer-events-none'));
+        if (!isOpen) {
+          tooltip.classList.remove('opacity-0', 'pointer-events-none');
+          tooltip.classList.add('opacity-100');
+        }
+      });
+    });
+
+    // Close any open tooltip on background click
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.hotspot-tooltip').forEach(t => t.classList.add('opacity-0', 'pointer-events-none'));
+    });
+  });
+</script>

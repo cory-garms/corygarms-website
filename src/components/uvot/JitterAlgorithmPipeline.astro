@@ -1,0 +1,246 @@
+---
+// src/components/uvot/JitterAlgorithmPipeline.astro
+// Interactive 4-Step Mathematical Engine Stepper for uvot-jitter
+---
+
+<div class="w-full rounded-2xl overflow-hidden bg-surface-card border border-border/80 shadow-2xl">
+  <!-- Header Bar -->
+  <div class="px-6 py-5 bg-forest-950 border-b border-border/70 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+          Algorithmic Engine
+        </span>
+        <span class="text-xs font-mono text-text-dim">4-Stage Discrete Mathematical Architecture</span>
+      </div>
+      <h3 class="text-xl font-bold text-white tracking-tight">
+        Direct-Photon Cross-Correlation Pipeline
+      </h3>
+    </div>
+
+    <div class="text-xs font-mono text-text-muted flex items-center gap-2">
+      <span>Cadence: <strong class="text-cyan-400">6.7 Hz</strong></span>
+      <span>•</span>
+      <span>Precision: <strong class="text-emerald-400">&plusmn; 0.1 px</strong></span>
+    </div>
+  </div>
+
+  <!-- Stepper Navigation Header -->
+  <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border/60 bg-forest-900/70 border-b border-border/70 text-xs font-mono">
+    <!-- Step 1 Button -->
+    <button 
+      type="button" 
+      data-step="0"
+      class="pipeline-step-btn text-left p-4 transition-all bg-surface border-b-2 border-emerald-400 text-white group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-emerald-400">Stage 01</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Hoisting</span>
+      </div>
+      <div class="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Event Slicing</div>
+      <div class="text-[11px] text-text-muted mt-0.5">Anchor H₀ &amp; Sliding Slabs Hₖ</div>
+    </button>
+
+    <!-- Step 2 Button -->
+    <button 
+      type="button" 
+      data-step="1"
+      class="pipeline-step-btn text-left p-4 transition-all hover:bg-forest-900 text-text-muted border-b-2 border-transparent group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-cyan-400">Stage 02</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">2D FFT</span>
+      </div>
+      <div class="text-sm font-bold text-text-main group-hover:text-cyan-300 transition-colors">Cross-Correlation</div>
+      <div class="text-[11px] text-text-muted mt-0.5">Parabolic Vertex Interpolation</div>
+    </button>
+
+    <!-- Step 3 Button -->
+    <button 
+      type="button" 
+      data-step="2"
+      class="pipeline-step-btn text-left p-4 transition-all hover:bg-forest-900 text-text-muted border-b-2 border-transparent group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-amber-400">Stage 03</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">Inertia</span>
+      </div>
+      <div class="text-sm font-bold text-text-main group-hover:text-amber-300 transition-colors">Regularization</div>
+      <div class="text-[11px] text-text-muted mt-0.5">Savitzky-Golay (k=2, w=15)</div>
+    </button>
+
+    <!-- Step 4 Button -->
+    <button 
+      type="button" 
+      data-step="3"
+      class="pipeline-step-btn text-left p-4 transition-all hover:bg-forest-900 text-text-muted border-b-2 border-transparent group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-purple-400">Stage 04</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300">Do-No-Harm</span>
+      </div>
+      <div class="text-sm font-bold text-text-main group-hover:text-purple-300 transition-colors">Coordinate Shift</div>
+      <div class="text-[11px] text-text-muted mt-0.5">X' = X - dx(t), Y' = Y - dy(t)</div>
+    </button>
+  </div>
+
+  <!-- Dynamic Content Area -->
+  <div class="p-6 md:p-8 bg-surface">
+    <div id="step-content-container" class="transition-all duration-300">
+      <!-- Injected via JavaScript -->
+    </div>
+  </div>
+
+  <!-- Workflow Architecture Diagram Visual -->
+  <div class="border-t border-border/80 bg-forest-950/60 p-6 md:p-8">
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+        <h4 class="text-xs font-mono uppercase tracking-wider text-text-muted">
+          Complete Mathematical Architecture Flowchart
+        </h4>
+      </div>
+      <span class="text-[11px] font-mono text-text-dim">Figure 2 • PASP Methods Paper</span>
+    </div>
+
+    <div class="rounded-xl overflow-hidden border border-border/60 bg-black group relative">
+      <img 
+        src="/images/uvot-jitter/algorithm_workflow.png" 
+        alt="End-to-End Mathematical Architecture Diagram: Event Slicing, Hoisted 2D FFT, Savitzky-Golay Regularization, and Coordinate Inversion."
+        class="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-[1.01]"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="absolute bottom-3 right-3 px-3 py-1 rounded bg-forest-950/90 border border-border text-[11px] font-mono text-text-dim pointer-events-none backdrop-blur-sm">
+        Click to expand or inspect stages
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const stepsData = [
+    {
+      stage: "Stage 01",
+      title: "Event Slicing, Frame Hoisting & AGN Nucleus Masking",
+      badge: "TEMPORAL DISCRETIZATION",
+      badgeColor: "text-emerald-400 bg-emerald-500/20 border-emerald-500/40",
+      summary: "Instead of collapsing the entire exposure into a smeared image, continuous photon event arrivals are partitioned into an anchor reference frame H₀ and sliding temporal slabs Hₖ.",
+      bulletPoints: [
+        "<strong>Temporal Sampling:</strong> Continuous stream sampled at $dt = 0.15\\text{s}$ (6.67 Hz) with sliding window half-width $\\text{slab\\_half} = 1.0\\text{s}$ ($2.0\\text{s}$ total integration).",
+        "<strong>The 1.0s Discovery:</strong> Shortening the correlation temporal slab from the legacy 5.0s to 1.0s captures rapid 15s reaction-wheel turnarounds without phase lag, ringing, or attenuation.",
+        "<strong>Galaxy Nucleus Masking:</strong> For extended sources like NGC 4395, bright diffuse nucleus photons ($r < 350\\text{ px}$) are dynamically masked, forcing cross-correlation to lock strictly onto isolated, high-contrast point sources across the wider field.",
+        "<strong>Memory Hoisting:</strong> 2D spatial binning matrices are pre-allocated and hoisted in C-contiguous memory to sustain $>100{,}000$ cross-correlations per second."
+      ],
+      mathFormula: "H_k(x, y) = \\sum_{i \\in \\mathcal{E}} \\delta(x - \\text{round}(X_i)) \\, \\delta(y - \\text{round}(Y_i)) \\cdot \\mathbb{I}\\left(|t_i - t_k| \\le \\tau_{\\text{slab}}\\right) \\cdot \\mathbb{I}\\left(r_i \\ge 350\\text{ px}\\right)",
+      mathCaption: "Equation 1: Discrete photon event accumulation into sliding spatial histograms H_k with dynamic AGN core masking."
+    },
+    {
+      stage: "Stage 02",
+      title: "Hoisted 2D FFT Cross-Correlation & Sub-Pixel Parabolic Peak Interpolation",
+      badge: "FREQUENCY-DOMAIN INTERPOLATION",
+      badgeColor: "text-cyan-400 bg-cyan-500/20 border-cyan-500/40",
+      summary: "The spatial displacement between sliding frame Hₖ and master anchor H₀ is evaluated using unpadded 2D real Fast Fourier Transforms followed by analytic parabolic vertex fitting.",
+      bulletPoints: [
+        "<strong>Real FFT Cross-Correlation:</strong> Exploits the convolution theorem via NumPy `rfft2` and `irfft2` to evaluate 2D cross-correlation maps in $\\mathcal{O}(N \\log N)$ operations.",
+        "<strong>Hoisted Reference Fourier Spectrum:</strong> The complex conjugate of the master anchor $\\mathcal{F}^*(H_0)$ is computed once at initialization and reused across all subsequent temporal slices.",
+        "<strong>Sub-Pixel Parabolic Vertex Fitting:</strong> Avoids computationally expensive upsampled matrix multiplication by solving a 1D quadratic vertex around the discrete maximum along each axis $(v_0, v_1, v_2)$, achieving $\\pm 0.1\\text{ px}$ localization accuracy.",
+        "<strong>Cross-Correlation Peak Metric:</strong> Normalized correlation coefficient $\\rho_{\\max} = \\max(\\mathcal{C}) / \\sqrt{\\sum H_0^2 \\sum H_k^2}$ serves as an automated signal-to-noise gate."
+      ],
+      mathFormula: "\\mathcal{C}_{2D} = \\mathcal{F}^{-1}\\left\\{ \\mathcal{F}(H_0) \\cdot \\mathcal{F}^*(H_k) \\right\\}, \\qquad \\Delta = \\frac{v_0 - v_2}{2(v_0 - 2v_1 + v_2)} \\in [-0.5, +0.5]\\text{ px}",
+      mathCaption: "Equation 2 & 3: 2D Fourier cross-correlation theorem and closed-form 3-point parabolic sub-pixel vertex interpolation."
+    },
+    {
+      stage: "Stage 03",
+      title: "Spacecraft Inertia-Tuned Trajectory Regularization",
+      badge: "PHYSICAL DYNAMICS FILTER",
+      badgeColor: "text-amber-400 bg-amber-500/20 border-amber-500/40",
+      summary: "Raw cross-correlation peaks contain Poisson shot noise from faint UV photon counts. A Savitzky-Golay digital filter regularizes the trajectory against the known physical inertia of Swift's reaction wheels.",
+      bulletPoints: [
+        "<strong>Physical Inertia Tuning:</strong> Swift's reaction wheels have a high angular momentum and finite torque authority, preventing instantaneous discontinuous jumps in optical axis pointing.",
+        "<strong>Polynomial Window Optimization:</strong> Savitzky-Golay filter with polynomial order $k=2$ and window size $w=15$ ($2.25\\text{s}$ duration) matches the mechanical resonance frequency.",
+        "<strong>Zero Phase Lag:</strong> Unlike causal moving averages or aggressive low-pass filters, the Savitzky-Golay regularizer preserves high-frequency 15s turnarounds without temporal attenuation.",
+        "<strong>Outlier Rejection:</strong> Single-frame correlation dropouts (caused by temporary photon starvation) are interpolated across the inertia envelope."
+      ],
+      mathFormula: "\\hat{dx}(t_k) = \\sum_{j=-m}^{m} c_j \\, dx(t_{k+j}), \\qquad m = \\frac{w - 1}{2} = 7, \\quad k = 2",
+      mathCaption: "Equation 4: Discrete convolution with least-squares polynomial coefficients c_j matching spacecraft momentum constraints."
+    },
+    {
+      stage: "Stage 04",
+      title: "Continuous Coordinate Inversion & Strict Do-No-Harm Gate",
+      badge: "SCIENTIFIC INTEGRITY ASSURANCE",
+      badgeColor: "text-purple-400 bg-purple-500/20 border-purple-500/40",
+      summary: "Each photon event is translated in continuous sky coordinates, followed by automated encircled-energy PSF verification and raw telemetry byte-identity checks.",
+      bulletPoints: [
+        "<strong>In-Place Coordinate Shift:</strong> Photon sky coordinates are translated by the interpolated attitude trajectory: $X' = X - dx(t), Y' = Y - dy(t)$, while raw coordinates `RAWX`, `RAWY`, and `TIME` remain untouched.",
+        "<strong>Encircled Energy Ratio (EER):</strong> Compares flux within $r = 2.5''$ before vs. after. If EER fails to improve by at least $+5\\%$, the modification is rejected.",
+        "<strong>Null Test Gate:</strong> Observations with total drift $< 0.8\\text{ px}$ automatically pass the null gate, ensuring quiescent exposures remain completely unaltered.",
+        "<strong>100% Byte-Identical Telemetry:</strong> `fidelity_check.py` validates that all original FITS header cards, photon arrival timestamps, and detector coordinates match the NASA HEASARC archive bit-for-bit."
+      ],
+      mathFormula: "X'_i = X_i - \\hat{dx}(t_i), \\quad Y'_i = Y_i - \\hat{dy}(t_i), \\qquad \\text{EER} = \\frac{\\sum_{r \\le 2.5''} I_{\\text{restored}}}{\\sum_{r \\le 2.5''} I_{\\text{raw}}} \\ge 1.05",
+      mathCaption: "Equation 5 & 6: Continuous event translation and automated Encircled Energy Ratio quality-assurance threshold."
+    }
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('.pipeline-step-btn');
+    const container = document.getElementById('step-content-container');
+
+    function renderStep(idx) {
+      const step = stepsData[idx];
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-7">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono uppercase tracking-wider border ${step.badgeColor}">
+                ${step.badge}
+              </span>
+              <span class="text-xs font-mono text-text-dim">${step.stage}</span>
+            </div>
+            <h4 class="text-2xl font-bold text-white mb-3">${step.title}</h4>
+            <p class="text-sm text-text-main font-medium leading-relaxed mb-6 font-sans">${step.summary}</p>
+
+            <ul class="space-y-3 text-xs font-sans text-text-muted">
+              ${step.bulletPoints.map(bp => `
+                <li class="flex items-start gap-2.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0"></span>
+                  <span class="leading-normal">${bp}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col justify-center">
+            <div class="p-5 rounded-xl bg-forest-950 border border-border/80 shadow-lg">
+              <span class="text-[10px] font-mono uppercase tracking-wider text-text-dim block mb-2">Mathematical Formulation</span>
+              <div class="p-4 rounded-lg bg-surface border border-border/60 text-emerald-300 font-mono text-xs overflow-x-auto my-1 leading-relaxed">
+                ${step.mathFormula}
+              </div>
+              <p class="text-[11px] font-mono text-text-muted mt-2 leading-relaxed">
+                ${step.mathCaption}
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    renderStep(0);
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = parseInt(btn.getAttribute('data-step') || '0', 10);
+
+        buttons.forEach(b => {
+          b.className = 'pipeline-step-btn text-left p-4 transition-all hover:bg-forest-900 text-text-muted border-b-2 border-transparent group';
+        });
+
+        btn.className = 'pipeline-step-btn text-left p-4 transition-all bg-surface border-b-2 border-emerald-400 text-white group';
+
+        renderStep(idx);
+      });
+    });
+  });
+</script>

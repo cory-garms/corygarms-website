@@ -1,5 +1,38 @@
 # Progress Log
 
+## [2026-09-07 15:58:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Production Release: UNJITR Showcase Page Deployment & Navigation Polish
+* **Summary:** Prepared and published the complete UNJITR (UV/Optical Nonlinear Jitter & Instability Trajectory Recovery) showcase sprint to production (`corygarms.com/unjitr`).
+  - Added dedicated showcase page [`src/pages/unjitr.astro`](file:///home/cgarms/Sandbox/website/src/pages/unjitr.astro) with 5 high-resolution publication assets, interactive before/after visualizer, 4-regime dynamics tabs, 4-stage algorithmic stepper, 282-OBSID benchmark table, and open-source playground.
+  - Configured backwards-compatible redirects for `/uvot-jitter` and `/astro-jitter`.
+  - Added official scientific attribution for Lead Scientist Dr. Jonathan Gelbord with verified ORCID (`0000-0001-9092-8619`) and Co-Investigator Dr. Cory Glenn Garms with Google Scholar badge.
+  - Updated home page portfolio card in `src/components/PortfolioGrid.astro` and user bio in `src/pages/index.astro`.
+  - Static compilation verified across all 11 pages with 0 errors via `npm run build`.
+* **Technical Debt/Next Steps:** Monitor Vercel build and live DNS propagation at `https://corygarms.com/unjitr`.
+
+## [2026-09-07 15:38:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Scientific Attribution: Dr. Jonathan Gelbord ORCID Integration (`0000-0001-9092-8619`)
+* **Summary:** Integrated verified ORCID link and icon badge for Lead Scientist Dr. Jonathan Gelbord (`https://orcid.org/0000-0001-9092-8619`) into both the institutional attribution bar and the academic publications action strip on [`src/pages/unjitr.astro`](file:///home/cgarms/Sandbox/website/src/pages/unjitr.astro). Paired with Dr. Cory Garms's Google Scholar citation badge. Build verified cleanly across all 11 static pages in 4.52s.
+* **Summary:** Updated scientific attribution across [`src/pages/unjitr.astro`](file:///home/cgarms/Sandbox/website/src/pages/unjitr.astro):
+  - Institutional Attribution Bar: Configured **Dr. Jonathan Gelbord** as Principal Investigator & Lead Scientist (Spectral Sciences, Inc.) and **Dr. Cory Glenn Garms** as Co-Investigator & Algorithm Architect (Spectral Sciences, Inc.).
+  - Publications Manifest: Updated authorship on both the PASP Methods Paper and JOSS Software Release to `Gelbord, J., Garms, C.G., et al. (2026)` with updated BibTeX citations.
+  - Build verified cleanly across all 11 static pages in 4.61s with 0 errors.
+* **Summary:** Successfully designed, developed, and verified the publication-grade project showcase page for `uvot-jitter` (accessible at `/uvot-jitter` with `/astro-jitter` alias redirect).
+  1. **Assets Transferred:** Moved all 5 high-resolution figures from `/home/cgarms/Sandbox/NGC4395/assets/` into `public/images/uvot-jitter/` and mirrored to `public/assets/`.
+  2. **Interactive Hero Visualizer (`JitterHeroComparison.astro`):** Built interactive before/after viewer with dynamic focus modes (Full View, Raw Smear, Restored Core), 6 pulsing telemetry hotspot pins with popover metric cards, and 6-column telemetry breakdown HUD.
+  3. **The 4 Jitter Regimes (`JitterRegimesShowcase.astro`):** Interactive tabbed showcase mapping Swift optical bench regimes (Low Jitter Control, Linear Slew, 15s Limit Cycle, and Extreme Serpentine Wander) with synchronized viewport pan/zoom and telemetry cards.
+  4. **Algorithmic Engine Stepper (`JitterAlgorithmPipeline.astro`):** 4-stage discrete mathematical architecture stepper featuring LaTeX formulas for event slicing, 2D real FFT cross-correlation, parabolic sub-pixel vertex fitting, Savitzky-Golay trajectory regularization, and Do-No-Harm gate thresholding.
+  5. **Orbit Coregistration & PSF Zooms:** Documented multi-interval orbit alignment on NGC 4395 (`galaxy_coregistration.png`) resolving 6 px star doubling into 3.1″ FWHM point sources, plus micro-scale PSF stamp gallery (`star_psf_zooms.png`).
+  6. **Archival Benchmark & FITS Contract:** Documented 282-OBSID / 329-GTI campaign validation (99.7% archive recovery rate) and byte-identical telemetry fidelity contract (`fidelity_check.py`).
+  7. **Quickstart & Citations:** Interactive CLI vs. Python SDK playground with one-click code copy, plus BibTeX citation cards with clipboard copy for upcoming PASP and JOSS papers.
+  8. **Portfolio Integration:** Updated `src/components/PortfolioGrid.astro` to link directly to `/uvot-jitter`.
+  9. **Verification:** Verified clean static compilation across all 10 site routes via `npm run build` in 5.70s with 0 errors. Verified HTTP 200 OK responses on `http://localhost:4321/uvot-jitter`, `/astro-jitter`, and asset endpoints.
+* **Technical Debt/Next Steps:** Ready for user review on `http://localhost:4321/uvot-jitter` and deployment to Vercel production.
+
 ## [2026-09-07 15:17:00 EDT]
 
 * **Status:** Completed

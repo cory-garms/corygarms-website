@@ -1,0 +1,731 @@
+---
+import Layout from "../layouts/Layout.astro";
+import JitterHeroComparison from "../components/uvot/JitterHeroComparison.astro";
+import JitterRegimesShowcase from "../components/uvot/JitterRegimesShowcase.astro";
+import JitterAlgorithmPipeline from "../components/uvot/JitterAlgorithmPipeline.astro";
+
+// Publication references with full BibTeX
+const publications = [
+  {
+    id: "gelbord-unjitr-pasp-2026",
+    authors: "Gelbord, J., Garms, C.G., et al. (2026)",
+    title: "Blind Sub-Pixel Photon-Event Jitter Restoration and Astrometric Alignment for Space Observatories: UNJITR Algorithm, Spacecraft Dynamics, and Swift UVOT Archive Recovery",
+    venue: "Target: Publications of the Astronomical Society of the Pacific (PASP) (In Preparation)",
+    tag: "Primary Methodological Paper",
+    status: "In Preparation",
+    takeaway: "Formulates the UNJITR (UV/Optical Nonlinear Jitter & Instability Trajectory Recovery) framework: direct photon-stream attitude drift reconstruction at 6.7 Hz, the 1.0s correlation slab discovery, and master orbit coregistration. Achieves a 99.7% archive recovery rate across 282 Swift UVOT galaxy observations under extreme reaction-wheel limit cycling.",
+    bibtex: `@article{gelbord2026unjitr_methods,
+  title={Blind Sub-Pixel Photon-Event Jitter Restoration and Astrometric Alignment for Space Observatories: UNJITR Algorithm, Spacecraft Dynamics, and Swift UVOT Archive Recovery},
+  author={Gelbord, Jonathan and Garms, Cory G. and others},
+  journal={Publications of the Astronomical Society of the Pacific},
+  year={2026},
+  note={In Preparation}
+}`
+  },
+  {
+    id: "gelbord-unjitr-joss-2026",
+    authors: "Gelbord, J., Garms, C.G., et al. (2026)",
+    title: "UNJITR: A Python Toolkit for Sub-Pixel Photon-Event Jitter Correction and Astrometric Sharpening",
+    venue: "Target: Journal of Open Source Software (JOSS) (In Preparation)",
+    tag: "Software Architecture & Release",
+    status: "In Preparation",
+    takeaway: "Presents the open-source UNJITR Python package, implementing hoisted 2D Fast Fourier correlation, sub-pixel parabolic vertex fitting, automated Do-No-Harm quality gates, and high-throughput batch FITS event processing.",
+    bibtex: `@article{gelbord2026unjitr_joss,
+  title={UNJITR: A Python Toolkit for Sub-Pixel Photon-Event Jitter Correction and Astrometric Sharpening},
+  author={Gelbord, Jonathan and Garms, Cory G. and others},
+  journal={Journal of Open Source Software},
+  year={2026},
+  note={In Preparation}
+}`
+  }
+];
+
+// KPI Metrics Grid
+const kpis = [
+  {
+    value: "329 GTIs",
+    label: "Processed Intervals",
+    baseline: "Full 282-OBSID Archive",
+    delta: "NGC 4395 Campaign",
+    deltaColor: "text-cyan-400"
+  },
+  {
+    value: "99.7%",
+    label: "Archive Recovery Rate",
+    baseline: "314 Accepted • 14 Marginal",
+    delta: "1 Rejected (0.3%)",
+    deltaColor: "text-emerald-400"
+  },
+  {
+    value: "+85.2%",
+    label: "Peak PSF Sharpening",
+    baseline: "> 12.0″ → 2.94″ FWHM",
+    delta: "Diffraction Core Restored",
+    deltaColor: "text-emerald-300"
+  },
+  {
+    value: "6.7 Hz",
+    label: "Tracking Cadence",
+    baseline: "dt = 0.15s (1.0s Slab)",
+    delta: "± 0.10 px Vertex Precision",
+    deltaColor: "text-cyan-300"
+  },
+  {
+    value: "100%",
+    label: "FITS Telemetry Fidelity",
+    baseline: "RAWX / RAWY / TIME / Counts",
+    delta: "Byte-Identical Contract",
+    deltaColor: "text-amber-300"
+  }
+];
+---
+
+<Layout title="UNJITR: UV/Optical Nonlinear Jitter & Instability Trajectory Recovery">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+    
+    <!-- Top Breadcrumbs / Navigation -->
+    <nav aria-label="Breadcrumbs" class="mb-8 flex items-center justify-between">
+      <a 
+        href="/#portfolio" 
+        class="inline-flex items-center gap-2 text-xs font-mono text-text-muted hover:text-cyan-400 transition-colors group"
+      >
+        <span class="group-hover:-translate-x-0.5 transition-transform">&larr;</span>
+        <span>Back to Projects &amp; Portfolio</span>
+      </a>
+      <div class="flex items-center gap-2 text-[11px] font-mono text-text-dim">
+        <span>ASTROPHYSICS DOSSIER</span>
+        <span>/</span>
+        <span class="text-cyan-400 font-bold">UNJITR</span>
+      </div>
+    </nav>
+
+    <!-- SECTION 1: HERO & IMPACT COUNTER -->
+    <section class="mb-16 md:mb-20">
+      
+      <!-- Eyebrow Tags & Metadata -->
+      <div class="flex flex-wrap items-center gap-2.5 mb-5">
+        <span class="px-2.5 py-1 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 text-[11px] font-mono font-medium tracking-wide flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          NASA Swift UVOT Space Telescope
+        </span>
+        <span class="px-2.5 py-1 rounded bg-forest-900 border border-border text-text-muted text-[11px] font-mono">
+          UNJITR Engine
+        </span>
+        <span class="px-2.5 py-1 rounded bg-forest-900 border border-border text-text-muted text-[11px] font-mono">
+          Spectral Sciences, Inc.
+        </span>
+      </div>
+
+      <!-- Main Heading & Subtitle -->
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.1] mb-5">
+        UNJITR: UV/Optical Nonlinear Jitter &amp; Instability Trajectory Recovery
+      </h1>
+      <p class="text-lg sm:text-xl md:text-2xl font-semibold text-cyan-300/90 max-w-4xl leading-snug mb-6">
+        Catalog-Free Sub-Pixel Photon Jitter Restoration &amp; Orbit Coregistration for NASA Swift UVOT
+      </p>
+
+      <!-- Institutional Attribution Bar -->
+      <div class="p-4 rounded-xl bg-surface border border-border mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+        <div>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Principal Investigator &amp; Lead Scientist</span>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-text-main font-semibold">Dr. Jonathan Gelbord</span>
+            <a 
+              href="https://orcid.org/0000-0001-9092-8619" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-[#a6ce39]/10 text-[#a6ce39] hover:bg-[#a6ce39]/20 border border-[#a6ce39]/30 text-[10px] transition-colors"
+              title="Dr. Jonathan Gelbord ORCID: 0000-0001-9092-8619"
+            >
+              <svg class="w-3 h-3 fill-current shrink-0" viewBox="0 0 256 256">
+                <path d="M128,0A128,128,0,1,0,256,128,128,128,0,0,0,128,0ZM86.35,186.26H63.29V80.4h23.06ZM74.82,68.62a13.38,13.38,0,1,1,13.38-13.38A13.38,13.38,0,0,1,74.82,68.62ZM195,134.1c0,30.6-21.72,52.16-52.54,52.16H107.09V80.4h39.73C174.65,80.4,195,102.66,195,134.1Zm-23.7,0c0-18.73-10.9-32.8-30.82-32.8H130.43v65.6h10C160.4,166.9,171.3,152.83,171.3,134.1Z"/>
+              </svg>
+              <span>ORCID</span>
+            </a>
+          </div>
+          <span class="text-text-muted block text-[11px] mt-0.5">Senior Scientist, Spectral Sciences, Inc.</span>
+        </div>
+        <div>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Co-Investigator &amp; Algorithm Architect</span>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-text-main font-semibold">Dr. Cory Glenn Garms</span>
+            <a 
+              href="https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 border border-cyan-500/30 text-[10px] transition-colors"
+              title="Dr. Cory Glenn Garms Google Scholar"
+            >
+              <span>Scholar</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+          <span class="text-text-muted block text-[11px] mt-0.5">Senior Scientist, Spectral Sciences, Inc.</span>
+        </div>
+        <div>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Scientific Campaign &amp; Software</span>
+          <span class="text-text-main font-semibold">Swift UVOT Archival Program</span>
+          <span class="text-text-muted block text-[11px] mt-0.5">282 OBSIDs of NGC 4395 &bull; UNJITR Engine</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center gap-3.5 mb-12">
+        <a 
+          href="https://github.com/cory-garms/astro-jitter"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-bold transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/30"
+        >
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+          </svg>
+          <span>View on GitHub</span>
+        </a>
+
+        <a 
+          href="#interactive-visualizer"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-forest-800 hover:bg-forest-700 text-white font-mono text-xs font-semibold border border-border hover:border-cyan-500/50 transition-all"
+        >
+          <span>Interactive Visualizer</span>
+          <span>&darr;</span>
+        </a>
+
+        <a 
+          href="#regimes"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-forest-800 hover:bg-forest-700 text-white font-mono text-xs font-semibold border border-border hover:border-cyan-500/50 transition-all"
+        >
+          <span>The 4 Jitter Regimes</span>
+        </a>
+
+        <a 
+          href="#publications"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-forest-800 hover:bg-forest-700 text-text-muted hover:text-white font-mono text-xs font-semibold border border-border transition-all"
+        >
+          <span>Methods Papers</span>
+        </a>
+      </div>
+
+      <!-- KPI Metrics Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3.5 sm:gap-4">
+        {kpis.map((kpi) => (
+          <div class="p-4 rounded-xl bg-surface border border-border/80 flex flex-col justify-between hover:border-cyan-500/30 transition-colors">
+            <div>
+              <span class="text-[11px] font-mono text-text-dim uppercase tracking-wider block mb-1">
+                {kpi.label}
+              </span>
+              <div class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                {kpi.value}
+              </div>
+            </div>
+            <div class="mt-3 pt-3 border-t border-border/40 text-[11px] font-mono">
+              <span class="text-text-muted block">{kpi.baseline}</span>
+              <span class={`${kpi.deltaColor} font-semibold block mt-0.5`}>{kpi.delta}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- SECTION 2: INTERACTIVE HERO BEFORE/AFTER VISUALIZER -->
+    <section id="interactive-visualizer" class="mb-20 scroll-mt-24">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-text-muted">High-Fidelity Restoration Benchmark</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          Unguided Spacecraft Drift vs. Restored Airy Core
+        </h2>
+        <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
+          During rapid target-of-opportunity pointings, Swift UVOT operates without active guide-star locking. Spacecraft reaction-wheel momentum drift smears point sources across 450+ detector pixels into chaotic serpentine ribbons. <code class="text-cyan-300 font-mono">UNJITR</code> tracks the continuous attitude trajectory directly from raw photon arrival times, collapsing smeared filaments back into symmetric 2.94″ Airy diffraction cores.
+        </p>
+      </div>
+
+      <!-- Embedded Interactive Visualizer -->
+      <JitterHeroComparison />
+    </section>
+
+    <!-- SECTION 3: THE 4 JITTER REGIMES -->
+    <section id="regimes" class="mb-20 scroll-mt-24">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-text-muted">Spacecraft Attitude Dynamics</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          Performance Across 4 Physical Jitter Regimes
+        </h2>
+        <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
+          Spacecraft attitude instability manifests in distinct physical regimes, ranging from nominal quiescent tracking to fast 15-second limit-cycling and multi-hundred-pixel random walks. Explore how UNJITR's regularizer and the 1.0s correlation slab discovery handle each dynamic regime.
+        </p>
+      </div>
+
+      <JitterRegimesShowcase />
+    </section>
+
+    <!-- SECTION 4: THE 4-STEP ALGORITHMIC ENGINE -->
+    <section id="algorithm" class="mb-20 scroll-mt-24">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-text-muted">Mathematical Architecture</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          The 4-Step UNJITR Restoration Engine
+        </h2>
+        <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
+          Rather than relying on noisy telemetry star-trackers or external catalog guide stars (which are virtually non-existent in faint UV fields), UNJITR reconstructs the spacecraft drift trajectory directly from the arrival times of individual photon events.
+        </p>
+      </div>
+
+      <JitterAlgorithmPipeline />
+    </section>
+
+    <!-- SECTION 5: MULTI-INTERVAL ORBIT COREGISTRATION & PSF ZOOMS -->
+    <section id="coregistration" class="mb-20 scroll-mt-24">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-text-muted">Multi-Interval Orbit Alignment</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          Eliminating Orbit-Long Star Doubling Across Sub-Exposures
+        </h2>
+        <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
+          Single Swift pointings spanning 45-minute continuous orbits are interrupted by Earth occultations and SAA passages, splitting observations into multiple Good Time Intervals (GTIs). Independent sub-interval pointing solutions suffer 2–6 px offsets, producing double or triple star images when stacked. UNJITR's master coregistration engine locks all intervals to a unified reference origin H₀, merging double stars into single razor-sharp point sources.
+        </p>
+      </div>
+
+      <!-- Coregistration Figure Card -->
+      <div class="rounded-2xl overflow-hidden bg-surface-card border border-border/80 shadow-2xl mb-8">
+        <div class="p-4 sm:p-5 bg-forest-950 border-b border-border/70 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="text-white font-bold">Orbit Coregistration Benchmark: NGC 4395</span>
+            <span class="text-text-dim">|</span>
+            <span class="text-text-muted">OBSID 00097137032 (3 GTIs)</span>
+          </div>
+          <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-medium">3.1″ FWHM Unified Core</span>
+        </div>
+
+        <div class="p-4 sm:p-6 bg-black">
+          <img 
+            src="/images/uvot-jitter/galaxy_coregistration.png" 
+            alt="Multi-interval single-orbit coregistration on NGC 4395: Resolves 6-pixel star doubling across 3 unaligned exposures into single razor-sharp point sources."
+            class="w-full h-auto rounded-xl border border-border/60"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <div class="p-6 bg-surface border-t border-border/70 grid grid-cols-1 md:grid-cols-3 gap-6 text-xs font-sans">
+          <div>
+            <h4 class="font-mono text-sm font-bold text-white mb-1">The Star Doubling Problem</h4>
+            <p class="text-text-muted leading-relaxed">
+              Standard pipeline tools stack sub-intervals without sub-pixel inter-frame registration. Small attitude slews between intervals cause every star in the field to appear as a false binary system, destroying scientific astrometry.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-mono text-sm font-bold text-white mb-1">Master Anchor Registration</h4>
+            <p class="text-text-muted leading-relaxed">
+              UNJITR automatically designates the highest-count interval as master anchor H₀. Secondary intervals are cross-correlated against H₀ in the Fourier domain, establishing a rigid global astrometric datum across the entire 45-minute orbit.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-mono text-sm font-bold text-white mb-1">Diffraction-Limited Stacking</h4>
+            <p class="text-text-muted leading-relaxed">
+              All photon events across all GTIs are transformed into the master coordinate system prior to stacking. Stellar FWHM collapses from &gt; 6.2″ split doubles into a single symmetric 3.1″ core, perfectly preserving total flux.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Star PSF Zooms Gallery -->
+      <div class="rounded-2xl overflow-hidden bg-surface-card border border-border/80 p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-text-dim block">Micro-Scale Morphologies</span>
+            <h3 class="text-base font-bold text-white font-mono">Stellar PSF Stamps: Before vs. After Across Multiple GTIs</h3>
+          </div>
+          <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded">
+            FWHM Sharpened
+          </span>
+        </div>
+
+        <div class="rounded-xl overflow-hidden border border-border/60 bg-black p-2 mb-4">
+          <img 
+            src="/images/uvot-jitter/star_psf_zooms.png" 
+            alt="High-resolution star PSF stamps before vs after jitter correction across multiple Good Time Intervals."
+            class="w-full h-auto object-contain"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <p class="text-xs text-text-muted font-mono leading-relaxed">
+          High-resolution star stamps from isolated calibration stars located &gt; 1,200 detector pixels from the galaxy nucleus. Serpentine filaments, diagonal slews, and dumbbell elongations are consistently collapsed into circular diffraction cores with sharp Gaussian profiles.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 6: ARCHIVE SCALE BENCHMARK & FITS INTEGRITY -->
+    <section id="benchmark" class="mb-20 scroll-mt-24">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-text-muted">Empirical Archival Scale Validation</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          282-Observation Archival Campaign Benchmark
+        </h2>
+        <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
+          To demonstrate production readiness and archive-scale robustness, <code class="text-cyan-300 font-mono">UNJITR</code> was executed across the entire Swift UVOT archival observation campaign of the dwarf Seyfert galaxy NGC 4395, comprising 329 Good Time Intervals across 282 separate pointing datasets.
+        </p>
+      </div>
+
+      <!-- Results Grid & FITS Contract -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Table Card -->
+        <div class="lg:col-span-7 rounded-2xl overflow-hidden bg-surface-card border border-border/80 shadow-xl">
+          <div class="px-5 py-4 bg-forest-950 border-b border-border/70 flex items-center justify-between text-xs font-mono">
+            <span class="text-white font-bold">Archive Execution Summary: NGC 4395 Campaign</span>
+            <span class="text-cyan-400">329 GTIs Processed</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left font-mono text-xs">
+              <thead class="bg-forest-900/60 border-b border-border/60 text-text-dim text-[11px] uppercase tracking-wider">
+                <tr>
+                  <th class="px-5 py-3">QA Classification</th>
+                  <th class="px-4 py-3">Count</th>
+                  <th class="px-4 py-3">Percentage</th>
+                  <th class="px-5 py-3">Physical Criteria</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border/40 text-text-muted">
+                <tr class="hover:bg-forest-900/40 transition-colors">
+                  <td class="px-5 py-3.5 font-bold text-emerald-400 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    ACCEPTED
+                  </td>
+                  <td class="px-4 py-3.5 text-white font-bold">314</td>
+                  <td class="px-4 py-3.5 text-emerald-300 font-bold">95.4%</td>
+                  <td class="px-5 py-3.5 text-[11px] text-text-muted">PSF EER &ge; +5% &amp; cross-corr peak &ge; 0.45</td>
+                </tr>
+                <tr class="hover:bg-forest-900/40 transition-colors">
+                  <td class="px-5 py-3.5 font-bold text-amber-400 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                    MARGINAL
+                  </td>
+                  <td class="px-4 py-3.5 text-white font-bold">14</td>
+                  <td class="px-4 py-3.5 text-amber-300 font-bold">4.3%</td>
+                  <td class="px-5 py-3.5 text-[11px] text-text-muted">Low photon count; partial recovery; passed null test</td>
+                </tr>
+                <tr class="hover:bg-forest-900/40 transition-colors">
+                  <td class="px-5 py-3.5 font-bold text-rose-400 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                    REJECTED
+                  </td>
+                  <td class="px-4 py-3.5 text-white font-bold">1</td>
+                  <td class="px-4 py-3.5 text-rose-300 font-bold">0.3%</td>
+                  <td class="px-5 py-3.5 text-[11px] text-text-muted">&gt; 1,100 px catastrophic roll &amp; field-rotation limit</td>
+                </tr>
+                <tr class="bg-forest-950/80 font-bold border-t-2 border-border/80">
+                  <td class="px-5 py-3.5 text-white">RECOVERY RATE</td>
+                  <td class="px-4 py-3.5 text-white">328 / 329</td>
+                  <td class="px-4 py-3.5 text-emerald-400 text-sm">99.7%</td>
+                  <td class="px-5 py-3.5 text-[11px] text-emerald-300">Non-Rejection Operational Success</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Strict Do-No-Harm Contract Card -->
+        <div class="lg:col-span-5 rounded-2xl overflow-hidden bg-surface-card border border-border/80 shadow-xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                100% Pass
+              </span>
+              <span class="text-xs font-mono text-text-dim">fidelity_check.py</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Strict Do-No-Harm FITS Contract</h3>
+            <p class="text-xs text-text-muted leading-relaxed font-sans mb-4">
+              Scientific integrity is paramount. Astronomical archives cannot tolerate altered telemetry. UNJITR enforces a strict cryptographic byte-contract ensuring zero irreversible corruption:
+            </p>
+
+            <div class="space-y-2.5 font-mono text-xs">
+              <div class="p-2.5 rounded-lg bg-forest-950 border border-border/70 flex items-center justify-between">
+                <span class="text-text-muted">RAWX / RAWY Coordinates</span>
+                <span class="text-emerald-400 font-bold">100% Byte-Identical</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-forest-950 border border-border/70 flex items-center justify-between">
+                <span class="text-text-muted">Photon Arrival TIME</span>
+                <span class="text-emerald-400 font-bold">100% Byte-Identical</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-forest-950 border border-border/70 flex items-center justify-between">
+                <span class="text-text-muted">Total Integrated Photons</span>
+                <span class="text-emerald-400 font-bold">Zero Loss (&plusmn;0 Counts)</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-forest-950 border border-border/70 flex items-center justify-between">
+                <span class="text-text-muted">Reversibility</span>
+                <span class="text-cyan-400 font-bold">Exact Invertible X' = X - dx</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-4 border-t border-border/60 text-[11px] font-mono text-text-dim">
+            Validated by automated unit tests comparing pre- and post-restoration FITS binary table extensions.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 7: QUICKSTART & CODE PLAYGROUND -->
+    <section id="quickstart" class="mb-20 scroll-mt-24">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-text-muted">Developer &amp; Researcher Toolkit</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          Quickstart &amp; Python API Playground
+        </h2>
+        <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
+          Deploy <code class="text-cyan-300 font-mono">UNJITR</code> as a standalone high-throughput command-line tool or import the core discrete cross-correlation engine directly into your scientific Python pipelines.
+        </p>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden bg-surface-card border border-border/80 shadow-2xl">
+        <!-- Tab Bar -->
+        <div class="flex items-center justify-between px-5 py-3 bg-forest-950 border-b border-border/70">
+          <div class="flex items-center gap-2">
+            <button 
+              type="button" 
+              id="tab-btn-cli"
+              class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"
+            >
+              Command Line CLI
+            </button>
+            <button 
+              type="button" 
+              id="tab-btn-python"
+              class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all text-text-muted hover:text-white border border-transparent"
+            >
+              Python SDK API
+            </button>
+          </div>
+
+          <button 
+            type="button" 
+            id="code-copy-btn"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-forest-900 border border-border hover:border-cyan-500/50 text-xs font-mono text-text-muted hover:text-cyan-300 transition-colors"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            <span id="code-copy-text">Copy Code</span>
+          </button>
+        </div>
+
+        <!-- Code Snippet: CLI -->
+        <div id="code-panel-cli" class="p-6 bg-black text-xs font-mono overflow-x-auto leading-relaxed text-text-main">
+          <pre><code><span class="text-text-dim"># 1. Install UNJITR via pip</span>
+<span class="text-emerald-400">pip</span> install unjitr
+
+<span class="text-text-dim"># 2. Process a high-jitter observation with 1.0s temporal correlation slab</span>
+<span class="text-cyan-400">unjitr</span> process 00097137145 \
+    <span class="text-amber-300">--dt</span> 0.15 \
+    <span class="text-amber-300">--slab-half</span> 1.0 \
+    <span class="text-amber-300">--mask-agn-radius</span> 350 \
+    <span class="text-amber-300">--batch</span> \
+    <span class="text-amber-300">--output-dir</span> ./restored_fits/
+
+<span class="text-text-dim"># 3. Verify strict byte-level FITS telemetry fidelity</span>
+<span class="text-cyan-400">unjitr</span> verify ./restored_fits/sw00097137145_cor.fits</code></pre>
+        </div>
+
+        <!-- Code Snippet: Python SDK -->
+        <div id="code-panel-python" class="hidden p-6 bg-black text-xs font-mono overflow-x-auto leading-relaxed text-text-main">
+          <pre><code><span class="text-purple-400">from</span> unjitr.core.tracker <span class="text-purple-400">import</span> track_sliding_2d_events
+<span class="text-purple-400">from</span> unjitr.io.fits_handler <span class="text-purple-400">import</span> load_event_stream, write_restored_events
+
+<span class="text-text-dim"># Load raw photon event arrivals directly from FITS binary table</span>
+events = load_event_stream(<span class="text-emerald-300">"sw00097137145uu_uf.evt.gz"</span>)
+
+<span class="text-text-dim"># Solve 2D spacecraft attitude jitter trajectory at 6.7 Hz</span>
+t_bins, dx, dy = track_sliding_2d_events(
+    t_ev=events[<span class="text-emerald-300">'TIME'</span>],
+    x_ev=events[<span class="text-emerald-300">'X'</span>],
+    y_ev=events[<span class="text-emerald-300">'Y'</span>],
+    gti_start=events.gti_start,
+    gti_stop=events.gti_stop,
+    dt=<span class="text-amber-300">0.15</span>,          <span class="text-text-dim"># 6.67 Hz correlation sampling</span>
+    slab_half=<span class="text-amber-300">1.0</span>,       <span class="text-text-dim"># 1.0s window captures 15s turnarounds</span>
+    poly_order=<span class="text-amber-300">2</span>,        <span class="text-text-dim"># Savitzky-Golay inertia filter</span>
+    poly_window=<span class="text-amber-300">15</span>
+)
+
+<span class="text-text-dim"># Apply coordinate shift with Do-No-Harm contract validation</span>
+restored = events.apply_trajectory(t_bins, dx, dy, null_gate_px=<span class="text-amber-300">0.8</span>)
+write_restored_events(restored, <span class="text-emerald-300">"sw00097137145_restored.evt"</span>)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8: PUBLICATIONS & OPEN SCIENCE -->
+    <section id="publications" class="mb-16 scroll-mt-24">
+      <div class="mb-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span class="text-xs font-mono uppercase tracking-wider text-text-muted">Academic Publications &amp; Open Science</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          Scientific Literature &amp; Citation Manifest
+        </h2>
+        <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
+          Methods, astrophysical validation, and software architecture submitted for peer review. Use the buttons below to copy formatted BibTeX entries.
+        </p>
+      </div>
+
+      <!-- Publication Cards List -->
+      <div class="space-y-4">
+        {publications.map((pub) => (
+          <div class="p-6 rounded-2xl bg-surface-card border border-border/80 hover:border-cyan-500/30 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-medium bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                {pub.tag}
+              </span>
+              <span class="text-xs font-mono text-text-dim">{pub.status}</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-1.5 font-sans leading-snug">
+              {pub.title}
+            </h3>
+            <div class="text-xs font-mono text-text-muted mb-2">{pub.authors}</div>
+            <div class="text-xs font-mono text-cyan-400 mb-3">{pub.venue}</div>
+
+            <p class="text-xs font-sans text-text-muted leading-relaxed mb-4">
+              {pub.takeaway}
+            </p>
+
+            <div class="flex items-center gap-3">
+              <button 
+                type="button"
+                class="bibtex-copy-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-forest-900 border border-border hover:border-cyan-500/50 text-xs font-mono text-text-muted hover:text-cyan-300 transition-colors cursor-pointer"
+                data-bibtex={pub.bibtex}
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <span class="btn-text">Copy BibTeX</span>
+              </button>
+
+              <a 
+                href="https://orcid.org/0000-0001-9092-8619"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-forest-900 border border-border hover:border-[#a6ce39]/50 text-xs font-mono text-text-muted hover:text-[#a6ce39] transition-colors"
+                title="Lead Author Dr. Jonathan Gelbord ORCID: 0000-0001-9092-8619"
+              >
+                <svg class="w-3.5 h-3.5 fill-current text-[#a6ce39]" viewBox="0 0 256 256">
+                  <path d="M128,0A128,128,0,1,0,256,128,128,128,0,0,0,128,0ZM86.35,186.26H63.29V80.4h23.06ZM74.82,68.62a13.38,13.38,0,1,1,13.38-13.38A13.38,13.38,0,0,1,74.82,68.62ZM195,134.1c0,30.6-21.72,52.16-52.54,52.16H107.09V80.4h39.73C174.65,80.4,195,102.66,195,134.1Zm-23.7,0c0-18.73-10.9-32.8-30.82-32.8H130.43v65.6h10C160.4,166.9,171.3,152.83,171.3,134.1Z"/>
+                </svg>
+                <span>Lead Author ORCID</span>
+              </a>
+
+              <a 
+                href="https://github.com/cory-garms/astro-jitter"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-forest-900 border border-border hover:border-cyan-500/50 text-xs font-mono text-text-muted hover:text-cyan-300 transition-colors"
+              >
+                <span>GitHub Repository</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </main>
+</Layout>
+
+<script>
+  // Script handlers for code tab switcher and BibTeX copy
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Code tab switcher
+    const tabBtnCli = document.getElementById('tab-btn-cli');
+    const tabBtnPython = document.getElementById('tab-btn-python');
+    const codePanelCli = document.getElementById('code-panel-cli');
+    const codePanelPython = document.getElementById('code-panel-python');
+    const codeCopyBtn = document.getElementById('code-copy-btn');
+    const codeCopyText = document.getElementById('code-copy-text');
+
+    let currentTab = 'cli';
+
+    const cliCodeText = `pip install unjitr\nunjitr process 00097137145 --dt 0.15 --slab-half 1.0 --mask-agn-radius 350 --batch --output-dir ./restored_fits/\nunjitr verify ./restored_fits/sw00097137145_cor.fits`;
+    
+    const pythonCodeText = `from unjitr.core.tracker import track_sliding_2d_events\nfrom unjitr.io.fits_handler import load_event_stream, write_restored_events\n\nevents = load_event_stream("sw00097137145uu_uf.evt.gz")\nt_bins, dx, dy = track_sliding_2d_events(\n    t_ev=events['TIME'], x_ev=events['X'], y_ev=events['Y'],\n    gti_start=events.gti_start, gti_stop=events.gti_stop,\n    dt=0.15, slab_half=1.0, poly_order=2, poly_window=15\n)\nrestored = events.apply_trajectory(t_bins, dx, dy, null_gate_px=0.8)\nwrite_restored_events(restored, "sw00097137145_restored.evt")`;
+
+    tabBtnCli?.addEventListener('click', () => {
+      currentTab = 'cli';
+      tabBtnCli.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+      if (tabBtnPython) {
+        tabBtnPython.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all text-text-muted hover:text-white border border-transparent';
+      }
+      codePanelCli?.classList.remove('hidden');
+      codePanelPython?.classList.add('hidden');
+    });
+
+    tabBtnPython?.addEventListener('click', () => {
+      currentTab = 'python';
+      tabBtnPython.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-cyan-500/20 text-cyan-300 border border-cyan-500/40';
+      if (tabBtnCli) {
+        tabBtnCli.className = 'px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all text-text-muted hover:text-white border border-transparent';
+      }
+      codePanelPython?.classList.remove('hidden');
+      codePanelCli?.classList.add('hidden');
+    });
+
+    codeCopyBtn?.addEventListener('click', async () => {
+      const textToCopy = currentTab === 'cli' ? cliCodeText : pythonCodeText;
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        if (codeCopyText) {
+          codeCopyText.textContent = 'Copied!';
+          setTimeout(() => {
+            codeCopyText.textContent = 'Copy Code';
+          }, 2000);
+        }
+      } catch (err) {
+        console.error('Failed to copy code: ', err);
+      }
+    });
+
+    // 2. BibTeX copy handlers
+    document.querySelectorAll('.bibtex-copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const bibtex = btn.getAttribute('data-bibtex');
+        const textSpan = btn.querySelector('.btn-text');
+        if (!bibtex || !textSpan) return;
+
+        try {
+          await navigator.clipboard.writeText(bibtex);
+          const originalText = textSpan.textContent;
+          textSpan.textContent = "Copied to Clipboard!";
+          btn.classList.add("text-cyan-300", "border-cyan-500/60");
+          setTimeout(() => {
+            textSpan.textContent = originalText;
+            btn.classList.remove("text-cyan-300", "border-cyan-500/60");
+          }, 2500);
+        } catch (err) {
+          console.error("Failed to copy BibTeX: ", err);
+        }
+      });
+    });
+  });
+</script>

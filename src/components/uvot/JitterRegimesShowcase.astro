@@ -1,0 +1,270 @@
+---
+// src/components/uvot/JitterRegimesShowcase.astro
+// Interactive Showcase of the 4 Physical Spacecraft Jitter Regimes
+---
+
+<div class="w-full rounded-2xl overflow-hidden bg-surface-card border border-border/80 shadow-2xl">
+  <!-- Header Bar -->
+  <div class="px-6 py-4 bg-forest-950 border-b border-border/70 flex flex-wrap items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 mb-1">
+        <span class="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+          Physical Dynamics
+        </span>
+        <span class="text-xs font-mono text-text-dim">Swift UVOT Optical Bench</span>
+      </div>
+      <h3 class="text-lg font-bold text-white tracking-tight">
+        The 4 Spacecraft Jitter Regimes
+      </h3>
+    </div>
+
+    <!-- Quick Stats Pills -->
+    <div class="hidden sm:flex items-center gap-3 text-xs font-mono">
+      <div class="flex items-center gap-1.5 px-3 py-1 rounded-md bg-forest-900 border border-border">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="text-text-muted">4 Regimes Evaluated</span>
+      </div>
+      <div class="flex items-center gap-1.5 px-3 py-1 rounded-md bg-forest-900 border border-border">
+        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+        <span class="text-text-muted">Direct Photon Tracking</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Regime Tabs -->
+  <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-border/60 bg-forest-900/60 border-b border-border/70 text-xs font-mono" id="regime-tabs">
+    <!-- Tab 1 -->
+    <button 
+      type="button" 
+      data-regime="0"
+      class="regime-tab text-left p-3.5 sm:p-4 transition-all bg-surface border-b-2 border-emerald-400 text-white group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-emerald-400">Regime 01</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">Null Test</span>
+      </div>
+      <div class="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">Low Jitter / Control</div>
+      <div class="text-[11px] text-text-muted mt-0.5">OBSID 00097137199 • &lt; 0.8 px</div>
+    </button>
+
+    <!-- Tab 2 -->
+    <button 
+      type="button" 
+      data-regime="1"
+      class="regime-tab text-left p-3.5 sm:p-4 transition-all hover:bg-forest-900/80 text-text-muted border-b-2 border-transparent group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-cyan-400">Regime 02</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-mono">+54% Sharp</span>
+      </div>
+      <div class="text-sm font-bold text-text-main group-hover:text-cyan-300 transition-colors">Linear Slew</div>
+      <div class="text-[11px] text-text-muted mt-0.5">OBSID 00097137118 • 38 px Slew</div>
+    </button>
+
+    <!-- Tab 3 -->
+    <button 
+      type="button" 
+      data-regime="2"
+      class="regime-tab text-left p-3.5 sm:p-4 transition-all hover:bg-forest-900/80 text-text-muted border-b-2 border-transparent group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-amber-400">Regime 03</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">15s Cycle</span>
+      </div>
+      <div class="text-sm font-bold text-text-main group-hover:text-amber-300 transition-colors">15s Limit Cycle</div>
+      <div class="text-[11px] text-text-muted mt-0.5">OBSID 00097137145 • 1.0s Slab</div>
+    </button>
+
+    <!-- Tab 4 -->
+    <button 
+      type="button" 
+      data-regime="3"
+      class="regime-tab text-left p-3.5 sm:p-4 transition-all hover:bg-forest-900/80 text-text-muted border-b-2 border-transparent group"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] uppercase tracking-wider font-semibold text-rose-400">Regime 04</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 font-mono">400+ px</span>
+      </div>
+      <div class="text-sm font-bold text-text-main group-hover:text-rose-300 transition-colors">Extreme Walk</div>
+      <div class="text-[11px] text-text-muted mt-0.5">OBSID 00097137057 • Serpentine</div>
+    </button>
+  </div>
+
+  <!-- Dynamic Graphic & Zoom Viewport -->
+  <div class="relative w-full overflow-hidden bg-black aspect-[3200/1644] group">
+    <img 
+      id="regimes-img"
+      src="/images/uvot-jitter/jitter_regimes_showcase.png" 
+      alt="Four Spacecraft Attitude Jitter Regimes: Low Jitter Control, Linear Slew, 15s Limit Cycle, and Extreme Random Walk with matched pointing drift curves."
+      class="w-full h-full object-cover transition-transform duration-700 ease-out will-change-transform"
+      loading="lazy"
+      decoding="async"
+    />
+
+    <!-- View Mode Pill Overlay -->
+    <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-forest-950/90 border border-border/80 px-3 py-1.5 rounded-lg text-xs font-mono backdrop-blur-md">
+      <button 
+        type="button" 
+        id="btn-regime-reset-zoom"
+        class="text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+      >
+        Show All 4 Regimes
+      </button>
+    </div>
+  </div>
+
+  <!-- Dynamic Detail Card Below Image -->
+  <div id="regime-detail-panel" class="p-6 bg-surface border-t border-border/70 transition-all duration-300">
+    <!-- Content dynamically populated via JS -->
+  </div>
+</div>
+
+<script>
+  // Data model for the 4 regimes
+  const regimesData = [
+    {
+      id: 0,
+      title: "Regime 1: Low Jitter / Control (Null Baseline Test)",
+      obsid: "00097137199",
+      target: "NGC 4395 UVOT-U",
+      badgeText: "STABLE ATTITUDE LOCK",
+      badgeColor: "text-emerald-400 bg-emerald-500/20 border-emerald-500/40",
+      fwhmBefore: "3.12″",
+      fwhmAfter: "3.08″",
+      driftMag: "< 0.8 px (0.40″)",
+      cadence: "6.7 Hz (dt = 0.15s)",
+      sharpening: "+1.3% (Preserved)",
+      gateStatus: "PASSED (DO-NO-HARM GATE)",
+      zoomStyle: "scale(2.2) translate(36%, 10%)",
+      description: "When the Swift spacecraft operates in a nominal, quiescent attitude state with drift under 0.8 pixels, the algorithm's automated Do-No-Harm gate actively passes the null test. No artificial distortion or numerical noise is injected into undisturbed photon streams, guaranteeing 100% preservation of archival photometry."
+    },
+    {
+      id: 1,
+      title: "Regime 2: Medium Drift / Linear Attitude Slew",
+      obsid: "00097137118",
+      target: "NGC 4395 UVOT-U (Field Star > 1500 px from AGN)",
+      badgeText: "CONSTANT-VELOCITY DRIFT",
+      badgeColor: "text-cyan-400 bg-cyan-500/20 border-cyan-500/40",
+      fwhmBefore: "7.36″",
+      fwhmAfter: "3.41″",
+      driftMag: "38.2 px (19.1″)",
+      cadence: "6.7 Hz (dt = 0.15s)",
+      sharpening: "+53.7% Spatial Sharpening",
+      gateStatus: "ACCEPTED (FULL RECONSTRUCTION)",
+      zoomStyle: "scale(2.2) translate(12%, 10%)",
+      description: "A steady, unidirectional 38-pixel slew across the detector plane smears field stars into linear bars. The hoisted 2D FFT engine recovers the uniform motion vector with sub-pixel parabolic vertex interpolation, collapsing the 7.36″ streak into a round, symmetric 3.41″ stellar core with +53.7% spatial sharpening."
+    },
+    {
+      id: 2,
+      title: "Regime 3: High Jitter / 15-Second Limit Cycle",
+      obsid: "00097137145",
+      target: "NGC 4395 UVOT-U",
+      badgeText: "REACTION-WHEEL OSCILLATION",
+      badgeColor: "text-amber-400 bg-amber-500/20 border-amber-500/40",
+      fwhmBefore: "6.85″",
+      fwhmAfter: "3.33″",
+      driftMag: "24.6 px (12.3″)",
+      cadence: "6.7 Hz (1.0s Slab Half)",
+      sharpening: "+51.4% Spatial Sharpening",
+      gateStatus: "ACCEPTED (HIGH-FREQUENCY SOLVE)",
+      zoomStyle: "scale(2.2) translate(-12%, 10%)",
+      description: "Spacecraft attitude limit-cycling with a 15-second turnaround period produces a distinctive dumbbell elongation. Legacy 5.0-second correlation windows suffered severe phase lag and ringing. Shortening the correlation temporal slab to 1.0s (`slab_half=1.0s`) accurately tracks the rapid oscillation turnarounds, completely eliminating the dumbbell distortion."
+    },
+    {
+      id: 3,
+      title: "Regime 4: Extreme Serpentine Random Walk",
+      obsid: "00097137057",
+      target: "NGC 4395 UVOT-U",
+      badgeText: "MASSIVE UNGUIDED WANDER",
+      badgeColor: "text-rose-400 bg-rose-500/20 border-rose-500/40",
+      fwhmBefore: "> 14.2″",
+      fwhmAfter: "3.18″",
+      driftMag: "410+ px (205″)",
+      cadence: "6.7 Hz (dt = 0.15s)",
+      sharpening: "+77.6% Spatial Sharpening",
+      gateStatus: "ACCEPTED (SALVAGED OBSERVATION)",
+      zoomStyle: "scale(2.2) translate(-36%, 10%)",
+      description: "Severe reaction-wheel saturation causes the spacecraft optical axis to wander across more than 400 detector pixels over the exposure, rendering the standard pipeline product completely unusable. UNJITR tracks the entire serpentine trajectory through phase space, inverting every photon arrival and fully recovering the observation."
+    }
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.regime-tab');
+    const img = document.getElementById('regimes-img');
+    const panel = document.getElementById('regime-detail-panel');
+    const btnReset = document.getElementById('btn-regime-reset-zoom');
+
+    function renderDetail(index) {
+      const data = regimesData[index];
+      if (!panel) return;
+
+      panel.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2">
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-mono uppercase tracking-wider border ${data.badgeColor}">
+                ${data.badgeText}
+              </span>
+              <span class="text-xs font-mono text-text-dim">OBSID: ${data.obsid}</span>
+              <span class="text-xs font-mono text-text-dim">•</span>
+              <span class="text-xs font-mono text-text-muted">${data.target}</span>
+            </div>
+            <h4 class="text-xl font-bold text-white mb-2">${data.title}</h4>
+            <p class="text-sm text-text-muted leading-relaxed font-sans">${data.description}</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 p-4 rounded-xl bg-forest-950 border border-border/80 font-mono text-xs">
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-text-dim block">Drift Scale</span>
+              <span class="text-sm font-bold text-white">${data.driftMag}</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-text-dim block">Tracking Cadence</span>
+              <span class="text-sm font-bold text-cyan-400">${data.cadence}</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-text-dim block">PSF FWHM Evolution</span>
+              <span class="text-sm font-bold text-rose-400">${data.fwhmBefore}</span>
+              <span class="text-text-dim mx-1">→</span>
+              <span class="text-sm font-bold text-emerald-400">${data.fwhmAfter}</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase tracking-wider text-text-dim block">FITS Pipeline Gate</span>
+              <span class="text-xs font-bold text-emerald-300 block truncate">${data.gateStatus}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Set initial detail
+    renderDetail(0);
+
+    // Tab switcher
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const index = parseInt(tab.getAttribute('data-regime') || '0', 10);
+
+        tabs.forEach(t => {
+          t.className = 'regime-tab text-left p-3.5 sm:p-4 transition-all hover:bg-forest-900/80 text-text-muted border-b-2 border-transparent group';
+        });
+
+        tab.className = 'regime-tab text-left p-3.5 sm:p-4 transition-all bg-surface border-b-2 border-emerald-400 text-white group';
+
+        // Zoom image to regime column
+        if (img) {
+          img.style.transform = regimesData[index].zoomStyle;
+        }
+
+        renderDetail(index);
+      });
+    });
+
+    // Reset zoom
+    btnReset?.addEventListener('click', () => {
+      if (img) {
+        img.style.transform = 'scale(1) translate(0%, 0%)';
+      }
+    });
+  });
+</script>
