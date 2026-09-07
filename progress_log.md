@@ -1,5 +1,12 @@
 # Progress Log
 
+## [2026-09-07 14:36:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Production Deployment to Vercel (`corygarms.com`) & Green CI
+* **Summary:** Pushed commit `2fa4912` to `origin main`. Added `.gitignore` exclusions for raw 646MB PCD directory (`3D_models/`) and WSL Zone.Identifier metadata, ensuring lean and fast git transfers with web-optimized 1.35MB GLB assets. Fixed CI workflow script in `.github/workflows/ci.yml`, yielding a clean passing green build (`✓`) on GitHub Actions in 48s. Vercel automatically deployed the production build to `https://corygarms.com`. Verified live HTTP 200 OK status across all routes (`/`, `/cutmap`, `/research`, `/cv`, `/reading-list`, `/notes`) and verified that all binary LiDAR point cloud assets (`livox_forest_grove.glb`, `livox_grove_loop_b.glb`, `livox_grove_loop_c.glb`) stream cleanly without errors.
+* **Technical Debt/Next Steps:** Ready to begin the next sprint for CUTMAP interactive pipeline, 3D point clouds, and field telemetry integration.
+
 ## [2026-09-07 14:23:00 EDT]
 
 * **Status:** Completed
