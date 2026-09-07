@@ -1,5 +1,23 @@
 # Progress Log
 
+## [2026-09-07 17:18:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Mobile Usability & Landing Page 3D Viewer Toggle
+* **Summary:** Implemented comprehensive mobile optimizations and a dedicated 3D viewer toggle for the landing page:
+  1. **3D Engine Toggle (`PointCloudHero.jsx`):**
+     - Added an easily accessible toggle button (`[ 🟢 3D View: ON / OFF ]`) in the top bar with local storage state persistence.
+     - When toggled OFF: completely unmounts the Three.js WebGL canvas, eliminating 100% of GPU/battery drain on mobile and preventing touch scroll traps. Replaced with an elegant 2D scientific fallback card featuring Livox LiDAR specs and a one-tap activation button.
+     - When toggled ON: renders the antialiased point cloud canvas with smooth auto-rotation.
+  2. **Mobile Scroll Protection (`PointCloudHero.jsx`):**
+     - Configured `OrbitControls` on mobile devices (`< 768px`) to prevent single-finger touch gestures from hijacking normal vertical page scrolling.
+     - Added an interactive mobile touch control button (`[ 👆 Touch to Spin | 📜 Scroll Friendly ]`) allowing users to explicitly choose when to rotate the 3D model vs. scrolling the page.
+  3. **Responsive Hero Height (`src/pages/index.astro`):**
+     - Adjusted hero container height to `h-[75vh] sm:h-[88vh] min-h-[460px] sm:min-h-[600px]` so mobile viewports do not push the About section completely below the fold.
+  4. **Mobile Navigation Drawer (`src/layouts/Layout.astro`):**
+     - Added a clean hamburger button and slide-down mobile menu drawer in the sticky header, enabling mobile users to navigate between ABOUT, RESEARCH, PROJECTS, CV, NOTES, LIBRARY, and CONTACT.
+* **Build Verification:** Tested with `npm run build`; all 19 static pages compiled cleanly in 5.07s with 0 errors.
+
 ## [2026-09-07 17:12:00 EDT]
 
 * **Status:** Completed
