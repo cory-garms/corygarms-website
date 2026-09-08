@@ -1,5 +1,19 @@
 # Progress Log
 
+## [2026-09-08 08:03:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Site-Wide Language Simplification & Accessible Tone Overhaul
+* **Summary:** Completed comprehensive simplification of language across the entire website to provide an accessible, inviting, and uncluttered feel while maintaining Cory's Ph.D. scientific rigor:
+  1. **Homepage (`src/pages/index.astro`):** Streamlined About narrative and converted Research Preview cards (UNJITR, Douglas-fir lean, SPIE calibration) into direct, punchy summaries.
+  2. **Portfolio Cards (`src/components/PortfolioGrid.astro`):** Replaced dense multi-clause descriptions across all core and dynamic projects (CUTMAP, Dirty Water, UNJITR, LiDAR Canopy, Hyperspectral, Bass Detector, Spurs Tracker) with clear, functional English.
+  3. **Curriculum Vitae (`src/pages/cv.astro`):** Rewrote Executive Summary, work experience bullets across Spectral Sciences, AeroTract, CDR Maguire, and Greensense, degree focus summaries, and community service descriptions.
+  4. **Research Dossier (`src/pages/research.astro`):** Simplified page subtitle and revised all 9 publication takeaway callouts to highlight plain-English findings, methodology, and practical significance.
+  5. **The Library (`src/pages/reading-list.astro`):** Shortened category headings (Philosophy & Resilience, The American West & History, Nature & Science, Technology & Speculative Fiction) and rewrote all 22 book summaries to remove inflated adjectives and purple prose.
+  6. **Technical Notes (`src/pages/notes/index.astro` & `src/content/notes/*.mdx`):** Simplified notes index subtitle and frontmatter descriptions across all 10 long-form notes for fast readability.
+  7. **Project Dossiers (`src/pages/cutmap.astro` & `src/pages/unjitr.astro`):** Streamlined subtitles, lead narratives, and section intros while preserving 100% of the underlying empirical data points, equations, and interactive components.
+* **Build Verification:** Tested with `npm run build`; all 19 static pages compiled cleanly in 6.07s with 0 errors.
+
 ## [2026-09-07 17:18:00 EDT]
 
 * **Status:** Completed

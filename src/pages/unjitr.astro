@@ -121,7 +121,7 @@ const kpis = [
         UNJITR: UV/Optical Nonlinear Jitter &amp; Instability Trajectory Recovery
       </h1>
       <p class="text-lg sm:text-xl md:text-2xl font-semibold text-cyan-300/90 max-w-4xl leading-snug mb-6">
-        Catalog-Free Sub-Pixel Photon Jitter Restoration &amp; Orbit Coregistration for NASA Swift UVOT
+        Restoring Blurred Space Telescope Images from Spacecraft Jitter
       </p>
 
       <!-- Institutional Attribution Bar -->
@@ -238,7 +238,7 @@ const kpis = [
           Unguided Spacecraft Drift vs. Restored Airy Core
         </h2>
         <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
-          During rapid target-of-opportunity pointings, Swift UVOT operates without active guide-star locking. Spacecraft reaction-wheel momentum drift smears point sources across 450+ detector pixels into chaotic serpentine ribbons. <code class="text-cyan-300 font-mono">UNJITR</code> tracks the continuous attitude trajectory directly from raw photon arrival times, collapsing smeared filaments back into symmetric 2.94″ Airy diffraction cores.
+          During fast target-of-opportunity pointings, the Swift space telescope drifts without a guide-star lock. Reaction-wheel jitter smears stars into long streaks across the detector. <code class="text-cyan-300 font-mono">UNJITR</code> tracks this motion directly from photon arrival times, turning smeared ribbons back into sharp, focused point sources.
         </p>
       </div>
 
@@ -257,7 +257,7 @@ const kpis = [
           Performance Across 4 Physical Jitter Regimes
         </h2>
         <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
-          Spacecraft attitude instability manifests in distinct physical regimes, ranging from nominal quiescent tracking to fast 15-second limit-cycling and multi-hundred-pixel random walks. Explore how UNJITR's regularizer and the 1.0s correlation slab discovery handle each dynamic regime.
+          Spacecraft jitter ranges from subtle pointing drift to rapid 15-second wobble and wide wandering paths. Explore how UNJITR restores image sharpness across each motion type.
         </p>
       </div>
 
@@ -275,7 +275,7 @@ const kpis = [
           The 4-Step UNJITR Restoration Engine
         </h2>
         <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
-          Rather than relying on noisy telemetry star-trackers or external catalog guide stars (which are virtually non-existent in faint UV fields), UNJITR reconstructs the spacecraft drift trajectory directly from the arrival times of individual photon events.
+          Instead of relying on star catalogs or noisy sensor telemetry, UNJITR reconstructs telescope drift directly from the arrival times of individual photons.
         </p>
       </div>
 
@@ -293,7 +293,7 @@ const kpis = [
           Eliminating Orbit-Long Star Doubling Across Sub-Exposures
         </h2>
         <p class="text-sm text-text-muted max-w-3xl mt-2 font-sans">
-          Single Swift pointings spanning 45-minute continuous orbits are interrupted by Earth occultations and SAA passages, splitting observations into multiple Good Time Intervals (GTIs). Independent sub-interval pointing solutions suffer 2–6 px offsets, producing double or triple star images when stacked. UNJITR's master coregistration engine locks all intervals to a unified reference origin H₀, merging double stars into single razor-sharp point sources.
+          When an orbit observation is split into multiple exposures, slight pointing shifts between them create duplicate 'ghost' stars when stacked. UNJITR aligns all exposures to a single master frame, merging split stars back into single sharp points.
         </p>
       </div>
 

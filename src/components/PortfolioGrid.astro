@@ -17,7 +17,7 @@ const coreProjects: Project[] = [
   {
     title: "CUTMAP: Autonomous Forest Mensuration",
     badge: "USDA STTR Phase I/II",
-    description: "Edge-computed mobile LiDAR and stereo-vision robotics platform for individual tree detection, stem taper and lean mensuration, and automated silvicultural thinning prescriptions.",
+    description: "A mobile LiDAR and camera cart that maps forest plots in real time, measuring tree diameter, trunk lean, and timber volume.",
     image: "/images/STTR_device.jpg",
     tags: ["USDA STTR", "Mobile LiDAR", "Stereo Vision", "Edge AI", "Forestry"],
     link: "/cutmap",
@@ -27,7 +27,7 @@ const coreProjects: Project[] = [
   {
     title: "Dirty Water: Boston Red Sox Analytics Suite",
     badge: "Live Web App",
-    description: "Production MLB analytics suite featuring today's matchup previews, starting pitcher platoon advantage modeling, bullpen rest metrics, rolling win% trends, and franchise streak comparisons.",
+    description: "A daily Boston Red Sox analytics app tracking starting pitcher matchups, bullpen fatigue, and team performance trends.",
     image: "/images/sox_retro_logo.png",
     tags: ["MLB Analytics", "Python", "Plotly", "Live App"],
     link: "https://dirtywater.corygarms.com",
@@ -37,7 +37,7 @@ const coreProjects: Project[] = [
   {
     title: "UNJITR: NASA Spacecraft Jitter Recovery",
     badge: "NASA Swift UVOT",
-    description: "UNJITR (UV/Optical Nonlinear Jitter & Instability Trajectory Recovery): Catalog-free sub-pixel photon-event jitter restoration engine achieving a 99.7% archive recovery rate across 282 Swift UVOT galaxy observations, collapsing 450 px serpentine smears back into 2.94″ Airy diffraction cores.",
+    description: "Restores blurred NASA Swift space telescope observations corrupted by spacecraft jitter back into sharp, science-ready images.",
     image: "/images/uvot-jitter/hero_before_after.png",
     tags: ["NASA Swift UVOT", "Sub-Pixel FFT", "UNJITR", "Astrophysics"],
     link: "/unjitr",
@@ -47,7 +47,7 @@ const coreProjects: Project[] = [
   {
     title: "LiDAR Canopy Height Extractor",
     badge: "Open Source Pipeline",
-    description: "Automated Python pipeline for processing airborne and terrestrial LiDAR point clouds, classifying ground returns, and generating high-resolution Canopy Height Models (CHM).",
+    description: "Python pipeline that turns raw airborne and terrestrial LiDAR scans into high-resolution forest canopy height models.",
     image: "/images/output_chm_render.png",
     tags: ["Python", "Docker", "LiDAR", "Open3D"],
     link: "https://github.com/cory-garms/lidar-canopy-extractor",
@@ -57,7 +57,7 @@ const coreProjects: Project[] = [
   {
     title: "Hyperspectral Processing Pipeline",
     badge: "Remote Sensing",
-    description: "Scientific Python pipeline for calibrating and processing multi-band hyperspectral imaging data cubes, radiometric ground truth validation, and reflectance curve analysis.",
+    description: "Python toolkit for calibrating hyperspectral imagery, validating ground measurements, and analyzing spectral reflectance curves.",
     image: "/images/HSI-pipeline_thumbnail.png",
     tags: ["Python", "Hyperspectral", "Remote Sensing"],
     link: "https://github.com/cory-garms/hsi-pipeline",
@@ -67,7 +67,7 @@ const coreProjects: Project[] = [
   {
     title: "Autonomous Bass Species Detector",
     badge: "Computer Vision",
-    description: "Real-time underwater object detection pipeline powered by YOLOv8, trained to identify, classify, and track North American black bass species in variable water clarity.",
+    description: "Real-time underwater computer vision model (YOLOv8) that detects and tracks black bass species in varied water conditions.",
     image: "/images/bass_detection.jpg",
     tags: ["YOLOv8", "Computer Vision", "Python", "Ecology"],
     link: "https://github.com/cory-garms/bass-detector",
@@ -96,7 +96,7 @@ const dynamicRepos: Project[] = githubRepos
       title: isSpurs ? "Spurs Performance Tracker" : repo.title,
       badge: isSpurs ? "Sports Analytics" : "GitHub Resource",
       description: isSpurs 
-        ? "Interactive NBA dashboard monitoring San Antonio Spurs season pace, offensive/defensive ratings, and player efficiency trends." 
+        ? "Interactive dashboard tracking San Antonio Spurs game pace, team ratings, and player performance metrics." 
         : (repo.description || "A public GitHub repository."),
       image: isSpurs ? "/images/spurs_retro_logo.png" : "",
       tags: isSpurs ? ["NBA Analytics", "Python", "Data Viz"] : ["Open Source", "Python"],

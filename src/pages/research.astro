@@ -25,7 +25,7 @@ const publications: Publication[] = [
     year: 2026,
     category: "lidar",
     categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Exposes how standard scale-invariant reprojection metrics remain blind to 2.5 mm target curvature, propagating into 140 mm phantom extrinsic shifts. Introduces three physical calibration gates that condition the weak axis and restore sub-millimeter precision on mobile forest mapping rigs.",
+    takeaway: "Shows how tiny physical target errors can cause large calibration drift in forest mapping rigs, and introduces three practical calibration checks to restore sub-millimeter accuracy.",
     bibtex: `@article{garms2026cutmap_calibration,
   title={Calibrating a Low-SWaP-C Lidar--Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation},
   author={Garms, Cory G. and Strimbu, Bogdan M. and others},
@@ -43,7 +43,7 @@ const publications: Publication[] = [
     year: 2021,
     category: "lidar",
     categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Tree lean introduces significant geometric bias into airborne laser scanning volume estimates. This research established active sensor algorithms that isolate stem curvature and positional drift in mature conifer stands, ensuring accurate carbon sequestration and merchantable timber calculations.",
+    takeaway: "Tree lean causes airborne laser scanners to miscalculate timber volume. This paper develops algorithms to isolate trunk curvature and improve timber and carbon estimates in mature forests.",
     doi: "https://doi.org/10.3390/rs12142278",
     bibtex: `@article{garms2021lean,
   title={Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors},
@@ -61,7 +61,7 @@ const publications: Publication[] = [
     year: 2020,
     category: "lidar",
     categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Validates non-destructive mobile terrestrial Lidar pipelines for modeling irregular trunk taper. We proved that compensating for 3D stem vectoring eliminates systemic volume underestimation common to traditional optical inventory methods.",
+    takeaway: "Demonstrates mobile LiDAR methods for modeling trunk shape, proving that accounting for tree lean prevents timber volume underestimation.",
     doi: "https://doi.org/10.1139/cjfr-2020-0082",
     bibtex: `@article{garms2020stemlean,
   title={Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans},
@@ -78,7 +78,7 @@ const publications: Publication[] = [
     year: 2019,
     category: "lidar",
     categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Geometric segmentation algorithms that isolate individual tree crowns and stems directly from raw spatial photon returns, enabling single-tree precision inventory at landscape scale.",
+    takeaway: "Algorithms that separate individual tree crowns and trunks directly from raw 3D laser points for forest inventory.",
     doi: "https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en",
     bibtex: `@inproceedings{garms2019single_tree,
   title={Using Point Clouds for Single Tree Forest Inventory},
@@ -97,7 +97,7 @@ const publications: Publication[] = [
     year: 2026,
     category: "uas",
     categoryLabel: "Genetics & Spectral Phenotyping",
-    takeaway: "Multi-year field study on transgenic hybrid poplars (Populus tremula × alba) overexpressing anthocyanin MYB transcription factors. Evaluates foliar coloration stability, remote sensing and hyperspectral leaf reflectance signatures, photosynthetic efficiency, and field growth adaptation.",
+    takeaway: "Multi-year field study evaluating the growth, leaf coloration stability, and spectral reflectance of genetically modified purple poplars.",
     doi: "https://doi.org/10.21273/HORTSCI19524-26",
     bibtex: `@article{strauss2026purplepoplar,
   title={Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar},
@@ -119,7 +119,7 @@ const publications: Publication[] = [
     year: 2022,
     category: "uas",
     categoryLabel: "UAS & Ecology",
-    takeaway: "High-resolution drone photogrammetry and surface models track endangered southwestern white pine seedling growth in nursery test beds, replacing manual caliper measurements with autonomous centimeter-grade 3D computer vision.",
+    takeaway: "Uses high-resolution drone imagery and 3D surface models to track nursery seedling growth, replacing manual caliper measurements with automated computer vision.",
     doi: "https://doi.org/10.1016/j.ecoinf.2022.101742",
     bibtex: `@article{garms2022uas_seedlings,
   title={Augmenting size models for Pinus strobiformis seedlings using dimensional estimates from UAS},
@@ -136,7 +136,7 @@ const publications: Publication[] = [
     year: 2021,
     category: "uas",
     categoryLabel: "UAS & Ecology",
-    takeaway: "Quantifies how temperature anomalies during seed development alter subsequent conifer germination architecture, providing spatial data for assisted migration and reforestation strategies.",
+    takeaway: "Examines how higher temperatures during seed development affect conifer germination, providing insights for climate-adapted reforestation.",
     doi: "https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en",
     bibtex: `@article{garms2021warming,
   title={Experimental warming of developing tree seeds with seedling demonstration},
@@ -155,7 +155,7 @@ const publications: Publication[] = [
     year: 2023,
     category: "hyperspectral",
     categoryLabel: "Hyperspectral & Optics",
-    takeaway: "Engineered high-contrast ground calibration targets used to verify Modulation Transfer Function (MTF) and spatial resolution of airborne imaging systems in flight operations.",
+    takeaway: "Designed high-contrast ground targets to test the sharpness and spatial resolution of airborne camera systems during flight.",
     doi: "https://doi.org/10.1117/12.2663812",
     bibtex: `@inproceedings{garms2023targets,
   title={Spectral-spatial ground targets for measurement of airborne electro-optical imaging system performance},
@@ -172,7 +172,7 @@ const publications: Publication[] = [
     year: 2022,
     category: "hyperspectral",
     categoryLabel: "Hyperspectral & Optics",
-    takeaway: "Vicarious radiometric calibration methodologies enabling satellites and airborne imaging spectrometers to cross-calibrate against ground reference arrays for consistent multi-mission Earth observation.",
+    takeaway: "Methods for calibrating satellite and airborne imaging spectrometers using ground reference targets for consistent Earth observation data.",
     doi: "https://doi.org/10.1117/12.2635901",
     bibtex: `@inproceedings{garms2022calibration,
   title={Calibration of Earth observing spectral imagers vicariously and with controlled ground array},
@@ -197,7 +197,7 @@ const publications: Publication[] = [
         Publications & Science
       </h1>
       <p class="text-base text-text-muted max-w-2xl leading-relaxed">
-        Peer-reviewed research and applied algorithms spanning forestry lidar, UAS spatial modeling, and electro-optical sensor calibration.
+        Peer-reviewed papers and algorithms in forest LiDAR, drone mapping, and optical sensor calibration.
       </p>
 
       <div class="mt-6 flex flex-wrap gap-4 items-center text-xs font-mono">
