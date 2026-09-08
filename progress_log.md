@@ -1,5 +1,23 @@
 # Progress Log
 
+## [2026-09-08 10:06:00 EDT]
+
+* **Status:** Completed
+* **Focus:** UNJITR Privacy Protection & Repository / Code References Removal
+* **Summary:** Per co-author Dr. Jonathan Gelbord's request prior to public software publication, sanitized all public repository links and code execution guides from the site:
+  1. **UNJITR Mission Dossier (`src/pages/unjitr.astro`):**
+     - Removed hero CTA button linking to `https://github.com/cory-garms/astro-jitter`; elevated "Interactive Visualizer" to the primary highlighted cyan action.
+     - Replaced Section 7 ("Quickstart & Python API Playground" containing `pip install unjitr`, CLI options, and Python SDK scripts) with an elegant "Pipeline Architecture & Release Status" card detailing the forthcoming release alongside peer-reviewed PASP/JOSS publications.
+     - Removed GitHub repository link from the academic publication cards manifest.
+     - Streamlined page script to remove CLI/Python copy switcher logic while retaining BibTeX citation clipboard copying.
+     - Updated JOSS publication takeaway metadata to reflect release in preparation.
+  2. **Spacecraft Jitter Note (`src/content/notes/subpixel-fft-spacecraft-jitter.mdx`):**
+     - Removed mention of the open-source pipeline, CLI tool (`unjitr-restore`), and Python SDK in the conclusion, directing readers to the interactive mission dossier visualizers.
+  3. **Showcase Component (`src/components/uvot/JitterRegimesShowcase.astro`):**
+     - Cleaned up inline code parameter syntax in Regime 3 description.
+* **Build Verification:** Verified build via `npm run build` (all 19 static pages compiled cleanly in 6.06s with exit code 0).
+* **Technical Debt/Next Steps:** Monitor *PASP* and *JOSS* submission progress; restore public repo and package links once software is published.
+
 ## [2026-09-08 10:02:00 EDT]
 
 * **Status:** Completed
