@@ -54,7 +54,7 @@ All assets are located in the CUTMAP project repository (`/home/cgarms/Projects/
 ## 4. Ready-to-Implement Web Copy (Section by Section)
 
 ### A. Hero Section
-* **Eyebrow Tag:** `USDA SBIR Phase I • Proprietary Technology • Spectral Sciences, Inc.`
+* **Eyebrow Tag:** `USDA-NIFA STTR Phase I • Forests and Related Resources • Spectral Sciences, Inc.`
 * **Title:** `CUTMAP: Autonomous Under-Canopy Forest Mensuration`
 * **Headline:** `Sub-Centimeter Metric Precision from a $2,200 Mobile Sensor Payload`
 * **Lead Paragraph:**  
