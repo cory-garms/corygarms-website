@@ -1,5 +1,12 @@
 # Progress Log
 
+## [2026-09-10 13:40:00 EDT]
+
+* **Status:** Completed
+* **Focus:** SSI Logo White Background Container Styling
+* **Summary:** Added a dedicated, crisp white background container with rounded corners and subtle shadow for the Spectral Sciences, Inc. logo (`/images/SSI_LOGO-transparent.png`) in `src/pages/cutmap.astro`. This ensures that the solid black "Spectral Sciences Inc." typography and rainbow spectrometer band render with high contrast and legibility against the dark forest theme in both the main header and interactive link badges.
+* **Technical Debt/Next Steps:** Deploy changes to production.
+
 ## [2026-09-10 13:02:00 EDT]
 
 * **Status:** Completed
