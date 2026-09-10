@@ -58,7 +58,7 @@ All assets are located in the CUTMAP project repository (`/home/cgarms/Projects/
 * **Title:** `CUTMAP: Autonomous Under-Canopy Forest Mensuration`
 * **Headline:** `Sub-Centimeter Metric Precision from a $2,200 Mobile Sensor Payload`
 * **Lead Paragraph:**  
-  Commercial forest laser scanning platforms cost upwards of $50,000–$100,000, limiting operational adoption in silviculture and forest inventory. CUTMAP (Continuous Under-Canopy Traverse and Mapping) bridges the gap between low-cost robotics hardware and survey-grade forestry biometrics. Engineered by Spectral Sciences, Inc., CUTMAP couples a solid-state LiDAR with calibrated global-shutter stereo cameras on a mobile push-cart, achieving automated individual-tree DBH mensuration, rigorous multi-sensor calibration integrity, and robust GPS-denied SLAM odometry under dense canopy.
+  Commercial forest laser scanning platforms cost upwards of $50,000–$100,000, limiting operational adoption in silviculture and forest inventory. CUTMAP (Comprehensive Utility for Thinning Mechanically via Automated Prescription) bridges the gap between low-cost robotics hardware and survey-grade forestry biometrics. Engineered by Spectral Sciences, Inc., CUTMAP couples a solid-state LiDAR with calibrated global-shutter stereo cameras on a mobile push-cart, achieving automated individual-tree DBH mensuration, rigorous multi-sensor calibration integrity, and robust GPS-denied SLAM odometry under dense canopy.
 
 ---
 
