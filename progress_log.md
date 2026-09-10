@@ -1,6 +1,12 @@
 # Progress Log
 
-## [2026-09-10 13:40:00 EDT]
+## [2026-09-10 14:08:00 EDT]
+
+* **Status:** Completed
+* **Focus:** SSI Domain URL Update (`www.spectral.com`)
+* **Summary:** Updated all outbound hyperlinks and label text referencing Spectral Sciences, Inc. from `https://spectral.com` to `https://www.spectral.com` across `src/pages/cutmap.astro`. Verified that the apex domain (`spectral.com`) suffers a connection timeout on port 443, while `https://www.spectral.com` resolves immediately with HTTP/2 200 OK.
+* **Technical Debt/Next Steps:** Deploy changes to production.
+
 
 * **Status:** Completed
 * **Focus:** SSI Logo White Background Container Styling
