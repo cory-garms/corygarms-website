@@ -13,9 +13,9 @@ const stages = [
     badgeBg: "bg-accent/10 text-accent border-accent/20",
     summary: "Fuses prior aerial laser scanning (ALS) with continuous terrestrial mobile LiDAR-inertial odometry and stereo depth.",
     inputs: [
-      { label: "Prior Aerial ALS", desc: "USGS 3DEP / airborne lidar canopy DSM" },
-      { label: "Solid-State LiDAR", desc: "Livox Mid-360 non-repetitive rosette (200k pts/s)" },
-      { label: "Stereo Machine Vision", desc: "Dual FLIR Blackfly S global shutter (457.2 mm baseline)" },
+      { label: "Prior Aerial ALS", desc: "Canopy surface models and regional terrain baselines" },
+      { label: "Solid-State LiDAR", desc: "Non-repetitive rosette spatial scanning (200k pts/s)" },
+      { label: "Stereo Machine Vision", desc: "Synchronized dual global-shutter optical sensors" },
       { label: "High-Rate IMU", desc: "200 Hz 6-DOF industrial inertial odometry" }
     ],
     algorithms: [
@@ -24,12 +24,12 @@ const stages = [
         desc: "Iterated error-state Kalman filter tight-coupled to IMU, mapping dense understory geometry without GPS ephemeris."
       },
       {
-        name: "PSM / SGBM Stereo Matching",
-        desc: "Semi-Global / Pyramid Stereo deep matching computing dense pixel disparities for foreground vegetation."
+        name: "Multi-View Disparity Engine",
+        desc: "Hardware-synchronized disparity matching isolating foreground vegetation and sub-pixel trunk boundaries."
       },
       {
         name: "Aerial-to-Terrestrial Coregistration",
-        desc: "Progressive multi-resolution ICP aligning terrestrial stem manifolds to aerial top-of-canopy crowns."
+        desc: "Progressive multi-resolution alignment registering terrestrial stem manifolds to top-of-canopy crowns."
       }
     ],
     outputs: [
@@ -57,8 +57,8 @@ const stages = [
         desc: "Forward-projecting 3D LiDAR stem bounds to prompt Segment Anything Model, isolating optical bark boundaries."
       },
       {
-        name: "Angular Coverage Bias Correction",
-        desc: "Compensates for the systematic -2.79 cm / 100° diameter overestimation inherent to partial-arc stationary LiDAR scans."
+        name: "Perspective Coverage Normalization",
+        desc: "Proprietary geometric compensation adjusting for partial-arc scanner vantage angles."
       },
       {
         name: "3D Lean & Taper Vectoring",
@@ -86,8 +86,8 @@ const stages = [
     ],
     algorithms: [
       {
-        name: "Hegyi Spatial Competition Index",
-        desc: "Quantifies distance-dependent competitive pressure between neighboring stems: CI_i = Σ (DBH_j / DBH_i) / Dist_ij."
+        name: "Spatial Neighborhood Competition Analysis",
+        desc: "Proprietary spatial competition modeling evaluating individual tree vigor, crown competition, and biological growth potential."
       },
       {
         name: "Hero Heuristic Optimization",
@@ -245,6 +245,17 @@ const stages = [
 
       </div>
     ))}
+  </div>
+
+  <!-- IP Protection Callout -->
+  <div class="mt-6 p-4 rounded-xl bg-forest-950/90 border border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+    <div class="flex items-center gap-2 text-text-muted">
+      <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+      <span class="text-white font-medium">Proprietary Edge Architecture &bull; Spectral Sciences, Inc. IP</span>
+    </div>
+    <span class="text-text-dim text-[11px] text-center sm:text-right">
+      Complete ROS 2 node graph, custom drivers &amp; optimization solvers available under mutual NDA
+    </span>
   </div>
 
 </div>

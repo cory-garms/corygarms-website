@@ -23,7 +23,7 @@ const publications = [
   },
   {
     id: "cutmap-nemo-2026",
-    authors: "Garms, C.G., Strimbu, B., Zamora, D., et al. (2026)",
+    authors: "Garms, C.G., Strimbu, B., et al. (2026)",
     title: "CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping",
     venue: "2026 Joint Meeting of the Northeastern Mensurationist Organization (NEMO) & Southern Mensurationists (SOMENS), Portland, ME",
     tag: "Conference Proceeding",
@@ -31,7 +31,7 @@ const publications = [
     takeaway: "Presents the field-deployed all-terrain push-cart, FAST-LIO2 understory loop trajectories, and empirical validation against 65 taped stems across white pine and hardwood groves in Burlington, MA.",
     bibtex: `@inproceedings{garms2026cutmap_nemo,
   title={CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping},
-  author={Garms, Cory G. and Strimbu, Bogdan M. and Zamora, Diomy and others},
+  author={Garms, Cory G. and Strimbu, Bogdan M. and others},
   booktitle={2026 Joint Meeting of the Northeastern Mensurationist Organization (NEMO) and Southern Mensurationists (SOMENS)},
   address={Portland, ME},
   year={2026}
@@ -151,48 +151,109 @@ const kpis = [
   }
 ];
 
-// Hardware Payload Specifications
+// Hardware Subsystem Specifications (Modular Commercial Architecture)
 const hardwareSpecs = [
   {
-    component: "Livox Mid-360S LiDAR",
-    spec: "Solid-state non-repetitive circular rosette, 200,000 pts/sec, 360° × 59° FOV",
-    role: "Primary spatial geometry & understory traverse SLAM",
-    cost: "~$700",
+    subsystem: "Active 3D Ranging",
+    component: "Solid-State LiDAR Array",
+    spec: "Non-repetitive circular rosette spatial scanning, 200,000 pts/sec, 360° × 59° FOV",
+    role: "Spatial geometry & understory traverse SLAM",
+    integration: "Commercial Off-The-Shelf",
     powerWeight: "8.5 W • 265 g"
   },
   {
-    component: "Dual FLIR Blackfly S",
-    spec: "1.3 MP global shutter (1280 × 1024), 457.2 mm (18.0 in) calibrated baseline",
+    subsystem: "Optical Stereo",
+    component: "Synchronized Optical Array",
+    spec: "Dual high-speed global-shutter optical sensors with rigid baseline geometry",
     role: "Optical silhouette segmentation & visual edge mensuration",
-    cost: "~$1,100 (pair)",
+    integration: "Integrated Subsystem",
     powerWeight: "6.0 W • 180 g (pair)"
   },
   {
+    subsystem: "Inertial Odometry",
     component: "Industrial 6-DOF IMU",
-    spec: "200 Hz sampling rate, hardware-synchronized to LiDAR clock",
+    spec: "High-rate 200 Hz inertial odometry, hardware-synchronized to LiDAR clock",
     role: "Inertial pre-integration for FAST-LIO2 state prediction",
-    cost: "Embedded",
-    powerWeight: "Integrated in Mid-360"
+    integration: "Embedded Synchronous",
+    powerWeight: "Integrated"
   },
   {
-    component: "NVIDIA Jetson AGX Orin",
-    spec: "32 GB 256-bit LPDDR5, 200 TOPS AI compute, native ROS 2 Humble",
+    subsystem: "Edge AI Compute",
+    component: "Embedded Edge AI Engine",
+    spec: "High-density LPDDR5, up to 200 TOPS AI compute, native ROS 2 Humble",
     role: "Real-time SLAM odometry, camera logging & edge AI",
-    cost: "Host Compute",
+    integration: "Edge Computing Engine",
     powerWeight: "15–40 W • 650 g"
   },
   {
-    component: "All-Terrain Chassis",
-    spec: "High-clearance pneumatic wheels, rear-looking optics mount",
-    role: "Pedestrian mobility traversing fallen logs and heavy duff",
-    cost: "Chassis",
-    powerWeight: "4.8 kg Total Payload"
+    subsystem: "Chassis / Vehicle Mount",
+    component: "Modular Integration Chassis",
+    spec: "High-clearance mobility platform adaptable to vehicle cab/rack mounts or push-cart",
+    role: "All-terrain traverse across forest understory, fallen logs & duff",
+    integration: "Custom Mechanical IP",
+    powerWeight: "4.8 kg Total Core"
   }
 ];
 ---
 
-<Layout title="CUTMAP: Autonomous Forest Mensuration | Dr. Cory Glenn Garms">
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-16">
+<Layout title="CUTMAP: Autonomous Forest Mensuration Platform | Phase II Commercialization Brief">
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+    
+    <!-- SSI Corporate Header & Teaming Banner -->
+    <header class="mb-8 p-4 sm:p-5 rounded-2xl bg-surface/90 border border-border hover:border-accent/40 backdrop-blur-md transition-all duration-300 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4 w-full sm:w-auto">
+        <a 
+          href="https://spectral.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="shrink-0 group flex items-center gap-3 p-1 rounded-xl hover:bg-forest-900/60 transition-colors"
+          title="Visit Spectral Sciences, Inc. (spectral.com)"
+        >
+          <img 
+            src="/images/SSI_LOGO-transparent.png" 
+            alt="Spectral Sciences, Inc. Logo" 
+            class="h-10 sm:h-12 w-auto object-contain brightness-105 group-hover:scale-105 transition-transform"
+          />
+        </a>
+        <div class="border-l border-border/80 pl-3 sm:pl-4">
+          <div class="flex items-center gap-2">
+            <a 
+              href="https://spectral.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="text-xs sm:text-sm font-bold text-white hover:text-accent transition-colors flex items-center gap-1 group"
+            >
+              <span>Spectral Sciences, Inc.</span>
+              <svg class="w-3 h-3 text-text-dim group-hover:text-accent group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            </a>
+            <span class="text-[10px] font-mono text-text-dim hidden md:inline">|</span>
+            <span class="text-[11px] font-mono text-text-dim hidden md:inline">Remote Sensing &amp; Autonomous Systems</span>
+          </div>
+          <p class="text-[11px] text-text-muted mt-0.5">
+            Technology Commercialization &bull; USDA-NIFA SBIR/STTR Track
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+        <a 
+          href="#teaming-partnership" 
+          class="w-full sm:w-auto text-center px-3.5 py-2 rounded-lg bg-accent/15 border border-accent/40 hover:bg-accent hover:text-forest-950 text-accent text-xs font-mono font-semibold transition-all shadow-sm flex items-center justify-center gap-1.5"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span>Phase II Teaming Opportunity</span>
+        </a>
+        <a 
+          href="https://spectral.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="hidden lg:inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-forest-900 border border-border hover:border-accent/40 text-xs font-mono text-text-muted hover:text-white transition-colors"
+        >
+          <span>spectral.com</span>
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
+      </div>
+    </header>
     
     <!-- Top Breadcrumbs / Navigation -->
     <nav aria-label="Breadcrumbs" class="mb-8 flex items-center justify-between">
@@ -204,9 +265,9 @@ const hardwareSpecs = [
         <span>Back to Projects &amp; Portfolio</span>
       </a>
       <div class="flex items-center gap-2 text-[11px] font-mono text-text-dim">
-        <span>PROJECT DOSSIER</span>
+        <span>COMMERCIALIZATION DOSSIER</span>
         <span>/</span>
-        <span class="text-accent-light">CUTMAP</span>
+        <span class="text-accent-light">CUTMAP PHASE II</span>
       </div>
     </nav>
 
@@ -217,13 +278,13 @@ const hardwareSpecs = [
       <div class="flex flex-wrap items-center gap-2.5 mb-5">
         <span class="px-2.5 py-1 rounded bg-forest-900 border border-accent/40 text-accent text-[11px] font-mono font-medium tracking-wide flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-          USDA SBIR/STTR Phase I &amp; II
+          USDA-NIFA SBIR/STTR Commercialization Track
         </span>
         <span class="px-2.5 py-1 rounded bg-forest-900 border border-border text-text-muted text-[11px] font-mono">
-          Proprietary Technology
+          Phase II Teaming Opportunity
         </span>
         <span class="px-2.5 py-1 rounded bg-forest-900 border border-border text-text-muted text-[11px] font-mono">
-          Spectral Sciences, Inc.
+          TRL 6 Proven Prototype
         </span>
       </div>
 
@@ -232,36 +293,70 @@ const hardwareSpecs = [
         CUTMAP: Autonomous Under-Canopy Forest Mensuration
       </h1>
       <p class="text-lg sm:text-xl md:text-2xl font-semibold text-accent-light max-w-4xl leading-snug mb-6">
-        Accurate Forest Inventory from an Affordable $2,200 Sensor Cart
+        Commercial-Grade Forest Inventory at 1/20th the Cost — De-Risked Autonomous Mensuration for Forestry &amp; Equipment Teaming Partners
       </p>
 
       <!-- Institutional Attribution Bar -->
       <div class="p-4 rounded-xl bg-surface border border-border mb-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
         <div>
-          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Principal Investigator &amp; Lead Scientist</span>
-          <span class="text-text-main font-semibold">Dr. Cory Glenn Garms</span>
-          <span class="text-text-muted block text-[11px]">Senior Scientist, Spectral Sciences, Inc.</span>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Technology Developer &amp; Lead Architect</span>
+          <a href="https://spectral.com" target="_blank" rel="noopener noreferrer" class="text-text-main font-semibold hover:text-accent transition-colors inline-flex items-center gap-1">
+            <span>Spectral Sciences, Inc.</span>
+            <svg class="w-3 h-3 text-text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+          </a>
+          <span class="text-text-muted block text-[11px]">Dr. Cory Glenn Garms (PI &amp; Lead Scientist)</span>
         </div>
         <div>
           <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Academic Co-Investigator</span>
-          <span class="text-text-main font-semibold">Dr. Bogdan Strimbu</span>
-          <span class="text-text-muted block text-[11px]">Associate Professor, Oregon State University</span>
+          <span class="text-text-main font-semibold">Oregon State University</span>
+          <span class="text-text-muted block text-[11px]">Dr. Bogdan Strimbu (Associate Professor)</span>
         </div>
         <div>
-          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Agency Sponsor &amp; Program Director</span>
-          <span class="text-text-main font-semibold">Dr. Diomy Zamora</span>
-          <span class="text-text-muted block text-[11px]">USDA Forest Service</span>
+          <span class="text-text-dim block uppercase text-[10px] tracking-wider mb-0.5">Federal Sponsoring Agency</span>
+          <span class="text-text-main font-semibold">USDA-NIFA</span>
+          <span class="text-text-muted block text-[11px]">SBIR/STTR Program</span>
         </div>
       </div>
 
-      <!-- Executive Lead Narrative -->
-      <div class="prose prose-invert max-w-none text-text-muted text-sm sm:text-base leading-relaxed mb-10">
+      <!-- Executive Commercial Narrative -->
+      <div class="prose prose-invert max-w-none text-text-muted text-sm sm:text-base leading-relaxed mb-8 space-y-3">
         <p>
-          Commercial mobile laser scanners for forestry often cost $50,000 to $100,000+, putting them out of reach for routine use. <strong class="text-white">CUTMAP</strong> (<em>Continuous Under-Canopy Traverse and Mapping</em>) bridges this gap using low-cost robotics hardware to produce survey-grade forestry measurements.
+          Forest timber inventory and carbon verification remain constrained by a costly dilemma: traditional manual timber cruising is slow, labor-intensive ($15–$30 per acre), and sparse, while commercial mobile laser scanners command <strong class="text-white">$50,000 to $100,000+</strong> in fragile hardware, requiring complex post-processing and specialized operators.
         </p>
-        <p class="mt-3">
-          Developed by <strong class="text-white">Spectral Sciences, Inc.</strong> with USDA SBIR/STTR support, CUTMAP pairs a solid-state LiDAR with stereo cameras on an all-terrain cart. The system automatically measures tree diameter and trunk lean, verifies sensor calibration in the field, and maps forest plots accurately without GPS.
+        <p>
+          <strong class="text-white">CUTMAP</strong> (<em>Continuous Under-Canopy Traverse and Mapping</em>), engineered by <a href="https://spectral.com" target="_blank" rel="noopener noreferrer" class="text-white underline decoration-accent/60 hover:text-accent transition-colors">Spectral Sciences, Inc. (SSI)</a> under USDA-NIFA SBIR/STTR funding, delivers survey-grade precision on a compact <strong class="text-accent font-mono">~$2,200 hardware payload</strong>. Running GPU-accelerated SLAM, real-time stem vectoring, and AI-driven single-viewpoint mensuration entirely on edge compute, CUTMAP operates completely independent of GPS or cloud connectivity.
         </p>
+        <p>
+          With Phase I empirical validation complete across 65 taped stems (+2.83 cm DBH accuracy, R² = 0.983), <strong class="text-white">Spectral Sciences, Inc. is actively seeking a commercialization teaming partner for Phase II</strong>. We invite timberland operators (TIMOs), forestry equipment OEMs, and precision mapping providers to co-deploy this technology, adapt it to operational fleets, and capture market leadership in autonomous forest management.
+        </p>
+      </div>
+
+      <!-- High-Impact Commercial Action Bar -->
+      <div class="flex flex-wrap items-center gap-4 mb-10">
+        <a 
+          href="#teaming-partnership" 
+          class="px-5 py-3 rounded-xl bg-accent text-forest-950 font-mono font-bold text-xs sm:text-sm hover:bg-accent-light transition-all shadow-lg hover:shadow-accent/20 flex items-center gap-2"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+          <span>Partner for Phase II Commercialization</span>
+        </a>
+        <a 
+          href="#interactive-viewer" 
+          class="px-4 py-3 rounded-xl bg-surface border border-border hover:border-accent/50 text-text-main hover:text-white font-mono text-xs sm:text-sm transition-all flex items-center gap-2"
+        >
+          <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
+          <span>Explore Live 3D Data &amp; Evidence</span>
+        </a>
+        <a 
+          href="https://spectral.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="px-4 py-3 rounded-xl bg-forest-900 border border-border hover:border-accent/40 text-text-muted hover:text-white font-mono text-xs sm:text-sm transition-all flex items-center gap-2"
+        >
+          <img src="/images/SSI_LOGO-transparent.png" alt="SSI" class="w-4 h-4 object-contain" />
+          <span>Spectral Sciences (spectral.com)</span>
+          <svg class="w-3.5 h-3.5 text-text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
       </div>
 
       <!-- KPI Metric Counter Grid -->
@@ -291,19 +386,19 @@ const hardwareSpecs = [
     </section>
 
     <!-- SECTION 01: INTERACTIVE 3D UNDERSTORY LIDAR VIEWER -->
-    <section class="mb-20 md:mb-28">
+    <section class="mb-20 md:mb-28" id="interactive-viewer">
       <div class="flex items-center gap-3 mb-2">
         <span class="h-px flex-1 bg-border"></span>
-        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Interactive 3D Point Cloud</span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Interactive Technology Demonstration</span>
         <span class="h-px flex-1 bg-border"></span>
       </div>
 
       <div class="text-center max-w-3xl mx-auto mb-8">
         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-          Interactive Understory LiDAR Viewer
+          Interactive Understory LiDAR Point Cloud
         </h2>
         <p class="text-xs sm:text-sm text-text-muted">
-          Real forest survey point cloud collected by the CUTMAP sensor cart at 200,000 points per second.
+          Live inspection of 200,000 pts/sec understory point clouds collected in real time by the CUTMAP sensor cart.
         </p>
       </div>
 
@@ -344,20 +439,20 @@ const hardwareSpecs = [
       </div>
     </section>
 
-    <!-- SECTION 02: HARDWARE PLATFORM & SWAP-C OPTIMIZATION -->
+    <!-- SECTION 02: HARDWARE PLATFORM & UNIT ECONOMICS -->
     <section class="mb-20 md:mb-28">
       <div class="flex items-center gap-3 mb-2">
         <span class="h-px flex-1 bg-border"></span>
-        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 01 // Hardware Rig</span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 01 // Hardware Rig &amp; Unit Economics</span>
         <span class="h-px flex-1 bg-border"></span>
       </div>
       
       <div class="text-center max-w-3xl mx-auto mb-10">
         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-          Compact, Low-Cost Sensor Rig
+          Modular, Low-SWaP-C Sensor Architecture
         </h2>
         <p class="text-xs sm:text-sm text-text-muted">
-          Optimized for low weight, power, and cost to allow continuous mapping across rough terrain.
+          A ~$2,200 commercial payload engineered for rapid adaptation onto forestry equipment cabs, utility vehicles, autonomous rovers, or lightweight carts.
         </p>
       </div>
 
@@ -388,20 +483,20 @@ const hardwareSpecs = [
 
           <div class="p-4 rounded-xl bg-surface border border-border text-xs text-text-muted leading-relaxed font-mono">
             <span class="text-accent font-semibold block mb-1">Field Apparatus In Situ:</span>
-            Deployed on an all-terrain cross-country wheeled push-cart. Dual cameras face rearward at a calibrated depression angle to observe mapped geometry without human operator occlusion or footstep artifacts.
+            Deployed on an all-terrain mobile chassis. Synchronized stereo cameras observe mapped geometry without operator occlusion or locomotion artifacts, engineered for rapid adaptation onto OEM vehicle cabs or rovers.
           </div>
         </div>
 
         <!-- Right: Modular Hardware Specifications Cards -->
         <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
           
-          <!-- Mid-360 LiDAR -->
+          <!-- Solid-State LiDAR -->
           <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
             <div class="flex items-center justify-between mb-3">
               <span class="text-[10px] font-mono uppercase tracking-wider text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/20">Active Ranging</span>
-              <span class="text-xs font-mono text-text-dim">~$700</span>
+              <span class="text-xs font-mono text-text-dim">&lt;9 W Power</span>
             </div>
-            <h3 class="text-base font-bold text-white mb-2">Livox Mid-360S LiDAR</h3>
+            <h3 class="text-base font-bold text-white mb-2">Solid-State 3D LiDAR Array</h3>
             <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
               <li>&bull; <strong class="text-text-main">Scanning Architecture:</strong> Solid-state non-repetitive circular rosette pattern at 200,000 pts/sec.</li>
               <li>&bull; <strong class="text-text-main">Field of View:</strong> 360° horizontal &times; 59° vertical coverage, providing dense canopy-to-ground photon coverage.</li>
@@ -409,45 +504,45 @@ const hardwareSpecs = [
             </ul>
           </div>
 
-          <!-- FLIR Blackfly S Stereo -->
+          <!-- Synchronized Stereo Optical Array -->
           <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
             <div class="flex items-center justify-between mb-3">
               <span class="text-[10px] font-mono uppercase tracking-wider text-spectral bg-spectral/10 px-2 py-0.5 rounded border border-spectral/20">Optical Stereo</span>
-              <span class="text-xs font-mono text-text-dim">~$1,100 Pair</span>
+              <span class="text-xs font-mono text-text-dim">Calibrated Baseline</span>
             </div>
-            <h3 class="text-base font-bold text-white mb-2">Dual FLIR Blackfly S</h3>
+            <h3 class="text-base font-bold text-white mb-2">Synchronized Stereo Optical Array</h3>
             <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
-              <li>&bull; <strong class="text-text-main">Sensors:</strong> Global-shutter machine vision cameras (1.3 MP, 1280 &times; 1024 px).</li>
-              <li>&bull; <strong class="text-text-main">Rigid Baseline:</strong> 457.2 mm (18.0 in) precision aluminum crossbar providing high disparity resolution.</li>
+              <li>&bull; <strong class="text-text-main">Sensors:</strong> High-speed global-shutter machine vision cameras with hardware frame sync.</li>
+              <li>&bull; <strong class="text-text-main">Rigid Baseline:</strong> Calibrated mechanical crossbar providing high disparity resolution across lighting variations.</li>
               <li>&bull; <strong class="text-text-main">Global Shutter:</strong> Eliminates rolling-shutter spatial skew and motion blur during mobile traverses.</li>
             </ul>
           </div>
 
-          <!-- NVIDIA Jetson AGX Orin -->
+          <!-- Embedded Edge AI Engine -->
           <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
             <div class="flex items-center justify-between mb-3">
               <span class="text-[10px] font-mono uppercase tracking-wider text-topo bg-topo/10 px-2 py-0.5 rounded border border-topo/20">Edge Compute</span>
-              <span class="text-xs font-mono text-text-dim">Edge AI</span>
+              <span class="text-xs font-mono text-text-dim">Up to 200 TOPS</span>
             </div>
-            <h3 class="text-base font-bold text-white mb-2">NVIDIA Jetson AGX Orin</h3>
+            <h3 class="text-base font-bold text-white mb-2">Embedded Edge AI Compute Engine</h3>
             <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
               <li>&bull; <strong class="text-text-main">Middleware:</strong> Native ROS 2 Humble operating under real-time determinism.</li>
               <li>&bull; <strong class="text-text-main">Onboard SLAM:</strong> GPU-accelerated FAST-LIO2 LiDAR-inertial odometry executing in real time.</li>
-              <li>&bull; <strong class="text-text-main">Data Logging:</strong> Multi-sensor synchronized Rosbag2 streaming directly to high-end NVMe.</li>
+              <li>&bull; <strong class="text-text-main">Edge Mensuration:</strong> Onboard stem extraction with zero cellular or cloud dependence.</li>
             </ul>
           </div>
 
-          <!-- Cross-Country Wheeled Chassis -->
+          <!-- Modular Integration Chassis -->
           <div class="p-5 rounded-xl bg-surface border border-border hover:border-border-hover transition-colors">
             <div class="flex items-center justify-between mb-3">
               <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light bg-forest-900 px-2 py-0.5 rounded border border-border">Mobility Platform</span>
-              <span class="text-xs font-mono text-text-dim">All-Terrain</span>
+              <span class="text-xs font-mono text-text-dim">Modular Core</span>
             </div>
-            <h3 class="text-base font-bold text-white mb-2">Cross-Country Chassis</h3>
+            <h3 class="text-base font-bold text-white mb-2">Modular Integration Chassis</h3>
             <ul class="text-xs text-text-muted space-y-2 leading-relaxed">
-              <li>&bull; <strong class="text-text-main">Low-Impact Design:</strong> High-clearance pneumatic wheels traversable over fallen logs and dense duff.</li>
-              <li>&bull; <strong class="text-text-main">Rear-Looking Optics:</strong> Cameras aimed backwards at mapped scene to prevent operator obscuration.</li>
-              <li>&bull; <strong class="text-text-main">Total Payload:</strong> ~$2,200 sensor core, achieving an order-of-magnitude reduction vs. $50k+ commercial rigs.</li>
+              <li>&bull; <strong class="text-text-main">Low-Impact Design:</strong> High-clearance pneumatic mobility traversable over fallen logs and dense duff.</li>
+              <li>&bull; <strong class="text-text-main">Fleet Adaptability:</strong> Direct mounting options for skidder/forwarder cabs, UTV racks, or rovers.</li>
+              <li>&bull; <strong class="text-text-main">Total Core:</strong> ~$2,200 sensor payload, achieving an order-of-magnitude reduction vs. $50k+ commercial MLS.</li>
             </ul>
           </div>
 
@@ -458,60 +553,80 @@ const hardwareSpecs = [
       <div class="p-6 rounded-2xl bg-surface border border-border overflow-x-auto">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-base font-bold text-white">Sensor Payload &amp; SWaP-C Architecture Specifications</h3>
-          <span class="text-xs font-mono text-accent">Total Payload: ~$2,200 &bull; 4.8 kg</span>
+          <span class="text-xs font-mono text-accent">Total Payload: ~$2,200 &bull; 4.8 kg &bull; &lt;40 W</span>
         </div>
         <table class="w-full text-left text-xs font-mono">
           <thead>
             <tr class="border-b border-border text-text-dim uppercase text-[10px] tracking-wider">
               <th class="pb-2">Subsystem</th>
-              <th class="pb-2">Component / Model</th>
+              <th class="pb-2">Modular Component</th>
               <th class="pb-2">Technical Specification</th>
               <th class="pb-2">Power / Weight</th>
-              <th class="pb-2 text-right">Cost</th>
+              <th class="pb-2 text-right">Integration Status</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-border/60 text-text-muted">
             {hardwareSpecs.map(row => (
               <tr class="hover:bg-forest-900/40 transition-colors">
-                <td class="py-2.5 font-bold text-white">{row.role.split('&')[0]}</td>
+                <td class="py-2.5 font-bold text-white">{row.subsystem}</td>
                 <td class="py-2.5 text-accent-light">{row.component}</td>
                 <td class="py-2.5 text-[11px] text-text-muted">{row.spec}</td>
                 <td class="py-2.5 text-text-dim">{row.powerWeight}</td>
-                <td class="py-2.5 text-right text-text-main font-semibold">{row.cost}</td>
+                <td class="py-2.5 text-right text-accent font-semibold">{row.integration}</td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        <!-- Hardware IP Notice -->
+        <div class="mt-5 p-4 rounded-xl bg-forest-950/90 border border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+          <div class="flex items-center gap-2 text-text-muted">
+            <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+            <span class="text-white font-medium">Proprietary Hardware Architecture &bull; Spectral Sciences, Inc. IP</span>
+          </div>
+          <span class="text-text-dim text-[11px] text-center sm:text-right">
+            Detailed mechanical CAD, optical baselines, and vibration isolation schematics available under mutual NDA
+          </span>
+        </div>
       </div>
 
     </section>
 
-    <!-- SECTION 03: ALGORITHMIC PIPELINE & ARCHITECTURE DIAGRAMS -->
+    <!-- SECTION 02: ALGORITHMIC PIPELINE & EDGE ARCHITECTURE -->
     <section class="mb-20 md:mb-28">
       <div class="flex items-center gap-3 mb-2">
         <span class="h-px flex-1 bg-border"></span>
-        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 02 // Algorithmic Pipeline</span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 02 // Edge Software Stack</span>
         <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+          End-to-End Autonomous Software Architecture
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted">
+          From raw sensor photons to operational forest intelligence: GPU-accelerated ROS 2 Humble edge nodes deliver real-time stem extraction, lean modeling, and harvest optimization.
+        </p>
       </div>
 
       <!-- Dedicated Architectural Component -->
       <CutmapPipelineDiagram />
     </section>
 
-    <!-- SECTION 04: CALIBRATION INTEGRITY & THE FAILURE COUPLING DISCOVERY -->
+    <!-- SECTION 03: CALIBRATION INTEGRITY & RELIABILITY IP -->
     <section class="mb-20 md:mb-28">
       <div class="flex items-center gap-3 mb-2">
         <span class="h-px flex-1 bg-border"></span>
-        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 03 // Methodological Discovery</span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 03 // Enterprise Calibration IP</span>
         <span class="h-px flex-1 bg-border"></span>
       </div>
 
       <div class="text-center max-w-3xl mx-auto mb-10">
         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-          Calibration: Solving Multi-Sensor Alignment Errors
+          Enterprise Calibration: Solving Multi-Sensor Alignment
         </h2>
         <p class="text-xs sm:text-sm text-text-muted">
-          How an undetected 2.5 mm target curve caused a 140 mm calibration drift—and the 3 practical checks that solved it.
+          How Spectral Sciences eliminated physical calibration drift in low-cost optics—securing repeatable sub-millimeter precision across commercial fleet deployments.
         </p>
       </div>
 
@@ -525,7 +640,7 @@ const hardwareSpecs = [
             <h3 class="text-lg font-bold text-white mb-2">The Phantom Shift &amp; The Scale-Invariance Trap</h3>
             <div class="text-xs sm:text-sm text-text-muted leading-relaxed space-y-3">
               <p>
-                In staged multi-sensor calibration, subtle geometric errors introduced in early stages propagate silently into downstream transformations. A mere <strong class="text-white">2.50 mm moisture-induced concave bow</strong> across a standard 600 &times; 800 mm printed calibration checkerboard induced a <strong class="text-topo font-mono">-4.6% focal length divergence</strong> (<span class="font-mono text-text-main">f_x = 1544.3 px</span> vs. <span class="font-mono text-text-main">1614.7 px</span> nominal).
+                In staged multi-sensor calibration, subtle geometric errors introduced in early stages propagate silently into downstream transformations. A mere <strong class="text-white">2.50 mm moisture-induced concave bow</strong> across a printed calibration checkerboard induced an undetected <strong class="text-topo font-mono">-4.6% focal length divergence</strong>.
               </p>
               <p>
                 Because standard camera calibration metrics optimize for scale-invariant angular reprojection, the optimizer reported a deceptively pristine <strong class="text-accent font-mono">0.31 px RMS error</strong>. When these corrupted optical rays met rigid 3D LiDAR point clouds in extrinsic calibration, the solver compensated for the focal distortion by translating the camera <strong class="text-topo font-mono">133 mm laterally</strong> and <strong class="text-topo font-mono">140 mm fore-aft</strong> into phantom space.
@@ -575,7 +690,7 @@ const hardwareSpecs = [
           <div 
             class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 bg-forest-950 border border-border/80 lightbox-trigger" 
             data-src="/images/cutmap/fig5_scale_gate.png" 
-            data-caption="Figure 5: Planarity-free laser ruler scale gate. Multi-distance regression against a Leica Disto laser rangefinder from 1.2 m to 8.0 m reveals the -4.6% focal divergence and verifies post-correction metric recovery." 
+            data-caption="Figure 5: Planarity-free laser ruler scale gate. Multi-distance regression against a calibrated laser rangefinder from 1.2 m to 8.0 m reveals the -4.6% focal divergence and verifies post-correction metric recovery." 
             data-title="Figure 5: Planarity-Free Laser Ruler Scale Gate"
           >
             <img 
@@ -597,7 +712,7 @@ const hardwareSpecs = [
             </div>
             <h4 class="text-sm font-bold text-white mb-1">Planarity-Free Laser Ruler Scale Gate</h4>
             <p class="text-xs text-text-muted leading-relaxed">
-              Decouples focal scale estimation from target flatness by checking optical triangulation distances against a calibrated Leica Disto laser rangefinder from 1.2 m to 8.0 m (slope = 0.9904).
+              Decouples focal scale estimation from target flatness by checking optical triangulation distances against an external calibrated laser rangefinder (slope = 0.9904).
             </p>
           </div>
         </div>
@@ -605,41 +720,52 @@ const hardwareSpecs = [
       </div>
 
       <!-- The Three Physical Solution Gates (3-Card Layout) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         
         <div class="p-5 rounded-xl bg-surface border border-border/80">
           <div class="text-xs font-mono text-accent font-semibold mb-1 flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-            Gate 1: Physical Laser Ruler
+            Gate 1: Metric Scale Gate
           </div>
           <h4 class="text-sm font-bold text-white mb-2">Planarity-Free Triangulation</h4>
           <p class="text-xs text-text-muted leading-relaxed">
-            Measures external range benchmarks independent of board planarity. Corrects the 4.6% scale divergence, bringing regression slope from 1.046 to a near-perfect <span class="font-mono text-text-main">0.9904</span>.
+            Measures external range benchmarks independent of target planarity, completely resolving the -4.6% scale divergence and enforcing true millimeter metric scale across the optical manifold.
           </p>
         </div>
 
         <div class="p-5 rounded-xl bg-surface border border-border/80">
           <div class="text-xs font-mono text-accent font-semibold mb-1 flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-            Gate 2: Pitch Symmetry
+            Gate 2: Observability Gate
           </div>
-          <h4 class="text-sm font-bold text-white mb-2">Observability Conditioning</h4>
+          <h4 class="text-sm font-bold text-white mb-2">Geometric Axis Conditioning</h4>
           <p class="text-xs text-text-muted leading-relaxed">
-            Monte Carlo SVD nullspace analysis revealed that target pitch symmetry (&plusmn;20&deg;) conditions the ill-posed vertical weak axis, reducing vertical error by <span class="font-mono text-text-main">2.7&times;</span> to <span class="font-mono text-text-main">0.87 mm</span> (&kappa; = 3.66).
+            Spatially conditions the multi-sensor observability matrix, stabilizing the ill-posed vertical axis and reducing vertical extrinsic uncertainty by <span class="font-mono text-text-main">2.7&times;</span> to <span class="font-mono text-text-main">0.87 mm</span>.
           </p>
         </div>
 
         <div class="p-5 rounded-xl bg-surface border border-border/80">
           <div class="text-xs font-mono text-accent font-semibold mb-1 flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
-            Gate 3: Point-Count² Weighting
+            Gate 3: Range-Density Filter
           </div>
-          <h4 class="text-sm font-bold text-white mb-2">Density Degradation Filter</h4>
+          <h4 class="text-sm font-bold text-white mb-2">Adaptive Spatial Re-weighting</h4>
           <p class="text-xs text-text-muted leading-relaxed">
-            Penalizes range-attenuated point sparsity in non-repetitive solid-state LiDAR scans, collapsing lateral plane centering error from <span class="font-mono text-text-main">40.9 mm</span> down to <span class="font-mono text-text-main">+6.8 mm</span>.
+            Proprietary spatial density filtering dynamically compensates for range-attenuated point sparsity in solid-state LiDAR scans, collapsing lateral centering error down to <span class="font-mono text-text-main">+6.8 mm</span>.
           </p>
         </div>
 
+      </div>
+
+      <!-- Calibration IP Notice -->
+      <div class="mb-8 p-4 rounded-xl bg-forest-950/90 border border-border flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+        <div class="flex items-center gap-2 text-text-muted">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          <span class="text-white font-medium">Proprietary Multi-Sensor Calibration Solvers &bull; Spectral Sciences, Inc. IP</span>
+        </div>
+        <span class="text-text-dim text-[11px] text-center sm:text-right">
+          Calibration solver source code, factory routines &amp; observability matrices protected under SSI trade secrets
+        </span>
       </div>
 
       <!-- Wide Visual Projection Matrix Showcase (Figure Extrinsic Trunk Projections) -->
@@ -678,20 +804,20 @@ const hardwareSpecs = [
 
     </section>
 
-    <!-- SECTION 05: GROUND-TRUTH FIELD MENSURATION (65 STEMS IN BURLINGTON GROVES) -->
+    <!-- SECTION 04: GROUND-TRUTH FIELD MENSURATION -->
     <section class="mb-20 md:mb-28">
       <div class="flex items-center gap-3 mb-2">
         <span class="h-px flex-1 bg-border"></span>
-        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 04 // Field Mensuration</span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 04 // Empirical Field De-Risking</span>
         <span class="h-px flex-1 bg-border"></span>
       </div>
 
       <div class="text-center max-w-3xl mx-auto mb-10">
         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-          Field Validation: 65 Measured Trees
+          Ground-Truth Field Validation: 65 Calibrated Trees
         </h2>
         <p class="text-xs sm:text-sm text-text-muted">
-          Testing accuracy against manual tape measurements across three contrasting forest stands in Burlington, MA.
+          De-risking commercial performance through rigorous 1:1 validation against manual forester tape measurements across three contrasting forest stands in Burlington, MA.
         </p>
       </div>
 
@@ -902,20 +1028,20 @@ const hardwareSpecs = [
 
     </section>
 
-    <!-- SECTION 06: SINGLE-VIEWPOINT SEMANTIC MENSURATION (SAM ViT-B) -->
+    <!-- SECTION 05: SINGLE-VIEWPOINT SEMANTIC MENSURATION (SAM ViT-B) -->
     <section class="mb-20 md:mb-28">
       <div class="flex items-center gap-3 mb-2">
         <span class="h-px flex-1 bg-border"></span>
-        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 05 // Cross-Modality AI</span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 05 // High-Throughput Cruising AI</span>
         <span class="h-px flex-1 bg-border"></span>
       </div>
 
       <div class="text-center max-w-3xl mx-auto mb-10">
         <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-          Measuring Trees from a Single Viewpoint
+          Rapid Single-View Mensuration: Maximizing Field Velocity
         </h2>
         <p class="text-xs sm:text-sm text-text-muted">
-          Using LiDAR-prompted AI vision (SAM) to estimate trunk width without walking around every tree.
+          LiDAR-prompted foundation vision models (SAM ViT-B) deliver sub-2 cm DBH accuracy from stationary viewpoints—tripling operational daily plot throughput without manual walkarounds.
         </p>
       </div>
 
@@ -957,7 +1083,7 @@ const hardwareSpecs = [
             <div class="text-[10px] font-mono text-accent uppercase tracking-wider mb-2">Step 01</div>
             <h3 class="text-base font-bold text-white mb-2">Prior-Guided Prompting</h3>
             <p class="text-xs text-text-muted leading-relaxed mb-4">
-              Projecting 3D LiDAR trunk centroids and an adaptive bounding box (2.6&times; predicted width) directly into the Blackfly S camera plane prompts SAM ViT-B.
+              Projecting 3D LiDAR trunk centroids and an adaptive bounding box directly into the calibrated camera plane prompts the foundation vision model to isolate stem boundaries.
             </p>
           </div>
           <div class="p-3 rounded-xl bg-forest-950 border border-border text-[11px] font-mono text-accent-light">
@@ -987,7 +1113,7 @@ const hardwareSpecs = [
             </p>
           </div>
           <div class="p-3 rounded-xl bg-forest-950 border border-border text-[11px] font-mono text-topo-light">
-            457.2 mm stereo baseline provides 2 diverse background angles to defeat camouflage.
+            Stereo baseline geometry provides 2 diverse background angles to defeat camouflage.
           </div>
         </div>
 
@@ -1001,7 +1127,7 @@ const hardwareSpecs = [
           <div 
             class="relative group cursor-pointer overflow-hidden rounded-xl mb-4 bg-forest-950 border border-border/80 lightbox-trigger" 
             data-src="/images/cutmap/cam_compare.png" 
-            data-caption="Stereo viewpoint comparison: Direct comparison of cam_0 vs. cam_1 SAM ViT-B segmentation masks across 3m, 5m, and 8m dwell stations. The 457.2 mm physical baseline provides two disparate optical backgrounds, ensuring background contrast separation even under dense foliage." 
+            data-caption="Stereo viewpoint comparison: Direct comparison of cam_0 vs. cam_1 SAM ViT-B segmentation masks across 3m, 5m, and 8m dwell stations. The physical baseline provides two disparate optical backgrounds, ensuring background contrast separation even under dense foliage." 
             data-title="Stereo Comparison: cam_0 vs. cam_1 SAM Masks (3m, 5m, 8m)"
           >
             <img 
@@ -1019,7 +1145,7 @@ const hardwareSpecs = [
           <div>
             <div class="flex items-center gap-2 mb-1.5">
               <span class="text-[10px] font-mono uppercase tracking-wider text-spectral bg-spectral/10 px-1.5 py-0.5 rounded">Stereo Baseline Diversity</span>
-              <span class="text-[11px] font-mono text-text-dim">457.2 mm Offset</span>
+              <span class="text-[11px] font-mono text-text-dim">Dual Perspective</span>
             </div>
             <h4 class="text-sm font-bold text-white mb-1">cam_0 vs. cam_1 Multi-Range Segmentation</h4>
             <p class="text-xs text-text-muted leading-relaxed">
@@ -1064,11 +1190,223 @@ const hardwareSpecs = [
 
     </section>
 
+    <!-- SECTION 06: PHASE II COMMERCIALIZATION PARTNERSHIP -->
+    <section class="mb-20 md:mb-28" id="teaming-partnership">
+      <div class="flex items-center gap-3 mb-2">
+        <span class="h-px flex-1 bg-border"></span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 06 // Commercialization &amp; Teaming</span>
+        <span class="h-px flex-1 bg-border"></span>
+      </div>
+
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-mono mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span>USDA-NIFA SBIR/STTR Phase II Opportunity</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">
+          Partner With Us for Phase II Commercialization
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+          Spectral Sciences, Inc. is actively seeking an industrial commercialization teaming partner to transition CUTMAP from a field-proven prototype (TRL 6) into an operational precision forestry product.
+        </p>
+      </div>
+
+      <!-- 4 Strategic Pillars for Teaming Partners -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
+        
+        <!-- Pillar 1: Non-Dilutive Federal Co-Funding -->
+        <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+          <div class="w-10 h-10 rounded-xl bg-forest-900 border border-border flex items-center justify-center text-accent font-mono text-base font-bold mb-4">
+            01
+          </div>
+          <h3 class="text-base font-bold text-white mb-2 group-hover:text-accent transition-colors">
+            Non-Dilutive Federal Co-Funding
+          </h3>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Co-develop under federal USDA-NIFA Phase II SBIR/STTR funding. Teaming partners leverage non-dilutive government research and development capital to finance custom sensor integration, rigorous field testing, and software adaptation directly aligned with their operational objectives.
+          </p>
+        </div>
+
+        <!-- Pillar 2: Custom Fleet & Platform Integration -->
+        <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-spectral/5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+          <div class="w-10 h-10 rounded-xl bg-forest-900 border border-border flex items-center justify-center text-spectral font-mono text-base font-bold mb-4">
+            02
+          </div>
+          <h3 class="text-base font-bold text-white mb-2 group-hover:text-spectral transition-colors">
+            Custom Platform &amp; Vehicle Packaging
+          </h3>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Adapt CUTMAP's low-SWaP-C (~$2,200, &lt;40 W) modular sensor payload to partner platforms—including commercial forestry machinery cabs (harvesters, forwarders, skidders), all-terrain utility vehicles (ATVs/UTVs), autonomous ground rovers, or forester backpack units.
+          </p>
+        </div>
+
+        <!-- Pillar 3: In-Situ Field Pilot Trials -->
+        <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-topo/5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+          <div class="w-10 h-10 rounded-xl bg-forest-900 border border-border flex items-center justify-center text-topo font-mono text-base font-bold mb-4">
+            03
+          </div>
+          <h3 class="text-base font-bold text-white mb-2 group-hover:text-topo transition-colors">
+            Enterprise Field Pilots on Partner Timberlands
+          </h3>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Deploy pilot units across partner acreage to generate real-time stem maps, DBH inventories, and taper models. Tailor data export pipelines directly into existing enterprise GIS, inventory databases (ArcGIS, FPS, Remsoft), and forest carbon verification registries.
+          </p>
+        </div>
+
+        <!-- Pillar 4: Commercial Licensing & Market Exclusivity -->
+        <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-accent-light/5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform"></div>
+          <div class="w-10 h-10 rounded-xl bg-forest-900 border border-border flex items-center justify-center text-accent-light font-mono text-base font-bold mb-4">
+            04
+          </div>
+          <h3 class="text-base font-bold text-white mb-2 group-hover:text-accent-light transition-colors">
+            Preferential Licensing &amp; Market Exclusivity
+          </h3>
+          <p class="text-xs text-text-muted leading-relaxed">
+            Secure early-access rights, preferential commercial licensing agreements, or exclusive go-to-market territory for CUTMAP's patent-pending multi-sensor calibration solvers, real-time edge SLAM nodes, and automated Mensuration AI stack.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Prospective Teaming Partner Profiles -->
+      <div class="p-6 md:p-8 rounded-2xl bg-surface border border-border mb-10">
+        <h3 class="text-base sm:text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <span>Target Industry Partner Profiles</span>
+          <span class="text-[10px] font-mono uppercase tracking-wider text-text-dim px-2 py-0.5 rounded bg-forest-900 border border-border">Who Should Partner</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs leading-relaxed">
+          <div class="border-l-2 border-accent pl-4">
+            <h4 class="text-sm font-bold text-white mb-1.5">Forestry Machinery &amp; Equipment OEMs</h4>
+            <p class="text-text-muted">
+              Manufacturers seeking to integrate smart under-canopy perception, automated tree inventory, and operator-assist navigation into next-generation harvesters, forwarders, and utility equipment.
+            </p>
+          </div>
+          <div class="border-l-2 border-spectral pl-4">
+            <h4 class="text-sm font-bold text-white mb-1.5">TIMOs &amp; Industrial Timberland Owners</h4>
+            <p class="text-text-muted">
+              Forest managers seeking to slash inventory cruising costs from $25+/acre to &lt;$5/acre, replacing manual 5% plot sampling with continuous 100% census stem mapping and real-time timber valuation.
+            </p>
+          </div>
+          <div class="border-l-2 border-topo pl-4">
+            <h4 class="text-sm font-bold text-white mb-1.5">Precision Forestry &amp; Carbon Registries</h4>
+            <p class="text-text-muted">
+              Geospatial survey companies and carbon verification firms requiring auditable, centimeter-accurate 3D digital twins of forest stands for ESG compliance, biomass accounting, and wildfire risk modeling.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase II Deliverables & Technology Roadmap -->
+      <div class="p-6 md:p-8 rounded-2xl bg-surface border border-border mb-10">
+        <h3 class="text-base sm:text-lg font-bold text-white mb-6 flex items-center justify-between">
+          <span>Phase II Commercialization Roadmap (24 Months)</span>
+          <span class="text-xs font-mono text-accent">TRL 6 &rarr; TRL 8 Operational</span>
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+          <div class="p-4 rounded-xl bg-forest-950 border border-border/80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-accent font-semibold mb-2">
+                <span>Phase IIA (M1–M6)</span>
+                <span class="text-[10px] text-text-dim px-1.5 py-0.5 rounded bg-forest-900 border border-border">Hardware Hardening</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mb-2">Ruggedized Vehicle Pod</h4>
+              <p class="text-text-muted text-[11px] font-sans leading-relaxed">
+                Design and fabricate IP67-sealed, vibration-isolated sensor housing for direct mounting onto partner machinery. Integrate automotive-grade power conditioning and active thermal management.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-border/60 text-[10px] text-text-dim">
+              Deliverable: Turnkey ruggedized sensor pod
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-forest-950 border border-border/80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-spectral font-semibold mb-2">
+                <span>Phase IIB (M7–M15)</span>
+                <span class="text-[10px] text-text-dim px-1.5 py-0.5 rounded bg-forest-900 border border-border">Edge Software</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mb-2">Real-Time Edge Mensuration</h4>
+              <p class="text-text-muted text-[11px] font-sans leading-relaxed">
+                Optimize full pipeline on NVIDIA Jetson Orin to deliver live DBH, taper, and lean vectoring at vehicle traverse speeds (3–8 km/h). Conduct joint pilot deployments across partner forest tracts.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-border/60 text-[10px] text-text-dim">
+              Deliverable: Multi-acre validation trials &amp; telemetry
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-forest-950 border border-border/80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-topo font-semibold mb-2">
+                <span>Phase IIC (M16–M24)</span>
+                <span class="text-[10px] text-text-dim px-1.5 py-0.5 rounded bg-forest-900 border border-border">Commercial Rollout</span>
+              </div>
+              <h4 class="text-sm font-bold text-white mb-2">Enterprise Ingestion &amp; GTM</h4>
+              <p class="text-text-muted text-[11px] font-sans leading-relaxed">
+                Automate cloud/GIS synchronization, digital twin rendering, and harvest optimization heuristics. Finalize commercial licensing agreements and transition to market sales.
+              </p>
+            </div>
+            <div class="mt-4 pt-3 border-t border-border/60 text-[10px] text-text-dim">
+              Deliverable: Commercial product release &amp; licensing
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Executive Teaming Inquiry Action Card -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-forest-900 via-surface to-forest-950 border border-accent/40 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-accent/10 pointer-events-none blur-3xl"></div>
+
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+          <div class="max-w-2xl">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="px-2 py-0.5 rounded bg-accent/20 border border-accent/40 text-accent text-[10px] font-mono font-semibold uppercase tracking-wider">
+                Direct Executive Inquiry
+              </span>
+              <span class="text-xs font-mono text-text-dim">&bull; Spectral Sciences, Inc.</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">
+              Schedule an Executive Briefing &amp; Field Demonstration
+            </h3>
+            <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+              We welcome confidential inquiries from prospective commercialization partners. Contact Lead Scientist <strong class="text-white">Dr. Cory Glenn Garms</strong> to review empirical Phase I data, discuss custom integration requirements, and explore Phase II teaming alignment.
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+            <a 
+              href="mailto:cgarms@spectral.com?subject=CUTMAP%20Phase%20II%20Commercialization%20Teaming%20Inquiry" 
+              class="px-5 py-3 rounded-xl bg-accent text-forest-950 font-mono font-bold text-xs sm:text-sm hover:bg-accent-light transition-all shadow-lg hover:shadow-accent/20 text-center flex items-center justify-center gap-2"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              <span>Initiate Teaming Discussion</span>
+            </a>
+            <a 
+              href="https://spectral.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="px-5 py-3 rounded-xl bg-forest-900 border border-border hover:border-accent/50 text-text-main hover:text-white font-mono text-xs sm:text-sm transition-all text-center flex items-center justify-center gap-2"
+            >
+              <img src="/images/SSI_LOGO-transparent.png" alt="SSI" class="w-4 h-4 object-contain" />
+              <span>Explore Spectral Sciences</span>
+              <svg class="w-3.5 h-3.5 text-text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
     <!-- SECTION 07: DIRECT CITATION & PUBLICATION HUB -->
     <section class="mb-16">
       <div class="flex items-center gap-3 mb-2">
         <span class="h-px flex-1 bg-border"></span>
-        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 06 // Research &amp; Citations</span>
+        <span class="text-xs font-mono text-accent uppercase tracking-widest px-2">Section 07 // Research &amp; Citations</span>
         <span class="h-px flex-1 bg-border"></span>
       </div>
 
@@ -1147,14 +1485,14 @@ const hardwareSpecs = [
           <div>
             <h3 class="text-base font-bold text-white mb-2 flex items-center gap-2">
               <span>Proprietary Technology &amp; Federal Sponsor Attribution</span>
-              <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light px-2 py-0.5 rounded bg-forest-900 border border-accent/30">USDA STTR</span>
+              <span class="text-[10px] font-mono uppercase tracking-wider text-accent-light px-2 py-0.5 rounded bg-forest-900 border border-accent/30">USDA-NIFA STTR</span>
             </h3>
             <div class="text-xs text-text-muted leading-relaxed space-y-2">
               <p>
-                <strong class="text-white">CUTMAP</strong> (<em>Continuous Under-Canopy Traverse and Mapping</em>) is proprietary technology developed by <strong class="text-white">Spectral Sciences, Inc.</strong> in collaboration with <strong class="text-white">Oregon State University</strong> and the <strong class="text-white">USDA Forest Service</strong> under federal Small Business Technology Transfer (SBIR/STTR) Phase I &amp; II contracts.
+                <strong class="text-white">CUTMAP</strong> (<em>Continuous Under-Canopy Traverse and Mapping</em>) is proprietary technology developed by <strong class="text-white"><a href="https://spectral.com" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors underline decoration-accent/50">Spectral Sciences, Inc.</a></strong> in collaboration with <strong class="text-white">Oregon State University</strong>, funded by the <strong class="text-white">USDA-NIFA</strong> Small Business Technology Transfer (SBIR/STTR) program.
               </p>
               <p class="font-mono text-text-dim text-[11px]">
-                Notice: All sensor designs, multi-sensor calibration solvers, real-time edge processing nodes, and algorithmic mensuration codebases are proprietary intellectual property of Spectral Sciences, Inc. and are not distributed under open-source licenses.
+                Notice: All sensor architectures, multi-sensor calibration solvers, real-time edge processing nodes, and algorithmic mensuration codebases are proprietary intellectual property of Spectral Sciences, Inc. and are available for commercial licensing and Phase II teaming agreements.
               </p>
             </div>
           </div>

@@ -2,7 +2,7 @@
 **Target Website:** [corygarms.com/cutmap](https://www.corygarms.com/cutmap)  
 **Target Platform:** Astro v5 + Tailwind CSS (Dark forest/slate aesthetic: `bg-forest-950`, `text-accent`, `font-mono`)  
 **Author / Lead Scientist:** Dr. Cory Glenn Garms (Senior Scientist, Spectral Sciences, Inc.)  
-**Collaborators & Sponsors:** Dr. Bogdan Strimbu (Oregon State University) • Dr. Diomy Zamora (USDA Forest Service / Project Sponsor)  
+**Collaborators & Sponsors:** Dr. Bogdan Strimbu (Oregon State University) • USDA-NIFA (SBIR/STTR Program)  
 **IP / Proprietary Notice:** CUTMAP is proprietary technology developed by Spectral Sciences, Inc. under USDA SBIR/STTR. Do not describe the codebase as open-source.
 
 ---
@@ -109,7 +109,7 @@ All assets are located in the CUTMAP project repository (`/home/cgarms/Projects/
 * **Header:** `Manuscripts & Research Disclosures`
 * **Entries:**
   * **Garms, C.G., Strimbu, B., et al. (2026).** *Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation.* Target: *Journal of Field Robotics* (In Final Preparation).
-  * **Garms, C.G., Strimbu, B., Zamora, D., et al. (2026).** *CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping.* 2026 Joint Meeting of the Northeastern Mensurationist Organization (NEMO) & Southern Mensurationists (SOMENS), Portland, ME.
+  * **Garms, C.G., Strimbu, B., et al. (2026).** *CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping.* 2026 Joint Meeting of the Northeastern Mensurationist Organization (NEMO) & Southern Mensurationists (SOMENS), Portland, ME.
   * **Garms, C.G. & Strimbu, B. (2021).** *Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans.* *Canadian Journal of Forest Research*, 51(8), 1184–1195.
 
 ---
