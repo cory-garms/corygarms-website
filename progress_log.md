@@ -1,5 +1,15 @@
 # Progress Log
 
+## [2026-09-18 15:35:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Landing Hero Red Oak Refinement & Camera Framing
+* **Summary:** Updated the terrestrial LiDAR point cloud hero configuration in `PointCloudHero.jsx`:
+  1. **Taxonomy & Nomenclature:** Renamed dataset from "Huge Oak" to **Red Oak** (*Quercus rubra*), updating scene definitions, telemetry badges, and the 2D accessible fallback view.
+  2. **Camera Framing & Zoom:** Scaled initial perspective camera back from `[18, 10, 24]` to `[24, 13, 32]` (zoomed out ~33%), providing a wider perspective of the 28.4m height and 28.8m crown spread without edge clipping.
+  3. **Auto-Rotation & Fog Calibration:** Configured smooth, continuous initial auto-rotation (`autoRotateSpeed = 0.5`) and adjusted linear fog depth range to `[40, 110]` so the tree stands out with sharp, high-contrast clarity upon initial page load.
+* **Technical Debt/Next Steps:** Commit and deploy changes.
+
 ## [2026-09-18 15:00:00 EDT]
 
 * **Status:** Completed

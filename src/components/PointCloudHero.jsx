@@ -7,10 +7,10 @@ import * as THREE from 'three';
 const SCENES = [
   { 
     id: 'huge_oak', 
-    name: 'Huge Oak', 
-    species: 'Quercus (Historic Mature Oak)',
+    name: 'Red Oak', 
+    species: 'Quercus rubra (Red Oak)',
     spec: 'Terrestrial LiDAR Survey',
-    source: 'Mature Oak Clean Laser Scan (1.52M pts survey)',
+    source: 'Red Oak Clean Laser Scan (1.52M pts survey)',
     points: '1.52M pts',
     height: '28.4 m',
     spread: '28.8 m'
@@ -401,11 +401,11 @@ export default function PointCloudHero() {
       {/* 3D WebGL Canvas */}
       {is3DActive ? (
         <Canvas 
-          camera={{ position: [18, 10, 24], fov: 45, near: 0.5, far: 1200 }}
+          camera={{ position: [24, 13, 32], fov: 45, near: 0.5, far: 1200 }}
           gl={{ antialias: true, powerPreference: 'high-performance' }}
         >
           <color attach="background" args={['#070b09']} />
-          <fog attach="fog" args={['#070b09', 25, 80]} />
+          <fog attach="fog" args={['#070b09', 40, 110]} />
 
           <Suspense fallback={null}>
             <PointCloudMesh
@@ -417,14 +417,14 @@ export default function PointCloudHero() {
           
           <OrbitControls 
             autoRotate={isRotating} 
-            autoRotateSpeed={0.4} 
+            autoRotateSpeed={0.5} 
             enablePan={!isMobile || touchRotateEnabled}
             enableRotate={!isMobile || touchRotateEnabled}
             enableZoom={!isMobile}
             enableDamping={true}
             dampingFactor={0.08}
             minDistance={4}
-            maxDistance={75}
+            maxDistance={120}
           />
         </Canvas>
       ) : (
@@ -436,7 +436,7 @@ export default function PointCloudHero() {
               <span>Terrestrial LiDAR Survey • 1.52M Pts</span>
             </div>
             <h3 className="text-lg sm:text-xl font-bold text-white mb-2 tracking-tight">
-              Huge Oak 3D Point Cloud
+              Red Oak 3D Point Cloud
             </h3>
             <p className="text-xs text-text-muted leading-relaxed mb-6 max-w-sm mx-auto">
               3D WebGL engine is paused for smooth mobile scrolling and battery savings. Tap below to inspect the interactive 28.4-meter oak tree scan.
