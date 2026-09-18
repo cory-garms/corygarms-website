@@ -1,5 +1,33 @@
 # Progress Log
 
+## [2026-09-18 15:45:00 EDT] — End-of-Week Production Milestone & Session Wrap-Up
+
+* **Status:** Completed
+* **Focus:** End-of-Week Milestone: CUTMAP Commercial Showcase & Red Oak Landing Deployment
+* **Summary:** Successfully completed all sprint objectives, verified production stability, and wrapped up all project documentation for the weekend:
+  1. **Red Oak Point Cloud Landing Hero:**
+     - Converted `HUGE_OAK_CLEAN.pcd` (1.52M pts) into high-performance `public/models/huge_oak.glb` (3.9 MB, 169k pts) with 16-bit reflectance intensity encoded into vertex colors.
+     - Upgraded `PointCloudHero.jsx` with dynamic GLSL elevation and intensity shaders.
+     - Added 6 curated scientific colormaps (Forestry, Viridis, Magma, LiDAR Reflectance, Laser Emerald, Cyan Topo) with interactive dropdown selector.
+     - Renamed dataset to **Red Oak** (*Quercus rubra*), pulled initial perspective camera back to `[24, 13, 32]` for comfortable framing of the 28.4 m height and 28.8 m spread, and enabled smooth auto-rotation (`autoRotateSpeed = 0.5`) on initial load.
+  2. **CUTMAP Flagship Commercial Teaming Showcase (`/cutmap`):**
+     - Replaced dense academic text with an executive narrative focused on Phase II commercialization and ROI ($2,200 hardware replacing $50k–$100k MLS).
+     - Embedded interactive 3D WebGL point cloud viewer for Burlington Forest Grove 1, 2, and 3 (all correctly categorized as predominantly Eastern White Pine *Pinus strobus*).
+     - Displayed 6 bold KPI cards (drift, tally recall, tape accuracy, edge turnaround, survey cost).
+     - Structured 3-step field operation concept and 4 clear commercial teaming tracks with direct email outreach to Dr. Cory Glenn Garms (`cgarms@spectral.com`).
+     - Added official Spectral Sciences, Inc. logo and outbound links to `https://www.spectral.com`.
+  3. **Video Player Web Codec Engineering:**
+     - Transcoded the Burlington Forest Grove Pine Stand 1 traverse (`results/rapid_mensuration_live_demo.mp4`) from raw `mpeg4` to web-standard H.264 (`yuv420p`, Main Profile 4.0, `-movflags +faststart`, 4.3 MB) + VP9 WebM.
+     - Added high-contrast dark Jetson edge perception HUD poster (`rapid_mensuration_poster.jpg`).
+     - Verified HTTP 206 Partial Content byte-range streaming for seamless scrubbing and instant autoplay.
+  4. **Strict Data Boundary & Quarantine:**
+     - Quarantined all Mt. Auburn / Halcyon Loop files and raw unreadable academic scatter plots out of `public/` into `archive/`. Added `archive/` to `.gitignore`.
+  5. **Production Build & Deployment:**
+     - `npm run build` static compilation passed cleanly in 6.5s across all 19 static routes with 0 errors.
+     - Pushed to GitHub `main` (`0db2464..d1b9b83`) triggering automated CI build and live Vercel deployment to `corygarms.com`.
+* **Verification:** Verified live site rendering, 3D WebGL rendering, HTTP 200/206 responses, and git branch synchronization.
+* **Technical Debt/Next Steps:** Repository is in a clean, pristine state ready for the next sprint (e.g. Project #1 standalone Lidar Canopy Extractor repository or new scientific notes).
+
 ## [2026-09-18 15:35:00 EDT]
 
 * **Status:** Completed

@@ -1,16 +1,19 @@
-# GitHub Portfolio: Project 1 - Lidar Canopy Extractor
+# Project Handoff & Sprint State
 
-**Date:** March 25, 2026
-**Target Architecture:** Python, `laspy`, `open3d`, Docker
-**User Context:** Cory Garms (Senior Scientist, Lidar/CV Expert at SSI)
+**Date:** September 18, 2026 (End-of-Week Wrap-Up)  
+**Target Architecture:** Astro v5, React Three Fiber, WebGL, Tailwind CSS, Vercel  
+**Lead Scientist:** Dr. Cory Glenn Garms (Senior Scientist, Spectral Sciences, Inc.)  
 
-## State of the Portfolio
-The core website (`corygarms.com`) at `~/Sandbox/website` has successfully completed Sprint 2 and is fully production-ready. It features WebGL dynamic point-cloud rendering natively from `.glb` files, MDX MathJax integrations for scientific writing, and interactive Contact forms. 
+## State of the Production Website (corygarms.com)
+The website is in an exceptional, fully verified production state:
+1. **Landing Hero (Red Oak Point Cloud):** Web-optimized 3D terrestrial LiDAR survey of a historic Red Oak (*Quercus rubra*, 28.4 m height, 28.8 m spread) with 6 scientific colormaps (Forestry, Viridis, Magma, LiDAR Reflectance, Laser Emerald, Topo Cyan), wider camera framing, and slow initial auto-rotation.
+2. **CUTMAP Flagship Commercial Showcase (`/cutmap`):** High-impact USDA-NIFA Phase II teaming showcase featuring interactive 3D WebGL point clouds for Grove 1–3 (Eastern White Pine), H.264 video perception demo on Jetson AGX Orin, bold commercial KPIs ($2,200 vs. $100k MLS), 3-step operational workflow, and 4 commercialization pathways.
+3. **Data Integrity:** Strict data boundaries enforced (all Mt. Auburn/Halcyon data and raw academic scatter plots quarantined).
+4. **DevOps & CI/CD:** Clean static builds (19 routes in 6.5s) continuously deployed via Vercel.
 
-We are now officially pivoting outward to build a suite of standalone, expert-level GitHub repository projects to showcase the user's scientific skills to the broader community.
-
-## Objectives for the Next Agent Session
-Your singular goal for this session is to initialize, code, explicitly document, and containerize **Project #1: Lidar Canopy Profile Extractor**. 
+## Objectives for Upcoming Sessions
+1. **GitHub Portfolio Project 1:** Initialize, document, and containerize standalone open-source spatial projects (e.g. Lidar Canopy Profile Extractor in `~/Sandbox/lidar-canopy-extractor`).
+2. **Research & Notes Expansion:** Draft new deep-tech write-ups under `src/content/notes/` highlighting mobile SLAM calibration and real-time edge mensuration. 
 
 1. **Setup:** Create a new directory alongside the website (e.g., `~/Sandbox/lidar-canopy-extractor`).
 2. **Implementation:** Write a Python computational pipeline using `laspy`, `open3d`, and `numpy` to ingest a raw aerial Lidar (`.las`/`.laz`) file, mathematically classify ground vs vegetation, and construct a statistical Canopy Height Model (CHM).
