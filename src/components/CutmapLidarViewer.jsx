@@ -3,34 +3,34 @@ import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
-// 3 Real Understory Forest SLAM Surveys from the CUTMAP field validation
+// 3 Real Understory Forest SLAM Surveys from the CUTMAP field validation (Eastern White Pine)
 const STANDS = [
   {
     id: 'livox_forest_grove',
-    name: 'Stand 1: White Pine',
-    type: 'Pinus strobus',
-    desc: 'Towering mature white pine with open understory',
+    name: 'Grove 1',
+    type: 'Pinus strobus (Eastern White Pine)',
+    desc: 'Eastern White Pine — Grove 1',
     points: '118,591',
     loopLength: '84.2 m',
-    location: 'Burlington, MA Grove 1'
+    location: 'Burlington, MA'
   },
   {
     id: 'livox_grove_loop_b',
-    name: 'Stand 2: Deciduous',
-    type: 'Mixed Hardwoods',
-    desc: 'Multi-stem forks, leaning trunks, and irregular cross-sections',
+    name: 'Grove 2',
+    type: 'Pinus strobus (Eastern White Pine)',
+    desc: 'Eastern White Pine — Grove 2',
     points: '118,240',
     loopLength: '92.6 m',
-    location: 'Burlington, MA Grove 2'
+    location: 'Burlington, MA'
   },
   {
     id: 'livox_grove_loop_c',
-    name: 'Stand 3: Dense Understory',
-    type: 'Shrub & Vine Understory',
-    desc: 'Heavy brush obstacle navigation and dense sapling clusters',
+    name: 'Grove 3',
+    type: 'Pinus strobus (Eastern White Pine)',
+    desc: 'Eastern White Pine — Grove 3',
     points: '117,994',
     loopLength: '96.8 m',
-    location: 'Burlington, MA Grove 3'
+    location: 'Burlington, MA'
   }
 ];
 

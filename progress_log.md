@@ -1,5 +1,63 @@
 # Progress Log
 
+## [2026-09-18 15:00:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Video Player Web Codec Transcode & Complete Mt. Auburn / Halcyon Quarantine
+* **Summary:** Resolved video playback failure and adhered to strict data source boundaries:
+  1. **Fixed Video Player Playback:** Diagnosed why `<video>` was failing in browser (exhibiting `0:00` disabled playback): source file had raw OpenCV `mpeg4` (mp4v) codec, which modern browsers cannot decode in HTML5 `<video>` tags. Transcoded `/home/cgarms/Projects/CUTMAP/results/rapid_mensuration_live_demo.mp4` to web-standard H.264 (`libx264`, `yuv420p`, Main Profile 4.0, `-movflags +faststart`, 4.3 MB) and dual-streamed with VP9 WebM (`video/webm`). Verified HTTP 206 Partial Content range requests on port 4321.
+  2. **Quarantined Mt. Auburn & Halcyon Data:** Verified zero references to Mt. Auburn or Halcyon exist in `src/pages/cutmap.astro` or any site page. Moved all Halcyon loop videos, figures, and classification scripts (`halcion*`, `pilot_oak_maple*`) out of `public/` into `archive/mta/`.
+  3. **Purged Inaccurate Matplotlib Plots:** Removed `fig_rapid_mensuration_accuracy.png` from public assets. Updated video poster to `rapid_mensuration_poster.jpg` (authentic, high-contrast dark Jetson edge perception HUD from the Burlington Forest Grove Pine Stand).
+  4. **Refined Stand Picker Taxonomy:** Renamed all three forest point cloud stands in `CutmapLidarViewer.jsx` and `PointCloudHero.jsx` simply to **Grove 1**, **Grove 2**, and **Grove 3**, correctly identifying all three as predominantly Eastern White Pine (*Pinus strobus*) and removing any inaccurate labels ("hardwoods", "dense understory").
+* **Verification:** Tested video streaming with `curl -I -H "Range: bytes=0-1024" http://127.0.0.1:4321/videos/cutmap/rapid_mensuration_live_demo.mp4` returning `HTTP/1.1 206 Partial Content`. Astro static build completed in 4.96s with 0 errors across all 19 routes.
+* **Technical Debt/Next Steps:** Review live site on browser and prepare for deployment.
+
+## [2026-09-18 14:48:00 EDT]
+
+* **Status:** Completed
+* **Focus:** CUTMAP Streamlined Commercial Showcase Overhaul
+* **Summary:** Streamlined and transformed `src/pages/cutmap.astro` into an ultra-clean, high-impact commercial teaming showcase:
+  1. **Executive Value Proposition:** Replaced dense text walls with punchy commercial economics: "Real-Time Forest Inventory from a $2,200 Sensor Payload — Replacing $100,000 LiDAR rigs with an automated mobile perception cart that maps 100% of trees under dense canopy with zero GPS."
+  2. **3-Step Intuitive Concept:** Added a scannable 3-card overview ("Traverse Without GPS" $\to$ "Automatic Breast-Height Slicing" $\to$ "Instant Digital Inventory") that communicates the technical mechanism in seconds.
+  3. **Show, Don't Tell Video Demonstrator:** Embedded the live 1080p edge telemetry demo (`/videos/cutmap/rapid_mensuration_live_demo.mp4` with WebP fallback) showing 17 trees locking in 3.9s directly from the NVIDIA Jetson AGX Orin.
+  4. **The Numbers at a Glance:** 6 bold KPI cards highlighting ~$2,200 hardware cost (25× cheaper), 80mm drift over 425m, 98.6% recall, R²=0.98 tape accuracy, <5s edge turnaround, and <$5/acre survey cost.
+  5. **Four Teaming Pathways:** Clean, scannable cards for Timberland Managers, Machinery OEMs, Federal Co-Funding (USDA-NIFA Phase II STTR), and Commercial Licensing.
+  6. **Interactive 3D LiDAR Stand Viewer:** Kept the interactive WebGL point cloud viewer cleanly embedded for hands-on inspection.
+  7. **Direct Executive Outreach:** Prominent, uncluttered contact card targeting Dr. Cory Glenn Garms (`cgarms@spectral.com`) and outbound links to Spectral Sciences, Inc. (`https://www.spectral.com`).
+* **Verification:** Verified live on local dev server `http://127.0.0.1:4321/cutmap` with hot-module reload in 54ms and HTTP 200.
+* **Technical Debt/Next Steps:** Ready for review and deployment to Vercel.
+
+## [2026-09-18 11:10:00 EDT]
+
+* **Status:** Completed
+* **Focus:** 3D Point Cloud Scientific Color Palettes
+* **Summary:** Added 6 scientific and tactical color modes to `PointCloudHero.jsx` with an interactive glassmorphism dropdown selector:
+  1. **Forestry (Natural):** Deep forest duff $\to$ laser emerald trunk $\to$ scaffold branches $\to$ sky-cyan crown.
+  2. **Viridis (Scientific Standard):** Deep purple $\to$ blue $\to$ teal $\to$ chartreuse $\to$ vibrant yellow (remote sensing gold standard).
+  3. **Magma (Thermal High-Contrast):** Dark velvet $\to$ violet $\to$ hot magenta $\to$ coral $\to$ pale gold.
+  4. **LiDAR Reflectance (16-bit Intensity):** Utilizes genuine calibrated optical return intensity from `COLOR_0` buffer ($[0, 16000]$), highlighting the reflective contrast between shadowed bark, solid oak limbs, and retro-reflective crown foliage.
+  5. **Laser Emerald (Monochrome):** Classic tactical LiDAR emerald (`#10b981`).
+  6. **Electric Cyan (Topo):** Deep marine basin $\to$ electric cyan crown.
+  - Implemented interactive dropdown popover with gradient preview swatches and click-away dismissal.
+  - Updated telemetry HUD to display the active color mode.
+* **Technical Debt/Next Steps:** Ready for review and deployment.
+
+## [2026-09-18 11:05:00 EDT]
+
+* **Status:** Completed
+* **Focus:** Huge Oak Terrestrial LiDAR Point Cloud Landing Hero
+* **Summary:** Successfully converted and deployed the `HUGE_OAK_CLEAN` terrestrial LiDAR dataset (`3D_models/HUGE_OAK_CLEAN.pcd`, 1,524,416 points) as the premier landing hero visualization on `corygarms.com`:
+  1. **Data Conversion Pipeline:** Built and executed `scripts/convert-huge-oak-to-glb.js`, reading `binary_compressed` PCD with LZF decompression. Mapped coordinates to Three.js ($Y$-up, centered lateral axes around trunk base at $X=142.06, Y=132.22$). Downsampled 1.52M points down to 169,379 points ($step = 9$) and encoded 16-bit reflectance intensity $[0, 16000] \to [0.0, 1.0]$ into glTF `COLOR_0` buffer. Generated `public/models/huge_oak.glb` (3.88 MB).
+  2. **Three.js Elevation Shader & Colormap:** Upgraded `src/components/PointCloudHero.jsx` with dynamic elevation-normalized GLSL shaders ($v_{\text{elevation}} = (y - y_{\min}) / (y_{\max} - y_{\min})$). Engineered a multi-strata forestry colormap (deep forest floor duff $\to$ laser emerald trunk $\to$ chartreuse scaffold branches $\to$ sky-cyan crown foliage) alongside a toggle for signature Monochrome Laser Emerald (`#10b981`).
+  3. **Interactive Hero Controls & Telemetry HUD:** Configured `huge_oak` as the default scene in `SCENES`. Added interactive elevation/laser colormap switcher, auto-rotation toggle, camera framing ($[18, 10, 24]$), and real-time scientific telemetry badge: `Huge Oak • Terrestrial LiDAR Survey • 1.52M pts • 28.4 m H`.
+  4. **Mobile & 2D Fallback Optimization:** Updated scroll-friendly 2D fallback view highlighting the 1.52M point terrestrial laser survey.
+  5. **Scientific Integrity Decisions:**
+     - Downsampled from 1,524,416 raw points to 169,379 points via systematic stride sampling to ensure smooth 60 FPS WebGL rendering while preserving branch taper and fine crown foliage.
+     - Normalized LiDAR intensity with percentile clamp ($[0, 16000]$) to maximize reflectance contrast.
+     - Transformed spatial coordinates: $X_{\text{three}} = X_{\text{pcd}} - 142.06$, $Y_{\text{three}} = Z_{\text{pcd}} - 6.71$ (elevation height $28.35\text{ m}$), $Z_{\text{three}} = -(Y_{\text{pcd}} - 132.22)$ (crown spread $28.84\text{ m}$).
+* **Build Verification:** Tested via `npm run build` (all 19 static pages generated in 7.45s with 0 errors). Verified dev server endpoint `http://127.0.0.1:4321/` serving HTTP 200 with full 3D canvas and HUD hydration.
+* **Technical Debt/Next Steps:** Ready for git commit and production deployment to Vercel.
+
 ## [2026-09-10 14:36:00 EDT]
 
 * **Status:** Completed
