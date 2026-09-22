@@ -1,0 +1,39 @@
+---
+interface DayItem {
+  day: string;
+  tag: string;
+  title: string;
+  description: string;
+  color?: 'emerald' | 'amber' | 'cyan' | 'purple';
+}
+
+interface Props {
+  days: DayItem[];
+}
+
+const { days } = Astro.props;
+
+const tagColors = {
+  emerald: 'bg-emerald-950/80 text-emerald-300 border-emerald-800/60',
+  amber: 'bg-amber-950/80 text-amber-300 border-amber-800/60',
+  cyan: 'bg-cyan-950/80 text-cyan-300 border-cyan-800/60',
+  purple: 'bg-purple-950/80 text-purple-300 border-purple-800/60'
+};
+---
+
+<div class="my-8 space-y-3 not-prose">
+  {days.map((item) => (
+    <div class="p-4 rounded-xl border border-border bg-surface hover:border-border-hover transition-colors flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+      <div class="flex items-center gap-2 sm:w-44 shrink-0">
+        <span class={`text-[11px] font-mono px-2 py-0.5 rounded border ${tagColors[item.color || 'emerald']}`}>
+          {item.day}
+        </span>
+        <span class="text-xs font-mono text-text-muted">{item.tag}</span>
+      </div>
+      <div class="flex-1">
+        <div class="text-sm font-semibold text-white">{item.title}</div>
+        <div class="text-xs text-text-muted mt-0.5 leading-relaxed">{item.description}</div>
+      </div>
+    </div>
+  ))}
+</div>

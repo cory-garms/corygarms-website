@@ -1,0 +1,41 @@
+---
+interface Props {
+  userPrompt: string;
+  context?: string;
+}
+
+const { userPrompt, context } = Astro.props;
+---
+
+<div class="my-6 rounded-xl border border-border bg-surface overflow-hidden shadow-sm">
+  {context && (
+    <div class="px-4 py-1.5 bg-forest-900/90 border-b border-border text-[11px] font-mono text-accent-light flex items-center justify-between">
+      <span>{context}</span>
+      <span class="text-text-muted text-[10px]">Real Gemini Chat</span>
+    </div>
+  )}
+
+  <!-- User Prompt -->
+  <div class="p-4 bg-forest-950/60 border-b border-border/60 flex items-start gap-3">
+    <div class="w-6 h-6 rounded-full bg-forest-700 text-text-main flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+      C
+    </div>
+    <div class="text-sm">
+      <div class="text-[11px] font-mono text-text-muted mb-0.5">Cory</div>
+      <div class="text-text-main italic font-sans text-sm leading-relaxed">"{userPrompt}"</div>
+    </div>
+  </div>
+
+  <!-- Gemini Response -->
+  <div class="p-4 bg-surface-card flex items-start gap-3">
+    <div class="w-6 h-6 rounded-full bg-accent/20 border border-accent/40 text-accent-light flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+      ✦
+    </div>
+    <div class="text-sm text-text-main flex-1 prose-sm leading-relaxed">
+      <div class="text-[11px] font-mono text-accent-light mb-1">Gemini</div>
+      <div class="space-y-2 text-text-muted font-sans text-sm">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>

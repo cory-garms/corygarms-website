@@ -1,0 +1,34 @@
+---
+interface StatItem {
+  value: string;
+  label: string;
+  subtext?: string;
+  highlight?: boolean;
+}
+
+interface Props {
+  stats: StatItem[];
+}
+
+const { stats } = Astro.props;
+---
+
+<div class="my-6 grid grid-cols-2 sm:grid-cols-4 gap-3 not-prose">
+  {stats.map((stat) => (
+    <div class={`p-4 rounded-xl border ${stat.highlight ? 'border-accent/40 bg-forest-900/60' : 'border-border bg-surface'} flex flex-col justify-between`}>
+      <div class="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-white mb-1">
+        {stat.value}
+      </div>
+      <div>
+        <div class="text-xs font-semibold text-text-main font-sans">
+          {stat.label}
+        </div>
+        {stat.subtext && (
+          <div class="text-[11px] text-text-muted mt-0.5 font-sans">
+            {stat.subtext}
+          </div>
+        )}
+      </div>
+    </div>
+  ))}
+</div>

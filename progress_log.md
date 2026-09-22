@@ -1,5 +1,30 @@
 # Progress Log
 
+## [2026-09-22 16:35:00 EDT] — Blog Post Revision: Informal Style, Custom Visual Devices & Original Title
+
+* **Status:** Completed
+* **Focus:** Technical Note Refinement: Layman's Voice, Visual Chat/Stat/Timeline Cards, and Original Title
+* **Summary:** Completely revised `/notes/gemini-copilot-high-stakes-logistics` based on user guidance:
+  1. **Title Alignment:**
+     - Restored user's original title: *"Field Data Collection, Baby Shower, Elks BBQ - How I used Gemini to navigate an insanely busy week"*.
+  2. **Informal & Layman's Voice:**
+     - Removed dense technical jargon and AI buzzwords in favor of a personal, grounded, conversational voice.
+     - Outlined how personal life, fraternal community leadership (Elks Chaplain), and remote sensing science collided into an intense 5-day sprint.
+  3. **Visual Devices Built & Integrated:**
+     - `StatGrid.astro`: Responsive metric cards displaying 70 guests fed, 79 lbs meat managed, 55 burgers pressed, and 0% food waste.
+     - `DayTimeline.astro`: Color-tagged daily breakdown covering Wednesday through Sunday.
+     - `ChatDialog.astro`: Styled real-world chat exchange bubbles displaying authentic back-and-forth prompts with Gemini.
+  4. **Core Focus Areas Highlighted:**
+     - *Time Management*: Knowing when to pivot—abandoning late-night fatigue cooks on Wednesday and shifting to a Friday WFH Instant Pot stock simmer.
+     - *Delegation*: Offloading the grocery run to Ericka & Melissa, bakery coordination with Michelle, house reset with Amanda and her sister, and field navigation with brother-in-law.
+     - *Technical Equipment*: Instant triage of the unfamiliar Adcraft commercial hot dog steamer (drain plug, preheat water depth, temperature holding dials, and avoiding soggy buns).
+     - *Menu Strategy*: Frying 5 lbs of chicken tenders and 4 lbs of fish across 1 FryDaddy and 2 cast iron skillets without cross-contaminating seafood flavor, backed by a 200°F oven holding station.
+     - *Cookout Pacing & Zero Waste*: 40 lbs of convection wings, staged 16-patty grill waves, and preserving 20 surplus raw burgers in freezer stacks with 0% waste.
+     - Included link to live Gemini conversation.
+  5. **Build Verification:**
+     - Static build passed cleanly in 6.33s across 20 routes with 0 errors. Verified rendered static HTML in `dist/`.
+* **Technical Debt/Next Steps:** Changes are verified and ready for deployment.
+
 ## [2026-09-18 15:45:00 EDT] — End-of-Week Production Milestone & Session Wrap-Up
 
 * **Status:** Completed
