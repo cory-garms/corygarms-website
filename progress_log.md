@@ -18,12 +18,13 @@
      - *Time Management*: Knowing when to pivot—abandoning late-night fatigue cooks on Wednesday and shifting to a Friday WFH Instant Pot stock simmer.
      - *Delegation*: Offloading the grocery run to Ericka & Melissa, bakery coordination with Michelle, house reset with Amanda and her sister, and field navigation with brother-in-law.
      - *Technical Equipment*: Instant triage of the unfamiliar Adcraft commercial hot dog steamer (drain plug, preheat water depth, temperature holding dials, and avoiding soggy buns).
+     - *Scratch Red Beans & Rice*: Dedicated culinary breakdown of the Friday WFH cook—Instant Pot bone broth shortcut, 4 lbs of seared andouille rendering smoky fat, the holy trinity, 8-can bean base, mashing beans for velvety gravy, and why letting it rest overnight in the fridge made Saturday's service over fluffy rice a massive hit.
      - *Menu Strategy*: Frying 5 lbs of chicken tenders and 4 lbs of fish across 1 FryDaddy and 2 cast iron skillets without cross-contaminating seafood flavor, backed by a 200°F oven holding station.
      - *Cookout Pacing & Zero Waste*: 40 lbs of convection wings, staged 16-patty grill waves, and preserving 20 surplus raw burgers in freezer stacks with 0% waste.
      - Included link to live Gemini conversation.
   5. **Build Verification & Production Deployment:**
-     - Static build passed cleanly in 6.33s across 20 routes with 0 errors. Verified rendered static HTML in `dist/`.
-     - Committed (`ede3181`) and pushed to GitHub `main` (`0cebf5c..ede3181`), triggering automated Vercel CI/CD production deployment to `corygarms.com`.
+     - Static build passed cleanly in 11.35s across 20 routes with 0 errors. Verified rendered static HTML in `dist/`.
+     - Committed and pushed to GitHub `main`, triggering automated Vercel CI/CD production deployment to `corygarms.com`.
 * **Technical Debt/Next Steps:** Monitor live deployment on `corygarms.com/notes`.
 
 ## [2026-09-18 15:45:00 EDT] — End-of-Week Production Milestone & Session Wrap-Up
