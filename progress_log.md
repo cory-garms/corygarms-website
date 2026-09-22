@@ -1,5 +1,24 @@
 # Progress Log
 
+## [2026-09-22 17:50:00 EDT] — Active Route Navigation Indicators & Homepage Scroll-Spy
+
+* **Status:** Completed
+* **Focus:** Visual Route Indicators, Micro-Animations, and Responsive Scroll-Spy Wayfinding
+* **Summary:** Implemented sleek, scientific-grade active navigation route indicators and in-page scroll spy across desktop and mobile header navigation:
+  1. **Desktop Glowing Route Indicators:**
+     - Added absolute-positioned glowing emerald indicator bars (`-bottom-[15px] inset-x-0 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]`) that pin directly to the bottom border of the sticky header.
+     - Enhanced with smooth CSS transitions (`transition-all duration-200`): active routes render at full opacity (`opacity-100 scale-x-100`), while inactive routes present a subtle hover expansion preview (`opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75`).
+  2. **Mobile Drawer Route Indicators:**
+     - Styled mobile navigation links with an elevated background (`bg-forest-900/90 border-accent/40 shadow-sm`) and an active pulsating indicator dot (`w-1.5 h-1.5 rounded-full bg-accent animate-pulse`).
+  3. **Homepage Scroll-Spy Wayfinding:**
+     - Implemented a lightweight, `requestAnimationFrame`-throttled scroll observer on `/` that dynamically illuminates `ABOUT` and `PROJECTS` in the navigation as the user scrolls into each respective section.
+     - Integrated `scroll-mt-14` across `#about`, `#portfolio`, and `#contact` sections to ensure smooth alignment below the sticky header when navigated directly.
+  4. **Build Resilience:**
+     - Added `AbortSignal.timeout(3500)` to `fetchLatestGithubProjects` in `src/utils/github.js` to prevent static builds from hanging if the GitHub API throttles or times out.
+  5. **Verification & Testing:**
+     - Built cleanly with `npm run build` in 5.11s across all 20 static routes with 0 errors. Verified rendered output in `dist/index.html` and `dist/research/index.html`.
+* **Technical Debt/Next Steps:** Ready to push to production git repository.
+
 ## [2026-09-22 17:30:00 EDT] — Site-Wide SEO & Metadata Architecture Overhaul
 
 * **Status:** Completed

@@ -28,6 +28,7 @@ const ogImageURL = image.startsWith("http") ? image : new URL(image, canonicalUR
 // Active route detection for desktop and mobile navigation
 const currentPath = Astro.url.pathname;
 const isResearch = currentPath.startsWith('/research');
+const isProjects = currentPath.startsWith('/cutmap') || currentPath.startsWith('/unjitr') || currentPath.startsWith('/astro-jitter') || currentPath.startsWith('/uvot-jitter');
 const isCv = currentPath.startsWith('/cv');
 const isNotes = currentPath.startsWith('/notes');
 const isLibrary = currentPath.startsWith('/reading-list');
@@ -82,15 +83,63 @@ const isLibrary = currentPath.startsWith('/reading-list');
 					<span>Cory Glenn Garms</span>
 				</a>
 
-				<!-- Desktop Navigation -->
-				<nav class="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider">
-					<a href="/#about" class="text-text-muted hover:text-accent transition-colors">ABOUT</a>
-					<a href="/research" class={`transition-colors ${isResearch ? 'text-accent font-semibold' : 'text-text-muted hover:text-accent'}`}>RESEARCH</a>
-					<a href="/#portfolio" class="text-text-muted hover:text-accent transition-colors">PROJECTS</a>
-					<a href="/cv" class={`transition-colors ${isCv ? 'text-accent font-semibold' : 'text-text-muted hover:text-accent'}`}>CV</a>
-					<a href="/notes" class={`transition-colors ${isNotes ? 'text-accent font-semibold' : 'text-text-muted hover:text-accent'}`}>NOTES</a>
-					<a href="/reading-list" class={`transition-colors ${isLibrary ? 'text-accent font-semibold' : 'text-text-muted hover:text-accent'}`}>LIBRARY</a>
-					<a href="/#contact" class="px-3.5 py-1.5 rounded bg-forest-800 hover:bg-forest-700 text-accent hover:text-white border border-border hover:border-accent/50 transition-all">CONTACT</a>
+				<!-- Desktop Navigation with Active Indicators -->
+				<nav id="desktop-nav" class="hidden md:flex items-center gap-6 text-xs font-mono tracking-wider">
+					<a 
+						href="/#about" 
+						data-nav="about"
+						class="nav-link group relative py-1 transition-colors text-text-muted hover:text-white"
+					>
+						<span>ABOUT</span>
+						<span class="nav-indicator absolute -bottom-[15px] inset-x-0 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)] transition-all duration-200 opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75 pointer-events-none"></span>
+					</a>
+					<a 
+						href="/research" 
+						data-nav="research"
+						class={`nav-link group relative py-1 transition-colors ${isResearch ? 'text-accent font-bold' : 'text-text-muted hover:text-white'}`}
+					>
+						<span>RESEARCH</span>
+						<span class={`nav-indicator absolute -bottom-[15px] inset-x-0 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)] transition-all duration-200 pointer-events-none ${isResearch ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75'}`}></span>
+					</a>
+					<a 
+						href="/#portfolio" 
+						data-nav="portfolio"
+						class={`nav-link group relative py-1 transition-colors ${isProjects ? 'text-accent font-bold' : 'text-text-muted hover:text-white'}`}
+					>
+						<span>PROJECTS</span>
+						<span class={`nav-indicator absolute -bottom-[15px] inset-x-0 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)] transition-all duration-200 pointer-events-none ${isProjects ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75'}`}></span>
+					</a>
+					<a 
+						href="/cv" 
+						data-nav="cv"
+						class={`nav-link group relative py-1 transition-colors ${isCv ? 'text-accent font-bold' : 'text-text-muted hover:text-white'}`}
+					>
+						<span>CV</span>
+						<span class={`nav-indicator absolute -bottom-[15px] inset-x-0 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)] transition-all duration-200 pointer-events-none ${isCv ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75'}`}></span>
+					</a>
+					<a 
+						href="/notes" 
+						data-nav="notes"
+						class={`nav-link group relative py-1 transition-colors ${isNotes ? 'text-accent font-bold' : 'text-text-muted hover:text-white'}`}
+					>
+						<span>NOTES</span>
+						<span class={`nav-indicator absolute -bottom-[15px] inset-x-0 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)] transition-all duration-200 pointer-events-none ${isNotes ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75'}`}></span>
+					</a>
+					<a 
+						href="/reading-list" 
+						data-nav="library"
+						class={`nav-link group relative py-1 transition-colors ${isLibrary ? 'text-accent font-bold' : 'text-text-muted hover:text-white'}`}
+					>
+						<span>LIBRARY</span>
+						<span class={`nav-indicator absolute -bottom-[15px] inset-x-0 h-[2px] bg-accent rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)] transition-all duration-200 pointer-events-none ${isLibrary ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0 group-hover:opacity-40 group-hover:scale-x-75'}`}></span>
+					</a>
+					<a 
+						href="/#contact" 
+						data-nav="contact"
+						class="px-3.5 py-1.5 rounded bg-forest-800 hover:bg-forest-700 text-accent hover:text-white border border-border hover:border-accent/50 transition-all font-mono"
+					>
+						CONTACT
+					</a>
 				</nav>
 
 				<!-- Mobile Hamburger Button -->
@@ -113,13 +162,61 @@ const isLibrary = currentPath.startsWith('/reading-list');
 			<!-- Mobile Navigation Drawer -->
 			<div class="max-w-7xl mx-auto px-6">
 				<nav id="mobile-nav-tray" class="hidden md:hidden pt-2 pb-4 border-t border-border mt-1 space-y-1 text-xs font-mono">
-					<a href="/#about" class="mobile-nav-link block px-3 py-2 rounded-lg text-text-muted hover:text-white hover:bg-forest-900 transition-colors">ABOUT</a>
-					<a href="/research" class={`mobile-nav-link block px-3 py-2 rounded-lg transition-colors ${isResearch ? 'text-accent font-semibold bg-forest-900/80 border border-accent/30' : 'text-text-muted hover:text-white hover:bg-forest-900'}`}>RESEARCH</a>
-					<a href="/#portfolio" class="mobile-nav-link block px-3 py-2 rounded-lg text-text-muted hover:text-white hover:bg-forest-900 transition-colors">PROJECTS</a>
-					<a href="/cv" class={`mobile-nav-link block px-3 py-2 rounded-lg transition-colors ${isCv ? 'text-accent font-semibold bg-forest-900/80 border border-accent/30' : 'text-text-muted hover:text-white hover:bg-forest-900'}`}>CV</a>
-					<a href="/notes" class={`mobile-nav-link block px-3 py-2 rounded-lg transition-colors ${isNotes ? 'text-accent font-semibold bg-forest-900/80 border border-accent/30' : 'text-text-muted hover:text-white hover:bg-forest-900'}`}>NOTES</a>
-					<a href="/reading-list" class={`mobile-nav-link block px-3 py-2 rounded-lg transition-colors ${isLibrary ? 'text-accent font-semibold bg-forest-900/80 border border-accent/30' : 'text-text-muted hover:text-white hover:bg-forest-900'}`}>LIBRARY</a>
-					<a href="/#contact" class="mobile-nav-link block px-3 py-2 rounded-lg text-accent font-semibold bg-forest-900/60 border border-border mt-2">CONTACT &rarr;</a>
+					<a 
+						href="/#about" 
+						data-mobile-nav="about" 
+						class="mobile-nav-link flex items-center justify-between px-3 py-2 rounded-lg text-text-muted hover:text-white hover:bg-forest-900 border border-transparent transition-all"
+					>
+						<span>ABOUT</span>
+						<span class="mobile-indicator w-1.5 h-1.5 rounded-full bg-accent animate-pulse hidden"></span>
+					</a>
+					<a 
+						href="/research" 
+						data-mobile-nav="research" 
+						class={`mobile-nav-link flex items-center justify-between px-3 py-2 rounded-lg transition-all ${isResearch ? 'text-accent font-semibold bg-forest-900/90 border border-accent/40 shadow-sm' : 'text-text-muted hover:text-white hover:bg-forest-900 border border-transparent'}`}
+					>
+						<span>RESEARCH</span>
+						<span class={`mobile-indicator w-1.5 h-1.5 rounded-full bg-accent animate-pulse ${isResearch ? '' : 'hidden'}`}></span>
+					</a>
+					<a 
+						href="/#portfolio" 
+						data-mobile-nav="portfolio" 
+						class={`mobile-nav-link flex items-center justify-between px-3 py-2 rounded-lg transition-all ${isProjects ? 'text-accent font-semibold bg-forest-900/90 border border-accent/40 shadow-sm' : 'text-text-muted hover:text-white hover:bg-forest-900 border border-transparent'}`}
+					>
+						<span>PROJECTS</span>
+						<span class={`mobile-indicator w-1.5 h-1.5 rounded-full bg-accent animate-pulse ${isProjects ? '' : 'hidden'}`}></span>
+					</a>
+					<a 
+						href="/cv" 
+						data-mobile-nav="cv" 
+						class={`mobile-nav-link flex items-center justify-between px-3 py-2 rounded-lg transition-all ${isCv ? 'text-accent font-semibold bg-forest-900/90 border border-accent/40 shadow-sm' : 'text-text-muted hover:text-white hover:bg-forest-900 border border-transparent'}`}
+					>
+						<span>CV</span>
+						<span class={`mobile-indicator w-1.5 h-1.5 rounded-full bg-accent animate-pulse ${isCv ? '' : 'hidden'}`}></span>
+					</a>
+					<a 
+						href="/notes" 
+						data-mobile-nav="notes" 
+						class={`mobile-nav-link flex items-center justify-between px-3 py-2 rounded-lg transition-all ${isNotes ? 'text-accent font-semibold bg-forest-900/90 border border-accent/40 shadow-sm' : 'text-text-muted hover:text-white hover:bg-forest-900 border border-transparent'}`}
+					>
+						<span>NOTES</span>
+						<span class={`mobile-indicator w-1.5 h-1.5 rounded-full bg-accent animate-pulse ${isNotes ? '' : 'hidden'}`}></span>
+					</a>
+					<a 
+						href="/reading-list" 
+						data-mobile-nav="library" 
+						class={`mobile-nav-link flex items-center justify-between px-3 py-2 rounded-lg transition-all ${isLibrary ? 'text-accent font-semibold bg-forest-900/90 border border-accent/40 shadow-sm' : 'text-text-muted hover:text-white hover:bg-forest-900 border border-transparent'}`}
+					>
+						<span>LIBRARY</span>
+						<span class={`mobile-indicator w-1.5 h-1.5 rounded-full bg-accent animate-pulse ${isLibrary ? '' : 'hidden'}`}></span>
+					</a>
+					<a 
+						href="/#contact" 
+						data-mobile-nav="contact" 
+						class="mobile-nav-link block px-3 py-2 rounded-lg text-accent font-semibold bg-forest-900/60 border border-border mt-2"
+					>
+						<span>CONTACT &rarr;</span>
+					</a>
 				</nav>
 			</div>
 		</header>
@@ -193,6 +290,110 @@ const isLibrary = currentPath.startsWith('/reading-list');
 							menuBtn.setAttribute('aria-expanded', 'false');
 						});
 					});
+				}
+
+				// Homepage Scroll-Spy for In-Page Anchor Links (#about, #portfolio)
+				if (window.location.pathname === '/' || window.location.pathname === '') {
+					const spySections = [
+						{ id: 'portfolio', key: 'portfolio' },
+						{ id: 'about', key: 'about' }
+					];
+
+					const navItems: Record<string, {
+						desktop: HTMLElement | null;
+						desktopIndicator: HTMLElement | null;
+						mobile: HTMLElement | null;
+						mobileIndicator: HTMLElement | null;
+					}> = {
+						about: {
+							desktop: document.querySelector('#desktop-nav [data-nav="about"]'),
+							desktopIndicator: document.querySelector('#desktop-nav [data-nav="about"] .nav-indicator'),
+							mobile: document.querySelector('#mobile-nav-tray [data-mobile-nav="about"]'),
+							mobileIndicator: document.querySelector('#mobile-nav-tray [data-mobile-nav="about"] .mobile-indicator')
+						},
+						portfolio: {
+							desktop: document.querySelector('#desktop-nav [data-nav="portfolio"]'),
+							desktopIndicator: document.querySelector('#desktop-nav [data-nav="portfolio"] .nav-indicator'),
+							mobile: document.querySelector('#mobile-nav-tray [data-mobile-nav="portfolio"]'),
+							mobileIndicator: document.querySelector('#mobile-nav-tray [data-mobile-nav="portfolio"] .mobile-indicator')
+						}
+					};
+
+					let activeSection: string | null = null;
+
+					function updateScrollSpy() {
+						const scrollPos = window.scrollY;
+						let current: string | null = null;
+
+						if (scrollPos > 120) {
+							for (const s of spySections) {
+								const el = document.getElementById(s.id);
+								if (el) {
+									const rect = el.getBoundingClientRect();
+									// Target section is currently in active viewing band
+									if (rect.top <= 240 && rect.bottom >= 120) {
+										current = s.key;
+										break;
+									}
+								}
+							}
+						}
+
+						if (current !== activeSection) {
+							activeSection = current;
+							Object.entries(navItems).forEach(([key, item]) => {
+								const isActive = key === activeSection;
+								if (item.desktop) {
+									if (isActive) {
+										item.desktop.classList.add('text-accent', 'font-bold');
+										item.desktop.classList.remove('text-text-muted');
+									} else {
+										item.desktop.classList.remove('text-accent', 'font-bold');
+										item.desktop.classList.add('text-text-muted');
+									}
+								}
+								if (item.desktopIndicator) {
+									if (isActive) {
+										item.desktopIndicator.classList.remove('opacity-0', 'scale-x-0');
+										item.desktopIndicator.classList.add('opacity-100', 'scale-x-100');
+									} else {
+										item.desktopIndicator.classList.add('opacity-0', 'scale-x-0');
+										item.desktopIndicator.classList.remove('opacity-100', 'scale-x-100');
+									}
+								}
+								if (item.mobile) {
+									if (isActive) {
+										item.mobile.classList.add('text-accent', 'font-semibold', 'bg-forest-900/90', 'border-accent/40', 'shadow-sm');
+										item.mobile.classList.remove('text-text-muted', 'border-transparent');
+									} else {
+										item.mobile.classList.remove('text-accent', 'font-semibold', 'bg-forest-900/90', 'border-accent/40', 'shadow-sm');
+										item.mobile.classList.add('text-text-muted', 'border-transparent');
+									}
+								}
+								if (item.mobileIndicator) {
+									if (isActive) {
+										item.mobileIndicator.classList.remove('hidden');
+									} else {
+										item.mobileIndicator.classList.add('hidden');
+									}
+								}
+							});
+						}
+					}
+
+					let ticking = false;
+					window.addEventListener('scroll', () => {
+						if (!ticking) {
+							window.requestAnimationFrame(() => {
+								updateScrollSpy();
+								ticking = false;
+							});
+							ticking = true;
+						}
+					}, { passive: true });
+
+					// Initial evaluation
+					updateScrollSpy();
 				}
 			});
 		</script>

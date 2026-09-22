@@ -4,7 +4,9 @@
  */
 export async function fetchLatestGithubProjects(username = 'cory-garms', limit = 4) {
   try {
-    const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=${limit}`);
+    const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=${limit}`, {
+      signal: AbortSignal.timeout(3500)
+    });
     
     if (!response.ok) {
       console.warn(`GitHub API ratelimit or error: ${response.status}`);
@@ -22,7 +24,7 @@ export async function fetchLatestGithubProjects(username = 'cory-garms', limit =
       description: repo.description || "A public GitHub repository."
     }));
   } catch (error) {
-    console.error("Failed to fetch from GitHub:", error);
+    console.warn("Failed to fetch from GitHub (fallback to static):", error?.message || error);
     return [];
   }
 }
