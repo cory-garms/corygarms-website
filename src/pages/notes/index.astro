@@ -6,7 +6,10 @@ const allNotes = await getCollection('notes');
 const sortedNotes = allNotes.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 ---
 
-<Layout title="Notes & Technical Writing">
+<Layout 
+  title="Notes & Technical Writing"
+  description="Technical notes and articles on remote sensing, 3D LiDAR algorithms, satellite jitter restoration, sports analytics, and AI workflows."
+>
   <main class="max-w-4xl mx-auto px-6 py-16">
     <div class="mb-12">
       <div class="flex items-center gap-2 mb-3">

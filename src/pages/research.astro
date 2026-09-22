@@ -184,7 +184,10 @@ const publications: Publication[] = [
 ];
 ---
 
-<Layout title="Research & Publications">
+<Layout 
+  title="Research & Publications"
+  description="Peer-reviewed papers, patents, and technical algorithms in forest LiDAR, drone mapping, and optical sensor calibration by Cory Glenn Garms, Ph.D."
+>
   <div class="max-w-5xl mx-auto px-6 py-16">
     
     <!-- Page Header -->
@@ -262,8 +265,8 @@ const publications: Publication[] = [
             {pub.codeLink && (
               <a 
                 href={pub.codeLink} 
-                target="_blank" 
-                rel="noopener noreferrer"
+                target={pub.codeLink.startsWith('http') ? "_blank" : "_self"} 
+                rel={pub.codeLink.startsWith('http') ? "noopener noreferrer" : undefined}
                 class="px-3 py-1.5 bg-forest-900 hover:bg-forest-800 text-accent-light rounded-lg text-xs font-mono border border-border hover:border-accent/50 transition-all inline-flex items-center gap-1.5"
               >
                 <span>Pipeline Code &rarr;</span>

@@ -17,7 +17,12 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-<Layout title={`${entry.data.title} | Cory Garms`}>
+<Layout 
+  title={entry.data.title}
+  description={entry.data.description}
+  article={true}
+  publishDate={entry.data.publishDate}
+>
   <main class="pt-28 pb-16 px-6 sm:px-12 md:px-24 bg-background min-h-screen">
     <div class="max-w-3xl mx-auto">
         <a href="/#notes" class="text-accent hover:text-accent-light transition-colors mb-8 inline-flex items-center gap-1.5 font-mono text-xs">

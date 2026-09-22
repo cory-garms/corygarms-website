@@ -1,5 +1,26 @@
 # Progress Log
 
+## [2026-09-22 17:30:00 EDT] — Site-Wide SEO & Metadata Architecture Overhaul
+
+* **Status:** Completed
+* **Focus:** Site-Wide SEO, OpenGraph Enhancements, Canonical Tags & Active Navigation States
+* **Summary:** Upgraded `Layout.astro` and all primary pages across the site to resolve metadata duplication and implement modern SEO best practices:
+  1. **Dynamic Metadata & Social Preview Tags:**
+     - Expanded `Layout.astro` to accept optional `description`, `image`, `article`, and `publishDate` props.
+     - Added `<link rel="canonical" href={canonicalURL.href} />` to all pages.
+     - Enhanced OpenGraph and Twitter card tags with dynamic descriptions, absolute image URLs, and article schema (`article:published_time`, `article:author`) for technical notes.
+  2. **Title Normalization:**
+     - Normalized document titles across all routes to prevent redundant trailing name suffixes (e.g. `[Page] | Cory Glenn Garms | Cory Glenn Garms` $\to$ `[Page] | Cory Glenn Garms, Ph.D.`).
+     - Updated `index.astro`, `cutmap.astro`, `unjitr.astro`, `research.astro`, `cv.astro`, `notes/index.astro`, `notes/[slug].astro`, and `reading-list.astro` with distinct, keyword-rich titles and summaries.
+  3. **Wayfinding & Active Navigation States:**
+     - Implemented dynamic path matching (`Astro.url.pathname`) in both desktop and mobile navigation bars to highlight active routes (`RESEARCH`, `CV`, `NOTES`, `LIBRARY`) with emerald accent styling.
+  4. **Link Integrity & Harmonization:**
+     - Fixed `src/pages/research.astro` internal code pipeline link to `/cutmap` to open in `_self` rather than `_blank`.
+     - Harmonized public LinkedIn profile URL in `cv.astro` to match footer (`/in/cory-g-garms-5a29a7139/`).
+  5. **Build Verification:**
+     - `npm run build` executed cleanly in 6.35s across all 20 static routes with 0 errors. Verified rendered HTML in `dist/`.
+* **Technical Debt/Next Steps:** Commit and deploy SEO improvements to production.
+
 ## [2026-09-22 16:35:00 EDT] — Blog Post Revision: Informal Style, Custom Visual Devices & Original Title
 
 * **Status:** Completed
