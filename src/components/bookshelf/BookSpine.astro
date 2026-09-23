@@ -1,0 +1,171 @@
+---
+interface Props {
+  book: {
+    title: string;
+    author: string;
+    summary: string;
+    year: number;
+    pages: number;
+    width: number;
+    height: number;
+    spineBg: string;
+    textColor: string;
+    accentColor?: string;
+    headbandColor?: string;
+    fontFamily: string;
+    isDarkText?: boolean;
+    ribbonColor?: string;
+  };
+  index: number;
+  totalInRow?: number;
+}
+
+const { book, index, totalInRow = 10 } = Astro.props;
+const isDark = book.isDarkText ?? false;
+
+// Determine popover alignment based on index in row to avoid clipping off screen edges
+const popoverAlignClass = index <= 2 
+  ? "left-0 translate-x-0" 
+  : index >= (totalInRow - 3) 
+    ? "right-0 translate-x-0 left-auto" 
+    : "left-1/2 -translate-x-1/2";
+
+const pointerArrowAlignClass = index <= 2
+  ? "left-8 -translate-x-0"
+  : index >= (totalInRow - 3)
+    ? "right-8 left-auto translate-x-0"
+    : "left-1/2 -translate-x-1/2";
+---
+
+<div 
+  class="book-spine-wrapper group relative flex-shrink-0 cursor-pointer select-none hover:z-50"
+  data-book-index={index}
+  style={{ width: `${book.width}px`, height: `${book.height}px` }}
+>
+  <!-- Cast shadow onto the hardwood shelf -->
+  <div 
+    class="absolute -bottom-2.5 inset-x-1 h-3 bg-black/80 blur-[4px] rounded-full transition-all duration-300 group-hover:-bottom-4 group-hover:scale-x-125 group-hover:opacity-40 pointer-events-none"
+  ></div>
+
+  <!-- Physical 3D Hardcover Book Spine -->
+  <div 
+    class="book-spine relative w-full h-full rounded-[3px] overflow-hidden transition-all duration-300 ease-out transform group-hover:-translate-y-6 group-hover:translate-z-8 group-hover:rotate-[-1.5deg] group-hover:scale-[1.02] shadow-[0_6px_16px_rgba(0,0,0,0.6),inset_2px_0_4px_rgba(0,0,0,0.45),inset_-2px_0_4px_rgba(0,0,0,0.5)] border-t border-white/20"
+    style={{ backgroundColor: book.spineBg }}
+  >
+    <!-- Top Headband Cloth (Simulating woven fabric binding at top of spine) -->
+    <div 
+      class="absolute top-0 inset-x-0 h-1.5 z-10 opacity-90 shadow-sm"
+      style={{
+        background: book.headbandColor || 'repeating-linear-gradient(45deg, #fef3c7, #fef3c7 2px, #d97706 2px, #d97706 4px)'
+      }}
+    ></div>
+
+    <!-- Cylindrical 3D Spine Lighting (Highlight & Hinge Shadows) -->
+    <div 
+      class="absolute inset-0 pointer-events-none z-10"
+      style={{
+        background: 'linear-gradient(90deg, rgba(0,0,0,0.5) 0%, rgba(255,255,255,0.2) 12%, rgba(255,255,255,0.06) 30%, rgba(0,0,0,0.02) 65%, rgba(0,0,0,0.55) 100%)'
+      }}
+    ></div>
+
+    <!-- Inset Hinge Crease Lines (left and right joint) -->
+    <div class="absolute left-1.5 top-0 bottom-0 w-px bg-black/35 pointer-events-none z-10 shadow-[1px_0_1px_rgba(255,255,255,0.12)]"></div>
+    <div class="absolute right-1.5 top-0 bottom-0 w-px bg-black/45 pointer-events-none z-10"></div>
+
+    <!-- Spine Content: Title, Author, Year, and Gilt Fillets -->
+    <div class="relative z-10 h-full w-full flex flex-col justify-between items-center py-4 px-1">
+      
+      <!-- Top Fillet / Gold Rule Accent -->
+      <div class="w-4/5 flex flex-col items-center gap-1 opacity-70">
+        <div class="w-full h-[1.5px]" style={{ backgroundColor: book.accentColor || book.textColor }}></div>
+        <div class="w-3/4 h-[1px]" style={{ backgroundColor: book.accentColor || book.textColor }}></div>
+      </div>
+
+      <!-- Vertical Book Title -->
+      <div 
+        class={`vertical-title flex-grow flex items-center justify-center my-3 text-center tracking-wide leading-tight ${book.fontFamily}`}
+        style={{ color: book.textColor }}
+      >
+        <span 
+          class="font-bold text-xs sm:text-sm tracking-wide line-clamp-none max-h-[260px] px-0.5"
+          style={{
+            writingMode: 'vertical-rl',
+            transform: 'rotate(180deg)',
+            textShadow: isDark 
+              ? '0 1px 1px rgba(255,255,255,0.8), 0 -1px 0 rgba(0,0,0,0.3)' 
+              : '0 -1px 1px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.7)'
+          }}
+        >
+          {book.title}
+        </span>
+      </div>
+
+      <!-- Vertical Author Name & Bottom Gilt Rule -->
+      <div class="w-full flex flex-col items-center gap-1.5 pb-2">
+        <span 
+          class="author-name font-mono text-[10px] sm:text-xs uppercase tracking-wider opacity-90 max-h-[110px]"
+          style={{
+            color: book.textColor,
+            writingMode: 'vertical-rl',
+            transform: 'rotate(180deg)',
+            textShadow: isDark 
+              ? '0 1px 1px rgba(255,255,255,0.7)' 
+              : '0 1px 2px rgba(0,0,0,0.8)'
+          }}
+        >
+          {book.author}
+        </span>
+
+        <div class="w-4/5 flex flex-col items-center gap-1 opacity-70 mt-1">
+          <div class="w-3/4 h-[1px]" style={{ backgroundColor: book.accentColor || book.textColor }}></div>
+          <div class="w-full h-[1.5px]" style={{ backgroundColor: book.accentColor || book.textColor }}></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Footband Cloth -->
+    <div 
+      class="absolute bottom-0 inset-x-0 h-1 z-10 opacity-80"
+      style={{
+        background: book.headbandColor || 'repeating-linear-gradient(45deg, #fef3c7, #fef3c7 2px, #d97706 2px, #d97706 4px)'
+      }}
+    ></div>
+  </div>
+
+  <!-- Interactive Hover Reading Companion Popover -->
+  <div 
+    class={`book-popover pointer-events-none group-hover:pointer-events-auto opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 ease-out absolute bottom-[104%] ${popoverAlignClass} w-72 sm:w-80 p-5 rounded-2xl bg-[#07130e]/95 border border-accent/50 backdrop-blur-xl shadow-2xl z-50 text-left`}
+  >
+    <!-- Pointer Arrow -->
+    <div class={`absolute -bottom-2 ${pointerArrowAlignClass} w-4 h-4 bg-[#07130e] border-r border-b border-accent/50 transform rotate-45`}></div>
+
+    <!-- Popover Header -->
+    <div class="flex items-center justify-between text-[11px] font-mono text-text-dim mb-2 pb-1.5 border-b border-border/60">
+      <span class="text-accent font-semibold">{book.year}</span>
+      <span>{book.pages} pages &bull; Hardcover</span>
+    </div>
+
+    <!-- Title & Author -->
+    <h4 class={`text-base sm:text-lg font-bold text-white tracking-tight leading-snug mb-1 ${book.fontFamily}`}>
+      {book.title}
+    </h4>
+    <p class="text-xs font-mono text-accent-light mb-3">
+      {book.author}
+    </p>
+
+    <!-- Dr. Garms' Takeaway -->
+    <div class="p-3 rounded-xl bg-surface/90 border border-border/80 text-xs sm:text-[13px] leading-relaxed text-text-muted mb-2.5">
+      <p>{book.summary}</p>
+    </div>
+
+    <div class="flex items-center justify-between text-[10px] font-mono text-text-dim">
+      <span class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+        Curated Library
+      </span>
+      <span class="text-text-muted">Personal Favorites</span>
+    </div>
+  </div>
+
+</div>

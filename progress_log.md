@@ -1,5 +1,67 @@
 # Progress Log
 
+## [2026-09-23 15:15:00 EDT] — Interactive 3D Bookshelf, Hero Calibration, About Polish & Contest Readiness
+
+* **Status:** Completed & Deployed
+* **Focus:** 3D Interactive Bookshelf Engine, Point Cloud Controls Calibration, About Section Visual Redesign & BPAW 2026 Contest Benchmarking
+* **Summary:**
+  1. **Interactive 3D Digital Bookshelf Engine (`/reading-list`):**
+     - Designed and implemented custom realistic 3D CSS hardcover spine components (`src/components/bookshelf/BookSpine.astro` and `src/components/bookshelf/BookshelfRow.astro`).
+     - Scaled all volumes up to authentic hardcover dimensions (345px–410px height, 44px–88px width calibrated by page count).
+     - Expanded the curated collection to 40 authentic hardcover volumes (10 per shelf across Philosophy & Resilience, American West & History, Nature & Science, and Technology & Speculative Fiction).
+     - Engineered cylindrical highlight lighting, debossed foil text shadows, woven cloth headbands/footbands, heavy cast iron bookends, and hardwood dark walnut fascia beams with brass label plaques.
+     - Resolved popover clipping by removing container overflow constraints, adding generous headroom, and implementing smart edge-aware alignment (`left-0`, `left-1/2`, `right-0`) with `hover:z-50` stacking context.
+     - Implemented dual-view toggle: 📚 Bookshelf View (3D interactive shelf) vs 🗂 Grid View (accessible catalog).
+  2. **LiDAR Hero Point Cloud Controls Calibration (`src/components/PointCloudHero.jsx` & `src/pages/index.astro`):**
+     - Replaced legacy palette swatches with scientific **Turbo** (5-stop rainbow) and **Cividis** (colorblind-safe) GLSL shaders.
+     - Standardized all 4 scenes as Livox Mid-360 LiDAR scans.
+     - Restyled bottom telemetry and rotation controls to high-contrast emerald borders and lifted stacking context to `z-30` above internal vignettes.
+     - Redesigned collapsible hero card: minimized state now renders exclusively as a sleek high-contrast orange pill (`Show Info ↑`).
+     - Updated hero hook to: *"Bridging biology, software development, and active/passive sensing to measure forests, sharpen satellite imagery, and more."*
+  3. **About Section Polish (`src/pages/index.astro`):**
+     - Enlarged "Cory & Amanda" photo to 112px (`w-24 h-24 sm:w-28 sm:h-28`) with two-tier caption highlighting wedding milestone and outdoor adventures.
+     - Added dedicated **CUTMAP** action button (`Mobile Understory LiDAR`) alongside **UNJITR** (`NASA SWIFT Sharpening`).
+     - Shortened Curriculum Vitae action button to a clean, modern **`CV`** button with icon.
+     - Updated quick navigation link from 22 books to **40 volumes**.
+  4. **Scholarly Catalog & CV Integrity (`src/pages/cv.astro` & `src/pages/research.astro`):**
+     - Corrected co-author attributions on CV; verified genuine 2020 Oregon State University Ph.D. Dissertation and 2019 *Forestry* paper.
+     - Updated Medford Malden Elks leadership title to: *Esteemed Lecturing Knight • Past Chaplain • Member*.
+  5. **BPAW 2026 Contest Competitor Benchmarking:**
+     - Researched 2023–2025 contest winners and judges' criteria (Jennifer van Alstyne, Brittany Trinh, Dr. Ian Li).
+     - Confirmed Dr. Garms' site is a leading contender for *Best Interactive Website* and *Best Academic Portfolio*, with a strong path to *Overall Best* upon adding publication topic filter pills and authoring the personal narrative.
+  6. **Production Verification:**
+     - Executed full static build (`npm run build`): all 20 static routes compiled in 5.97s with zero errors.
+* **Technical Debt/Next Steps:** In the next session, implement topic filter pills on `/research`, add visual methodology flowcharts for CUTMAP and UNJITR, and conduct a final WCAG AA accessibility audit.
+
+## [2026-09-23 11:10:00 EDT] — Phase 1: Content Inventory, Architecture & Copy Triage Completed
+
+* **Status:** Completed
+* **Focus:** Phase 1 Execution: Hero Value Hook, 3-Tier Bio, Academic Impact Metrics & Portfolio Segmentation
+* **Summary:** Successfully implemented all approved Phase 1 improvements aligned with the 2026 BPAW Contest criteria:
+  1. **Hero Floating Identity Card (`src/pages/index.astro`):**
+     - Added an elegant glassmorphism overlay card over the 3D Red Oak point cloud passing the 5-Second Test: displays Dr. Cory Glenn Garms, Ph.D., Senior Scientist at SSI, and value hook (*"Bridging sensor physics, 3D LiDAR point clouds, and real-time computer vision to measure terrestrial forest ecosystems and restore satellite event streams"*).
+     - Added responsive fast-action buttons: Research Bio, Publications Dossier, and CV.
+  2. **3-Tier Bio Structure (`src/pages/index.astro`):**
+     - Tier 1: Research Focus & Credentials (OSU Ph.D., physical optics, 3D LiDAR biophysical modeling).
+     - Tier 2: Industry & Applied Impact (USDA STTR CUTMAP Lead Algorithm Architect, NASA Swift UNJITR Co-Investigator, embedded Jetson AI, airborne radiometric calibration).
+     - Tier 3: Beyond the Lab & Community (Field craft, Dirty Water Red Sox analytics suite, Medford Malden Elks Lodge #915 Chaplaincy).
+  3. **Academic Impact & Science Metrics Bar (`src/pages/index.astro`):**
+     - Integrated 5 key quantitative metrics: 9+ Peer-Reviewed Papers, USDA Phase I STTR Lead, 282 NASA Swift Recoveries (99.7%), 1,250+ Acres UAS LiDAR/Spectral Mapped, and 169k Points WebGL Shader Rendered.
+  4. **Separation of Concerns in Portfolio (`src/components/PortfolioGrid.astro`):**
+     - Cleanly partitioned projects into *Core Scientific Systems & Platforms* (CUTMAP, UNJITR, LiDAR Canopy Extractor, Hyperspectral MTF) and *Side Projects & Quantitative Explorations* (Dirty Water Red Sox suite, Bass detector, Spurs tracker).
+  5. **Contact Collaboration Pathways (`src/components/ContactSection.astro`):**
+     - Added a dedicated "Why to Connect" column detailing collaboration pathways (Research & Peer Review, Federal STTR/SBIR Teaming, Seminars & Mentorship) and direct email outreach (`cgarms@spectral.com` / `coryglenngarms@gmail.com`).
+  6. **Build & Dev Verification:**
+     - Compiled cleanly with `npm run build` in 6.09s across all 20 static routes with zero errors. Local dev server running on `http://127.0.0.1:4321/`.
+* **Technical Debt/Next Steps:** Handoff Phase 1 changes to Dr. Garms for review. Upon sign-off, proceed to Phase 2: Native Publications Engine schema definition and migration.
+
+## [2026-09-23 10:25:00 EDT] — Session Start: Academic Website Contest Preparation & Evaluation
+
+* **Status:** In Progress
+* **Focus:** Academic Website Contest Strategy, Official Rubric Alignment & High-Impact Improvements
+* **Summary:** Initiated comprehensive review of GEMINI.md, progress_log.md, and the official judging criteria for the 4th Annual Best Personal Academic Websites Contest (2026, hosted by The Academic Designer; deadline October 11, 2026). Downloaded and analyzed the official 4-point contest rubric across 5 core dimensions: Website Content, Design & Organization, About You, Portfolio (Research/Teaching/Outreach/Leadership/Collaborators), and Contact Information. Formulating a Plan Artifact targeting Overall Best Academic Website, Best Academic Portfolio, and Best Interactive Website / Accessible SciComm awards.
+* **Technical Debt/Next Steps:** Finalize implementation plan artifact with targeted improvements, obtain user approval, and execute enhancements in staged milestones verified via the Antigravity preview browser.
+
 ## [2026-09-22 17:50:00 EDT] — Active Route Navigation Indicators & Homepage Scroll-Spy
 
 * **Status:** Completed

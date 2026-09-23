@@ -4,26 +4,73 @@ import ContactFormReact from "./ContactForm.jsx";
 
 <section id="contact" class="scroll-mt-14 py-20 bg-surface/30 relative overflow-hidden border-t border-border">
   <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
-    <div class="max-w-2xl mx-auto">
-      <div class="reveal text-center mb-10">
-        <div class="flex items-center justify-center gap-2 mb-3">
-          <span class="w-2 h-2 rounded-sm bg-accent"></span>
-          <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Contact</span>
+    
+    <!-- Section Header -->
+    <div class="reveal text-center mb-12">
+      <div class="flex items-center justify-center gap-2 mb-3">
+        <span class="w-2 h-2 rounded-sm bg-accent"></span>
+        <h2 class="text-xs font-mono uppercase tracking-widest text-accent-light">Connect &amp; Collaborate</h2>
+      </div>
+      <h3 class="text-3xl font-bold text-white tracking-tight">
+        Get in Touch
+      </h3>
+      <p class="text-text-muted text-sm max-w-lg mx-auto mt-2 leading-relaxed">
+        Open to scientific research partnerships, federal grant teaming, and applied spatial data science.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-5xl mx-auto items-start">
+      
+      <!-- Collaboration Pathways (Why to Reach Out) -->
+      <div class="lg:col-span-5 space-y-6 reveal">
+        <div class="p-6 bg-surface rounded-2xl border border-border space-y-4">
+          <h4 class="text-sm font-mono font-semibold text-white uppercase tracking-wider flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+            Why to Connect
+          </h4>
+          <ul class="space-y-3.5 text-xs text-text-muted leading-relaxed">
+            <li class="flex items-start gap-2.5">
+              <span class="text-accent mt-0.5">&bull;</span>
+              <div>
+                <strong class="text-white">Research &amp; Peer Review:</strong> Collaborative projects in 3D LiDAR, point cloud segmentation, and satellite sensor calibration.
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-accent mt-0.5">&bull;</span>
+              <div>
+                <strong class="text-white">Federal STTR / SBIR Teaming:</strong> Precision forestry robotics, edge perception hardware, and commercial field pilot testing.
+              </div>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-accent mt-0.5">&bull;</span>
+              <div>
+                <strong class="text-white">Seminars &amp; Mentorship:</strong> Technical presentations on containerized spatial pipelines, UAS mapping, and biometrics.
+              </div>
+            </li>
+          </ul>
+
+          <div class="pt-4 border-t border-border-subtle text-xs font-mono">
+            <span class="text-text-dim block mb-1">Direct Email Outreach:</span>
+            <div class="space-y-1">
+              <a href="mailto:cgarms@spectral.com" class="text-accent hover:text-accent-light transition-colors block">
+                cgarms@spectral.com <span class="text-text-dim">(SSI)</span>
+              </a>
+              <a href="mailto:coryglenngarms@gmail.com" class="text-text-muted hover:text-white transition-colors block">
+                coryglenngarms@gmail.com <span class="text-text-dim">(Personal)</span>
+              </a>
+            </div>
+          </div>
         </div>
-        <h3 class="text-3xl font-bold text-white tracking-tight">
-          Get in Touch
-        </h3>
-        <p class="text-text-muted text-sm max-w-sm mx-auto mt-2">
-          Feel free to send a message below.
-        </p>
       </div>
 
+      <!-- Contact Form -->
       <div
-        class="bg-surface border border-border p-6 md:p-8 rounded-2xl shadow-xl backdrop-blur-sm reveal"
+        class="lg:col-span-7 bg-surface border border-border p-6 sm:p-8 rounded-2xl shadow-xl backdrop-blur-sm reveal"
         style="transition-delay: 100ms;"
       >
         <ContactFormReact client:visible />
       </div>
+
     </div>
   </div>
 </section>

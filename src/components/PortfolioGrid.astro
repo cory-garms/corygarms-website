@@ -12,42 +12,32 @@ interface Project {
   isGithub?: boolean;
 }
 
-// Curated Core Projects
-const coreProjects: Project[] = [
+// Tier 1: Core Scientific Systems & Research Software
+const scientificProjects: Project[] = [
   {
     title: "CUTMAP: Autonomous Forest Mensuration",
-    badge: "USDA STTR Phase I",
-    description: "A USDA-NIFA STTR Phase I mobile LiDAR and camera cart (Forests & Related Resources) measuring tree diameter, trunk lean, and timber volume in real time.",
+    badge: "USDA STTR Phase I Lead",
+    description: "A USDA-NIFA STTR Phase I mobile LiDAR and stereo cart measuring tree diameter, trunk lean, and timber volume in real time with zero GPS under dense canopy.",
     image: "/images/STTR_device.jpg",
     tags: ["USDA STTR", "Mobile LiDAR", "Stereo Vision", "Edge AI", "Forestry"],
     link: "/cutmap",
-    linkText: "View Project Dossier",
-    isGithub: false
-  },
-  {
-    title: "Dirty Water: Boston Red Sox Analytics Suite",
-    badge: "Live Web App",
-    description: "A daily Boston Red Sox analytics app tracking starting pitcher matchups, bullpen fatigue, and team performance trends.",
-    image: "/images/sox_retro_logo.png",
-    tags: ["MLB Analytics", "Python", "Plotly", "Live App"],
-    link: "https://dirtywater.corygarms.com",
-    linkText: "Launch Web Suite",
+    linkText: "View Project Showcase",
     isGithub: false
   },
   {
     title: "UNJITR: NASA Spacecraft Jitter Recovery",
-    badge: "NASA Swift UVOT",
-    description: "Restores blurred NASA Swift space telescope observations corrupted by spacecraft jitter back into sharp, science-ready images.",
+    badge: "NASA Swift UVOT Co-I",
+    description: "Sub-pixel Fourier cross-correlation restoration engine recovering blurred space telescope observations across 282 Swift galaxy fields (99.7% archive recovery).",
     image: "/images/uvot-jitter/hero_before_after.png",
     tags: ["NASA Swift UVOT", "Sub-Pixel FFT", "UNJITR", "Astrophysics"],
     link: "/unjitr",
-    linkText: "View Project Dossier",
+    linkText: "View Project Showcase",
     isGithub: false
   },
   {
-    title: "LiDAR Canopy Height Extractor",
+    title: "LiDAR Canopy Height Profile Extractor",
     badge: "Open Source Pipeline",
-    description: "Python pipeline that turns raw airborne and terrestrial LiDAR scans into high-resolution forest canopy height models.",
+    description: "Containerized Python pipeline implementing Cloth Simulation Filtering and multi-scale Delaunay TIN stacking to turn 100M+ raw LiDAR points into forest canopy models.",
     image: "/images/output_chm_render.png",
     tags: ["Python", "Docker", "LiDAR", "Open3D"],
     link: "https://github.com/cory-garms/lidar-canopy-extractor",
@@ -55,114 +45,104 @@ const coreProjects: Project[] = [
     isGithub: true
   },
   {
-    title: "Hyperspectral Processing Pipeline",
-    badge: "Remote Sensing",
-    description: "Python toolkit for calibrating hyperspectral imagery, validating ground measurements, and analyzing spectral reflectance curves.",
+    title: "Hyperspectral Calibration & MTF Pipeline",
+    badge: "Spectral Sciences, Inc.",
+    description: "Radiometric calibration toolkit for slanted-edge knife MTF verification and controlled ground target analysis during airborne flight operations.",
     image: "/images/HSI-pipeline_thumbnail.png",
-    tags: ["Python", "Hyperspectral", "Remote Sensing"],
+    tags: ["Python", "Hyperspectral", "Remote Sensing", "SPIE"],
     link: "https://github.com/cory-garms/hsi-pipeline",
-    linkText: "Source Repository",
-    isGithub: true
-  },
-  {
-    title: "Autonomous Bass Species Detector",
-    badge: "Computer Vision",
-    description: "Real-time underwater computer vision model (YOLOv8) that detects and tracks black bass species in varied water conditions.",
-    image: "/images/bass_detection.jpg",
-    tags: ["YOLOv8", "Computer Vision", "Python", "Ecology"],
-    link: "https://github.com/cory-garms/bass-detector",
     linkText: "Source Repository",
     isGithub: true
   }
 ];
 
-// Content Sync: Optionally append other recent GitHub repos
-const githubRepos = await fetchLatestGithubProjects('cory-garms', 8);
-const dynamicRepos: Project[] = githubRepos
-  .filter(repo => {
-    const slug = repo.link ? repo.link.toLowerCase() : '';
-    // Filter out repos already featured above or internal site repo
-    return !slug.includes('corygarms-website') &&
-           !slug.includes('lidar-canopy-extractor') &&
-           !slug.includes('hsi-pipeline') &&
-           !slug.includes('bass-detector') &&
-           !slug.includes('sox-tracker') &&
-           !slug.includes('astro-jitter');
-  })
-  .slice(0, 3)
-  .map(repo => {
-    const isSpurs = repo.link && repo.link.includes('spurs-tracker');
-    return {
-      title: isSpurs ? "Spurs Performance Tracker" : repo.title,
-      badge: isSpurs ? "Sports Analytics" : "GitHub Resource",
-      description: isSpurs 
-        ? "Interactive dashboard tracking San Antonio Spurs game pace, team ratings, and player performance metrics." 
-        : (repo.description || "A public GitHub repository."),
-      image: isSpurs ? "/images/spurs_retro_logo.png" : "",
-      tags: isSpurs ? ["NBA Analytics", "Python", "Data Viz"] : ["Open Source", "Python"],
-      link: repo.link,
-      linkText: "Source Repository",
-      isGithub: true
-    };
-  });
-
-const allProjects = [...coreProjects, ...dynamicRepos];
+// Tier 2: Side Projects, Applied Tools & Sports Analytics
+const sideProjects: Project[] = [
+  {
+    title: "Dirty Water: Boston Red Sox Analytics Suite",
+    badge: "Live Web App",
+    description: "Daily MLB Statcast dashboard modeling starting pitcher tunneling, bullpen fatigue decay, and team performance trends.",
+    image: "/images/sox_retro_logo.png",
+    tags: ["MLB Analytics", "Python", "Plotly", "Live App"],
+    link: "https://dirtywater.corygarms.com",
+    linkText: "Launch Web Suite",
+    isGithub: false
+  },
+  {
+    title: "Autonomous Bass Species Detector",
+    badge: "Edge Computer Vision",
+    description: "Real-time underwater YOLOv8 computer vision model detecting and tracking black bass species in varied aquatic clarity.",
+    image: "/images/bass_detection.jpg",
+    tags: ["YOLOv8", "Computer Vision", "Python", "Ecology"],
+    link: "https://github.com/cory-garms/bass-detector",
+    linkText: "Source Repository",
+    isGithub: true
+  },
+  {
+    title: "Spurs Performance Tracker",
+    badge: "NBA Spatial Analytics",
+    description: "Interactive analytics dashboard tracking San Antonio Spurs game pace, defensive ratings, and spatial shot distributions.",
+    image: "/images/spurs_retro_logo.png",
+    tags: ["NBA Analytics", "Python", "Data Viz"],
+    link: "https://github.com/cory-garms/spurs-tracker",
+    linkText: "Source Repository",
+    isGithub: true
+  }
+];
 ---
 
 <section id="portfolio" class="scroll-mt-14 py-24 bg-surface/40 border-t border-border">
 	<div class="max-w-7xl mx-auto px-6 reveal">
-		<div class="flex items-center gap-3 mb-10">
-			<span class="w-2 h-2 rounded-sm bg-accent"></span>
-			<h2 class="text-xs font-mono uppercase tracking-widest text-accent-light">Projects</h2>
-			<div class="h-px bg-border flex-grow ml-4"></div>
-		</div>
 		
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-			{allProjects.map((project, index) => (
+		<!-- Tier 1 Header: Core Scientific Systems -->
+		<div class="flex items-center justify-between mb-4">
+			<div class="flex items-center gap-3 flex-grow mr-6">
+				<span class="w-2 h-2 rounded-sm bg-accent"></span>
+				<h2 class="text-xs font-mono uppercase tracking-widest text-accent-light">Core Scientific Systems &amp; Platforms</h2>
+				<div class="h-px bg-border flex-grow ml-4"></div>
+			</div>
+			<span class="text-xs font-mono text-text-dim shrink-0">Primary Research</span>
+		</div>
+		<p class="text-xs font-mono text-text-muted mb-10 max-w-2xl">
+			Federal robotics platforms, satellite photon restoration engines, and reproducible containerized spatial pipelines.
+		</p>
+		
+		<!-- Tier 1 Grid -->
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-7 mb-20">
+			{scientificProjects.map((project, index) => (
 				<a href={project.link} target={project.link.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" class="group block bg-surface rounded-2xl border border-border hover:border-accent/60 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 flex flex-col h-full overflow-hidden reveal" style={`transition-delay: ${index * 100}ms;`}>
 					
-					{/* Project Image or Fallback */}
+					<!-- Project Image -->
 					<div class="aspect-video w-full bg-forest-950 relative overflow-hidden border-b border-border flex items-center justify-center">
-                        <div class="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent z-10 pointer-events-none group-hover:opacity-30 transition-opacity duration-500"></div>
-                        
-                        {project.isGithub && !project.image ? (
-                            <div class="w-full h-full flex flex-col items-center justify-center topo-grid bg-forest-900/60 text-accent/80 group-hover:text-accent transition-colors duration-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="16 18 22 12 16 6"></polyline>
-                                    <polyline points="8 6 2 12 8 18"></polyline>
-                                </svg>
-								<span class="text-[10px] font-mono mt-2 text-text-dim uppercase tracking-wider">Source Repository</span>
-                            </div>
-                        ) : (
-                            <img src={project.image} alt={project.title} class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 relative z-0" />
-                        )}
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent z-10 pointer-events-none group-hover:opacity-30 transition-opacity duration-500"></div>
+						<img src={project.image} alt={project.title} class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 relative z-0" />
 					</div>
 
 					<div class="p-6 flex flex-col flex-grow">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <span class={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-                              project.link === '/unjitr' 
-                                ? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40 flex items-center gap-1.5' 
-                                : project.link === '/cutmap'
-                                ? 'bg-forest-900 text-accent border-accent/40 flex items-center gap-1.5'
-                                : 'bg-forest-900 text-accent border-border'
-                            }`}>
-                              {project.link === '/unjitr' && <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>}
-                              {project.link === '/cutmap' && <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>}
-                              <span>{project.badge}</span>
-                            </span>
-                            <span class={`text-xs font-mono transition-colors ${
-                              project.link === '/unjitr' 
-                                ? 'text-cyan-400 group-hover:text-cyan-300 font-semibold' 
-                                : 'text-text-dim group-hover:text-accent'
-                            }`}>
-                                {project.linkText} &rarr;
-                            </span>
-                        </div>
+						<div class="flex items-center justify-between gap-2 mb-2">
+							<span class={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+								project.link === '/unjitr' 
+									? 'bg-cyan-950/80 text-cyan-300 border-cyan-500/40 flex items-center gap-1.5' 
+									: project.link === '/cutmap'
+									? 'bg-forest-900 text-accent border-accent/40 flex items-center gap-1.5'
+									: 'bg-forest-900 text-accent border-border'
+							}`}>
+								{project.link === '/unjitr' && <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>}
+								{project.link === '/cutmap' && <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>}
+								<span>{project.badge}</span>
+							</span>
+							<span class={`text-xs font-mono transition-colors ${
+								project.link === '/unjitr' 
+									? 'text-cyan-400 group-hover:text-cyan-300 font-semibold' 
+									: 'text-text-dim group-hover:text-accent'
+							}`}>
+								{project.linkText} &rarr;
+							</span>
+						</div>
 
-						<h4 class={`text-lg font-semibold text-white mb-2.5 transition-colors ${
-              project.link === '/unjitr' ? 'group-hover:text-cyan-300' : 'group-hover:text-accent'
-            }`}>{project.title}</h4>
+						<h3 class={`text-lg font-semibold text-white mb-2.5 transition-colors ${
+							project.link === '/unjitr' ? 'group-hover:text-cyan-300' : 'group-hover:text-accent'
+						}`}>{project.title}</h3>
 						<p class="text-text-muted text-xs leading-relaxed mb-6 flex-grow">{project.description}</p>
 						
 						<div class="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-border-subtle">
@@ -176,5 +156,56 @@ const allProjects = [...coreProjects, ...dynamicRepos];
 				</a>
 			))}
 		</div>
+
+		<!-- Tier 2 Header: Side Projects & Explorations -->
+		<div class="flex items-center justify-between mb-4">
+			<div class="flex items-center gap-3 flex-grow mr-6">
+				<span class="w-2 h-2 rounded-sm bg-topo"></span>
+				<h2 class="text-xs font-mono uppercase tracking-widest text-topo">Side Projects &amp; Quantitative Explorations</h2>
+				<div class="h-px bg-border flex-grow ml-4"></div>
+			</div>
+			<span class="text-xs font-mono text-text-dim shrink-0">Applied Tools</span>
+		</div>
+		<p class="text-xs font-mono text-text-muted mb-10 max-w-2xl">
+			Applying spatial statistics, machine learning, and computer vision to sports analytics, ecology, and personal interests.
+		</p>
+
+		<!-- Tier 2 Grid -->
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+			{sideProjects.map((project, index) => (
+				<a href={project.link} target={project.link.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" class="group block bg-surface rounded-2xl border border-border hover:border-accent/40 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 flex flex-col h-full overflow-hidden reveal" style={`transition-delay: ${index * 100}ms;`}>
+					
+					<!-- Project Image -->
+					<div class="aspect-video w-full bg-forest-950 relative overflow-hidden border-b border-border flex items-center justify-center">
+						<div class="absolute inset-0 bg-gradient-to-t from-forest-950/80 via-transparent to-transparent z-10 pointer-events-none group-hover:opacity-30 transition-opacity duration-500"></div>
+						<img src={project.image} alt={project.title} class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-700 relative z-0" />
+					</div>
+
+					<div class="p-6 flex flex-col flex-grow">
+						<div class="flex items-center justify-between gap-2 mb-2">
+							<span class="text-[10px] font-mono px-2 py-0.5 rounded bg-surface border border-border text-text-muted">
+								{project.badge}
+							</span>
+							<span class="text-xs font-mono text-text-dim group-hover:text-accent transition-colors">
+								{project.linkText} &rarr;
+							</span>
+						</div>
+
+						<h3 class="text-base font-semibold text-white mb-2 group-hover:text-accent transition-colors">{project.title}</h3>
+						<p class="text-text-muted text-xs leading-relaxed mb-6 flex-grow">{project.description}</p>
+						
+						<div class="flex flex-wrap gap-1.5 mt-auto pt-4 border-t border-border-subtle">
+							{project.tags.map((tag) => (
+								<span class="px-2.5 py-0.5 bg-forest-900 text-text-muted text-[10px] font-mono rounded-md border border-border">
+									#{tag}
+								</span>
+							))}
+						</div>
+					</div>
+				</a>
+			))}
+		</div>
+
 	</div>
 </section>
+

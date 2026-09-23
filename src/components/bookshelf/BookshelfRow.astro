@@ -1,0 +1,100 @@
+---
+import BookSpine from "./BookSpine.astro";
+
+interface Book {
+  title: string;
+  author: string;
+  summary: string;
+  year: number;
+  pages: number;
+  width: number;
+  height: number;
+  spineBg: string;
+  textColor: string;
+  accentColor?: string;
+  headbandColor?: string;
+  fontFamily: string;
+  isDarkText?: boolean;
+}
+
+interface Props {
+  categoryName: string;
+  books: Book[];
+  shelfNumber: number;
+}
+
+const { categoryName, books, shelfNumber } = Astro.props;
+---
+
+<div class="bookshelf-section mb-20 relative">
+  
+  <!-- Back Wall Ambient Shadow for Depth -->
+  <div class="relative bg-gradient-to-b from-background/90 via-surface/40 to-background/95 rounded-3xl p-4 sm:p-8 border border-border/60 shadow-2xl">
+    
+    <!-- Shelf Ambient Top Wall Vignette -->
+    <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/70 to-transparent pointer-events-none rounded-t-3xl"></div>
+
+    <!-- Category Header Above Shelf -->
+    <div class="flex items-center justify-between mb-2 px-2 relative z-10">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-sm bg-accent"></span>
+        <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight">
+          {categoryName}
+        </h3>
+      </div>
+      <span class="text-xs font-mono text-text-dim">
+        {books.length} Volumes &bull; Shelf {shelfNumber}
+      </span>
+    </div>
+
+    <!-- Books Ledge Stage (Books resting directly on the lower wooden beam) -->
+    <div class="relative pt-24 sm:pt-28 pb-0">
+      
+      <!-- Books Standing Container (Scrollable on small screens, flex on large) -->
+      <div class="books-track flex items-end justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto sm:overflow-x-visible pt-10 pb-0 px-2 sm:px-6 scrollbar-thin scrollbar-thumb-forest-800 scrollbar-track-transparent">
+        
+        <!-- Left Bookend -->
+        <div 
+          class="bookend-left flex-shrink-0 w-3.5 sm:w-4.5 h-[320px] sm:h-[350px] rounded-t-sm bg-gradient-to-r from-amber-950 via-stone-800 to-stone-900 border-t border-l border-amber-600/40 shadow-2xl mr-1 sm:mr-2 self-end"
+          title="Heavy Cast Iron Bookend"
+        ></div>
+
+        <!-- Book Spines -->
+        {books.map((book, idx) => (
+          <BookSpine book={book} index={idx} totalInRow={books.length} />
+        ))}
+
+        <!-- Right Bookend -->
+        <div 
+          class="bookend-right flex-shrink-0 w-3.5 sm:w-4.5 h-[320px] sm:h-[350px] rounded-t-sm bg-gradient-to-l from-amber-950 via-stone-800 to-stone-900 border-t border-r border-amber-600/40 shadow-2xl ml-1 sm:ml-2 self-end"
+          title="Heavy Cast Iron Bookend"
+        ></div>
+
+      </div>
+
+      <!-- Hardwood Shelf Planks (The Physical Wooden Ledge) -->
+      <div class="relative w-full z-20 mt-[-2px]">
+        
+        <!-- Top Beveled Wood Lip -->
+        <div class="h-3.5 sm:h-4 w-full bg-gradient-to-r from-[#3e2717] via-[#563822] to-[#3e2717] border-t border-amber-700/60 shadow-inner"></div>
+        
+        <!-- Front Fascia Wood Beam with Brass Label Plaque -->
+        <div class="h-8 sm:h-9 w-full bg-gradient-to-b from-[#2e1a0f] to-[#120a05] border-b-2 border-black/90 shadow-2xl flex items-center justify-center relative">
+          
+          <!-- Polished Brass Plate Plaque -->
+          <div class="px-4 py-0.5 rounded-[2px] bg-gradient-to-r from-amber-800 via-amber-300 to-amber-800 text-stone-950 text-[10px] sm:text-[11px] font-mono font-extrabold tracking-widest uppercase shadow-md border border-amber-200/80 select-none">
+            {categoryName}
+          </div>
+
+        </div>
+
+        <!-- Deep Under-Shelf Cast Shadow -->
+        <div class="h-10 w-full bg-gradient-to-b from-black/90 via-black/45 to-transparent pointer-events-none"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

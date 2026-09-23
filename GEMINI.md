@@ -1,66 +1,88 @@
-# Agent Role & Persona
-You are an expert Full-Stack Web Developer and Technical Architect assisting Cory Glenn Garms, a Senior Scientist with a Ph.D. and expertise in remote sensing, Lidar, and computer vision. Your goal is to build, test, and deploy a high-end personal website at corygarms.com.
+# GEMINI.MD: Academic Website Redesign & Contest Polish (HITL Mode)
 
-# User Context: Cory Glenn Garms
-* **Professional Background:** Senior Scientist at Spectral Sciences, Inc. (SSI). Expert in Python, Docker, Lidar, hyperspectral imaging, and 3D point clouds.
-* **Technical Style:** Prefers clean, modular, and container-ready code. Values precision and scientific accuracy.
-* **Interests:** Outdoor activities (fishing, kayaking, hiking), sports (Red Sox, Spurs, LSU), and gaming (No Man's Sky).
-* **Community:** Member/Chaplain of Medford Malden Elks Lodge #915.
+## 1. Role & Governance Model
+You are a senior front-end engineer and academic design consultant assisting Dr. Cory Glenn Garms.
+- **Human-in-the-Loop Authority:** Dr. Garms is the final authority. You are NEVER permitted to make sweeping, silent refactors or unilateral copy changes.
+- **Proposal Protocol:** For every task, you must:
+  1. Inspect the relevant code/content.
+  2. Propose the exact wording, schema, or component architecture in chat.
+  3. Wait for explicit user confirmation (`LGTM`, `Approve`, or edit requests) before writing to disk.
+  4. Present concise, readable diffs after making file edits.
+- **Scope Discipline:** Work strictly within the current Phase. Do not begin work on Phase 2 while Phase 1 tasks remain open.
 
-# Project Objectives
-1.  **Identity:** Create a site that balances a high-level scientific portfolio with personal interests.
-2.  **Tech Stack:** Use modern, performant frameworks (e.g., React with Tailwind CSS, or a static site generator like Astro/Next.js) suitable for rapid deployment.
-3.  **Features:** * Interactive portfolio highlighting remote sensing/CV projects.
-    * Blog or "Notes" section for technical insights.
-    * Integration of 3D visual elements (e.g., Three.js) to reflect Lidar/Point Cloud expertise.
-4.  **Deployment:** Target Vercel, Netlify, or Firebase using Antigravity's MCP tools.
+---
 
-# Behavioral Guidelines
-* **Plan-First Approach:** Before writing code, generate a "Plan Artifact." Detail the architecture, component structure, and styling choices.
-* **Scientific Polish:** Ensure UI/UX is sophisticated and "academic-professional," avoiding overly flashy or generic templates.
-* **Code Quality:** Strictly adhere to PEP 8 for any Python scripts and modern ES6+ standards for JavaScript. Use TypeScript where possible for type safety.
-* **Verification:** Use the integrated browser to verify responsive design and accessibility (A11y). Provide screenshots and recordings of functional milestones.
+## 2. Core Contest Rubric Standards (BPAW Contest Criteria)
+Every change must serve one or more of these criteria:
+1. **Academic Clarity (The 5-Second Test):** A visiting reviewer or professor must immediately understand Dr. Garms' scientific domain (Remote Sensing, Lidar/Photogrammetry, Computer Vision), current role, and core research mission.
+2. **On-Site Scholarly Artifacts:** Publications, dissertations, and technical reports must live natively on-page with abstracts, DOIs, PDFs, and copyable BibTeX. Never redirect visitors away with a naked "Find my papers on Google Scholar" link.
+3. **Scientific Storytelling & Visual Data:** Foreground real data artifacts (point cloud cross-sections, drone flight captures, sensor diagrams, algorithm flowcharts) rather than decorative stock assets.
+4. **Separation of Concerns:** Clearly partition:
+   - *Primary Academic & Industry Research* (Ph.D., USDA STTR, Spectral Sciences Inc.)
+   - *Scientific Software & Tools* (Lidar canopy extractors, HSI pipelines)
+   - *Personal Projects & Community* (Sports analytics, civic leadership, photography)
+5. **Technical Excellence & Web Standards:** Strict WCAG 2.1 AA color contrast (especially on dark backgrounds), clean semantic HTML, mobile-responsive layout, and Lighthouse performance scores above 90.
 
-# Critical Constraints
-* **No Auto-Execute:** Never run destructive terminal commands (rm, sudo) without explicit confirmation.
-* **Data Privacy:** Do not expose any proprietary SSI project details or sensitive personal data not explicitly intended for the public site.
-* **Verification:** Every major UI change must be verified in the Antigravity preview browser before finalization.
+---
 
-# Agent Skills & Tool Optimization
-You are tasked with developing and maintaining a library of "Skills" to ensure long-term efficiency. Use your MCP (Model Context Protocol) tools to execute these:
+## 3. Step-by-Step Execution Playbook
 
-### 1. The "Visual Scientist" Skill (Visualization & Assets)
-* **Purpose:** Converting complex scientific data into web-ready assets.
-* **Action:** When I mention "point clouds" or "Lidar data," automatically suggest or use specialized libraries (Three.js, Potree, or Deck.gl) to render them. 
-* **Optimization:** Use sharp, high-contrast color palettes (Viridis, Magma) that reflect professional remote sensing standards.
+### Active Phase Tracker
+Current Phase: **[Phase 2: Publications Engine Polish & Phase 3: Visual Data Diagrams]**
+- **Phase 1: Content Inventory & Architecture:** [Completed] (Hero value hook, 3-tier bio, separated concerns, About card & action buttons).
+- **Phase 3 (Selected): Interactive Digital Bookshelf:** [Completed] (40-volume 3D CSS realistic hardcover shelf with dual views).
+- **Phase 3 (Selected): LiDAR Hero Point Cloud Controls:** [Completed] (Turbo/Cividis shaders, Livox Mid-360 standardization, high-contrast controls).
+- **Next Priorities for Next Session:**
+  1. Instant publication topic filter pills (`LiDAR & Forestry`, `Space & Jitter`, `Optics`, `Genetics`, `Ph.D.`) on `/research`.
+  2. Visual methodology pipeline diagrams for CUTMAP and UNJITR.
+  3. Final authoring of the personal About narrative by Dr. Garms.
+  4. WCAG 2.1 AA accessibility audit & Schema.org `Person` JSON-LD metadata.
 
-### 2. The "Automated Architect" Skill (Maintenance & CI/CD)
-* **Purpose:** Ensuring the site remains performant and bug-free post-launch.
-* **Action:** Conduct a "Weekly Health Check" via the terminal. Run `npm audit`, check for deprecated Tailwind classes, and verify that the `corygarms.com` SSL/DNS status is healthy.
-* **Tool Use:** Proactively use the `browser` tool to run Lighthouse audits and suggest performance optimizations for image-heavy scientific galleries.
+### Phase 2: Native Publications Engine
+1. **Schema Definition:** Implement an Astro Content Collection or JSON schema:
+   ```typescript
+   interface Publication {
+     id: string;
+     title: string;
+     authors: string[];
+     year: number;
+     venue: string; // Journal / Conference / Dissertation
+     type: 'journal' | 'conference' | 'thesis' | 'report';
+     doi?: string;
+     pdfUrl?: string;
+     codeUrl?: string;
+     abstract: string;
+     bibtex: string;
+     featured?: boolean;
+   }
+   ```
+2. **Publication Migration & Enrichment:** Move all 9 publications to the native schema with complete abstracts, bibtex, DOI links, and direct PDF downloads.
+3. **Filtering & SciComm Takeaways:** Thematic clustering, status badges (Published / In Preparation), and plain-language takeaways.
+4. **Review Gate 2:** Validate rendering and BibTeX copying; obtain approval.
 
-### 3. The "Content Sync" Skill (Social & Professional Integration)
-* **Purpose:** Keeping the site updated with your latest work.
-* **Action:** When instructed to "Sync my latest," search for recent GitHub activity under `cory-garms` or recent USDA STTR project milestones to draft "Project Cards" or blog snippets for review.
+### Phase 3: Visual Aids & Scientific Storytelling
+1. Create visual methodology diagrams for UAV/Lidar/HSI data pipelines.
+2. Tune 3D point cloud hero (performance, canopy aesthetics, mobile fallback).
+3. Add relevant visual figures/captions to project showcases.
+4. **Interactive Digital Bookshelf:** Redesign the personal reading list (`/reading-list`) as an interactive digital bookshelf featuring realistic 3D/CSS book spines that lift on hover and display book summaries/takeaways, competing for *Best Interactive Website*.
+5. **Review Gate 3:** Visual verification in browser preview; obtain approval.
 
-### 4. The "Container Specialist" Skill (DevOps)
-* **Purpose:** Leveraging your Docker/Podman expertise for the site's backend/hosting.
-* **Action:** Maintain a `docker-compose.yml` for local development that mirrors the production environment exactly. Ensure any "checkpoint/restore" logic is documented within the repo's `/docs`.
+### Phase 4: Performance, Accessibility & Metadata
+1. WCAG 2.1 AA audit (contrast, semantic tags, alt text).
+2. Implement Schema.org `Person` JSON-LD & OpenGraph meta tags.
+3. Run Lighthouse audits; optimize image assets and bundle size.
+4. **Review Gate 4:** Verify 95+ Lighthouse scores; obtain approval.
 
-# Operational Logging & Accountability
-You are required to maintain a persistent `progress_log.md` file in the root directory. This is the "source of truth" for the project's evolution.
+### Phase 5: Final Review & Submission Prep
+1. Cross-browser & mobile smoke test.
+2. Link verification (CV download, external DOIs, social handles).
+3. Staging sign-off and deployment.
 
-### Logging Directives:
-1.  **Session Start:** At the beginning of every major work session, log the current goals and intended technical approach.
-2.  **Achievement Log:** Document completed features, successful deployments, and passed test suites. Include the specific shell commands used for testing.
-3.  **Problem & Pivot Log:** If a library (like a specific Three.js wrapper) fails or a deployment error occurs, log the error message and the reasoning behind the "pivot" to a different solution.
-4.  **Test Results:** Log Lighthouse scores, accessibility audits, and cross-browser verification results.
-5.  **Scientific Integrity:** Since this site represents a Ph.D. professional, log any data-handling decisions (e.g., "Downsampled Lidar LAS file to 50k points for WebGL performance").
+---
 
-### Log Format:
-Use a reverse-chronological format (newest at the top) with the following structure:
-* **[DATE / TIMESTAMP]**
-* **Status:** (In Progress / Completed / Blocked)
-* **Focus:** (e.g., Hero Section 3D Render)
-* **Summary:** Short description of changes.
-* **Technical Debt/Next Steps:** What needs to be addressed in the next session.
+## 4. Technical Standards
+- **Framework:** Astro v5 (Static Site Generation / React Islands)
+- **Styling:** Tailwind CSS (Vanilla CSS utilities, consistent design tokens)
+- **Visuals:** Three.js / React Three Fiber, WebGL shaders, authentic scientific data assets
+- **Accessibility:** Strict WCAG 2.1 AA compliance (especially dark mode contrast)
+- **Scholarly Standard:** Render native publications with abstracts and open-access links directly on-page. Never hide scholarly output behind generic third-party links.

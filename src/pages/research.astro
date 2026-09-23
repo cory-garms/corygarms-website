@@ -7,97 +7,88 @@ interface Publication {
   authors: string;
   venue: string;
   year: number;
-  category: "lidar" | "uas" | "hyperspectral";
   categoryLabel: string;
+  typeBadge: "In Preparation" | "Peer-Reviewed Journal" | "Conference Proceeding" | "Ph.D. Dissertation";
+  badgeColor: string;
   takeaway: string;
   doi?: string;
   bibtex: string;
   codeLink?: string;
+  codeLabel?: string;
 }
 
 const publications: Publication[] = [
-  // Group I: Lidar & Forestry
+  // 2026: Forthcoming / In Preparation
+  {
+    id: "gelbord-unjitr-pasp-2026",
+    title: "Blind Sub-Pixel Photon-Event Jitter Restoration and Astrometric Alignment for Space Observatories: UNJITR Algorithm, Spacecraft Dynamics, and Swift UVOT Archive Recovery",
+    authors: "Jonathan Gelbord, Cory G. Garms, et al.",
+    venue: "Target: Publications of the Astronomical Society of the Pacific (PASP)",
+    year: 2026,
+    categoryLabel: "Space Instrumentation & Astrophysics",
+    typeBadge: "In Preparation",
+    badgeColor: "bg-cyan-950/80 text-cyan-300 border-cyan-500/40",
+    takeaway: "Formulates the UNJITR framework: direct photon-stream attitude drift reconstruction at 6.7 Hz with 1.0s correlation slabs, achieving a 99.7% archive recovery rate across 282 Swift UVOT galaxy observations under extreme spacecraft limit cycling.",
+    codeLink: "/unjitr",
+    codeLabel: "Mission Showcase &rarr;",
+    bibtex: `@article{gelbord2026unjitr_methods,
+  title={Blind Sub-Pixel Photon-Event Jitter Restoration and Astrometric Alignment for Space Observatories: UNJITR Algorithm, Spacecraft Dynamics, and Swift UVOT Archive Recovery},
+  author={Gelbord, Jonathan and Garms, Cory G. and others},
+  journal={Publications of the Astronomical Society of the Pacific},
+  year={2026},
+  note={In Preparation}
+}`
+  },
+  {
+    id: "gelbord-unjitr-joss-2026",
+    title: "UNJITR: A Python Toolkit for Sub-Pixel Photon-Event Jitter Correction and Astrometric Sharpening",
+    authors: "Jonathan Gelbord, Cory G. Garms, et al.",
+    venue: "Target: Journal of Open Source Software (JOSS)",
+    year: 2026,
+    categoryLabel: "Scientific Software & Tools",
+    typeBadge: "In Preparation",
+    badgeColor: "bg-cyan-950/80 text-cyan-300 border-cyan-500/40",
+    takeaway: "Details the forthcoming UNJITR open-source Python toolkit, implementing hoisted 2D FFT cross-correlation, sub-pixel parabolic vertex fitting, automated Do-No-Harm quality gates, and high-throughput batch FITS event processing.",
+    codeLink: "/unjitr",
+    codeLabel: "Toolkit Architecture &rarr;",
+    bibtex: `@article{gelbord2026unjitr_joss,
+  title={UNJITR: A Python Toolkit for Sub-Pixel Photon-Event Jitter Correction and Astrometric Sharpening},
+  author={Gelbord, Jonathan and Garms, Cory G. and others},
+  journal={Journal of Open Source Software},
+  year={2026},
+  note={In Preparation}
+}`
+  },
   {
     id: "cutmap-calibration",
     title: "Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation",
     authors: "Cory G. Garms, Bogdan Strimbu, et al.",
-    venue: "Journal of Field Robotics (In Preparation)",
+    venue: "Target: Journal of Field Robotics",
     year: 2026,
-    category: "lidar",
-    categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Shows how tiny physical target errors can cause large calibration drift in forest mapping rigs, and introduces three practical calibration checks to restore sub-millimeter accuracy.",
+    categoryLabel: "3D Lidar & Field Robotics",
+    typeBadge: "In Preparation",
+    badgeColor: "bg-amber-950/80 text-amber-300 border-amber-500/40",
+    takeaway: "Analyzes error propagation across multimodal LiDAR-stereo extrinsics under dense forest canopy, introducing staged target placement diagnostics to guarantee sub-centimeter mobile mapping precision.",
+    codeLink: "/cutmap",
+    codeLabel: "CUTMAP System &rarr;",
     bibtex: `@article{garms2026cutmap_calibration,
   title={Calibrating a Low-SWaP-C Lidar--Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation},
   author={Garms, Cory G. and Strimbu, Bogdan M. and others},
   journal={Journal of Field Robotics},
   year={2026},
-  note={In Final Preparation}
-}`,
-    codeLink: "/cutmap"
-  },
-  {
-    id: "douglas-fir-lean",
-    title: "Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors",
-    authors: "Cory G. Garms, et al.",
-    venue: "Remote Sensing / Forestry Research",
-    year: 2021,
-    category: "lidar",
-    categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Tree lean causes airborne laser scanners to miscalculate timber volume. This paper develops algorithms to isolate trunk curvature and improve timber and carbon estimates in mature forests.",
-    doi: "https://doi.org/10.3390/rs12142278",
-    bibtex: `@article{garms2021lean,
-  title={Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors},
-  author={Garms, Cory G. and others},
-  journal={Remote Sensing},
-  year={2021}
-}`,
-    codeLink: "https://github.com/cory-garms/lidar-canopy-extractor"
-  },
-  {
-    id: "mobile-lidar-volume",
-    title: "Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans",
-    authors: "Cory G. Garms, et al.",
-    venue: "Canadian Journal of Forest Research",
-    year: 2020,
-    category: "lidar",
-    categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Demonstrates mobile LiDAR methods for modeling trunk shape, proving that accounting for tree lean prevents timber volume underestimation.",
-    doi: "https://doi.org/10.1139/cjfr-2020-0082",
-    bibtex: `@article{garms2020stemlean,
-  title={Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans},
-  author={Garms, Cory G. and others},
-  journal={Canadian Journal of Forest Research},
-  year={2020}
+  note={In Preparation}
 }`
   },
-  {
-    id: "point-clouds-single-tree",
-    title: "Using Point Clouds for Single Tree Forest Inventory",
-    authors: "Cory G. Garms, et al.",
-    venue: "SilviLaser Proceedings & Technical Series",
-    year: 2019,
-    category: "lidar",
-    categoryLabel: "3D Lidar & Forestry",
-    takeaway: "Algorithms that separate individual tree crowns and trunks directly from raw 3D laser points for forest inventory.",
-    doi: "https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en",
-    bibtex: `@inproceedings{garms2019single_tree,
-  title={Using Point Clouds for Single Tree Forest Inventory},
-  author={Garms, Cory G. and others},
-  booktitle={SilviLaser International Conference},
-  year={2019}
-}`
-  },
-
-  // Group II: UAS & Phenomics
   {
     id: "purple-leaved-poplar",
     title: "Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar",
     authors: "Steven H. Strauss, Amanda L. Garms, Cory G. Garms, Chaney M. Hart, Cathleen Ma, Zachary Heinhold, Greg Goralogia, Megan McEldowney, Parker Wheeler, Laurence Schimleck, Ximin An",
-    venue: "HortScience (ASHS)",
+    venue: "HortScience (ASHS), 61(9), 1925–1934",
     year: 2026,
-    category: "uas",
-    categoryLabel: "Genetics & Spectral Phenotyping",
-    takeaway: "Multi-year field study evaluating the growth, leaf coloration stability, and spectral reflectance of genetically modified purple poplars.",
+    categoryLabel: "Genetics & Spectral Phenomics",
+    typeBadge: "Peer-Reviewed Journal",
+    badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    takeaway: "Multi-year field trial assessing morphological growth, anthocyanin leaf coloration stability, and canopy spectral reflectance across genetically modified purple poplar lines.",
     doi: "https://doi.org/10.21273/HORTSCI19524-26",
     bibtex: `@article{strauss2026purplepoplar,
   title={Robust Growth, Leaf Coloration, and Adaptation of a Transgenic Purple-leaved Poplar},
@@ -111,74 +102,187 @@ const publications: Publication[] = [
   doi={10.21273/HORTSCI19524-26}
 }`
   },
-  {
-    id: "uas-pinus-strobiformis",
-    title: "Augmenting size models for Pinus strobiformis seedlings using dimensional estimates from UAS",
-    authors: "Cory G. Garms, et al.",
-    venue: "Ecological Informatics",
-    year: 2022,
-    category: "uas",
-    categoryLabel: "UAS & Ecology",
-    takeaway: "Uses high-resolution drone imagery and 3D surface models to track nursery seedling growth, replacing manual caliper measurements with automated computer vision.",
-    doi: "https://doi.org/10.1016/j.ecoinf.2022.101742",
-    bibtex: `@article{garms2022uas_seedlings,
-  title={Augmenting size models for Pinus strobiformis seedlings using dimensional estimates from UAS},
-  author={Garms, Cory G. and others},
-  journal={Ecological Informatics},
-  year={2022}
-}`
-  },
-  {
-    id: "warming-tree-seeds",
-    title: "Experimental warming of developing tree seeds with seedling demonstration",
-    authors: "Cory G. Garms, et al.",
-    venue: "Forest Ecology and Management",
-    year: 2021,
-    category: "uas",
-    categoryLabel: "UAS & Ecology",
-    takeaway: "Examines how higher temperatures during seed development affect conifer germination, providing insights for climate-adapted reforestation.",
-    doi: "https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en",
-    bibtex: `@article{garms2021warming,
-  title={Experimental warming of developing tree seeds with seedling demonstration},
-  author={Garms, Cory G. and others},
-  journal={Forest Ecology and Management},
-  year={2021}
-}`
-  },
 
-  // Group III: Hyperspectral & Calibration
+  // 2023
   {
     id: "spie-spectral-spatial-targets",
     title: "Spectral-spatial ground targets for measurement of airborne electro-optical imaging system performance",
     authors: "Cory G. Garms, et al. (Spectral Sciences, Inc.)",
-    venue: "SPIE Defense + Commercial Sensing",
+    venue: "Proc. SPIE Defense + Commercial Sensing, 1254308",
     year: 2023,
-    category: "hyperspectral",
     categoryLabel: "Hyperspectral & Optics",
-    takeaway: "Designed high-contrast ground targets to test the sharpness and spatial resolution of airborne camera systems during flight.",
+    typeBadge: "Conference Proceeding",
+    badgeColor: "bg-blue-950/80 text-blue-300 border-blue-500/40",
+    takeaway: "Engineered deployable high-contrast edge and spatial-frequency ground targets to measure MTF, sensor sharpness, and spatial resolution during airborne electro-optical survey flights.",
     doi: "https://doi.org/10.1117/12.2663812",
     bibtex: `@inproceedings{garms2023targets,
   title={Spectral-spatial ground targets for measurement of airborne electro-optical imaging system performance},
   author={Garms, Cory G. and others},
-  booktitle={SPIE Defense + Commercial Sensing},
-  year={2023}
+  booktitle={Proc. SPIE Defense + Commercial Sensing},
+  volume={12543},
+  pages={1254308},
+  year={2023},
+  doi={10.1117/12.2663812}
 }`
   },
+
+  // 2022
   {
     id: "spie-vicarious-calibration",
     title: "Calibration of Earth observing spectral imagers vicariously and with controlled ground array",
     authors: "Cory G. Garms, et al. (Spectral Sciences, Inc.)",
-    venue: "SPIE Remote Sensing",
+    venue: "Proc. SPIE Remote Sensing, 1226806",
     year: 2022,
-    category: "hyperspectral",
     categoryLabel: "Hyperspectral & Optics",
-    takeaway: "Methods for calibrating satellite and airborne imaging spectrometers using ground reference targets for consistent Earth observation data.",
+    typeBadge: "Conference Proceeding",
+    badgeColor: "bg-blue-950/80 text-blue-300 border-blue-500/40",
+    takeaway: "Methods for vicarious calibration of satellite and airborne imaging spectrometers using ground reference arrays to maintain radiometric fidelity across repeated observations.",
     doi: "https://doi.org/10.1117/12.2635901",
     bibtex: `@inproceedings{garms2022calibration,
   title={Calibration of Earth observing spectral imagers vicariously and with controlled ground array},
   author={Garms, Cory G. and others},
-  booktitle={SPIE Remote Sensing},
-  year={2022}
+  booktitle={Proc. SPIE Remote Sensing},
+  volume={12268},
+  pages={1226806},
+  year={2022},
+  doi={10.1117/12.2635901}
+}`
+  },
+
+  // 2021
+  {
+    id: "moler-warming-seeds-2021",
+    title: "A method for experimental warming of developing tree seeds with a common garden demonstration of seedling responses",
+    authors: "Ehren R. V. Moler, Gerald F. M. Page, Lluvia Flores-Rentería, Cory G. Garms, Julia B. Hull, H. F. Cooper, J. Swenson, S. Perks, Kristen M. Waring, Amy V. Whipple",
+    venue: "Plant Methods, 17(1), 1–13",
+    year: 2021,
+    categoryLabel: "Forest Ecology & Seed Physiology",
+    typeBadge: "Peer-Reviewed Journal",
+    badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    takeaway: "Presents an in situ thermal manipulation methodology for developing conifer cones and assesses subsequent phenotypic seedling growth in common garden environments.",
+    doi: "https://doi.org/10.1186/s13007-020-00700-7",
+    bibtex: `@article{moler2021warming,
+  title={A method for experimental warming of developing tree seeds with a common garden demonstration of seedling responses},
+  author={Moler, Ehren R. V. and Page, Gerald F. M. and Flores-Renter{\'i}a, Lluvia and Garms, Cory G. and Hull, Julia B. and Cooper, H. F. and Swenson, J. and Perks, S. and Waring, Kristen M. and Whipple, Amy V.},
+  journal={Plant Methods},
+  volume={17},
+  number={1},
+  pages={1--13},
+  year={2021},
+  doi={10.1186/s13007-020-00700-7}
+}`
+  },
+  {
+    id: "douglas-fir-lean",
+    title: "Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors",
+    authors: "Cory G. Garms, Christopher Simpson, Christopher Parrish, Michael G. Wing, Bogdan Strimbu",
+    venue: "Remote Sensing, 12(14), 2278",
+    year: 2021,
+    categoryLabel: "3D Lidar & Forestry",
+    typeBadge: "Peer-Reviewed Journal",
+    badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    takeaway: "Multi-platform comparison of UAV SfM, airborne LiDAR, and mobile ground LiDAR for tree stem detection, positional accuracy, and lean angle estimation in mature Douglas-fir.",
+    doi: "https://doi.org/10.3390/rs12142278",
+    codeLink: "https://github.com/cory-garms/lidar-canopy-extractor",
+    codeLabel: "Canopy Extractor Code &rarr;",
+    bibtex: `@article{garms2021lean,
+  title={Assessing lean and positional error of individual mature Douglas-fir using active and passive sensors},
+  author={Garms, Cory G. and Simpson, Christopher and Parrish, Christopher and Wing, Michael G. and Strimbu, Bogdan M.},
+  journal={Remote Sensing},
+  volume={12},
+  number={14},
+  pages={2278},
+  year={2021},
+  doi={10.3390/rs12142278}
+}`
+  },
+
+  // 2020
+  {
+    id: "uas-pinus-strobiformis",
+    title: "Augmenting Size Models for Pinus strobiformis Seedlings Using Dimensional Estimates from Unmanned Aircraft Systems",
+    authors: "Cory Garms, Lluvia Flores-Rentería, Kristen Waring, Amy Whipple, Michael G. Wing, Bogdan Strimbu",
+    venue: "Canadian Journal of Forest Research, 50(7), 643–652",
+    year: 2020,
+    categoryLabel: "UAS & Nursery Phenotyping",
+    typeBadge: "Peer-Reviewed Journal",
+    badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    takeaway: "Replaced destructive manual caliper measurements with multispectral UAS SfM 3D reconstructions to estimate conifer seedling growth models and detect early nursery mortality.",
+    doi: "https://doi.org/10.1139/cjfr-2019-0325",
+    bibtex: `@article{garms2020seedlings,
+  title={Augmenting Size Models for Pinus strobiformis Seedlings Using Dimensional Estimates from Unmanned Aircraft Systems},
+  author={Garms, Cory and Flores-Renter{\'i}a, Lluvia and Waring, Kristen and Whipple, Amy and Wing, Michael G. and Strimbu, Bogdan},
+  journal={Canadian Journal of Forest Research},
+  volume={50},
+  number={7},
+  pages={643--652},
+  year={2020},
+  doi={10.1139/cjfr-2019-0325}
+}`
+  },
+  {
+    id: "mobile-lidar-volume",
+    title: "Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans",
+    authors: "Cory G. Garms, Bogdan Strimbu",
+    venue: "Canadian Journal of Forest Research, 50(9), 882–892",
+    year: 2020,
+    categoryLabel: "3D Lidar & Stem Modeling",
+    typeBadge: "Peer-Reviewed Journal",
+    badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    takeaway: "Quantifies how stem lean introduces systematic error in conventional taper and volume calculations, and develops non-linear compensation models using vehicle-mounted mobile LiDAR.",
+    doi: "https://doi.org/10.1139/cjfr-2020-0082",
+    bibtex: `@article{garms2020stemlean,
+  title={Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans},
+  author={Garms, Cory G. and Strimbu, Bogdan M.},
+  journal={Canadian Journal of Forest Research},
+  volume={50},
+  number={9},
+  pages={882--892},
+  year={2020},
+  doi={10.1139/cjfr-2020-0082}
+}`
+  },
+  {
+    id: "osu-phd-dissertation",
+    title: "Using Point Clouds for Single Tree Forest Inventory at the Beginning and End of the Rotation",
+    authors: "Cory G. Garms (Advisor: Dr. Bogdan Strimbu)",
+    venue: "Ph.D. Dissertation, Oregon State University",
+    year: 2020,
+    categoryLabel: "Ph.D. Dissertation",
+    typeBadge: "Ph.D. Dissertation",
+    badgeColor: "bg-amber-950/80 text-amber-300 border-amber-500/40",
+    takeaway: "Comprehensive doctoral dissertation examining the operational integration of UAS structure-from-motion (SfM) photogrammetry and mobile/airborne laser scanning (MLS/ALS) across stand life cycle stages—from common garden seedling trials to harvest-ready mature timber.",
+    bibtex: `@phdthesis{garms2020dissertation,
+  title={Using Point Clouds for Single Tree Forest Inventory at the Beginning and End of the Rotation},
+  author={Garms, Cory G.},
+  school={Oregon State University},
+  year={2020},
+  type={Doctor of Philosophy Dissertation},
+  note={Department of Forest Engineering, Resources, and Management}
+}`
+  },
+
+  // 2019
+  {
+    id: "garms-dean-forestry-2019",
+    title: "Relative resistance to breaking of Pinus taeda and Pinus palustris",
+    authors: "Cory Garms, Thomas J. Dean",
+    venue: "Forestry: An International Journal of Forest Research, 92(4), 417–424",
+    year: 2019,
+    categoryLabel: "Tree Biomechanics & Windfirmness",
+    typeBadge: "Peer-Reviewed Journal",
+    badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    takeaway: "Applied static winching in situ with multi-accelerometer tilt sensing to test windfirmness, Young's modulus of elasticity (MoE), and modulus of rupture (MOR) in loblolly and longleaf pine following hurricane exposure.",
+    doi: "https://doi.org/10.1093/forestry/cpy038",
+    bibtex: `@article{garms2019relative,
+  title={Relative resistance to breaking of Pinus taeda and Pinus palustris},
+  author={Garms, Cory and Dean, Thomas J.},
+  journal={Forestry: An International Journal of Forest Research},
+  volume={92},
+  number={4},
+  pages={417--424},
+  year={2019},
+  doi={10.1093/forestry/cpy038}
 }`
   }
 ];
@@ -186,7 +290,7 @@ const publications: Publication[] = [
 
 <Layout 
   title="Research & Publications"
-  description="Peer-reviewed papers, patents, and technical algorithms in forest LiDAR, drone mapping, and optical sensor calibration by Cory Glenn Garms, Ph.D."
+  description="Peer-reviewed papers, doctoral dissertation, and technical algorithms in forest LiDAR, space instrumentation, and sensor calibration by Cory Glenn Garms, Ph.D."
 >
   <div class="max-w-5xl mx-auto px-6 py-16">
     
@@ -194,13 +298,13 @@ const publications: Publication[] = [
     <div class="mb-12">
       <div class="flex items-center gap-2 mb-3">
         <span class="w-2 h-2 rounded-sm bg-accent"></span>
-        <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Scientific Research</span>
+        <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Scholarly Output</span>
       </div>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
         Publications & Science
       </h1>
       <p class="text-base text-text-muted max-w-2xl leading-relaxed">
-        Peer-reviewed papers and algorithms in forest LiDAR, drone mapping, and optical sensor calibration.
+        Peer-reviewed papers, doctoral dissertation, and technical algorithms spanning forest LiDAR, space instrumentation jitter correction, and optical sensor calibration.
       </p>
 
       <div class="mt-6 flex flex-wrap gap-4 items-center text-xs font-mono">
@@ -220,7 +324,7 @@ const publications: Publication[] = [
       </div>
     </div>
 
-    <!-- Thematic Publications List -->
+    <!-- Chronological Publications List -->
     <div class="space-y-8">
       {publications.map((pub) => (
         <article 
@@ -228,10 +332,15 @@ const publications: Publication[] = [
           id={pub.id}
         >
           <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-forest-900 text-accent border border-border">
-              {pub.categoryLabel}
-            </span>
-            <span class="text-xs font-mono text-text-dim">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-[11px] font-mono px-2.5 py-0.5 rounded bg-forest-900 text-accent border border-border">
+                {pub.categoryLabel}
+              </span>
+              <span class={`text-[11px] font-mono px-2.5 py-0.5 rounded border ${pub.badgeColor}`}>
+                {pub.typeBadge}
+              </span>
+            </div>
+            <span class="text-xs font-mono text-text-dim font-bold">
               {pub.year}
             </span>
           </div>
@@ -244,12 +353,12 @@ const publications: Publication[] = [
             {pub.authors} &bull; <span class="italic text-text-main">{pub.venue}</span>
           </p>
 
-          <!-- Summary Box -->
+          <!-- Plain-Language SciComm Takeaway Box -->
           <div class="my-5 p-4 rounded-xl bg-forest-950/70 border-l-2 border-accent text-xs leading-relaxed text-text-muted">
             <p>{pub.takeaway}</p>
           </div>
 
-          <!-- Action Buttons: DOI, Code, BibTeX -->
+          <!-- Action Buttons: DOI, Code/Showcase, BibTeX -->
           <div class="flex flex-wrap items-center gap-3 pt-2">
             {pub.doi && (
               <a 
@@ -269,7 +378,7 @@ const publications: Publication[] = [
                 rel={pub.codeLink.startsWith('http') ? "noopener noreferrer" : undefined}
                 class="px-3 py-1.5 bg-forest-900 hover:bg-forest-800 text-accent-light rounded-lg text-xs font-mono border border-border hover:border-accent/50 transition-all inline-flex items-center gap-1.5"
               >
-                <span>Pipeline Code &rarr;</span>
+                <span set:html={pub.codeLabel || "Pipeline Code &rarr;"} />
               </a>
             )}
 

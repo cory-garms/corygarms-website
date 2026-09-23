@@ -9,8 +9,8 @@ const SCENES = [
     id: 'huge_oak', 
     name: 'Red Oak', 
     species: 'Quercus rubra (Red Oak)',
-    spec: 'Terrestrial LiDAR Survey',
-    source: 'Red Oak Clean Laser Scan (1.52M pts survey)',
+    spec: 'Livox Mid-360 LiDAR',
+    source: 'Red Oak Livox LiDAR Scan (1.52M pts)',
     points: '1.52M pts',
     height: '28.4 m',
     spread: '28.8 m'
@@ -83,19 +83,19 @@ const COLOR_MODES = [
   },
   {
     id: 4,
-    name: 'Laser Emerald',
-    label: 'Laser Monochrome',
-    swatch: 'bg-emerald-400',
-    desc: 'Signature tactical LiDAR emerald (#10b981)',
-    tag: 'Monochrome'
+    name: 'Turbo',
+    label: 'Turbo Scientific',
+    swatch: 'bg-gradient-to-r from-[#30123b] via-[#1ae4b6] via-[#febe2a] to-[#7a0403]',
+    desc: 'Google Turbo: Blue → Cyan → Green → Yellow → Red',
+    tag: 'Rainbow'
   },
   {
     id: 5,
-    name: 'Electric Cyan',
-    label: 'Cyan Topo',
-    swatch: 'bg-gradient-to-r from-blue-900 via-cyan-500 to-cyan-200',
-    desc: 'Deep marine basin → High topographic cyan',
-    tag: 'Topo'
+    name: 'Cividis',
+    label: 'Cividis Colorblind-Safe',
+    swatch: 'bg-gradient-to-r from-[#00204d] via-[#5b5e6b] to-[#ffea46]',
+    desc: 'Perceptually uniform: Midnight blue → Slate → Gold',
+    tag: 'Accessible'
   }
 ];
 
@@ -184,12 +184,27 @@ const fragmentShader = `
     return mix(cMid, cHigh, (val - 0.5) * 2.0);
   }
 
-  // 5: Electric Cyan Topo
-  vec3 getElectricCyanColor(float t) {
-    vec3 c0 = vec3(0.02, 0.10, 0.18);
-    vec3 c1 = vec3(0.02, 0.45, 0.65);
-    vec3 c2 = vec3(0.05, 0.75, 0.95);
-    vec3 c3 = vec3(0.60, 0.95, 1.00);
+  // 4: Turbo (Google Turbo Colormap)
+  vec3 getTurboColor(float t) {
+    const vec3 c0 = vec3(0.188, 0.071, 0.231); // #30123b (blue-violet)
+    const vec3 c1 = vec3(0.129, 0.545, 0.953); // #218bf3 (blue)
+    const vec3 c2 = vec3(0.102, 0.894, 0.714); // #1ae4b6 (cyan-green)
+    const vec3 c3 = vec3(0.643, 0.988, 0.235); // #a4fc3c (bright green)
+    const vec3 c4 = vec3(0.996, 0.745, 0.165); // #febe2a (yellow-gold)
+    const vec3 c5 = vec3(0.478, 0.016, 0.012); // #7a0403 (deep red)
+    if (t < 0.2) return mix(c0, c1, t / 0.2);
+    if (t < 0.4) return mix(c1, c2, (t - 0.2) / 0.2);
+    if (t < 0.6) return mix(c2, c3, (t - 0.4) / 0.2);
+    if (t < 0.8) return mix(c3, c4, (t - 0.6) / 0.2);
+    return mix(c4, c5, (t - 0.8) / 0.2);
+  }
+
+  // 5: Cividis (Perceptually Uniform & Colorblind-Safe)
+  vec3 getCividisColor(float t) {
+    const vec3 c0 = vec3(0.000, 0.125, 0.302); // #00204d (deep midnight blue)
+    const vec3 c1 = vec3(0.255, 0.302, 0.420); // #414d6b (slate)
+    const vec3 c2 = vec3(0.533, 0.494, 0.420); // #887e6b (olive grey)
+    const vec3 c3 = vec3(1.000, 0.918, 0.275); // #ffea46 (gold yellow)
     if (t < 0.33) return mix(c0, c1, t / 0.33);
     if (t < 0.66) return mix(c1, c2, (t - 0.33) / 0.33);
     return mix(c2, c3, (t - 0.66) / 0.34);
@@ -212,9 +227,9 @@ const fragmentShader = `
     } else if (uColorMode == 3) {
       color = getIntensityColor(vColor.r);
     } else if (uColorMode == 4) {
-      color = vec3(0.063, 0.725, 0.506); // Solid Laser Emerald (#10b981)
+      color = getTurboColor(vElevation);
     } else {
-      color = getElectricCyanColor(vElevation);
+      color = getCividisColor(vElevation);
     }
 
     gl_FragColor = vec4(color, alpha);
@@ -433,7 +448,7 @@ export default function PointCloudHero() {
           <div className="max-w-md mx-auto p-6 sm:p-8 rounded-2xl bg-surface/85 border border-border/80 backdrop-blur-md shadow-2xl z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-900 border border-emerald-500/30 text-xs font-mono text-emerald-300 mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span>Terrestrial LiDAR Survey • 1.52M Pts</span>
+              <span>Livox Mid-360 LiDAR • 1.52M Pts</span>
             </div>
             <h3 className="text-lg sm:text-xl font-bold text-white mb-2 tracking-tight">
               Red Oak 3D Point Cloud
@@ -455,8 +470,11 @@ export default function PointCloudHero() {
         </div>
       )}
 
+      {/* Soft Topographic Vignette to next section (Underneath UI controls) */}
+      <div className="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none z-10" />
+
       {/* Top Bar: Persistent 3D Toggle, Colormap Palette Selector & Scene Switcher */}
-      <div className="absolute top-4 left-4 right-4 sm:left-6 sm:right-6 flex flex-wrap items-center justify-between gap-2.5 z-20 pointer-events-none">
+      <div className="absolute top-4 left-4 right-4 sm:left-6 sm:right-6 flex flex-wrap items-center justify-between gap-2.5 z-30 pointer-events-none">
         
         {/* Left: 3D Engine Toggle & Interactive Color Palette Picker */}
         <div className="pointer-events-auto flex items-center gap-2">
@@ -465,7 +483,7 @@ export default function PointCloudHero() {
             className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border backdrop-blur-md text-xs font-mono transition-all cursor-pointer shadow-lg ${
               is3DActive 
                 ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50 hover:bg-emerald-900/90' 
-                : 'bg-surface/90 text-text-muted border-border hover:border-accent/50 hover:text-white'
+                : 'bg-surface/85 hover:bg-surface text-text-muted hover:text-white border-border/80'
             }`}
             title={is3DActive ? "Click to disable 3D viewer (saves battery & unlocks scrolling)" : "Click to enable interactive 3D viewer"}
           >
@@ -486,49 +504,35 @@ export default function PointCloudHero() {
                 title="Select 3D Scientific Colormap"
                 aria-expanded={isPaletteOpen}
               >
-                <span className={`w-2.5 h-2.5 rounded-full flex overflow-hidden border border-white/20 shadow-sm ${activeColor.swatch}`}></span>
-                <span className="font-medium">{activeColor.name}</span>
+                <span className={`w-3.5 h-3.5 rounded-full flex overflow-hidden border border-white/20 shadow-sm ${activeColor.swatch}`}></span>
+                <span className="font-medium">Palette</span>
                 <svg className={`w-3 h-3 text-text-dim transition-transform duration-200 ${isPaletteOpen ? 'rotate-180 text-white' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
-              {/* Palette Dropdown Popover */}
+              {/* Palette Dropdown Popover (Visual Dots Only) */}
               {isPaletteOpen && (
-                <div className="absolute left-0 mt-2 w-56 p-1.5 rounded-2xl bg-forest-950/95 border border-border/90 backdrop-blur-xl shadow-2xl z-30 animate-in fade-in zoom-in-95 duration-150">
-                  <div className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest text-text-dim border-b border-border/60 mb-1 flex items-center justify-between">
-                    <span>LiDAR Palette</span>
-                    <span className="text-[9px] text-accent/80">6 Modes</span>
-                  </div>
-                  <div className="space-y-0.5">
+                <div className="absolute left-0 mt-2 p-2 rounded-2xl bg-forest-950/95 border border-border/90 backdrop-blur-xl shadow-2xl z-30 animate-in fade-in zoom-in-95 duration-150">
+                  <div className="flex items-center gap-2.5">
                     {COLOR_MODES.map(mode => {
                       const isSelected = mode.id === colorMode;
                       return (
                         <button
                           key={mode.id}
+                          type="button"
                           onClick={() => {
                             setColorMode(mode.id);
                             setIsPaletteOpen(false);
                           }}
-                          className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-all cursor-pointer ${
+                          className={`w-6 h-6 rounded-full transition-all cursor-pointer border flex-shrink-0 ${mode.swatch} ${
                             isSelected
-                              ? 'bg-forest-800/90 text-white border border-accent/40 shadow-sm'
-                              : 'hover:bg-forest-900 text-text-muted hover:text-white border border-transparent'
+                              ? 'scale-125 border-white ring-2 ring-accent ring-offset-2 ring-offset-forest-950 shadow-md'
+                              : 'border-white/30 hover:scale-110 hover:border-white/80 opacity-80 hover:opacity-100'
                           }`}
-                        >
-                          <div className="flex items-center gap-2.5 min-w-0">
-                            <span className={`w-3.5 h-3.5 rounded-full flex-shrink-0 border border-white/20 shadow-sm ${mode.swatch}`}></span>
-                            <div className="min-w-0">
-                              <div className="text-xs font-mono font-medium truncate">{mode.name}</div>
-                              <div className="text-[10px] text-text-dim truncate">{mode.tag}</div>
-                            </div>
-                          </div>
-                          {isSelected && (
-                            <svg className="w-3.5 h-3.5 text-accent flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                            </svg>
-                          )}
-                        </button>
+                          title={mode.name}
+                          aria-label={mode.name}
+                        />
                       );
                     })}
                   </div>
@@ -560,54 +564,52 @@ export default function PointCloudHero() {
 
       {/* Bottom Controls Bar (Visible when 3D is active) */}
       {is3DActive && (
-        <div className="absolute bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-20 pointer-events-none flex flex-wrap items-center justify-between sm:justify-end gap-2.5">
+        <div className="absolute bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-30 pointer-events-none flex flex-wrap items-center justify-between sm:justify-end gap-2.5">
           
           {/* Mobile Touch Mode Helper Pill (on small screens) */}
           {isMobile && (
             <button
               onClick={() => setTouchRotateEnabled(!touchRotateEnabled)}
-              className={`pointer-events-auto sm:hidden flex items-center gap-1.5 text-[11px] font-mono px-3 py-1.5 rounded-xl border backdrop-blur-md shadow-lg transition-all cursor-pointer ${
+              className={`pointer-events-auto sm:hidden flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-xl border backdrop-blur-md shadow-lg transition-all cursor-pointer ${
                 touchRotateEnabled 
-                  ? 'bg-emerald-950/90 text-emerald-300 border-emerald-500/50 shadow-emerald-500/10' 
-                  : 'bg-surface/85 text-text-muted border-border/80'
+                  ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50 hover:bg-emerald-900/90' 
+                  : 'bg-surface/85 hover:bg-surface text-text-muted hover:text-white border-border/80'
               }`}
               title="Toggle single-finger touch interaction vs. page scrolling"
             >
-              <span>{touchRotateEnabled ? '👆 Touch to Spin (ON)' : '📜 Scroll Friendly'}</span>
+              <span>{touchRotateEnabled ? '👆 Touch to Spin: ON' : '📜 Scroll Friendly'}</span>
             </button>
           )}
 
           {/* Scene Info & Telemetry Pill */}
-          <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono text-text-muted bg-surface/80 px-3 py-1.5 rounded-xl border border-border/80 backdrop-blur-md shadow-lg pointer-events-auto">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
-            <span className="text-white font-medium">{activeScene.name}</span>
+          <div className="hidden sm:flex items-center gap-2 text-xs font-mono bg-surface/85 px-3 py-1.5 rounded-xl border border-border/80 backdrop-blur-md shadow-lg pointer-events-auto">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span className="text-white font-semibold">{activeScene.name}</span>
             <span className="text-text-dim">&bull;</span>
-            <span>{activeScene.spec}</span>
+            <span className="text-white/90">{activeScene.spec}</span>
             <span className="text-text-dim">&bull;</span>
-            <span className="text-accent">{activeScene.points}</span>
+            <span className="text-emerald-300 font-bold">{activeScene.points}</span>
             {activeScene.height && (
               <>
                 <span className="text-text-dim">&bull;</span>
-                <span className="text-text-main">{activeScene.height} H</span>
+                <span className="text-white font-medium">{activeScene.height}</span>
               </>
             )}
-            <span className="text-text-dim">&bull;</span>
-            <span className="text-text-dim">{activeColor.name}</span>
           </div>
 
-          {/* Orbit Auto-Rotation Toggle & Interaction Hint */}
-          <div className="pointer-events-auto flex items-center gap-2.5 text-[11px] font-mono text-text-muted bg-surface/80 px-3 py-1.5 rounded-xl border border-border/80 backdrop-blur-md shadow-lg">
-            <button 
-              onClick={() => setIsRotating(!isRotating)}
-              className="hover:text-accent text-text-main transition-colors flex items-center gap-1.5 cursor-pointer"
-              title={isRotating ? 'Pause automatic rotation' : 'Resume automatic rotation'}
-            >
-              <span className={`inline-block w-1.5 h-1.5 rounded-full ${isRotating ? 'bg-accent' : 'bg-text-dim'}`}></span>
-              <span>{isRotating ? 'Pause' : 'Rotate'}</span>
-            </button>
-            <span className="text-text-dim hidden sm:inline">&bull;</span>
-            <span className="text-text-dim hidden sm:inline">Drag to inspect</span>
-          </div>
+          {/* Orbit Auto-Rotation Toggle Button (Matching Top 3D View Button) */}
+          <button 
+            onClick={() => setIsRotating(!isRotating)}
+            className={`pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-xl border backdrop-blur-md text-xs font-mono transition-all cursor-pointer shadow-lg ${
+              isRotating
+                ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50 hover:bg-emerald-900/90'
+                : 'bg-surface/85 hover:bg-surface text-text-muted hover:text-white border-border/80'
+            }`}
+            title={isRotating ? 'Pause automatic rotation' : 'Resume automatic rotation'}
+          >
+            <span className={`w-2 h-2 rounded-full ${isRotating ? 'bg-emerald-400 animate-pulse' : 'bg-text-dim'}`}></span>
+            <span className="font-semibold">{isRotating ? 'Rotate: ON' : 'Rotate: OFF'}</span>
+          </button>
         </div>
       )}
     </div>

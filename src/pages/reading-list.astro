@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import BookshelfRow from "../components/bookshelf/BookshelfRow.astro";
 
 const categories = [
   {
@@ -8,37 +9,145 @@ const categories = [
       {
         title: "Man’s Search for Meaning",
         author: "Viktor Frankl",
+        year: 1946,
+        pages: 165,
+        width: 50,
+        height: 360,
+        spineBg: "#132338",
+        textColor: "#f5d77f",
+        accentColor: "#d4af37",
+        headbandColor: "repeating-linear-gradient(45deg, #132338, #132338 2px, #f5d77f 2px, #f5d77f 4px)",
+        fontFamily: "font-serif",
         summary: "A psychiatrist's reflection on finding purpose and human dignity through his survival in Nazi concentration camps."
       },
       {
         title: "Night",
         author: "Elie Wiesel",
-        summary: "A firsthand account of surviving the Holocaust and the endurance of the human spirit."
+        year: 1960,
+        pages: 120,
+        width: 44,
+        height: 345,
+        spineBg: "#1c1c1f",
+        textColor: "#f8fafc",
+        accentColor: "#ef4444",
+        headbandColor: "repeating-linear-gradient(45deg, #1c1c1f, #1c1c1f 2px, #ef4444 2px, #ef4444 4px)",
+        fontFamily: "font-sans",
+        summary: "A firsthand account of surviving the Holocaust and the endurance of the human spirit in the face of absolute darkness."
+      },
+      {
+        title: "Letters from a Stoic",
+        author: "Seneca",
+        year: 65,
+        pages: 320,
+        width: 60,
+        height: 375,
+        spineBg: "#4a0e17",
+        textColor: "#fde047",
+        accentColor: "#991b1b",
+        headbandColor: "repeating-linear-gradient(45deg, #4a0e17, #4a0e17 2px, #fde047 2px, #fde047 4px)",
+        fontFamily: "font-serif",
+        summary: "Pragmatic epistolary reflections on the brevity of life, mastery of time, the vanity of ambition, and cultivating serenity through reason amidst political chaos."
       },
       {
         title: "An Unquiet Mind",
         author: "Kay Redfield Jamison",
-        summary: "A clinical psychologist's memoir on living with and treating manic-depressive illness."
+        year: 1995,
+        pages: 224,
+        width: 56,
+        height: 365,
+        spineBg: "#1d3557",
+        textColor: "#e2e8f0",
+        accentColor: "#93c5fd",
+        headbandColor: "repeating-linear-gradient(45deg, #1d3557, #1d3557 2px, #93c5fd 2px, #93c5fd 4px)",
+        fontFamily: "font-serif",
+        summary: "A clinical psychologist's candid memoir examining her own battle with manic-depressive illness from both inside and outside the clinic."
       },
       {
         title: "The Stranger",
         author: "Albert Camus",
-        summary: "An existential novel examining detachment, morality, and the absurdity of life through a senseless crime."
+        year: 1942,
+        pages: 123,
+        width: 46,
+        height: 350,
+        spineBg: "#ede4d4",
+        textColor: "#0f172a",
+        accentColor: "#dc2626",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #dc2626, #dc2626 2px, #ede4d4 2px, #ede4d4 4px)",
+        fontFamily: "font-sans",
+        summary: "An existential novel examining detachment, morality, and the absurdity of life through a senseless crime on an Algerian beach."
       },
       {
         title: "Meditations",
         author: "Marcus Aurelius",
-        summary: "Private Stoic reflections from the Roman Emperor on duty, self-discipline, and emotional balance."
+        year: 180,
+        pages: 256,
+        width: 60,
+        height: 375,
+        spineBg: "#501622",
+        textColor: "#fde68a",
+        accentColor: "#f59e0b",
+        headbandColor: "repeating-linear-gradient(45deg, #501622, #501622 2px, #fde68a 2px, #fde68a 4px)",
+        fontFamily: "font-serif",
+        summary: "Private Stoic journals written by the Roman Emperor on campaign, reflecting on duty, self-discipline, mortality, and emotional balance."
       },
       {
         title: "The Myth of Sisyphus",
         author: "Albert Camus",
-        summary: "A philosophical essay on confronting the absurd and choosing to find purpose regardless."
+        year: 1942,
+        pages: 212,
+        width: 54,
+        height: 360,
+        spineBg: "#b48222",
+        textColor: "#1c1917",
+        accentColor: "#78350f",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #78350f, #78350f 2px, #fef08a 2px, #fef08a 4px)",
+        fontFamily: "font-serif",
+        summary: "A philosophical essay defining the absurd condition of humanity and arguing that one must imagine Sisyphus happy."
+      },
+      {
+        title: "When Breath Becomes Air",
+        author: "Paul Kalanithi",
+        year: 2016,
+        pages: 228,
+        width: 54,
+        height: 365,
+        spineBg: "#f8fafc",
+        textColor: "#0f172a",
+        accentColor: "#64748b",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #64748b, #64748b 2px, #f8fafc 2px, #f8fafc 4px)",
+        fontFamily: "font-sans",
+        summary: "A young neurosurgeon confronting terminal lung cancer explores the frontier where neuroscience, literature, and biological mortality intersect."
+      },
+      {
+        title: "Deep Work",
+        author: "Cal Newport",
+        year: 2016,
+        pages: 304,
+        width: 58,
+        height: 370,
+        spineBg: "#b45309",
+        textColor: "#fef3c7",
+        accentColor: "#78350f",
+        headbandColor: "repeating-linear-gradient(45deg, #78350f, #78350f 2px, #fef3c7 2px, #fef3c7 4px)",
+        fontFamily: "font-sans",
+        summary: "The cognitive imperative of sustained, uninterrupted concentration for solving complex mathematical, scientific, and software engineering challenges."
       },
       {
         title: "The Art of Exceptional Living",
         author: "Jim Rohn",
-        summary: "Practical reflections on personal discipline, philosophy, and building productive habits."
+        year: 1993,
+        pages: 192,
+        width: 52,
+        height: 355,
+        spineBg: "#3b1322",
+        textColor: "#fef08a",
+        accentColor: "#d97706",
+        headbandColor: "repeating-linear-gradient(45deg, #3b1322, #3b1322 2px, #fef08a 2px, #fef08a 4px)",
+        fontFamily: "font-serif",
+        summary: "Foundational personal reflections on self-discipline, clear communication, financial stewardship, and purposeful daily habits."
       }
     ]
   },
@@ -48,32 +157,144 @@ const categories = [
       {
         title: "Empire of the Summer Moon",
         author: "S. C. Gwynne",
-        summary: "The history of the 40-year conflict between the Comanche Nation and settlers in the American West."
+        year: 2010,
+        pages: 384,
+        width: 68,
+        height: 385,
+        spineBg: "#9a3412",
+        textColor: "#fef3c7",
+        accentColor: "#fbbf24",
+        headbandColor: "repeating-linear-gradient(45deg, #9a3412, #9a3412 2px, #fef3c7 2px, #fef3c7 4px)",
+        fontFamily: "font-serif",
+        summary: "A sweeping chronicle of the rise and fall of the Comanche empire and Quanah Parker's legendary leadership across the Southern Plains."
       },
       {
         title: "Blood Meridian",
         author: "Cormac McCarthy",
-        summary: "A brutal Western following an outlaw gang along the Texas-Mexico border in the 1840s."
+        year: 1985,
+        pages: 351,
+        width: 64,
+        height: 375,
+        spineBg: "#111113",
+        textColor: "#dc2626",
+        accentColor: "#d4af37",
+        headbandColor: "repeating-linear-gradient(45deg, #111113, #111113 2px, #dc2626 2px, #dc2626 4px)",
+        fontFamily: "font-serif",
+        summary: "An apocalyptic anti-western following the Glanton Gang and the monstrous Judge Holden across the 1840s Texas-Mexico borderlands."
+      },
+      {
+        title: "The Crossing",
+        author: "Cormac McCarthy",
+        year: 1994,
+        pages: 426,
+        width: 72,
+        height: 390,
+        spineBg: "#121214",
+        textColor: "#f1f5f9",
+        accentColor: "#b91c1c",
+        headbandColor: "repeating-linear-gradient(45deg, #121214, #121214 2px, #b91c1c 2px, #b91c1c 4px)",
+        fontFamily: "font-serif",
+        summary: "The mythic, haunting journey of Billy Parham across the 1930s New Mexico and Sonora borderlands, contemplating wolves, fate, and the irrecoverable frontier."
       },
       {
         title: "Lonesome Dove",
         author: "Larry McMurtry",
-        summary: "An epic novel of two retired Texas Rangers driving a cattle herd from the Rio Grande to Montana."
+        year: 1985,
+        pages: 843,
+        width: 88,
+        height: 410,
+        spineBg: "#d5c5a3",
+        textColor: "#1e3a5f",
+        accentColor: "#b91c1c",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #b91c1c, #b91c1c 2px, #1e3a5f 2px, #1e3a5f 4px)",
+        fontFamily: "font-serif",
+        summary: "Pulitzer Prize-winning epic charting retired Texas Rangers Augustus McCrae and Woodrow Call on an arduous 2,500-mile cattle drive to Montana."
+      },
+      {
+        title: "Beyond the 100th Meridian",
+        author: "Wallace Stegner",
+        year: 1954,
+        pages: 438,
+        width: 74,
+        height: 392,
+        spineBg: "#9a3412",
+        textColor: "#fcd34d",
+        accentColor: "#d97706",
+        headbandColor: "repeating-linear-gradient(45deg, #9a3412, #9a3412 2px, #fcd34d 2px, #fcd34d 4px)",
+        fontFamily: "font-serif",
+        summary: "The pioneering story of John Wesley Powell's Grand Canyon river survey, founding the USGS, and proposing science-based arid land and watershed policies."
+      },
+      {
+        title: "Astoria",
+        author: "Peter Stark",
+        year: 2014,
+        pages: 400,
+        width: 70,
+        height: 388,
+        spineBg: "#0f233a",
+        textColor: "#e2e8f0",
+        accentColor: "#38bdf8",
+        headbandColor: "repeating-linear-gradient(45deg, #0f233a, #0f233a 2px, #38bdf8 2px, #38bdf8 4px)",
+        fontFamily: "font-serif",
+        summary: "A gripping survival chronicle of the dual land and sea expeditions sent by John Jacob Astor and Thomas Jefferson to claim the mouth of the Columbia River in Oregon."
+      },
+      {
+        title: "Cadillac Desert",
+        author: "Marc Reisner",
+        year: 1986,
+        pages: 582,
+        width: 80,
+        height: 402,
+        spineBg: "#d4b996",
+        textColor: "#1c1917",
+        accentColor: "#0d9488",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #0d9488, #0d9488 2px, #d4b996 2px, #d4b996 4px)",
+        fontFamily: "font-sans",
+        summary: "The seminal investigative history of dam building, water politics, and environmental consequences in the reclamation of the American West."
       },
       {
         title: "No Country for Old Men",
         author: "Cormac McCarthy",
-        summary: "A tense thriller on crime, aging, and changing morality in West Texas."
+        year: 2005,
+        pages: 309,
+        width: 58,
+        height: 370,
+        spineBg: "#1c1917",
+        textColor: "#fb923c",
+        accentColor: "#ea580c",
+        headbandColor: "repeating-linear-gradient(45deg, #1c1917, #1c1917 2px, #fb923c 2px, #fb923c 4px)",
+        fontFamily: "font-sans",
+        summary: "A tense Southwest thriller examining fate, violence, aging, and the erosion of frontier moral order in West Texas."
       },
       {
         title: "Misery",
         author: "Stephen King",
-        summary: "A psychological suspense novel about a writer held captive in an isolated cabin by an obsessed fan."
+        year: 1987,
+        pages: 310,
+        width: 58,
+        height: 368,
+        spineBg: "#18181b",
+        textColor: "#ef4444",
+        accentColor: "#ffffff",
+        headbandColor: "repeating-linear-gradient(45deg, #18181b, #18181b 2px, #ef4444 2px, #ef4444 4px)",
+        fontFamily: "font-sans",
+        summary: "A psychological suspense masterpiece examining creative captivity, obsession, and survival in a blizzard-isolated Colorado cabin."
       },
       {
         title: "Undaunted Courage",
         author: "Stephen Ambrose",
-        summary: "The story of the Lewis and Clark expedition and their journey across the uncharted American continent."
+        year: 1996,
+        pages: 511,
+        width: 76,
+        height: 395,
+        spineBg: "#1e293b",
+        textColor: "#f59e0b",
+        accentColor: "#d97706",
+        headbandColor: "repeating-linear-gradient(45deg, #1e293b, #1e293b 2px, #f59e0b 2px, #f59e0b 4px)",
+        fontFamily: "font-serif",
+        summary: "The definitive chronicle of Meriwether Lewis, Thomas Jefferson, and the Corps of Discovery charting the uncharted Pacific Northwest frontier."
       }
     ]
   },
@@ -83,37 +304,145 @@ const categories = [
       {
         title: "Silent Spring",
         author: "Rachel Carson",
-        summary: "The landmark book exposing the ecological damage caused by synthetic pesticides like DDT."
+        year: 1962,
+        pages: 368,
+        width: 66,
+        height: 380,
+        spineBg: "#234133",
+        textColor: "#fef08a",
+        accentColor: "#a7f3d0",
+        headbandColor: "repeating-linear-gradient(45deg, #234133, #234133 2px, #fef08a 2px, #fef08a 4px)",
+        fontFamily: "font-serif",
+        summary: "The landmark environmental text exposing the ecological crisis of synthetic pesticides and sparking modern conservation science."
       },
       {
         title: "Walden",
         author: "Henry David Thoreau",
-        summary: "Thoreau's reflection on simple living, self-reliance, and nature during two years by Walden Pond."
+        year: 1854,
+        pages: 352,
+        width: 64,
+        height: 375,
+        spineBg: "#163b27",
+        textColor: "#fef3c7",
+        accentColor: "#d4af37",
+        headbandColor: "repeating-linear-gradient(45deg, #163b27, #163b27 2px, #fef3c7 2px, #fef3c7 4px)",
+        fontFamily: "font-serif",
+        summary: "Thoreau's meditation on deliberateness, self-reliance, and naturalist inquiry during two years solitary residency by Walden Pond."
+      },
+      {
+        title: "The Overstory",
+        author: "Richard Powers",
+        year: 2018,
+        pages: 512,
+        width: 78,
+        height: 395,
+        spineBg: "#291a10",
+        textColor: "#facc15",
+        accentColor: "#4ade80",
+        headbandColor: "repeating-linear-gradient(45deg, #291a10, #291a10 2px, #facc15 2px, #facc15 4px)",
+        fontFamily: "font-serif",
+        summary: "A Pulitzer Prize-winning masterpiece intertwining human lives with the slow, communicative, and interconnected life of old-growth forest canopies."
       },
       {
         title: "Desert Solitaire",
         author: "Edward Abbey",
-        summary: "Essays celebrating the rugged wilderness of the American Southwest and the need to preserve wild spaces."
+        year: 1968,
+        pages: 269,
+        width: 56,
+        height: 365,
+        spineBg: "#c2410c",
+        textColor: "#ffffff",
+        accentColor: "#fed7aa",
+        headbandColor: "repeating-linear-gradient(45deg, #c2410c, #c2410c 2px, #ffffff 2px, #ffffff 4px)",
+        fontFamily: "font-sans",
+        summary: "Fierce, poetic essays defending the austere wilderness of Arches National Park against unchecked industrial development."
+      },
+      {
+        title: "The Golden Spruce",
+        author: "John Vaillant",
+        year: 2005,
+        pages: 272,
+        width: 56,
+        height: 368,
+        spineBg: "#064e3b",
+        textColor: "#fef08a",
+        accentColor: "#a7f3d0",
+        headbandColor: "repeating-linear-gradient(45deg, #064e3b, #064e3b 2px, #fef08a 2px, #fef08a 4px)",
+        fontFamily: "font-serif",
+        summary: "A vivid exploration of British Columbia's old-growth temperate rainforests, industrial logging, and the felling of a revered 300-year-old Sitka spruce mutation."
       },
       {
         title: "Lab Girl",
         author: "Hope Jahren",
-        summary: "A geobiologist's memoir blending stories of scientific research, field trials, and plant life."
+        year: 2016,
+        pages: 290,
+        width: 58,
+        height: 370,
+        spineBg: "#f8fafc",
+        textColor: "#15803d",
+        accentColor: "#166534",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #15803d, #15803d 2px, #f8fafc 2px, #f8fafc 4px)",
+        fontFamily: "font-serif",
+        summary: "A geobiologist's luminous memoir blending plant physiology, field experiments, institutional challenges, and scientific camaraderie."
       },
       {
         title: "A Sand County Almanac",
         author: "Aldo Leopold",
-        summary: "A classic work in conservation establishing the 'land ethic'—treating nature as a community rather than a commodity."
+        year: 1949,
+        pages: 240,
+        width: 54,
+        height: 365,
+        spineBg: "#785437",
+        textColor: "#dcfce7",
+        accentColor: "#bbf7d0",
+        headbandColor: "repeating-linear-gradient(45deg, #785437, #785437 2px, #dcfce7 2px, #dcfce7 4px)",
+        fontFamily: "font-serif",
+        summary: "The cornerstone of ecological ethics, introducing the seminal 'land ethic' that expands human community boundaries to include soils, waters, and plants."
+      },
+      {
+        title: "Braiding Sweetgrass",
+        author: "Robin Wall Kimmerer",
+        year: 2013,
+        pages: 390,
+        width: 68,
+        height: 382,
+        spineBg: "#e8dfcf",
+        textColor: "#14532d",
+        accentColor: "#86efac",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #14532d, #14532d 2px, #e8dfcf 2px, #e8dfcf 4px)",
+        fontFamily: "font-serif",
+        summary: "A botanist blends rigorous plant ecology and laboratory science with indigenous ecological knowledge and the ethic of reciprocity with the living world."
       },
       {
         title: "The Hidden Life of Trees",
         author: "Peter Wohlleben",
-        summary: "An exploration of how trees communicate, share nutrients, and protect one another in forest ecosystems."
+        year: 2015,
+        pages: 272,
+        width: 56,
+        height: 368,
+        spineBg: "#f1ede4",
+        textColor: "#166534",
+        accentColor: "#15803d",
+        isDarkText: true,
+        headbandColor: "repeating-linear-gradient(45deg, #166534, #166534 2px, #f1ede4 2px, #f1ede4 4px)",
+        fontFamily: "font-serif",
+        summary: "A German forester illuminates mycorrhizal fungal networks, inter-tree resource transfer, and community defense mechanisms in ancient forests."
       },
       {
         title: "What a Plant Knows",
         author: "Daniel Chamovitz",
-        summary: "An accessible look at plant sensory biology—how plants sense light, touch, temperature, and chemicals."
+        year: 2012,
+        pages: 192,
+        width: 50,
+        height: 355,
+        spineBg: "#16a34a",
+        textColor: "#fef08a",
+        accentColor: "#ffffff",
+        headbandColor: "repeating-linear-gradient(45deg, #16a34a, #16a34a 2px, #fef08a 2px, #fef08a 4px)",
+        fontFamily: "font-sans",
+        summary: "A rigorous look at plant sensory biology—how flora perceive spectral wavelengths, chemical signals, gravitational vectors, and tactile touch."
       }
     ]
   },
@@ -123,99 +452,310 @@ const categories = [
       {
         title: "The Soul of a New Machine",
         author: "Tracy Kidder",
-        summary: "A classic account of an engineering team racing to build a next-generation computer under tight deadlines."
+        year: 1981,
+        pages: 293,
+        width: 58,
+        height: 370,
+        spineBg: "#334155",
+        textColor: "#38bdf8",
+        accentColor: "#e2e8f0",
+        headbandColor: "repeating-linear-gradient(45deg, #334155, #334155 2px, #38bdf8 2px, #38bdf8 4px)",
+        fontFamily: "font-mono",
+        summary: "Pulitzer Prize-winning inside story of Data General's hardware team pulling relentless all-nighters to engineer the Eagle 32-bit superminicomputer."
       },
       {
         title: "Project Hail Mary",
         author: "Andy Weir",
-        summary: "A lone astronaut uses scientific problem-solving to survive an interstellar mission and save Earth."
+        year: 2021,
+        pages: 496,
+        width: 76,
+        height: 395,
+        spineBg: "#ea580c",
+        textColor: "#ffffff",
+        accentColor: "#facc15",
+        headbandColor: "repeating-linear-gradient(45deg, #ea580c, #ea580c 2px, #ffffff 2px, #ffffff 4px)",
+        fontFamily: "font-sans",
+        summary: "A lone schoolteacher-turned-astronaut uses first-principles biology, physics, and relativistic mechanics to save Earth from an interstellar extinction event."
+      },
+      {
+        title: "The Three-Body Problem",
+        author: "Cixin Liu",
+        year: 2008,
+        pages: 400,
+        width: 70,
+        height: 388,
+        spineBg: "#1e1035",
+        textColor: "#67e8f9",
+        accentColor: "#ef4444",
+        headbandColor: "repeating-linear-gradient(45deg, #1e1035, #1e1035 2px, #67e8f9 2px, #67e8f9 4px)",
+        fontFamily: "font-sans",
+        summary: "Hard science fiction examining astrophysics, orbital mechanics, radio astronomy arrays, and humanity's perilous contact with a world orbiting an unstable trinary star."
+      },
+      {
+        title: "Contact",
+        author: "Carl Sagan",
+        year: 1985,
+        pages: 432,
+        width: 72,
+        height: 390,
+        spineBg: "#091b34",
+        textColor: "#fbbf24",
+        accentColor: "#ffffff",
+        headbandColor: "repeating-linear-gradient(45deg, #091b34, #091b34 2px, #fbbf24 2px, #fbbf24 4px)",
+        fontFamily: "font-serif",
+        summary: "Carl Sagan's rigorous sci-fi classic exploring radio astronomy, Fourier signal analysis, orbital telescopes, and the scientific search for extraterrestrial intelligence."
       },
       {
         title: "Slaughterhouse-Five",
         author: "Kurt Vonnegut",
-        summary: "A satiric anti-war novel centering on the firebombing of Dresden, framed through non-linear time."
+        year: 1969,
+        pages: 215,
+        width: 54,
+        height: 360,
+        spineBg: "#0284c7",
+        textColor: "#ffffff",
+        accentColor: "#ef4444",
+        headbandColor: "repeating-linear-gradient(45deg, #0284c7, #0284c7 2px, #ef4444 2px, #ef4444 4px)",
+        fontFamily: "font-serif",
+        summary: "A satiric anti-war masterpiece centering on the firebombing of Dresden, framed through Billy Pilgrim's unstuck, non-linear chronology."
       },
       {
         title: "1984",
         author: "George Orwell",
-        summary: "A dystopian classic about state surveillance, censorship, and the manipulation of truth."
+        year: 1949,
+        pages: 328,
+        width: 62,
+        height: 375,
+        spineBg: "#991b1b",
+        textColor: "#000000",
+        accentColor: "#fca5a5",
+        headbandColor: "repeating-linear-gradient(45deg, #991b1b, #991b1b 2px, #000000 2px, #000000 4px)",
+        fontFamily: "font-sans",
+        summary: "The definitive dystopian exploration of omnipresent surveillance, doublethink, historical revisionism, and systemic linguistic control."
       },
       {
         title: "Brave New World",
         author: "Aldous Huxley",
-        summary: "A vision of an engineered future where comfort and stability are traded for human individuality."
+        year: 1932,
+        pages: 288,
+        width: 58,
+        height: 368,
+        spineBg: "#475569",
+        textColor: "#67e8f9",
+        accentColor: "#cbd5e1",
+        headbandColor: "repeating-linear-gradient(45deg, #475569, #475569 2px, #67e8f9 2px, #67e8f9 4px)",
+        fontFamily: "font-sans",
+        summary: "A terrifyingly prescient vision of a society pacified by genetic conditioning, mandatory consumerism, and chemical contentment."
       },
       {
         title: "Fahrenheit 451",
         author: "Ray Bradbury",
-        summary: "A story set in a society where books are outlawed and firemen burn any literature that remains."
+        year: 1953,
+        pages: 249,
+        width: 54,
+        height: 365,
+        spineBg: "#18181b",
+        textColor: "#f97316",
+        accentColor: "#fbbf24",
+        headbandColor: "repeating-linear-gradient(45deg, #18181b, #18181b 2px, #f97316 2px, #f97316 4px)",
+        fontFamily: "font-mono",
+        summary: "In a world where books are fuel for state firemen, Guy Montag discovers the subversive power of memory, literature, and human thought."
       },
       {
         title: "The Martian",
         author: "Andy Weir",
-        summary: "An astronaut stranded on Mars relies on engineering ingenuity and botany to survive."
+        year: 2014,
+        pages: 369,
+        width: 66,
+        height: 380,
+        spineBg: "#09090b",
+        textColor: "#ef4444",
+        accentColor: "#ffffff",
+        headbandColor: "repeating-linear-gradient(45deg, #09090b, #09090b 2px, #ef4444 2px, #ef4444 4px)",
+        fontFamily: "font-sans",
+        summary: "An astronaut stranded on the Acidalia Planitia uses botany, atmospheric chemistry, and pragmatic math to survive 549 sols."
       },
       {
         title: "Children of Time",
         author: "Adrian Tchaikovsky",
-        summary: "A space epic spanning generations as humanity searches for a home and encounters an evolved civilization."
+        year: 2015,
+        pages: 608,
+        width: 82,
+        height: 405,
+        spineBg: "#311042",
+        textColor: "#38bdf8",
+        accentColor: "#facc15",
+        headbandColor: "repeating-linear-gradient(45deg, #311042, #311042 2px, #38bdf8 2px, #38bdf8 4px)",
+        fontFamily: "font-serif",
+        summary: "An Arthur C. Clarke Award-winning epic depicting the collision between the desperate remnants of Earth and an evolved arachnid civilization."
       }
     ]
   }
 ];
+
+const totalBooks = categories.reduce((acc, cat) => acc + cat.books.length, 0);
 ---
 
 <Layout 
-  title="The Library: Personal Reading List"
-  description="A curated collection of 22 books that shaped my thinking across science, philosophy, history, and fiction."
+  title="The Bookshelf: Personal Favorites"
+  description="An interactive digital bookshelf of 40 hardcover volumes that shaped my thinking across science, history, philosophy, and speculative fiction."
 >
-  <main class="pt-28 pb-24 bg-background relative overflow-hidden min-h-screen">
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
-      <div class="mb-14 reveal">
+  <main class="pt-28 pb-24 bg-background relative overflow-x-clip min-h-screen">
+    
+    <!-- Ambient Topographic Glow Background -->
+    <div class="absolute inset-0 pointer-events-none opacity-40">
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-gradient-to-b from-forest-900/30 via-emerald-950/20 to-transparent blur-[120px] rounded-full"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+      
+      <!-- Page Navigation & Breadcrumb -->
+      <div class="mb-10 reveal">
         <a href="/" class="inline-flex items-center text-accent hover:text-accent-light transition-colors font-mono text-xs mb-6 group">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           Back to Overview
         </a>
-        <div class="flex items-center gap-2 mb-3">
-          <span class="w-2 h-2 rounded-full bg-topo"></span>
-          <span class="text-xs font-mono uppercase tracking-widest text-topo">Curated Bibliography</span>
+        
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+              <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Interactive Library &bull; {totalBooks} Hardcover Volumes</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              The Bookshelf: <span class="text-accent">Personal Favorites</span>
+            </h1>
+            <p class="text-text-muted max-w-2xl text-xs sm:text-sm leading-relaxed mt-2">
+              Hover over any book spine (or tap on mobile) to pull the hardcover forward and reveal its scientific and personal takeaway.
+            </p>
+          </div>
+
+          <!-- View Mode Switcher -->
+          <div class="flex items-center gap-1.5 p-1 rounded-xl bg-surface/90 border border-border text-xs font-mono">
+            <button 
+              id="view-shelf-btn"
+              type="button"
+              class="px-3 py-1.5 rounded-lg bg-forest-800 text-white border border-accent/40 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>📚 Bookshelf</span>
+            </button>
+            <button 
+              id="view-grid-btn"
+              type="button"
+              class="px-3 py-1.5 rounded-lg text-text-muted hover:text-white hover:bg-surface transition-all flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>🗂 Grid View</span>
+            </button>
+          </div>
         </div>
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-          The Library: <span class="text-accent">Personal Favorites</span>
-        </h1>
-        <p class="text-text-muted max-w-2xl text-sm leading-relaxed">
-          A collection of 22 books that shaped my thinking across science, philosophy, history, and fiction.
-        </p>
       </div>
 
-      <div class="space-y-16">
+      <!-- 3D Interactive Bookshelf View (Default) -->
+      <div id="bookshelf-view" class="space-y-6 reveal">
+        {categories.map((category, idx) => (
+          <BookshelfRow 
+            categoryName={category.name} 
+            books={category.books} 
+            shelfNumber={idx + 1} 
+          />
+        ))}
+      </div>
+
+      <!-- Flat Catalog Grid View (Alternative Accessible View) -->
+      <div id="grid-view" class="hidden space-y-16 reveal">
         {categories.map((category, catIdx) => (
-          <section class="reveal" style={`transition-delay: ${catIdx * 80}ms;`}>
-            <div class="flex items-center gap-3 mb-6">
+          <section class="space-y-6">
+            <div class="flex items-center gap-3">
               <span class="w-2 h-2 rounded-sm bg-accent"></span>
               <h2 class="text-xl font-bold text-white tracking-tight">
                 {category.name}
               </h2>
               <div class="h-px bg-border flex-grow ml-4"></div>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {category.books.map((book) => (
-                <div class="bg-surface p-6 rounded-2xl border border-border hover:border-accent/60 transition-all duration-300 group hover:shadow-lg flex flex-col">
-                  <h3 class="text-base font-bold text-white mb-1.5 group-hover:text-accent transition-colors">
-                    {book.title}
-                  </h3>
-                  <div class="text-accent-light text-xs font-mono mb-3">{book.author}</div>
-                  <p class="text-text-muted text-xs leading-relaxed flex-grow">
-                    {book.summary}
-                  </p>
+                <div class="p-6 bg-surface/60 rounded-2xl border border-border hover:border-accent/40 transition-all flex flex-col justify-between group">
+                  <div>
+                    <div class="flex items-center justify-between text-[11px] font-mono text-text-dim mb-2">
+                      <span class="text-accent">{book.year}</span>
+                      <span>{book.pages} pages</span>
+                    </div>
+                    <h3 class={`text-lg font-bold text-white mb-1 group-hover:text-accent-light transition-colors ${book.fontFamily}`}>
+                      {book.title}
+                    </h3>
+                    <p class="text-xs font-mono text-text-muted mb-4">
+                      {book.author}
+                    </p>
+                    <p class="text-xs text-text-muted leading-relaxed">
+                      {book.summary}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
           </section>
         ))}
       </div>
+
     </div>
   </main>
+
+  <script>
+    // View Switcher (Bookshelf vs Grid)
+    const shelfBtn = document.getElementById('view-shelf-btn');
+    const gridBtn = document.getElementById('view-grid-btn');
+    const shelfView = document.getElementById('bookshelf-view');
+    const gridView = document.getElementById('grid-view');
+
+    if (shelfBtn && gridBtn && shelfView && gridView) {
+      shelfBtn.addEventListener('click', () => {
+        shelfView.classList.remove('hidden');
+        gridView.classList.add('hidden');
+        shelfBtn.className = "px-3 py-1.5 rounded-lg bg-forest-800 text-white border border-accent/40 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer";
+        gridBtn.className = "px-3 py-1.5 rounded-lg text-text-muted hover:text-white hover:bg-surface transition-all flex items-center gap-1.5 cursor-pointer";
+      });
+
+      gridBtn.addEventListener('click', () => {
+        shelfView.classList.add('hidden');
+        gridView.classList.remove('hidden');
+        gridBtn.className = "px-3 py-1.5 rounded-lg bg-forest-800 text-white border border-accent/40 shadow-sm transition-all flex items-center gap-1.5 cursor-pointer";
+        shelfBtn.className = "px-3 py-1.5 rounded-lg text-text-muted hover:text-white hover:bg-surface transition-all flex items-center gap-1.5 cursor-pointer";
+      });
+    }
+
+    // Touch / Click Support for Mobile devices on Book Spines
+    document.querySelectorAll('.book-spine-wrapper').forEach(wrapper => {
+      wrapper.addEventListener('click', (e) => {
+        // Toggle active lift state on touch devices
+        const isHovered = wrapper.classList.contains('active-touch');
+        document.querySelectorAll('.book-spine-wrapper').forEach(w => w.classList.remove('active-touch'));
+        if (!isHovered) {
+          wrapper.classList.add('active-touch');
+        }
+      });
+    });
+
+    // Close any active mobile popover when tapping outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.book-spine-wrapper')) {
+        document.querySelectorAll('.book-spine-wrapper').forEach(w => w.classList.remove('active-touch'));
+      }
+    });
+  </script>
+
+  <style>
+    /* Mobile active touch styling */
+    .book-spine-wrapper.active-touch .book-spine {
+      transform: translateY(-24px) scale(1.03) rotate(-1.5deg);
+    }
+    .book-spine-wrapper.active-touch .book-popover {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+      pointer-events: auto !important;
+    }
+  </style>
 </Layout>
