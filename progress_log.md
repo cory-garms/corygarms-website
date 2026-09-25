@@ -1,5 +1,28 @@
 # Progress Log
 
+## [2026-09-25 13:20:00 EDT] — Technical Notes Complete Humanization Revamp
+
+* **Status:** Completed & Validated
+* **Focus:** Tone, Format Diversity, Eliminating AI Predictability & Generic Clichés
+* **Summary:**
+  1. **De-templatized Entire Notes Collection (10 Articles):**
+     - Completely removed the formulaic "ChatGPT 5-paragraph essay" skeleton (uniform 3 numbered subheads, textbook rhetorical question openings, obligatory display math + artificial Python dictionary/script + Alert box triad, and generic moralizing summary conclusions).
+     - Rewrote each piece to be brief, lighthearted, conversational, and direct, preserving real scientific rigor and engineering breakthroughs without textbook jargon.
+  2. **Batch 1 (Alumni Essay, Forestry LiDAR, Pitch Design):**
+     - `lsu-nfl-retroactive-eligibility-controversy.mdx`: Sharp alumni op-ed highlighting the database normalization comedy of one-sided NCAA losses, $400 plane tickets vs. modern NIL, and Death Valley Saturday nights (zero forced code).
+     - `pit-free-canopy-height-models.mdx`: Practitioner note on conifer crowns turning into "Swiss cheese" under high-density LiDAR, why Gaussian blurs ruin tree apex heights, and the multi-scale TIN envelope trick with a clean 12-line core loop.
+     - `red-sox-turnaround-pitch-design.mdx`: Passionate baseball breakdown of Andrew Bailey's staff turnaround, the "dead-zone" fastball in Fenway Park, and 30 inches of horizontal tunneling separation.
+  3. **Batch 2 (Wildfires, Plant Senses, Applied AI):**
+     - `why-are-there-so-many-wildfires.mdx`: Direct forestry explanation of the 10:00 AM suppression policy hangover, Vapor Pressure Deficit (VPD) as an atmospheric vacuum sponge, matchstick physics, and the necessity of prescribed fire.
+     - `do-trees-have-senses.mdx`: Connected plant mechanobiology to Dr. Garms' firsthand graduate tree-winching research (living strain gauges, reaction wood, phytochrome red/far-red light ratios, and ultrasonic xylem acoustic clicks).
+     - `how-i-use-ai-daily-scientific-research.mdx`: Candid, non-hyped practitioner's guide showing where LLMs excel (plumbing, boilerplate, vectorization sparring) and where they fail catastrophically (spatial coordinate transforms, hallucinated physics).
+  4. **Batch 3 (Dirty Water, Edge Robotics, UNJITR Jitter, In-Flight MTF):**
+     - `building-dirty-water-mlb-analytics.mdx`: Automated Statcast ingestion story explaining non-linear bullpen fatigue and Fenway Park spray chart matchup modeling.
+     - `ransac-cylinder-fitting-conifer-stems.mdx`: Robotics field dispatch from CUTMAP fitting cylinders to leaning Douglas-fir trees in under 12ms on an edge Jetson Orin.
+     - `subpixel-fft-spacecraft-jitter.mdx`: Astrophysics instrumentation note on Swift UVOT photon-stream slicing and sub-pixel parabolic vertex fitting across 282 galaxy targets.
+     - `hyperspectral-mtf-verification.mdx`: Practical field optics dispatch explaining why lab calibrations fail in flight and how ground slanted-edge tarps verify in-flight camera MTF at 140 knots.
+* **Technical Debt/Next Steps:** Pipeline methodology diagrams for CUTMAP and UNJITR; Dr. Garms personal About narrative; potential 1–2 new authentic notes.
+
 ## [2026-09-24 10:15:00 EDT] — Research Topic Filter Pills, LSU Master's Thesis & CV Synchronization
 
 * **Status:** Completed & Validated
