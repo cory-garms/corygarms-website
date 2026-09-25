@@ -11,7 +11,10 @@ import rehypeMathjax from 'rehype-mathjax';
 export default defineConfig({
   site: 'https://corygarms.com',
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['three', '@react-three/fiber', '@react-three/drei']
+    }
   },
   integrations: [react(), sitemap(), mdx()],
   markdown: {
