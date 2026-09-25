@@ -36,6 +36,7 @@ Current Phase: **[Phase 2: Publications Engine Polish & Phase 3: Visual Data Dia
 - **Phase 3 (Selected): WebGL Point Cloud Reliability:** [Completed] (Vite pre-bundling `optimizeDeps.include` for Three.js & Drei, eliminating 504 Outdated Dep errors).
 - **Next Priorities for Next Session:**
   1. **Strategic Marketing Campaign (LinkedIn & X):** Design multi-tiered campaign calendar to showcase Dr. Garms' 2026 research progress to both the scientific community and general public, driving high-intent traffic to the site.
+     - *Content Rule:* Strictly NO long-form essays or text walls. Every post must be pointed, punchy, and visually striking with high information density in a compact format (Visual artifact / GIF / Diagram + 2–3 high-impact technical metrics + direct interactive site link).
   2. **Bi-Directional Marketing & Site UX Synergy:** Align social campaign hooks with on-site interactive artifacts (OpenGraph preview cards, dedicated case study anchors, video/GIF data hooks for CUTMAP and UNJITR).
   3. **Visual Methodology Diagrams:** Diagram pipelines for CUTMAP (forestry SLAM/RANSAC) and UNJITR (Swift UVOT photon time-slicing).
   4. **BPAW Contest Polish & Submission:** WCAG 2.1 AA audit, Schema.org Person JSON-LD, Lighthouse 95+ score verification, final review gate.
