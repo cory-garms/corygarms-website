@@ -32,11 +32,13 @@ Current Phase: **[Phase 2: Publications Engine Polish & Phase 3: Visual Data Dia
 - **Phase 1: Content Inventory & Architecture:** [Completed] (Hero value hook, 3-tier bio, separated concerns, About card & action buttons).
 - **Phase 2: Publications Engine Polish:** [Completed] (Native catalog with BibTeX modal/download, SciComm plain-language takeaways, 4 topic filter pills `Forestry`, `Remote Sensing`, `Astronomy`, `Academic`, and inclusion of 2016 LSU Master's Thesis alongside 2020 OSU Ph.D. Dissertation).
 - **Phase 3 (Selected): Interactive Digital Bookshelf:** [Completed] (40-volume 3D CSS realistic hardcover shelf with dual views).
-- **Phase 3 (Selected): LiDAR Hero Point Cloud Controls:** [Completed] (Turbo/Cividis shaders, Livox Mid-360 standardization, high-contrast controls).
+- **Phase 3 (Selected): Technical Notes Revamp:** [Completed] (Humanized, brief & conversational tone across all 11 notes, 0 em dashes, Tailwind typography styling, MathJax SVG inline normalization).
+- **Phase 3 (Selected): WebGL Point Cloud Reliability:** [Completed] (Vite pre-bundling `optimizeDeps.include` for Three.js & Drei, eliminating 504 Outdated Dep errors).
 - **Next Priorities for Next Session:**
-  1. Visual methodology pipeline diagrams for CUTMAP and UNJITR.
-  2. Final authoring of the personal About narrative by Dr. Garms.
-  3. WCAG 2.1 AA accessibility audit & Schema.org `Person` JSON-LD metadata.
+  1. **Strategic Marketing Campaign (LinkedIn & X):** Design multi-tiered campaign calendar to showcase Dr. Garms' 2026 research progress to both the scientific community and general public, driving high-intent traffic to the site.
+  2. **Bi-Directional Marketing & Site UX Synergy:** Align social campaign hooks with on-site interactive artifacts (OpenGraph preview cards, dedicated case study anchors, video/GIF data hooks for CUTMAP and UNJITR).
+  3. **Visual Methodology Diagrams:** Diagram pipelines for CUTMAP (forestry SLAM/RANSAC) and UNJITR (Swift UVOT photon time-slicing).
+  4. **BPAW Contest Polish & Submission:** WCAG 2.1 AA audit, Schema.org Person JSON-LD, Lighthouse 95+ score verification, final review gate.
 
 ### Phase 2: Native Publications Engine
 1. **Schema Definition:** Implement an Astro Content Collection or JSON schema:
