@@ -5,9 +5,9 @@ description: "How sub-pixel Fourier phase correlation reconstructs spacecraft at
 tags: ["Astrophysics", "FFT", "UNJITR", "Python"]
 ---
 
-NASA's Neil Gehrels Swift Observatory is an agile satellite designed to swing around rapidly whenever a gamma-ray burst detonates in deep space. 
+NASA's Neil Gehrels Swift Observatory is an agile satellite designed to swing around rapidly whenever a gamma-ray burst detonates in deep space.
 
-Its Ultraviolet/Optical Telescope (UVOT) is capable of capturing incredible images. But during high reaction-wheel momentum or attitude limit cycling, the satellite can experience mechanical shudder—tracing out erratic serpentine streaks across the detector that can exceed 400 pixels.
+Its Ultraviolet/Optical Telescope (UVOT) is capable of capturing incredible images. But during high reaction-wheel momentum or attitude limit cycling, the satellite can experience mechanical shudder, tracing out erratic serpentine streaks across the detector that can exceed 400 pixels.
 
 If you combine the raw exposure with standard pipeline stacking, point-source stars don't look like stars; they look like blurry ribbons of spaghetti.
 
@@ -17,7 +17,7 @@ To rescue these observations, we developed **UNJITR** (*UV/Optical Nonlinear Jit
 
 Most digital cameras integrate light into fixed frames (e.g., 30 frames per second). UVOT, however, operates in **photon-counting mode**: every detected ultraviolet photon is recorded with microsecond timestamps and detector coordinates $(x, y, t)$.
 
-Because we have individual photons, we can slice time however we want. We break the raw photon continuum into overlapping 1.0-second time slabs. 
+Because we have individual photons, we can slice time however we want. We break the raw photon continuum into overlapping 1.0-second time slabs.
 
 ### Sub-Pixel Fourier Registration
 
@@ -43,4 +43,4 @@ $$
 (X_{\text{restored}}, Y_{\text{restored}}) = (X_i - \Delta X(t_i), \; Y_i - \Delta Y(t_i))
 $$
 
-Across 282 Swift UVOT galaxy observations, this delivered a **99.7% archive recovery rate**—collapsing 450-pixel serpentine tracks back into tight $2.94''$ Airy diffraction cores and recovering light curves that astronomers had written off as lost.
+Across 282 Swift UVOT galaxy observations, this delivered a **99.7% archive recovery rate**, collapsing 450-pixel serpentine tracks back into tight $2.94''$ Airy diffraction cores and recovering light curves that astronomers had written off as lost.

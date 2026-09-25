@@ -7,7 +7,7 @@ tags: ["Hyperspectral", "RemoteSensing", "Calibration", "Optics"]
 
 In an optics cleanroom, your airborne hyperspectral camera looks like a masterpiece: perfectly aligned lenses, sub-nanometer spectral bandwidths, and pin-sharp resolution on the optical bench.
 
-Then you bolt it into the belly pod of a twin-engine survey plane, climb to 8,000 feet at 140 knots, and turn the system on. 
+Then you bolt it into the belly pod of a twin-engine survey plane, climb to 8,000 feet at 140 knots, and turn the system on.
 
 Suddenly you have engine vibrations rattling the mount, freezing air cooling the optics, and atmospheric haze scattering photons. When you look at the raw imagery, everything is slightly soft. Is the lens out of focus? Did platform motion smear the scan lines? Or is it just atmospheric scattering?
 
@@ -20,16 +20,18 @@ You can't just tape a standard eye chart to a runway and eyeball it from an airp
 Because the edge crosses detector pixels at a gradual angle, each successive scan line samples the edge transition at a slightly different fractional pixel offset:
 
 1. **Edge Spread Function (ESF):** Binning those offsets builds a continuous, oversampled profile across the knife-edge boundary.
+
 2. **Line Spread Function (LSF):** Differentiating the ESF gives the system's 1D impulse response:
    $$
    \text{LSF}(x) = \frac{d}{dx} \text{ESF}(x)
    $$
+
 3. **Modulation Transfer Function (MTF):** Taking the Fourier transform of the LSF yields the MTF curve, quantifying exactly how much spatial contrast the optics preserve across spatial frequencies.
 
 ### Ground Truth Radiometry
 
-Alongside the slanted edges, we lay out calibrated reflectance panels (deep black 4%, neutral gray 32%, and bright white 64%) and measure them simultaneously with a ground spectrometer. 
+Alongside the slanted edges, we lay out calibrated reflectance panels (deep black 4%, neutral gray 32%, and bright white 64%) and measure them simultaneously with a ground spectrometer.
 
-Using the **Empirical Line Method (ELM)**, we convert raw detector digital numbers directly into surface reflectance—decoupling atmospheric absorption from sensor degradation.
+Using the **Empirical Line Method (ELM)**, we convert raw detector digital numbers directly into surface reflectance, decoupling atmospheric absorption from sensor degradation.
 
 The beauty of this setup is that it provides ground truth verification before the plane even lands, guaranteeing that millions of dollars in airborne survey data are sharp, calibrated, and scientifically defensible.

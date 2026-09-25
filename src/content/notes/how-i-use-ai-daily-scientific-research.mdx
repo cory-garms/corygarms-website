@@ -1,26 +1,28 @@
 ---
 title: "How I Actually Use AI in Daily Scientific Research (Without the Hype)"
 publishDate: 2026-04-18
-description: "A candid look at where LLMs and vision models save hours of engineering time—and where they completely fail."
+description: "A candid look at where LLMs and vision models save hours of engineering time, and where they completely fail."
 tags: ["AI", "MachineLearning", "Productivity", "Python"]
 ---
 
 Most articles about AI in scientific research fall into one of two camps: breathless Silicon Valley evangelists claiming human software engineers will be obsolete by next Tuesday, or cynical academics arguing that LLMs are just glorified autocorrect engines that hallucinate fake citations.
 
-Neither camp reflects the reality of a working research scientist. 
+Neither camp reflects the reality of a working research scientist.
 
 At Spectral Sciences, I spend my days developing algorithms for satellite jitter restoration, 3D LiDAR point clouds, and containerized Python pipelines. In that world, AI is neither an existential threat nor a magical cure-all. It’s an exceptionally fast junior pair programmer with infinite patience and zero common sense.
 
-Here is where it actually saves me hours—and where I never let it near the wheel.
+Here is where it actually saves me hours, and where I never let it near the wheel.
 
 ### Where It Excels
 
 #### 1. Writing the Plumbing Nobody Enjoys
-Nobody gets a Ph.D. in science to spend three hours wrestling with Docker multi-stage build caching, setting up Astro layout templates, or looking up the exact Three.js syntax for binding raw Float32 vertex buffers. 
+
+Nobody gets a Ph.D. in science to spend three hours wrestling with Docker multi-stage build caching, setting up Astro layout templates, or looking up the exact Three.js syntax for binding raw Float32 vertex buffers.
 
 Offloading boilerplate scaffolding to context-aware coding assistants turns half-day setup chores into five-minute prompts.
 
 #### 2. Vectorization Sparring Partner
+
 If you write a naive nested Python loop over 500,000 LiDAR points, it will crawl. But turning that into an optimal NumPy broadcast or SciPy sparse matrix routine can take 20 minutes of scratching your head over axis alignments.
 
 AI is great at this kind of refactoring:
@@ -35,6 +37,7 @@ def fast_point_to_plane(points_nx3, plane_pt_1x3, plane_normal_1x3):
 ```
 
 #### 3. Off-the-Shelf Vision Backbones
+
 For projects like [`bass-detector`](https://github.com/cory-garms/bass-detector) or foreground tree segmentation in CUTMAP, fine-tuning pre-trained foundation models (YOLOv8, SAM) means we no longer have to hand-label 10,000 bounding boxes before testing an algorithmic hypothesis.
 
 ---
@@ -42,10 +45,11 @@ For projects like [`bass-detector`](https://github.com/cory-garms/bass-detector)
 ### Where It Fails Horribly
 
 * **3D Geometry & Spatial Transforms:** Ask an LLM to compute an Euler angle rotation matrix or invert a camera extrinsic matrix, and it will emit plausible-looking code with a flipped sign that will quietly ruin your point cloud alignment three hours into an overnight processing run.
+
 * **Math Proofs & Physics:** LLMs don't understand mechanics or photon kinetics; they predict text tokens. If you ask one to calculate an eigenvalue or verify an edge spread function, it will hallucinate arithmetic with complete confidence.
 
 ### The Rule
 
-If you don't already understand the underlying linear algebra and physics well enough to spot a subtle bug in your sleep, using AI won't make you faster—it will just help you write bugs at the speed of light. 
+If you don't already understand the underlying linear algebra and physics well enough to spot a subtle bug in your sleep, using AI won't make you faster; it will just help you write bugs at the speed of light.
 
 Used with domain expertise, though, it clears away the mundane friction so you can focus on the real science.

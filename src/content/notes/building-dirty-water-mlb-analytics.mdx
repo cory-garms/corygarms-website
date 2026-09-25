@@ -5,27 +5,29 @@ description: "Why traditional box scores lie about bullpen freshness, and how an
 tags: ["SportsAnalytics", "MLB", "Python", "DataViz"]
 ---
 
-Every baseball fan knows the feeling: it’s the 8th inning of a tight ballgame at Fenway, the manager strolls out to the mound, and the TV broadcast puts up a graphic showing the reliever’s pristine 2.40 ERA. 
+Every baseball fan knows the feeling: it’s the 8th inning of a tight ballgame at Fenway, the manager strolls out to the mound, and the TV broadcast puts up a graphic showing the reliever’s pristine 2.40 ERA.
 
 Thirty seconds later, he gives up a 420-foot missile off the back wall of the bleachers.
 
 The problem with standard box scores and traditional ERA is that they don't capture cumulative strain. Throwing 15 high-stress pitches on three consecutive nights puts vastly more wear on an arm than throwing 45 pitches once and resting for three days.
 
-To see who was *actually* fresh before first pitch every morning, I built **[Dirty Water](https://dirtywater.corygarms.com)**—an automated daily analytics dashboard tracking Statcast pitch physics, bullpen availability, and Fenway matchup geometry.
+To see who was *actually* fresh before first pitch every morning, I built **[Dirty Water](https://dirtywater.corygarms.com)**, an automated daily analytics dashboard tracking Statcast pitch physics, bullpen availability, and Fenway matchup geometry.
 
 ### The 06:00 ET Wake-Up Call
 
 The pipeline runs on autopilot every morning. A Python cron job queries MLB’s Statcast API for the previous night’s pitch-level tracking data:
+
 * **Release mechanics:** Initial velocity ($v_0$), release point coordinates, and induced movement (IVB & horizontal break).
+
 * **Batted-ball quality:** Exit velocities and launch angles converted into expected metrics ($\text{xBA}$, $\text{xwOBA}$).
 
 From there, it computes an **Availability Score** ($0 - 100$) for every arm in the Boston bullpen. Instead of treating pitches linearly, the model applies exponential decay weights over a rolling 4-day window and adds metabolic penalties for high-leverage innings with runners in scoring position.
 
-When a reliever drops below an availability score of 40, opponents' hard-hit rates against their breaking balls jump by **over 6%**, and walk rates spike. It turns out arms really do get tired—even when their season ERA looks great on TV.
+When a reliever drops below an availability score of 40, opponents' hard-hit rates against their breaking balls jump by **over 6%**, and walk rates spike. It turns out arms really do get tired, even when their season ERA looks great on TV.
 
 ### Fenway Is a Weird Place
 
-The other half of the tool is matchup simulation. Fenway Park’s outfield dimensions are famously bizarre—from the 310-foot Green Monster looming in shallow left to the cavernous 420-foot "triangle" in center. 
+The other half of the tool is matchup simulation. Fenway Park’s outfield dimensions are famously bizarre, from the 310-foot Green Monster looming in shallow left to the cavernous 420-foot "triangle" in center.
 
 By mapping projected starting pitcher repertoires (sinker/sweeper/cutter splits) against opposing batter spray charts, Dirty Water simulates which hitters are primed to exploit Fenway's quirks on any given afternoon.
 
