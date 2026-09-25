@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 
+type Topic = "Forestry" | "Remote Sensing" | "Astronomy" | "Academic";
+
 interface Publication {
   id: string;
   title: string;
@@ -8,8 +10,9 @@ interface Publication {
   venue: string;
   year: number;
   categoryLabel: string;
-  typeBadge: "In Preparation" | "Peer-Reviewed Journal" | "Conference Proceeding" | "Ph.D. Dissertation";
+  typeBadge: "In Preparation" | "Peer-Reviewed Journal" | "Conference Proceeding" | "Ph.D. Dissertation" | "Master's Thesis";
   badgeColor: string;
+  topics: Topic[];
   takeaway: string;
   doi?: string;
   bibtex: string;
@@ -28,6 +31,7 @@ const publications: Publication[] = [
     categoryLabel: "Space Instrumentation & Astrophysics",
     typeBadge: "In Preparation",
     badgeColor: "bg-cyan-950/80 text-cyan-300 border-cyan-500/40",
+    topics: ["Astronomy", "Remote Sensing"],
     takeaway: "Formulates the UNJITR framework: direct photon-stream attitude drift reconstruction at 6.7 Hz with 1.0s correlation slabs, achieving a 99.7% archive recovery rate across 282 Swift UVOT galaxy observations under extreme spacecraft limit cycling.",
     codeLink: "/unjitr",
     codeLabel: "Mission Showcase &rarr;",
@@ -48,6 +52,7 @@ const publications: Publication[] = [
     categoryLabel: "Scientific Software & Tools",
     typeBadge: "In Preparation",
     badgeColor: "bg-cyan-950/80 text-cyan-300 border-cyan-500/40",
+    topics: ["Astronomy", "Remote Sensing"],
     takeaway: "Details the forthcoming UNJITR open-source Python toolkit, implementing hoisted 2D FFT cross-correlation, sub-pixel parabolic vertex fitting, automated Do-No-Harm quality gates, and high-throughput batch FITS event processing.",
     codeLink: "/unjitr",
     codeLabel: "Toolkit Architecture &rarr;",
@@ -68,6 +73,7 @@ const publications: Publication[] = [
     categoryLabel: "3D Lidar & Field Robotics",
     typeBadge: "In Preparation",
     badgeColor: "bg-amber-950/80 text-amber-300 border-amber-500/40",
+    topics: ["Forestry", "Remote Sensing"],
     takeaway: "Analyzes error propagation across multimodal LiDAR-stereo extrinsics under dense forest canopy, introducing staged target placement diagnostics to guarantee sub-centimeter mobile mapping precision.",
     codeLink: "/cutmap",
     codeLabel: "CUTMAP System &rarr;",
@@ -88,6 +94,7 @@ const publications: Publication[] = [
     categoryLabel: "Genetics & Spectral Phenomics",
     typeBadge: "Peer-Reviewed Journal",
     badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    topics: ["Forestry", "Remote Sensing"],
     takeaway: "Multi-year field trial assessing morphological growth, anthocyanin leaf coloration stability, and canopy spectral reflectance across genetically modified purple poplar lines.",
     doi: "https://doi.org/10.21273/HORTSCI19524-26",
     bibtex: `@article{strauss2026purplepoplar,
@@ -113,6 +120,7 @@ const publications: Publication[] = [
     categoryLabel: "Hyperspectral & Optics",
     typeBadge: "Conference Proceeding",
     badgeColor: "bg-blue-950/80 text-blue-300 border-blue-500/40",
+    topics: ["Remote Sensing"],
     takeaway: "Engineered deployable high-contrast edge and spatial-frequency ground targets to measure MTF, sensor sharpness, and spatial resolution during airborne electro-optical survey flights.",
     doi: "https://doi.org/10.1117/12.2663812",
     bibtex: `@inproceedings{garms2023targets,
@@ -136,6 +144,7 @@ const publications: Publication[] = [
     categoryLabel: "Hyperspectral & Optics",
     typeBadge: "Conference Proceeding",
     badgeColor: "bg-blue-950/80 text-blue-300 border-blue-500/40",
+    topics: ["Remote Sensing"],
     takeaway: "Methods for vicarious calibration of satellite and airborne imaging spectrometers using ground reference arrays to maintain radiometric fidelity across repeated observations.",
     doi: "https://doi.org/10.1117/12.2635901",
     bibtex: `@inproceedings{garms2022calibration,
@@ -159,6 +168,7 @@ const publications: Publication[] = [
     categoryLabel: "Forest Ecology & Seed Physiology",
     typeBadge: "Peer-Reviewed Journal",
     badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    topics: ["Forestry"],
     takeaway: "Presents an in situ thermal manipulation methodology for developing conifer cones and assesses subsequent phenotypic seedling growth in common garden environments.",
     doi: "https://doi.org/10.1186/s13007-020-00700-7",
     bibtex: `@article{moler2021warming,
@@ -181,6 +191,7 @@ const publications: Publication[] = [
     categoryLabel: "3D Lidar & Forestry",
     typeBadge: "Peer-Reviewed Journal",
     badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    topics: ["Forestry", "Remote Sensing"],
     takeaway: "Multi-platform comparison of UAV SfM, airborne LiDAR, and mobile ground LiDAR for tree stem detection, positional accuracy, and lean angle estimation in mature Douglas-fir.",
     doi: "https://doi.org/10.3390/rs12142278",
     codeLink: "https://github.com/cory-garms/lidar-canopy-extractor",
@@ -207,6 +218,7 @@ const publications: Publication[] = [
     categoryLabel: "UAS & Nursery Phenotyping",
     typeBadge: "Peer-Reviewed Journal",
     badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    topics: ["Forestry", "Remote Sensing"],
     takeaway: "Replaced destructive manual caliper measurements with multispectral UAS SfM 3D reconstructions to estimate conifer seedling growth models and detect early nursery mortality.",
     doi: "https://doi.org/10.1139/cjfr-2019-0325",
     bibtex: `@article{garms2020seedlings,
@@ -229,6 +241,7 @@ const publications: Publication[] = [
     categoryLabel: "3D Lidar & Stem Modeling",
     typeBadge: "Peer-Reviewed Journal",
     badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    topics: ["Forestry", "Remote Sensing"],
     takeaway: "Quantifies how stem lean introduces systematic error in conventional taper and volume calculations, and develops non-linear compensation models using vehicle-mounted mobile LiDAR.",
     doi: "https://doi.org/10.1139/cjfr-2020-0082",
     bibtex: `@article{garms2020stemlean,
@@ -251,6 +264,7 @@ const publications: Publication[] = [
     categoryLabel: "Ph.D. Dissertation",
     typeBadge: "Ph.D. Dissertation",
     badgeColor: "bg-amber-950/80 text-amber-300 border-amber-500/40",
+    topics: ["Academic", "Forestry", "Remote Sensing"],
     takeaway: "Comprehensive doctoral dissertation examining the operational integration of UAS structure-from-motion (SfM) photogrammetry and mobile/airborne laser scanning (MLS/ALS) across stand life cycle stages—from common garden seedling trials to harvest-ready mature timber.",
     bibtex: `@phdthesis{garms2020dissertation,
   title={Using Point Clouds for Single Tree Forest Inventory at the Beginning and End of the Rotation},
@@ -272,6 +286,7 @@ const publications: Publication[] = [
     categoryLabel: "Tree Biomechanics & Windfirmness",
     typeBadge: "Peer-Reviewed Journal",
     badgeColor: "bg-emerald-950/80 text-emerald-300 border-emerald-500/40",
+    topics: ["Forestry"],
     takeaway: "Applied static winching in situ with multi-accelerometer tilt sensing to test windfirmness, Young's modulus of elasticity (MoE), and modulus of rupture (MOR) in loblolly and longleaf pine following hurricane exposure.",
     doi: "https://doi.org/10.1093/forestry/cpy038",
     bibtex: `@article{garms2019relative,
@@ -284,18 +299,48 @@ const publications: Publication[] = [
   year={2019},
   doi={10.1093/forestry/cpy038}
 }`
+  },
+
+  // 2016
+  {
+    id: "lsu-ms-thesis-2016",
+    title: "Relative Resistance to Breaking of Pinus taeda L. and Pinus palustris",
+    authors: "Cory Glenn Garms (Advisor: Dr. Thomas J. Dean)",
+    venue: "M.S. Thesis, Louisiana State University",
+    year: 2016,
+    categoryLabel: "M.S. Thesis",
+    typeBadge: "Master's Thesis",
+    badgeColor: "bg-amber-950/80 text-amber-300 border-amber-500/40",
+    topics: ["Academic", "Forestry"],
+    takeaway: "Investigated hurricane windfirmness mechanisms in living loblolly and longleaf pine stands using in situ static winching, dynamometer load cells, and multi-accelerometer tilt sensing to measure stem bending moments (Mmax), Young's modulus of elasticity (MOE), and modulus of rupture (MOR).",
+    doi: "https://repository.lsu.edu/gradschool_theses/3008",
+    bibtex: `@mastersthesis{garms2016thesis,
+  title={Relative Resistance to Breaking of Pinus taeda L. and Pinus palustris},
+  author={Garms, Cory Glenn},
+  school={Louisiana State University},
+  year={2016},
+  type={Master of Science Thesis},
+  note={Department of Renewable Natural Resources},
+  url={https://repository.lsu.edu/gradschool_theses/3008}
+}`
   }
 ];
+
+// Topic Counts
+const forestryCount = publications.filter(p => p.topics.includes("Forestry")).length;
+const remoteSensingCount = publications.filter(p => p.topics.includes("Remote Sensing")).length;
+const astronomyCount = publications.filter(p => p.topics.includes("Astronomy")).length;
+const academicCount = publications.filter(p => p.topics.includes("Academic")).length;
 ---
 
 <Layout 
   title="Research & Publications"
-  description="Peer-reviewed papers, doctoral dissertation, and technical algorithms in forest LiDAR, space instrumentation, and sensor calibration by Cory Glenn Garms, Ph.D."
+  description="Peer-reviewed papers, doctoral dissertation, master's thesis, and technical algorithms in forest LiDAR, space instrumentation, and sensor calibration by Cory Glenn Garms, Ph.D."
 >
   <div class="max-w-5xl mx-auto px-6 py-16">
     
     <!-- Page Header -->
-    <div class="mb-12">
+    <div class="mb-10">
       <div class="flex items-center gap-2 mb-3">
         <span class="w-2 h-2 rounded-sm bg-accent"></span>
         <span class="text-xs font-mono uppercase tracking-widest text-accent-light">Scholarly Output</span>
@@ -304,7 +349,7 @@ const publications: Publication[] = [
         Publications & Science
       </h1>
       <p class="text-base text-text-muted max-w-2xl leading-relaxed">
-        Peer-reviewed papers, doctoral dissertation, and technical algorithms spanning forest LiDAR, space instrumentation jitter correction, and optical sensor calibration.
+        Peer-reviewed papers, graduate theses, and technical algorithms spanning forest LiDAR, space instrumentation jitter correction, and optical sensor calibration.
       </p>
 
       <div class="mt-6 flex flex-wrap gap-4 items-center text-xs font-mono">
@@ -324,12 +369,67 @@ const publications: Publication[] = [
       </div>
     </div>
 
+    <!-- Topic Filter Bar -->
+    <div class="mb-10 p-2 sm:p-2.5 rounded-2xl bg-surface/80 border border-border flex flex-wrap items-center justify-between gap-3 shadow-sm">
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2" id="filter-pills-container">
+        <button
+          type="button"
+          class="topic-filter-btn active px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 bg-forest-800 text-white border border-accent/50 shadow-sm"
+          data-topic="all"
+        >
+          <span>All</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-accent/20 text-accent font-semibold">{publications.length}</span>
+        </button>
+
+        <button
+          type="button"
+          class="topic-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 text-text-muted hover:text-white hover:bg-forest-900/60 border border-transparent"
+          data-topic="Forestry"
+        >
+          <span>Forestry</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-surface text-text-dim font-semibold">{forestryCount}</span>
+        </button>
+
+        <button
+          type="button"
+          class="topic-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 text-text-muted hover:text-white hover:bg-forest-900/60 border border-transparent"
+          data-topic="Remote Sensing"
+        >
+          <span>Remote Sensing</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-surface text-text-dim font-semibold">{remoteSensingCount}</span>
+        </button>
+
+        <button
+          type="button"
+          class="topic-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 text-text-muted hover:text-white hover:bg-forest-900/60 border border-transparent"
+          data-topic="Astronomy"
+        >
+          <span>Astronomy</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-surface text-text-dim font-semibold">{astronomyCount}</span>
+        </button>
+
+        <button
+          type="button"
+          class="topic-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all cursor-pointer flex items-center gap-1.5 text-text-muted hover:text-white hover:bg-forest-900/60 border border-transparent"
+          data-topic="Academic"
+        >
+          <span>Academic</span>
+          <span class="px-1.5 py-0.2 rounded-full text-[10px] bg-surface text-text-dim font-semibold">{academicCount}</span>
+        </button>
+      </div>
+
+      <div class="text-xs font-mono text-text-dim px-2 hidden sm:block">
+        <span id="results-count" class="text-white font-semibold">{publications.length}</span> publications shown
+      </div>
+    </div>
+
     <!-- Chronological Publications List -->
-    <div class="space-y-8">
+    <div class="space-y-8" id="publications-list">
       {publications.map((pub) => (
         <article 
-          class="p-6 sm:p-8 bg-surface rounded-2xl border border-border hover:border-accent/40 transition-all duration-300 shadow-sm"
+          class="publication-card p-6 sm:p-8 bg-surface rounded-2xl border border-border hover:border-accent/40 transition-all duration-300 shadow-sm"
           id={pub.id}
+          data-topics={pub.topics.join(",")}
         >
           <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
             <div class="flex flex-wrap items-center gap-2">
@@ -339,6 +439,11 @@ const publications: Publication[] = [
               <span class={`text-[11px] font-mono px-2.5 py-0.5 rounded border ${pub.badgeColor}`}>
                 {pub.typeBadge}
               </span>
+              {pub.topics.map((t) => (
+                <span class="text-[10px] font-mono px-2 py-0.2 rounded bg-surface/80 text-text-dim border border-border/60">
+                  {t}
+                </span>
+              ))}
             </div>
             <span class="text-xs font-mono text-text-dim font-bold">
               {pub.year}
@@ -367,7 +472,7 @@ const publications: Publication[] = [
                 rel="noopener noreferrer"
                 class="px-3 py-1.5 bg-forest-800 hover:bg-forest-750 text-white rounded-lg text-xs font-mono border border-border hover:border-accent/50 transition-all inline-flex items-center gap-1.5"
               >
-                <span>Read Paper / DOI &rarr;</span>
+                <span>{pub.typeBadge.includes("Thesis") || pub.typeBadge.includes("Dissertation") ? "Read Repository &rarr;" : "Read Paper / DOI &rarr;"}</span>
               </a>
             )}
 
@@ -411,6 +516,53 @@ const publications: Publication[] = [
             target.innerText = originalText;
             target.classList.remove('text-accent');
           }, 2000);
+        }
+      });
+    });
+
+    // Topic Filter Pills handler
+    const filterButtons = document.querySelectorAll('.topic-filter-btn');
+    const articles = document.querySelectorAll('.publication-card');
+    const resultsCountEl = document.getElementById('results-count');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const topic = btn.getAttribute('data-topic');
+        
+        // Reset all buttons to inactive
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-forest-800', 'text-white', 'border-accent/50', 'shadow-sm', 'active');
+          b.classList.add('text-text-muted', 'border-transparent');
+          const badge = b.querySelector('span:last-child');
+          if (badge) {
+            badge.classList.remove('bg-accent/20', 'text-accent');
+            badge.classList.add('bg-surface', 'text-text-dim');
+          }
+        });
+
+        // Set clicked button to active
+        btn.classList.add('bg-forest-800', 'text-white', 'border-accent/50', 'shadow-sm', 'active');
+        btn.classList.remove('text-text-muted', 'border-transparent');
+        const activeBadge = btn.querySelector('span:last-child');
+        if (activeBadge) {
+          activeBadge.classList.add('bg-accent/20', 'text-accent');
+          activeBadge.classList.remove('bg-surface', 'text-text-dim');
+        }
+
+        // Filter articles
+        let visibleCount = 0;
+        articles.forEach(art => {
+          const artTopics = art.getAttribute('data-topics')?.split(',') || [];
+          if (topic === 'all' || artTopics.includes(topic!)) {
+            (art as HTMLElement).style.display = 'block';
+            visibleCount++;
+          } else {
+            (art as HTMLElement).style.display = 'none';
+          }
+        });
+
+        if (resultsCountEl) {
+          resultsCountEl.textContent = String(visibleCount);
         }
       });
     });

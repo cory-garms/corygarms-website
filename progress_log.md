@@ -1,5 +1,23 @@
 # Progress Log
 
+## [2026-09-24 10:15:00 EDT] — Research Topic Filter Pills, LSU Master's Thesis & CV Synchronization
+
+* **Status:** Completed & Validated
+* **Focus:** Scholarly Output Discoverability, Thesis Integration, CV Alignment
+* **Summary:**
+  1. **Instant Topic Filter Pills (`src/pages/research.astro`):**
+     - Implemented dynamic topic filter bar with 5 pills: **All (13)**, **Forestry (9)**, **Remote Sensing (8)**, **Astronomy (2)**, and **Academic (2)**.
+     - Live result counter (*"X publications shown"*) and instantaneous client-side vanilla JavaScript filtering based on `data-topics` DOM attributes with zero page reload.
+     - Styled with high-contrast active state (`bg-forest-800 text-white border-accent/50`) and subtle dark surface hover states.
+     - Enriched each publication card with discrete topic pill tags.
+  2. **Graduate Academic Research Completeness (`src/pages/research.astro`):**
+     - Ingested Dr. Garms' 2016 Louisiana State University Master's Thesis: *"Relative Resistance to Breaking of Pinus taeda L. and Pinus palustris"*.
+     - Added full metadata: Advisor Dr. Thomas J. Dean, degree institution, topics (`["Academic", "Forestry"]`), type badge (`Master's Thesis`), plain-language SciComm takeaway (static winching, dynamometer load cells, accelerometry, MOE/MOR), direct LSU repository link, and complete `@mastersthesis` BibTeX entry.
+     - Updated Ph.D. Dissertation topics to include `Academic`, ensuring both graduate theses surface together under the **`Academic`** filter.
+  3. **Curriculum Vitae Synchronization (`src/pages/cv.astro`):**
+     - Corrected M.S. degree description in Education section to accurately reflect in situ forest biomechanics, static winching, tilt-sensor accelerometry, and stem breaking resistance in hurricane-prone southern pines, replacing previous acoustic testing placeholder.
+* **Technical Debt/Next Steps:** Pipeline methodology diagrams for CUTMAP and UNJITR; Dr. Garms personal About narrative; WCAG 2.1 AA audit & Schema.org JSON-LD.
+
 ## [2026-09-23 15:15:00 EDT] — Interactive 3D Bookshelf, Hero Calibration, About Polish & Contest Readiness
 
 * **Status:** Completed & Deployed

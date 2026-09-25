@@ -30,13 +30,13 @@ Every change must serve one or more of these criteria:
 ### Active Phase Tracker
 Current Phase: **[Phase 2: Publications Engine Polish & Phase 3: Visual Data Diagrams]**
 - **Phase 1: Content Inventory & Architecture:** [Completed] (Hero value hook, 3-tier bio, separated concerns, About card & action buttons).
+- **Phase 2: Publications Engine Polish:** [Completed] (Native catalog with BibTeX modal/download, SciComm plain-language takeaways, 4 topic filter pills `Forestry`, `Remote Sensing`, `Astronomy`, `Academic`, and inclusion of 2016 LSU Master's Thesis alongside 2020 OSU Ph.D. Dissertation).
 - **Phase 3 (Selected): Interactive Digital Bookshelf:** [Completed] (40-volume 3D CSS realistic hardcover shelf with dual views).
 - **Phase 3 (Selected): LiDAR Hero Point Cloud Controls:** [Completed] (Turbo/Cividis shaders, Livox Mid-360 standardization, high-contrast controls).
 - **Next Priorities for Next Session:**
-  1. Instant publication topic filter pills (`LiDAR & Forestry`, `Space & Jitter`, `Optics`, `Genetics`, `Ph.D.`) on `/research`.
-  2. Visual methodology pipeline diagrams for CUTMAP and UNJITR.
-  3. Final authoring of the personal About narrative by Dr. Garms.
-  4. WCAG 2.1 AA accessibility audit & Schema.org `Person` JSON-LD metadata.
+  1. Visual methodology pipeline diagrams for CUTMAP and UNJITR.
+  2. Final authoring of the personal About narrative by Dr. Garms.
+  3. WCAG 2.1 AA accessibility audit & Schema.org `Person` JSON-LD metadata.
 
 ### Phase 2: Native Publications Engine
 1. **Schema Definition:** Implement an Astro Content Collection or JSON schema:
