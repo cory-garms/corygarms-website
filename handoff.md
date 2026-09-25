@@ -1,28 +1,65 @@
 # Project Handoff & Sprint State
 
-**Date:** September 18, 2026 (End-of-Week Wrap-Up)  
-**Target Architecture:** Astro v5, React Three Fiber, WebGL, Tailwind CSS, Vercel  
+**Date:** September 25, 2026  
+**Target Architecture:** Astro v5, React Three Fiber, Three.js, Tailwind CSS v4, Vercel  
 **Lead Scientist:** Dr. Cory Glenn Garms (Senior Scientist, Spectral Sciences, Inc.)  
+**Contest Goal:** Best Personal Academic Website (BPAW) 2026 Contest Submission  
 
-## State of the Production Website (corygarms.com)
-The website is in an exceptional, fully verified production state:
-1. **Landing Hero (Red Oak Point Cloud):** Web-optimized 3D terrestrial LiDAR survey of a historic Red Oak (*Quercus rubra*, 28.4 m height, 28.8 m spread) with 6 scientific colormaps (Forestry, Viridis, Magma, LiDAR Reflectance, Laser Emerald, Topo Cyan), wider camera framing, and slow initial auto-rotation.
-2. **CUTMAP Flagship Commercial Showcase (`/cutmap`):** High-impact USDA-NIFA Phase II teaming showcase featuring interactive 3D WebGL point clouds for Grove 1–3 (Eastern White Pine), H.264 video perception demo on Jetson AGX Orin, bold commercial KPIs ($2,200 vs. $100k MLS), 3-step operational workflow, and 4 commercialization pathways.
-3. **Data Integrity:** Strict data boundaries enforced (all Mt. Auburn/Halcyon data and raw academic scatter plots quarantined).
-4. **DevOps & CI/CD:** Clean static builds (19 routes in 6.5s) continuously deployed via Vercel.
+---
 
-## Objectives for Upcoming Sessions
-1. **GitHub Portfolio Project 1:** Initialize, document, and containerize standalone open-source spatial projects (e.g. Lidar Canopy Profile Extractor in `~/Sandbox/lidar-canopy-extractor`).
-2. **Research & Notes Expansion:** Draft new deep-tech write-ups under `src/content/notes/` highlighting mobile SLAM calibration and real-time edge mensuration. 
+## 1. Current State of the Production Website (corygarms.com)
 
-1. **Setup:** Create a new directory alongside the website (e.g., `~/Sandbox/lidar-canopy-extractor`).
-2. **Implementation:** Write a Python computational pipeline using `laspy`, `open3d`, and `numpy` to ingest a raw aerial Lidar (`.las`/`.laz`) file, mathematically classify ground vs vegetation, and construct a statistical Canopy Height Model (CHM).
-3. **Containerization:** Write a strict, production-ready `Dockerfile` and `docker-compose.yml` (`python:3.11-slim` base) to guarantee the environment is perfectly reproducible.
-4. **Documentation:** Produce an academic-grade `README.md` explicitly detailing the underlying spatial algorithm, CLI usage, and exactly how to mount data volumes in the Docker container to process local files.
+The website is fully operational, clean-building (20 static routes in ~6s), and continuously deployed via Vercel:
 
-## Strict User Constraints (CRITICAL)
-* **No Auto-Execute:** NEVER run background scripts or destructive terminal commands automatically without explicit user permission. The user prefers you provide step-by-step instructions for them to execute directly in their terminal!
-* **Code Quality:** Strictly adhere to `PEP 8` and modular architecture. Write typed functions (`def process(file: str) -> None:`).
-* **Scientific Polish:** Ensure the algorithmic approach is mathematically sound and explicitly commented. Avoid "black box" machine learning unless specifically requested; prefer transparent geometrical/statistical derivations for Lidar datasets.
+1. **Landing Hero (3D LiDAR Point Cloud):**
+   - Interactive Livox Mid-360 point cloud scans with scientific colormaps (Turbo, Cividis, Forestry, Topo, Reflectance, Laser).
+   - Floating glassmorphism identity card passing the academic 5-second test with direct action anchors (Research Bio, Publications Dossier, CV).
+   - Solidified Vite pre-bundling (`optimizeDeps.include`) preventing dynamic hydration failures.
+2. **Flagship Research & Commercial Showcases:**
+   - **CUTMAP (`/cutmap`):** USDA-NIFA Phase II teaming showcase featuring interactive 3D WebGL point clouds for Groves 1–3, edge perception demo on Jetson AGX Orin, $2,200 vs $100k MLS cost comparison, and single-view SAM mensuration.
+   - **UNJITR (`/unjitr` / `/astro-jitter`):** NASA Swift UVOT spacecraft jitter restoration showcase (sub-pixel FFT cross-correlation, 282 galaxy observations, 99.7% archive recovery rate).
+3. **Native Publications Engine (`/research`):**
+   - Dynamic client-side topic filter pills (`All`, `Forestry`, `Remote Sensing`, `Astronomy`, `Academic`).
+   - Plain-language SciComm takeaways, direct DOI links, open-access PDF downloads, and instant BibTeX modal/download.
+   - Complete graduate research catalog including 2020 OSU Ph.D. Dissertation and 2016 LSU Master's Thesis.
+4. **Interactive 3D Bookshelf (`/reading-list`):**
+   - 40-volume realistic CSS 3D hardcover bookshelf with debossed gold foil, cloth headbands, walnut fascia beams, cast-iron bookends, popover synopses, and accessible 2D grid toggle.
+5. **Technical Notes Collection (`/notes`):**
+   - 11 concise, conversational, and humanized dispatches covering spatial computing, spacecraft optics, baseball pitch design, and forestry mechanobiology.
+   - Zero em dashes, generous typography vertical rhythm (`@tailwindcss/typography`), and normalized inline MathJax SVG rendering.
+6. **Curriculum Vitae (`/cv`):**
+   - Complete, verified CV covering education, awards, leadership (Medford Malden Elks), and publications.
 
-*Begin the session by asking the user to `mkdir ~/Sandbox/lidar-canopy-extractor`, initialize a `git` repo, and provide a dummy `.las` dataset to configure the pipeline against.*
+---
+
+## 2. Immediate Objectives for Next Session
+
+### Priority 1: Strategic Marketing Campaign (LinkedIn & X)
+Launch a coordinated campaign to showcase Dr. Garms' 2026 research progress to both the scientific community and the general public, driving high-intent traffic to the website.
+- **Strict Content Standard:** Strictly **NO** long-form essays or text walls. Every post must be pointed, punchy, and visually striking with high information density in a compact format:
+  1. *Visual Data Hook:* High-contrast point cloud loop, GIF, sensor diagram, or before/after image.
+  2. *3 High-Impact Technical Bullets:* Problem $\rightarrow$ Innovation $\rightarrow$ Measured Benchmark.
+  3. *Direct Callout:* Single link to the interactive web viewer or dataset.
+
+### Priority 2: Bi-Directional Site & Marketing UX Synergy
+Align social campaign entry points with on-site interactive experiences:
+- High-fidelity OpenGraph and Twitter preview cards for `/cutmap`, `/unjitr`, and individual notes.
+- Dedicated interactive anchors allowing visitors from social media to immediately test algorithms and view benchmarks.
+
+### Priority 3: Visual Methodology Pipeline Diagrams
+Design visual workflow flowcharts for:
+- **CUTMAP:** FAST-LIO2 SLAM $\rightarrow$ surface-normal constrained 3D cylinder RANSAC on NVIDIA Jetson.
+- **UNJITR:** Swift UVOT photon-counting arrival stream $\rightarrow$ overlapping 1.0s FFT time slices $\rightarrow$ continuous jitter trajectory inversion.
+
+### Priority 4: BPAW 2026 Contest Polish & Submission
+- WCAG 2.1 AA accessibility audit (especially dark mode contrast).
+- Schema.org `Person` JSON-LD structured data for academic search engines.
+- Lighthouse 95+ score verification across all routes.
+- Final review gate and submission.
+
+---
+
+## 3. Governance & Development Rules
+- **Human-in-the-Loop Authority:** Dr. Garms is the final authority. Never make sweeping refactors without explicit approval.
+- **Proposal Protocol:** Inspect $\rightarrow$ Propose exact diff/copy $\rightarrow$ Await approval $\rightarrow$ Execute $\rightarrow$ Report.
+- **Tone Standard:** Concise, human, authentic, technically rigorous. No AI buzzwords or cliché formatting.

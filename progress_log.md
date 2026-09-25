@@ -1,5 +1,22 @@
 # Progress Log
 
+## [2026-09-25 15:20:00 EDT] — WebGL Point Cloud Reliability & Vite OptimizeDeps Fix
+
+* **Status:** Completed & Deployed
+* **Focus:** 3D Point Cloud Viewers, Client Hydration, Vite Pre-Bundling
+* **Summary:**
+  1. **Root Cause Resolved:** Installing `@tailwindcss/typography` mid-session caused Vite to re-optimize dependencies in the background, invalidating `node_modules/.vite/deps` chunks and purging `three` and `@react-three/drei`. Browsers loading `<PointCloudHero />` and `<CutmapLidarViewer />` received `504 (Outdated Optimize Dep)`, breaking dynamic module imports during Astro island hydration.
+  2. **Vite Pre-Bundling Standardized:** Added `optimizeDeps: { include: ['three', '@react-three/fiber', '@react-three/drei'] }` to `astro.config.mjs` ensuring all 3D WebGL modules pre-bundle immediately at server startup.
+  3. **Verification:** Purged `.vite` cache, cleanly restarted dev server, and verified HTTP 200 on all Three.js and Drei chunks. Hard refresh in Microsoft Edge / Chrome verified immediate WebGL point cloud rendering on `/` and `/cutmap`.
+
+## [2026-09-25 14:00:00 EDT] — Em-Dash Elimination Across Entire Notes Collection
+
+* **Status:** Completed & Validated
+* **Focus:** Editorial Standards, Authentic Punctuation
+* **Summary:**
+  1. Audited all 10 technical notes for em dashes (`—`).
+  2. Replaced all 25 occurrences with natural, conversational punctuation (colons, parentheses, commas, or direct phrasing).
+
 ## [2026-09-25 14:25:00 EDT] — Notes Typography Engine & Spacing Fix
 
 * **Status:** Completed & Deployed
