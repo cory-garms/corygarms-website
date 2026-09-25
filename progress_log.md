@@ -1,5 +1,18 @@
 # Progress Log
 
+## [2026-09-25 14:25:00 EDT] — Notes Typography Engine & Spacing Fix
+
+* **Status:** Completed & Deployed
+* **Focus:** Visual Hierarchy, Vertical Breathing Room, Typography Styles
+* **Summary:**
+  1. **Root Cause Resolved:** Tailwind v4 reset had stripped default margins, font sizes, and list styles because `@tailwindcss/typography` was missing from dependencies and CSS.
+  2. **Typography Engine Installed & Configured:** Installed `@tailwindcss/typography` and implemented explicit, high-contrast `.prose` rules in `src/styles/global.css`:
+     - Paragraphs now have guaranteed `1.5rem` top and bottom margins with relaxed 1.85 line-height (`#c4d7cd`).
+     - Distinct heading hierarchy: `h2` (1.75rem, bold, bottom border separator), `h3` (1.35rem, bold, 2.25rem top margin), `h4` (1.1rem, accent color).
+     - Proper list formatting: numbered lists and disc bullets with 1.5rem left indentation and clean vertical gaps between items.
+     - Normalized MathJax SVG rendering: forced `display: inline-block` for inline math so formulas and numbers never wrap onto individual lines.
+     - Cleaned up inline math markup across notes (e.g. `12°`, `14%`, and clean vectors) preventing MathJax container line-break artifacts.
+
 ## [2026-09-25 13:20:00 EDT] — Technical Notes Complete Humanization Revamp
 
 * **Status:** Completed & Validated
