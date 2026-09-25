@@ -17,11 +17,11 @@ To see who was *actually* fresh before first pitch every morning, I built **[Dir
 
 The pipeline runs on autopilot every morning. A Python cron job queries MLB’s Statcast API for the previous night’s pitch-level tracking data:
 
-* **Release mechanics:** Initial velocity ($v_0$), release point coordinates, and induced movement (IVB & horizontal break).
+* **Release mechanics:** Initial velocity (v₀), release point coordinates, and induced movement (IVB & horizontal break).
 
-* **Batted-ball quality:** Exit velocities and launch angles converted into expected metrics ($\text{xBA}$, $\text{xwOBA}$).
+* **Batted-ball quality:** Exit velocities and launch angles converted into expected metrics (xBA, xwOBA).
 
-From there, it computes an **Availability Score** ($0 - 100$) for every arm in the Boston bullpen. Instead of treating pitches linearly, the model applies exponential decay weights over a rolling 4-day window and adds metabolic penalties for high-leverage innings with runners in scoring position.
+From there, it computes an **Availability Score** (0 to 100) for every arm in the Boston bullpen. Instead of treating pitches linearly, the model applies exponential decay weights over a rolling 4-day window and adds metabolic penalties for high-leverage innings with runners in scoring position.
 
 When a reliever drops below an availability score of 40, opponents' hard-hit rates against their breaking balls jump by **over 6%**, and walk rates spike. It turns out arms really do get tired, even when their season ERA looks great on TV.
 

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   /* Earth Observation & Field Science Theme: Technology Meets Nature */
@@ -115,4 +116,115 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #2e523f;
   }
+}
+
+/* Explicit Typography & Breathing Room for Technical Notes */
+article.prose {
+  color: var(--color-text-main);
+  line-height: 1.85;
+  font-size: 1.05rem;
+}
+
+article.prose p {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  color: #c4d7cd;
+}
+
+article.prose h2 {
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-top: 2.75rem !important;
+  margin-bottom: 1rem !important;
+  letter-spacing: -0.02em !important;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+article.prose h3 {
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-top: 2.25rem !important;
+  margin-bottom: 0.85rem !important;
+  letter-spacing: -0.01em !important;
+}
+
+article.prose h4 {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  color: var(--color-accent-light) !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+article.prose ul,
+article.prose ol {
+  margin-top: 1.25rem !important;
+  margin-bottom: 1.5rem !important;
+  padding-left: 1.5rem !important;
+}
+
+article.prose ul {
+  list-style-type: disc !important;
+}
+
+article.prose ol {
+  list-style-type: decimal !important;
+}
+
+article.prose li {
+  margin-top: 0.65rem !important;
+  margin-bottom: 0.65rem !important;
+  color: #c4d7cd;
+}
+
+article.prose strong {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+article.prose a {
+  color: var(--color-accent) !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+article.prose a:hover {
+  color: var(--color-accent-light) !important;
+}
+
+article.prose pre {
+  margin-top: 1.75rem !important;
+  margin-bottom: 1.75rem !important;
+  border-radius: 0.75rem !important;
+  border: 1px solid var(--color-border) !important;
+  padding: 1.25rem !important;
+  background-color: var(--color-surface) !important;
+}
+
+article.prose code:not(pre code) {
+  background-color: var(--color-surface-elevated);
+  color: var(--color-accent-light);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+  font-family: var(--font-mono);
+  border: 1px solid var(--color-border-subtle);
+}
+
+/* MathJax inline vs display alignment */
+mjx-container[jax="SVG"] {
+  display: inline-block !important;
+  vertical-align: -0.15em !important;
+  margin: 0 0.15em !important;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block !important;
+  margin: 2rem auto !important;
+  text-align: center !important;
+  overflow-x: auto;
 }

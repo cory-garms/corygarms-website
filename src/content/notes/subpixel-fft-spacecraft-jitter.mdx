@@ -15,7 +15,7 @@ To rescue these observations, we developed **UNJITR** (*UV/Optical Nonlinear Jit
 
 ### Photons Are Free Time Slices
 
-Most digital cameras integrate light into fixed frames (e.g., 30 frames per second). UVOT, however, operates in **photon-counting mode**: every detected ultraviolet photon is recorded with microsecond timestamps and detector coordinates $(x, y, t)$.
+Most digital cameras integrate light into fixed frames (e.g., 30 frames per second). UVOT, however, operates in **photon-counting mode**: every detected ultraviolet photon is recorded with microsecond timestamps and detector coordinates (x, y, t).
 
 Because we have individual photons, we can slice time however we want. We break the raw photon continuum into overlapping 1.0-second time slabs.
 
@@ -33,14 +33,14 @@ $$
 \delta x = \frac{C_{-1} - C_{+1}}{2(2 C_0 - C_{-1} - C_{+1})}
 $$
 
-This gives sub-pixel trajectory tracking ($\pm 0.10\,\text{pixels}$) at $6.7\,\text{Hz}$ with zero expensive non-linear optimization.
+This gives sub-pixel trajectory tracking (±0.10 pixels) at 6.7 Hz with zero expensive non-linear optimization.
 
 ### 282 Galaxies Later
 
-Once the continuous trajectory $(\Delta X(t), \Delta Y(t))$ is solved and smoothed, we invert it against every raw photon event in the FITS table:
+Once the continuous trajectory ΔX(t), ΔY(t) is solved and smoothed, we invert it against every raw photon event in the FITS table:
 
 $$
 (X_{\text{restored}}, Y_{\text{restored}}) = (X_i - \Delta X(t_i), \; Y_i - \Delta Y(t_i))
 $$
 
-Across 282 Swift UVOT galaxy observations, this delivered a **99.7% archive recovery rate**, collapsing 450-pixel serpentine tracks back into tight $2.94''$ Airy diffraction cores and recovering light curves that astronomers had written off as lost.
+Across 282 Swift UVOT galaxy observations, this delivered a **99.7% archive recovery rate**, collapsing 450-pixel serpentine tracks back into tight 2.94″ Airy diffraction cores and recovering light curves that astronomers had written off as lost.

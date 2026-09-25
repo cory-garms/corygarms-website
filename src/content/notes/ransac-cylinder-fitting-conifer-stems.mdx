@@ -16,13 +16,16 @@ The catch? Nature hates clean geometric primitives.
 In forestry, the textbook method is simple: take a horizontal slice of your point cloud at 1.3 meters above the ground, fit a 2D circle using least squares, and measure diameter.
 
 That works fine in a manicured orchard. In a real forest:
-1. **Stems lean:** If a Douglas-fir tilts even $12^\circ$, slicing it horizontally produces an ellipse rather than a circle, inflating timber volume estimates by up to $14\%$.
+
+1. **Stems lean:** If a Douglas-fir tilts even 12°, slicing it horizontally produces an ellipse rather than a circle, inflating timber volume estimates by up to 14%.
+
 2. **Understory clutter:** Low branches, hanging moss, and dense salal brush corrupt standard circle fits, pulling centers off into empty space.
+
 3. **Hardware limits:** You don't have an air-conditioned cloud cluster in the woods. Everything has to solve at 10–15 Hz on an embedded NVIDIA Jetson Orin powered by a battery pack.
 
 ### The Fix: Geometry-Constrained RANSAC
 
-Instead of fitting 2D circles, we fit full 3D cylinders defined by an axis vector $\mathbf{a}$, a center point $\mathbf{p}_0$, and a radius $r$.
+Instead of fitting 2D circles, we fit full 3D cylinders defined by an axis vector **a**, a center point **p**₀, and a radius *r*.
 
 To keep RANSAC from wasting time evaluating random brush or ground returns, we enforce a strict physical constraint on surface normals: **cylinder surface normals must be perpendicular to the stem axis**:
 
