@@ -1,5 +1,14 @@
 # Progress Log
 
+## [2026-10-01 15:35:00 EDT] — OSU College of Forestry Teaming Badge & Partner Attribution
+
+* **Status:** Completed & Deployed
+* **Focus:** Academic Partnership Visibility, Institutional Credibility
+* **Summary:**
+  1. **Hero Sponsor & Teaming Bar (`src/pages/cutmap.astro`):** Added a dedicated academic partner badge for **Oregon State University College of Forestry** and **Dr. Bogdan Strimbu** alongside the Spectral Sciences, Inc. logo and the USDA-NIFA Phase II opportunity badge. Styled with OSU Beaver Orange (`#D73F09`) and linking directly to `https://forestry.oregonstate.edu`.
+  2. **Footer Teaming Note (`src/pages/cutmap.astro`):** Updated the legal and sponsorship footer note to explicitly credit academic teaming partner Dr. Bogdan Strimbu at the Oregon State University College of Forestry.
+  3. **Documentation:** Codified mandatory OSU College of Forestry / Dr. Bogdan Strimbu attribution in `GEMINI.md` and `handoff.md` for all CUTMAP / STTR public marketing collateral.
+
 ## [2026-09-25 15:20:00 EDT] — WebGL Point Cloud Reliability & Vite OptimizeDeps Fix
 
 * **Status:** Completed & Deployed
