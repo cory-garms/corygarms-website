@@ -39,7 +39,7 @@ Launch a coordinated campaign to showcase Dr. Garms' 2026 research progress to b
 - **Strict Content Standard:** Strictly **NO** long-form essays or text walls. Every post must be pointed, punchy, and visually striking with high information density in a compact format:
   1. *Visual Data Hook:* High-contrast point cloud loop, GIF, sensor diagram, or before/after image.
   2. *3 High-Impact Technical Bullets:* Problem $\rightarrow$ Innovation $\rightarrow$ Measured Benchmark.
-  3. *Direct Callout:* Single link to the interactive web viewer or dataset.
+  3. *Company & Site Callouts:* Tag/plug **Spectral Sciences, Inc. (SSI)** (`www.spectral.com` / LinkedIn org page) alongside direct links to the interactive project tool and `corygarms.com`.
 
 ### Priority 2: Bi-Directional Site & Marketing UX Synergy
 Align social campaign entry points with on-site interactive experiences:
