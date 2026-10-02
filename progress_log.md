@@ -1,5 +1,19 @@
 # Progress Log
 
+## [2026-10-02 18:15:00 EDT] — USDA-NIFA Embargo Lift, Site Updates & Public Campaign Launch
+
+* **Status:** Completed, Deployed & Live
+* **Focus:** Official Public Announcement, Site Readiness, Marketing Campaign Kickoff
+* **Summary:**
+  1. **USDA-NIFA Embargo Lift:** Received official notification that USDA-NIFA publicly announced the $20M SBIR/STTR small business investment awards, officially releasing the embargo.
+  2. **CUTMAP Site Updates (`src/pages/cutmap.astro`):**
+     - Upgraded hero opportunity badge to `USDA-NIFA Awarded • Phase II Teaming Open` with direct link to the official USDA announcement.
+     - Updated hero narrative to explicitly credit the USDA-NIFA STTR Program, Spectral Sciences, Inc., and Dr. Bogdan Strimbu at Oregon State University College of Forestry.
+     - Verified OpenGraph large image card preview tags (`STTR_device.jpg`).
+  3. **Curriculum Vitae Update (`src/pages/cv.astro`):** Updated primary role to reflect Principal Investigator & Lead Algorithm Architect (USDA-NIFA STTR Phase I Awardee).
+  4. **Multi-Platform Launch:** Dr. Garms launched the first public announcement posts across LinkedIn, X (Twitter), and Bluesky driving traffic to `https://corygarms.com/cutmap`.
+  5. **Queued for Next Week:** Promotional media push (point cloud perception clips/GIFs, leaning tree geometry), commercial teaming outreach, and BPAW 2026 contest submission.
+
 ## [2026-10-01 15:35:00 EDT] — OSU College of Forestry Teaming Badge & Partner Attribution
 
 * **Status:** Completed & Deployed

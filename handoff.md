@@ -1,9 +1,10 @@
 # Project Handoff & Sprint State
 
-**Date:** September 25, 2026  
+**Date:** October 2, 2026 (End-of-Week Wrap-Up)  
 **Target Architecture:** Astro v5, React Three Fiber, Three.js, Tailwind CSS v4, Vercel  
 **Lead Scientist:** Dr. Cory Glenn Garms (Senior Scientist, Spectral Sciences, Inc.)  
 **Contest Goal:** Best Personal Academic Website (BPAW) 2026 Contest Submission  
+**Milestone:** USDA-NIFA STTR Phase I Embargo Officially Lifted; Public Campaign Launched across LinkedIn, X & Bluesky  
 
 ---
 
