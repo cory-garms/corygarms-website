@@ -33,6 +33,50 @@ const isProjects = currentPath.startsWith('/cutmap') || currentPath.startsWith('
 const isCv = currentPath.startsWith('/cv');
 const isNotes = currentPath.startsWith('/notes');
 const isLibrary = currentPath.startsWith('/reading-list');
+
+// Schema.org Person metadata for Academic Knowledge Graph & Semantic SEO
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Cory Glenn Garms, Ph.D.",
+  "givenName": "Cory",
+  "familyName": "Garms",
+  "jobTitle": "Senior Scientist",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Spectral Sciences, Inc.",
+    "url": "https://www.spectral.com"
+  },
+  "alumniOf": [
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Oregon State University",
+      "url": "https://oregonstate.edu"
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      "name": "Louisiana State University",
+      "url": "https://lsu.edu"
+    }
+  ],
+  "url": "https://corygarms.com",
+  "image": "https://corygarms.com/images/profile.jpg",
+  "sameAs": [
+    "https://scholar.google.com/citations?user=pL1DI_AAAAAJ&hl=en",
+    "https://github.com/cory-garms",
+    "https://www.linkedin.com/in/cory-g-garms-5a29a7139/",
+    "https://x.com/cory_garms"
+  ],
+  "knowsAbout": [
+    "Remote Sensing",
+    "3D LiDAR",
+    "Hyperspectral Imaging",
+    "Computer Vision",
+    "Forest Mensuration",
+    "Spacecraft Jitter Restoration",
+    "Point Cloud Processing"
+  ]
+};
 ---
 
 <!doctype html>
@@ -67,6 +111,9 @@ const isLibrary = currentPath.startsWith('/reading-list');
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImageURL} />
+
+        <!-- Schema.org Person JSON-LD for Academic Knowledge Graph -->
+        <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
 
 		<title>{pageTitle}</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">

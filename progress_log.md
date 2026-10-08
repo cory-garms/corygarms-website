@@ -1,5 +1,21 @@
 # Progress Log
 
+## [2026-10-08 18:30:00 EDT] — 3D Tree Viewer Guide Modal & Schema.org Person JSON-LD
+
+* **Status:** Completed & Build Verified
+* **Focus:** Interactive SciComm UX, Viewer Help Guide, Semantic Academic SEO
+* **Summary:**
+  1. **3D Tree Viewer Guide (`src/components/PointCloudHero.jsx`):**
+     - Integrated a compact `[ Guide ]` button in the bottom HUD controls alongside `Reset`.
+     - Clicking opens a frosted-glass guide modal explaining:
+       - What is shown: 4 landmark trees scanned at Mount Auburn Cemetery using the CUTMAP mobile LiDAR prototype system and downsampled for web display, colored by height above ground.
+       - Navigation gestures: Rotate (click/drag), Zoom (scroll/pinch), Pan (right-click/drag).
+       - HUD buttons: Tree switcher, height colormaps, point size density, 6ft surveyor figure, auto-rotation, camera reset, and mobile touch toggle.
+     - Supports `Esc` keyboard dismissal, click-outside backdrop dismissal, and focus management conforming to WCAG 2.1 AA.
+  2. **Schema.org `Person` JSON-LD (`src/layouts/Layout.astro`):**
+     - Added comprehensive academic `Person` metadata to `<head>` declaring Dr. Cory Glenn Garms, Senior Scientist at Spectral Sciences, Inc., Oregon State University and LSU alma maters, Google Scholar, GitHub, LinkedIn, and research disciplines.
+  3. **Build & Live Verification:** Static compilation cleanly verified across all 20 pages in 7.54s with 0 errors.
+
 ## [2026-10-08 12:30:00 EDT] — Vercel Web Analytics Integration & Layout Setup
 
 * **Status:** Completed & Build Verified

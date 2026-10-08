@@ -555,6 +555,7 @@ export default function PointCloudHero() {
   const [colorMode, setColorMode] = useState(0); // 0: Forestry, 1: Viridis, 2: Magma, 3: Reflectance, 4: Laser Emerald, 5: Electric Cyan
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isSizeOpen, setIsSizeOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [pointSize, setPointSize] = useState(1.5);
   const [showScale, setShowScale] = useState(true);
   const [isRotating, setIsRotating] = useState(true);
@@ -581,6 +582,19 @@ export default function PointCloudHero() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Close guide modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsHelpOpen(false);
+      }
+    };
+    if (isHelpOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isHelpOpen]);
 
   // Re-center camera target smoothly whenever the user switches trees
   useEffect(() => {
@@ -908,6 +922,94 @@ export default function PointCloudHero() {
             </svg>
             <span className="font-semibold">Reset</span>
           </button>
+
+          {/* Viewer Guide / Help Trigger Button */}
+          <button 
+            type="button"
+            onClick={() => setIsHelpOpen(true)}
+            className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-md text-xs font-mono transition-all cursor-pointer shadow-lg bg-surface/85 hover:bg-surface text-accent hover:text-accent-light border-accent/40 hover:border-accent"
+            title="Learn what you are viewing and how to navigate the 3D LiDAR point cloud"
+            aria-label="Open 3D Viewer Guide"
+          >
+            <svg className="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className="font-semibold">Guide</span>
+          </button>
+        </div>
+      )}
+
+      {/* 3D Tree Viewer Help Modal */}
+      {isHelpOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md animate-in fade-in duration-150"
+          onClick={() => setIsHelpOpen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="guide-title"
+        >
+          <div 
+            className="relative w-full max-w-lg bg-forest-950/95 border border-border/90 rounded-2xl p-6 sm:p-7 shadow-2xl space-y-5 text-left font-sans max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-border/80 pb-3">
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-accent-light">Field Science &bull; Mount Auburn Scans</span>
+                <h3 id="guide-title" className="text-xl font-bold text-white tracking-tight">3D Tree Viewer Guide</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsHelpOpen(false)}
+                className="text-text-muted hover:text-white p-1 rounded-lg hover:bg-forest-900 transition-colors cursor-pointer"
+                aria-label="Close guide"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs sm:text-sm text-text-muted leading-relaxed">
+              <div>
+                <h4 className="text-white font-semibold mb-1 font-mono text-xs text-accent">What you are seeing</h4>
+                <p>
+                  These 4 landmark trees were scanned at Mount Auburn Cemetery using the CUTMAP mobile LiDAR prototype system and downsampled for web display. Points are colored by height above the ground.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="text-white font-semibold mb-1.5 font-mono text-xs text-accent">Navigation</h4>
+                <ul className="space-y-1 text-xs">
+                  <li><strong className="text-white font-mono">Rotate:</strong> Click and drag (or touch and drag on mobile)</li>
+                  <li><strong className="text-white font-mono">Zoom:</strong> Scroll wheel (or pinch on mobile)</li>
+                  <li><strong className="text-white font-mono">Pan:</strong> Right-click and drag (or two-finger drag)</li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="text-white font-semibold mb-1.5 font-mono text-xs text-accent">Controls</h4>
+                <ul className="space-y-1 text-xs">
+                  <li><strong className="text-white font-mono">Trees (top right):</strong> Switch between Red Oak, Sugar Maple, White Pine, and Bur Oak</li>
+                  <li><strong className="text-white font-mono">Palette (top left):</strong> Choose height colormaps (Turbo, Viridis, Forest, Cividis)</li>
+                  <li><strong className="text-white font-mono">Size (top left):</strong> Change point rendering size (Fine, Normal, Dense)</li>
+                  <li><strong className="text-white font-mono">Scale: 6ft (bottom):</strong> Toggle a 6-foot surveyor figure for height reference</li>
+                  <li><strong className="text-white font-mono">Rotate (bottom):</strong> Turn auto-rotation on or off</li>
+                  <li><strong className="text-white font-mono">Reset (bottom):</strong> Return camera to default view</li>
+                  <li><strong className="text-white font-mono">Touch 3D (mobile):</strong> Switch between rotating the tree and scrolling the page</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-border/80 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsHelpOpen(false)}
+                className="px-4 py-2 rounded-xl bg-forest-800 hover:bg-forest-700 text-white font-mono text-xs font-semibold border border-border hover:border-accent/50 transition-all cursor-pointer shadow-md"
+              >
+                Close Guide
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
