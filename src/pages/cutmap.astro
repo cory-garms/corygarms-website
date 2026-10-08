@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CutmapLidarViewer from "../components/CutmapLidarViewer.jsx";
+import CutmapPipelineDiagram from "../components/CutmapPipelineDiagram.astro";
 
 // Key Performance Numbers: Simple, bold, high-contrast
 const kpis = [
@@ -138,7 +139,7 @@ const publications = [
 <Layout 
   title="CUTMAP: Autonomous Forest Mensuration"
   description="CUTMAP: a low-SWaP-C ($2,200) autonomous under-canopy perception payload delivering sub-centimeter forest biometrics, zero-GPS canopy navigation, and real-time edge processing."
-  image="/images/STTR_device.jpg"
+  image="/images/cutmap_cover_photo.jpg"
 >
 
   <!-- SECTION 1: HERO -->
@@ -238,10 +239,13 @@ const publications = [
           </a>
 
           <a 
-            href="#video-demo" 
+            href="#video-showcase" 
             class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-forest-900/80 hover:bg-forest-800 text-text-muted hover:text-white border border-border text-sm font-mono transition-all"
           >
-            <span>Watch Live Video Demo</span>
+            <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+            </svg>
+            <span>Watch Project Promo & Demos</span>
           </a>
         </div>
       </div>
@@ -323,53 +327,109 @@ const publications = [
     </div>
   </section>
 
-  <!-- SECTION 5: LIVE VIDEO DEMO (CLEAN PLAYER, NO SCATTER PLOTS) -->
-  <section id="video-demo" class="py-16 bg-background border-b border-border">
+  <!-- SECTION 5: VIDEO DEMONSTRATIONS HUB -->
+  <section id="video-showcase" class="py-16 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-12">
+      
+      <!-- Primary Video: Project Promo -->
+      <div>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-1">Phase I Project Milestone</div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">From the Bench to Harvard Forest</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-text-muted max-w-md">
+            A 56-second overview of the hardware development, laboratory calibration, and zero-GPS understory mapping in Harvard Forest.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-border bg-black overflow-hidden shadow-2xl">
+          <div class="relative aspect-[16/9] bg-black">
+            <video 
+              playsinline 
+              controls
+              preload="metadata"
+              poster="/images/cutmap/cutmap_promo_poster.jpg"
+              class="w-full h-full object-cover"
+            >
+              <source src="/videos/cutmap/cutmap_phase1_promo.mp4" type="video/mp4" />
+              <p class="text-xs text-text-dim p-4">Your browser does not support HTML5 video.</p>
+            </video>
+          </div>
+
+          <div class="p-5 bg-forest-950 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-text-muted">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-accent"></span>
+              <span class="text-white font-semibold">Phase I Trajectory:</span>
+              <span>Sensor prototyping &bull; Extrinsic calibration &bull; Harvard Forest closed-loop traverse</span>
+            </div>
+            <span class="text-emerald-400 font-semibold text-[11px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">Audio Enabled</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Video: Onboard Jetson Telemetry -->
+      <div>
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="text-xs font-mono text-cyan-300 uppercase tracking-widest mb-1">Operational Telemetry</div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Real-Time Edge Perception on Jetson AGX Orin</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-text-muted max-w-md">
+            Direct screen capture from the sensor cart showing 17 tree cylinders fitting in 3.9 seconds as the cart traverses a native pine stand.
+          </p>
+        </div>
+
+        <div class="rounded-3xl border border-border bg-black overflow-hidden shadow-2xl">
+          <div class="relative aspect-[16/9] bg-black">
+            <video 
+              playsinline 
+              autoplay 
+              muted 
+              loop 
+              controls
+              preload="auto"
+              poster="/images/cutmap/rapid_mensuration_poster.jpg"
+              class="w-full h-full object-cover"
+            >
+              <source src="/videos/cutmap/rapid_mensuration_live_demo.mp4" type="video/mp4" />
+              <source src="/videos/cutmap/rapid_mensuration_live_demo.webm" type="video/webm" />
+              <p class="text-xs text-text-dim p-4">Your browser does not support HTML5 video.</p>
+            </video>
+          </div>
+
+          <div class="p-5 bg-forest-950 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-text-muted">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span class="text-white font-semibold">Native Pine Stand 1:</span>
+              <span>3.94s stand turnaround &bull; 95.4% point volume reduction &bull; ±2.0 cm accuracy target: PASS</span>
+            </div>
+            <a 
+              href="#teaming-partnership" 
+              class="text-accent hover:text-accent-light transition-colors font-bold"
+            >
+              Explore Teaming Options &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 6: ALGORITHMIC PIPELINE & SYSTEM ARCHITECTURE -->
+  <section id="pipeline-architecture" class="py-16 bg-surface/30 border-b border-border">
     <div class="max-w-5xl mx-auto px-6">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-        <div>
-          <div class="text-xs font-mono text-cyan-300 uppercase tracking-widest mb-1">Operational Proof of Concept</div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Real-Time Edge Perception in Action</h2>
-        </div>
-        <p class="text-xs sm:text-sm text-text-muted max-w-md">
-          Direct screen capture from the onboard NVIDIA Jetson AGX Orin. Watch 17 tree cylinders lock in 3.9 seconds as the cart traverses a native pine stand.
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Computational Engine</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">System Architecture & Processing Pipeline</h2>
+        <p class="text-xs sm:text-sm text-text-muted mt-2">
+          From multi-sensor odometry to sub-pixel SAM bark boundary segmentation and geometry-constrained 3D RANSAC cylinder fitting.
         </p>
       </div>
 
-      <!-- Clean Video Player Container (NO matplotlib poster) -->
-      <div class="rounded-3xl border border-border bg-black overflow-hidden shadow-2xl">
-        <div class="relative aspect-[16/9] bg-black">
-          <video 
-            playsinline 
-            autoplay 
-            muted 
-            loop 
-            controls
-            preload="auto"
-            poster="/images/cutmap/rapid_mensuration_poster.jpg"
-            class="w-full h-full object-cover"
-          >
-            <source src="/videos/cutmap/rapid_mensuration_live_demo.mp4" type="video/mp4" />
-            <source src="/videos/cutmap/rapid_mensuration_live_demo.webm" type="video/webm" />
-            <p class="text-xs text-text-dim p-4">Your browser does not support HTML5 video.</p>
-          </video>
-        </div>
-
-        <div class="p-5 bg-forest-950 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-text-muted">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-accent"></span>
-            <span class="text-white font-semibold">Native Pine Stand Traverse:</span>
-            <span>3.94s stand turnaround &bull; 95.4% point volume reduction &bull; ±2.0 cm accuracy target: PASS</span>
-          </div>
-          <a 
-            href="#teaming-partnership" 
-            class="text-accent hover:text-accent-light transition-colors font-bold"
-          >
-            Explore Teaming Options &rarr;
-          </a>
-        </div>
-      </div>
+      <CutmapPipelineDiagram />
 
     </div>
   </section>

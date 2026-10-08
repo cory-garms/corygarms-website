@@ -24,7 +24,7 @@ import ContactSection from "../components/ContactSection.astro";
     </div>
 
     <!-- Floating Hero Identity Overlay (Passing the 5-Second Test) with Collapse/Expand Toggle -->
-    <div id="hero-identity-container" class="absolute bottom-6 sm:bottom-10 left-4 sm:left-8 max-w-xl z-20 pointer-events-none reveal">
+    <div id="hero-identity-container" class="absolute bottom-6 sm:bottom-10 left-4 sm:left-8 max-w-xl z-30 pointer-events-none reveal">
       
       <!-- Expanded Card -->
       <div id="hero-identity-card" class="p-5 sm:p-6 rounded-2xl bg-surface/85 backdrop-blur-xl border border-border/80 shadow-2xl pointer-events-auto space-y-3 transition-all duration-300">
@@ -50,7 +50,7 @@ import ContactSection from "../components/ContactSection.astro";
           Cory Glenn Garms, <span class="text-accent">Ph.D.</span>
         </h1>
         <p class="text-xs sm:text-sm text-text-muted leading-relaxed font-sans">
-          Bridging biology, software development, and active/passive sensing to measure forests, sharpen satellite imagery, and more.
+          Bridging biology, software development, and remote sensing to measure forests, sharpen satellite imagery, and more.
         </p>
         <div class="flex flex-wrap items-center gap-2.5 pt-1 text-xs font-mono">
           <a href="#about" class="px-3.5 py-1.5 rounded-lg bg-forest-800 hover:bg-forest-700 text-white border border-border hover:border-accent/50 transition-all">
@@ -64,18 +64,17 @@ import ContactSection from "../components/ContactSection.astro";
           </a>
         </div>
       </div>
-
-      <!-- Collapsed State Pill -->
-      <button 
-        id="hero-expand-btn"
-        type="button"
-        aria-label="Show identity card"
-        class="hidden pointer-events-auto px-3.5 py-2 rounded-full bg-surface/90 backdrop-blur-xl border border-orange-500/60 hover:border-orange-400 hover:bg-forest-900 text-orange-400 hover:text-white shadow-xl transition-all duration-200 flex items-center gap-1.5 text-xs font-mono font-semibold cursor-pointer"
-      >
-        <span>Show Info &uarr;</span>
-      </button>
-
     </div>
+
+    <!-- Collapsed State Pill (Elevated on mobile above bottom HUD controls) -->
+    <button 
+      id="hero-expand-btn"
+      type="button"
+      aria-label="Show identity card"
+      class="hidden absolute bottom-24 sm:bottom-10 left-4 sm:left-8 z-30 pointer-events-auto px-3.5 py-2 rounded-full bg-surface/90 backdrop-blur-xl border border-orange-500/60 hover:border-orange-400 hover:bg-forest-900 text-orange-400 hover:text-white shadow-xl transition-all duration-200 flex items-center gap-1.5 text-xs font-mono font-semibold cursor-pointer"
+    >
+      <span>Show Info &uarr;</span>
+    </button>
   </section>
 
   <!-- About Section -->

@@ -1,50 +1,57 @@
 import React, { useMemo, useState, useEffect, useRef, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
+import { OrbitControls, useGLTF, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
-// Curated default scenes highlighting Remote Sensing & Field Science
+// Curated Mt. Auburn Landmark Trees highlighting Remote Sensing & Field Science
 const SCENES = [
   { 
     id: 'huge_oak', 
     name: 'Red Oak', 
     species: 'Quercus rubra (Red Oak)',
     spec: 'Livox Mid-360 LiDAR',
-    source: 'Red Oak Livox LiDAR Scan (1.52M pts)',
+    source: 'Mt. Auburn Terrestrial LiDAR Scan (1.52M pts)',
     points: '1.52M pts',
     height: '28.4 m',
     spread: '28.8 m'
   },
   { 
-    id: 'livox_forest_grove', 
-    name: 'Grove 1', 
-    species: 'Pinus strobus (White Pine)',
+    id: 'sugar_maple', 
+    name: 'Sugar Maple', 
+    species: 'Acer saccharum (Sugar Maple)',
     spec: 'Livox Mid-360 LiDAR',
-    source: 'Outdoor Forest SLAM (118k pts)',
-    points: '118k pts',
-    height: '18.2 m',
-    spread: '14.5 m'
+    source: 'Mt. Auburn Terrestrial LiDAR Scan (1.36M pts)',
+    points: '1.36M pts',
+    height: '23.4 m',
+    spread: '27.9 m'
   },
   { 
-    id: 'livox_grove_loop_b', 
-    name: 'Grove 2', 
-    species: 'Pinus strobus (White Pine)',
+    id: 'white_pine', 
+    name: 'White Pine', 
+    species: 'Pinus strobus (Eastern White Pine)',
     spec: 'Livox Mid-360 LiDAR',
-    source: 'Outdoor Forest SLAM (118k pts)',
-    points: '118k pts',
-    height: '17.8 m',
-    spread: '16.1 m'
+    source: 'Stand 1 Forest Grove (Single Tree Isolation)',
+    points: '179k pts',
+    height: '20.1 m',
+    spread: '10.9 m'
   },
   { 
-    id: 'livox_grove_loop_c', 
-    name: 'Grove 3', 
-    species: 'Pinus strobus (White Pine)',
+    id: 'bur_oak', 
+    name: 'Bur Oak', 
+    species: 'Quercus macrocarpa (Bur Oak)',
     spec: 'Livox Mid-360 LiDAR',
-    source: 'Outdoor Forest SLAM (118k pts)',
-    points: '118k pts',
-    height: '16.5 m',
-    spread: '15.3 m'
+    source: 'Mt. Auburn Terrestrial LiDAR Scan (466k pts)',
+    points: '466k pts',
+    height: '27.0 m',
+    spread: '27.8 m'
   }
+];
+
+// Curated Point Splat Sizes
+const POINT_SIZES = [
+  { value: 0.7, label: 'Fine', desc: 'Fine: Sharp individual pulse returns (4K/Retina)' },
+  { value: 1.5, label: 'Normal', desc: 'Normal: Standard survey scan density' },
+  { value: 3.0, label: 'Dense', desc: 'Dense: Solid crown volume' }
 ];
 
 // Curated Scientific Colormaps
@@ -119,7 +126,8 @@ const vertexShader = `
     vColor = color;
 
     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = uPointSize * (290.0 / -mvPosition.z);
+    float pSize = uPointSize * (160.0 / -mvPosition.z);
+    gl_PointSize = clamp(pSize, 1.0, 48.0);
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
@@ -236,6 +244,172 @@ const fragmentShader = `
   }
 `;
 
+// Dedicated High-Visibility Shader for Surveyor Scale Figure
+const surveyorVertexShader = `
+  attribute vec3 color;
+  varying vec3 vColor;
+  uniform float uPointSize;
+
+  void main() {
+    vColor = color;
+    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    float pSize = uPointSize * (160.0 / -mvPosition.z);
+    gl_PointSize = clamp(pSize * 1.35, 2.0, 48.0);
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`;
+
+const surveyorFragmentShader = `
+  varying vec3 vColor;
+  uniform float uOpacity;
+
+  void main() {
+    vec2 coord = gl_PointCoord - vec2(0.5);
+    float dist = length(coord);
+    if (dist > 0.5) discard;
+    float alpha = smoothstep(0.5, 0.2, dist) * uOpacity;
+    gl_FragColor = vec4(vColor, alpha);
+  }
+`;
+
+// Procedural 1.83m (6ft) forestry surveyor point cloud
+function createSurveyorGeometry() {
+  const points = [];
+  const colors = [];
+  const addPt = (x, y, z, r, g, b) => {
+    points.push(x, y, z);
+    colors.push(r, g, b);
+  };
+
+  // 1. Ground benchmark station circle (r = 0.50m)
+  for (let i = 0; i < 36; i++) {
+    const angle = (i / 36) * Math.PI * 2;
+    addPt(Math.cos(angle) * 0.5, 0.01, Math.sin(angle) * 0.5, 1.0, 0.55, 0.0);
+  }
+
+  // 2. Heavy field boots (y: 0.0 to 0.08m)
+  for (const legX of [-0.14, 0.14]) {
+    for (let z = -0.12; z <= 0.14; z += 0.04) {
+      for (let y = 0.02; y <= 0.08; y += 0.03) {
+        addPt(legX, y, z, 0.35, 0.22, 0.12);
+      }
+    }
+  }
+
+  // 3. Legs in field denim/khaki work pants (y: 0.08 to 0.95m)
+  for (let y = 0.08; y <= 0.95; y += 0.04) {
+    for (const legX of [-0.14, 0.14]) {
+      for (const legZ of [-0.07, 0.0, 0.07]) {
+        for (const dx of [-0.05, 0.05]) {
+          addPt(legX + dx, y, legZ, 0.22, 0.38, 0.65);
+        }
+      }
+    }
+  }
+
+  // 4. Torso with ANSI Class 2/3 Safety High-Vis Orange Vest (y: 0.95 to 1.55m)
+  for (let y = 0.95; y <= 1.55; y += 0.035) {
+    const isStripe = (y >= 1.18 && y <= 1.25) || (y >= 1.40 && y <= 1.46);
+    for (let x = -0.22; x <= 0.22; x += 0.045) {
+      for (const z of [-0.11, 0.0, 0.11]) {
+        if (isStripe) {
+          addPt(x, y, z, 0.95, 0.98, 0.15); // Fluorescent lime-yellow reflective stripe
+        } else {
+          addPt(x, y, z, 1.0, 0.42, 0.02);  // ANSI Safety High-Vis Orange
+        }
+      }
+    }
+  }
+
+  // 5. Left Arm (hanging at side)
+  for (let y = 0.95; y <= 1.48; y += 0.04) {
+    addPt(-0.28, y, 0.0, 1.0, 0.42, 0.02);
+    addPt(-0.28, y, 0.04, 1.0, 0.42, 0.02);
+  }
+
+  // 6. Right Arm (grasping 2-meter surveyor range pole)
+  for (let t = 0; t <= 1; t += 0.1) {
+    const ax = 0.22 + t * 0.18;
+    const ay = 1.48 - t * 0.30;
+    const az = 0.0 + t * 0.08;
+    addPt(ax, ay, az, 1.0, 0.42, 0.02);
+  }
+
+  // 7. Head, Neck & Face (y: 1.56 to 1.68m)
+  for (let y = 1.56; y <= 1.68; y += 0.03) {
+    for (let i = 0; i < 10; i++) {
+      const angle = (i / 10) * Math.PI * 2;
+      addPt(Math.cos(angle) * 0.09, y, Math.sin(angle) * 0.09, 0.92, 0.78, 0.65);
+    }
+  }
+
+  // 8. Surveyor Safety Hardhat (y: 1.68 to 1.83m - Exact 6ft crown)
+  for (let i = 0; i < 20; i++) {
+    const angle = (i / 20) * Math.PI * 2;
+    addPt(Math.cos(angle) * 0.16, 1.68, Math.sin(angle) * 0.16, 1.0, 0.88, 0.10); // Hardhat brim
+  }
+  for (let y = 1.69; y <= 1.83; y += 0.025) {
+    const fraction = (y - 1.69) / 0.14;
+    const r = Math.cos(fraction * Math.PI * 0.5) * 0.12;
+    for (let i = 0; i < 12; i++) {
+      const angle = (i / 12) * Math.PI * 2;
+      addPt(Math.cos(angle) * r, y, Math.sin(angle) * r, 1.0, 0.88, 0.10); // Hardhat crown
+    }
+  }
+
+  // 9. Standard 2.0-meter Forestry Range / Prism Pole (held at x = 0.42, z = 0.08)
+  for (let y = 0.0; y <= 2.0; y += 0.03) {
+    const isRed = Math.floor(y / 0.20) % 2 === 0;
+    const [pr, pg, pb] = isRed ? [1.0, 0.15, 0.15] : [1.0, 1.0, 1.0];
+    addPt(0.42, y, 0.08, pr, pg, pb);
+  }
+  // Top surveying optical prism (cyan reflector at 2.02m)
+  addPt(0.42, 2.03, 0.08, 0.2, 0.95, 1.0);
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  return geo;
+}
+
+// 1.83m Surveyor Scale Figure Component
+const SurveyorScaleFigure = ({ minY, pointSize }) => {
+  const geometry = useMemo(() => createSurveyorGeometry(), []);
+  const materialRef = useRef(null);
+
+  const uniforms = useMemo(() => ({
+    uPointSize: { value: pointSize },
+    uOpacity: { value: 0.95 }
+  }), []);
+
+  useEffect(() => {
+    if (materialRef.current && materialRef.current.uniforms && materialRef.current.uniforms.uPointSize) {
+      materialRef.current.uniforms.uPointSize.value = pointSize;
+    }
+  }, [pointSize]);
+
+  return (
+    <group position={[3.2, minY, 0.5]}>
+      <points geometry={geometry}>
+        <shaderMaterial
+          ref={materialRef}
+          vertexShader={surveyorVertexShader}
+          fragmentShader={surveyorFragmentShader}
+          uniforms={uniforms}
+          transparent={true}
+          depthWrite={false}
+        />
+      </points>
+      <Html position={[0.0, -0.45, 0]} center className="pointer-events-none select-none">
+        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-forest-950/95 border border-amber-500/70 backdrop-blur-md shadow-xl text-[10px] font-mono text-amber-300 font-bold whitespace-nowrap">
+          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+          <span>6' 0" (1.83 m) Surveyor</span>
+        </div>
+      </Html>
+    </group>
+  );
+};
+
 // Global geometry cache to prevent repeated parsing
 const geometryCache = new Map();
 
@@ -320,40 +494,59 @@ function extractOptimizedGeometry(scene, sceneId) {
 }
 
 // Point Cloud Render Component
-const PointCloudMesh = ({ sceneId, colorMode, pointSize }) => {
+const PointCloudMesh = ({ sceneId, colorMode, pointSize, showScale }) => {
   const { scene } = useGLTF(`/models/${sceneId}.glb`);
+  const materialRef = useRef(null);
 
   const { geometry, minY, maxY } = useMemo(() => {
     return extractOptimizedGeometry(scene, sceneId);
   }, [scene, sceneId]);
 
+  // Stable uniforms dictionary created once for this tree mesh instance
   const uniforms = useMemo(() => ({
     uPointSize: { value: pointSize },
     uMinY: { value: minY },
     uMaxY: { value: maxY },
     uColorMode: { value: colorMode },
     uOpacity: { value: 0.90 }
-  }), [minY, maxY]);
+  }), []);
 
+  // Update dynamic uniforms directly on the active Three.js material
   useEffect(() => {
-    if (uniforms.uColorMode) uniforms.uColorMode.value = colorMode;
-    if (uniforms.uPointSize) uniforms.uPointSize.value = pointSize;
-    if (uniforms.uMinY) uniforms.uMinY.value = minY;
-    if (uniforms.uMaxY) uniforms.uMaxY.value = maxY;
-  }, [colorMode, pointSize, minY, maxY, uniforms]);
+    if (materialRef.current && materialRef.current.uniforms) {
+      if (materialRef.current.uniforms.uColorMode) {
+        materialRef.current.uniforms.uColorMode.value = colorMode;
+      }
+      if (materialRef.current.uniforms.uPointSize) {
+        materialRef.current.uniforms.uPointSize.value = pointSize;
+      }
+      if (materialRef.current.uniforms.uMinY) {
+        materialRef.current.uniforms.uMinY.value = minY;
+      }
+      if (materialRef.current.uniforms.uMaxY) {
+        materialRef.current.uniforms.uMaxY.value = maxY;
+      }
+    }
+  }, [colorMode, pointSize, minY, maxY]);
 
   return (
-    <points>
-      <primitive object={geometry} attach="geometry" />
-      <shaderMaterial
-        attach="material"
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        transparent={true}
-        depthWrite={false}
-      />
-    </points>
+    <group>
+      <points>
+        <primitive object={geometry} attach="geometry" />
+        <shaderMaterial
+          ref={materialRef}
+          attach="material"
+          vertexShader={vertexShader}
+          fragmentShader={fragmentShader}
+          uniforms={uniforms}
+          transparent={true}
+          depthWrite={false}
+        />
+      </points>
+      {showScale && (
+        <SurveyorScaleFigure minY={minY} pointSize={pointSize} />
+      )}
+    </group>
   );
 };
 
@@ -361,13 +554,17 @@ export default function PointCloudHero() {
   const [currentSceneId, setCurrentSceneId] = useState('huge_oak');
   const [colorMode, setColorMode] = useState(0); // 0: Forestry, 1: Viridis, 2: Magma, 3: Reflectance, 4: Laser Emerald, 5: Electric Cyan
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
-  const [pointSize, setPointSize] = useState(0.08);
+  const [isSizeOpen, setIsSizeOpen] = useState(false);
+  const [pointSize, setPointSize] = useState(1.5);
+  const [showScale, setShowScale] = useState(true);
   const [isRotating, setIsRotating] = useState(true);
   const [is3DActive, setIs3DActive] = useState(true);
   const [touchRotateEnabled, setTouchRotateEnabled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   const paletteRef = useRef(null);
+  const sizeRef = useRef(null);
+  const controlsRef = useRef(null);
 
   useEffect(() => {
     // Check saved user preference for 3D engine
@@ -385,14 +582,25 @@ export default function PointCloudHero() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Close palette dropdown on outside click
+  // Re-center camera target smoothly whenever the user switches trees
+  useEffect(() => {
+    if (controlsRef.current) {
+      controlsRef.current.target.set(0, 0, 0);
+      controlsRef.current.update();
+    }
+  }, [currentSceneId]);
+
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleOutsideClick = (e) => {
       if (paletteRef.current && !paletteRef.current.contains(e.target)) {
         setIsPaletteOpen(false);
       }
+      if (sizeRef.current && !sizeRef.current.contains(e.target)) {
+        setIsSizeOpen(false);
+      }
     };
-    if (isPaletteOpen) {
+    if (isPaletteOpen || isSizeOpen) {
       document.addEventListener('mousedown', handleOutsideClick);
       document.addEventListener('touchstart', handleOutsideClick);
     }
@@ -400,7 +608,15 @@ export default function PointCloudHero() {
       document.removeEventListener('mousedown', handleOutsideClick);
       document.removeEventListener('touchstart', handleOutsideClick);
     };
-  }, [isPaletteOpen]);
+  }, [isPaletteOpen, isSizeOpen]);
+
+  const handleResetView = () => {
+    if (controlsRef.current) {
+      controlsRef.current.target.set(0, 0, 0);
+      controlsRef.current.object.position.set(24, 13, 32);
+      controlsRef.current.update();
+    }
+  };
 
   const toggle3D = () => {
     const next = !is3DActive;
@@ -424,22 +640,25 @@ export default function PointCloudHero() {
 
           <Suspense fallback={null}>
             <PointCloudMesh
+              key={currentSceneId}
               sceneId={currentSceneId}
               colorMode={colorMode}
               pointSize={pointSize}
+              showScale={showScale}
             />
           </Suspense>
           
           <OrbitControls 
+            ref={controlsRef}
             autoRotate={isRotating} 
             autoRotateSpeed={0.5} 
             enablePan={!isMobile || touchRotateEnabled}
             enableRotate={!isMobile || touchRotateEnabled}
-            enableZoom={!isMobile}
+            enableZoom={!isMobile || touchRotateEnabled}
             enableDamping={true}
             dampingFactor={0.08}
             minDistance={4}
-            maxDistance={120}
+            maxDistance={140}
           />
         </Canvas>
       ) : (
@@ -511,7 +730,7 @@ export default function PointCloudHero() {
                 </svg>
               </button>
 
-              {/* Palette Dropdown Popover (Visual Dots Only) */}
+              {/* Palette Dropdown Popover */}
               {isPaletteOpen && (
                 <div className="absolute left-0 mt-2 p-2 rounded-2xl bg-forest-950/95 border border-border/90 backdrop-blur-xl shadow-2xl z-30 animate-in fade-in zoom-in-95 duration-150">
                   <div className="flex items-center gap-2.5">
@@ -540,6 +759,57 @@ export default function PointCloudHero() {
               )}
             </div>
           )}
+
+          {/* Point Size Selector Dropdown */}
+          {is3DActive && (
+            <div className="relative" ref={sizeRef}>
+              <button
+                type="button"
+                onClick={() => setIsSizeOpen(!isSizeOpen)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-md text-xs font-mono transition-all cursor-pointer shadow-lg ${
+                  isSizeOpen
+                    ? 'bg-forest-800 text-white border-accent/60 shadow-accent/10'
+                    : 'bg-surface/85 hover:bg-surface text-text-muted hover:text-white border-border/80'
+                }`}
+                title="Adjust Point Cloud Splat Size"
+                aria-expanded={isSizeOpen}
+              >
+                <svg className="w-3.5 h-3.5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+                <span className="font-medium">Size: {POINT_SIZES.find(s => s.value === pointSize)?.label || 'Normal'}</span>
+                <svg className={`w-3 h-3 text-text-dim transition-transform duration-200 ${isSizeOpen ? 'rotate-180 text-white' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {isSizeOpen && (
+                <div className="absolute left-0 mt-2 p-1.5 rounded-xl bg-forest-950/95 border border-border/90 backdrop-blur-xl shadow-2xl z-30 flex items-center gap-1">
+                  {POINT_SIZES.map(s => {
+                    const isSelected = pointSize === s.value;
+                    return (
+                      <button
+                        key={s.value}
+                        type="button"
+                        onClick={() => {
+                          setPointSize(s.value);
+                          setIsSizeOpen(false);
+                        }}
+                        className={`px-2.5 py-1 text-xs font-mono rounded-lg transition-all cursor-pointer ${
+                          isSelected 
+                            ? 'bg-accent text-forest-950 font-bold shadow-sm' 
+                            : 'text-text-muted hover:text-white hover:bg-forest-850'
+                        }`}
+                        title={s.desc}
+                      >
+                        {s.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Right: Scene Switcher (Visible when 3D is active) */}
@@ -564,20 +834,20 @@ export default function PointCloudHero() {
 
       {/* Bottom Controls Bar (Visible when 3D is active) */}
       {is3DActive && (
-        <div className="absolute bottom-6 left-4 right-4 sm:left-auto sm:right-6 z-30 pointer-events-none flex flex-wrap items-center justify-between sm:justify-end gap-2.5">
+        <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 left-auto z-20 pointer-events-none flex flex-wrap items-center justify-end gap-2 sm:gap-2.5">
           
           {/* Mobile Touch Mode Helper Pill (on small screens) */}
           {isMobile && (
             <button
               onClick={() => setTouchRotateEnabled(!touchRotateEnabled)}
-              className={`pointer-events-auto sm:hidden flex items-center gap-2 text-xs font-mono px-3 py-1.5 rounded-xl border backdrop-blur-md shadow-lg transition-all cursor-pointer ${
+              className={`pointer-events-auto sm:hidden flex items-center gap-1.5 text-xs font-mono px-2.5 py-1.5 rounded-xl border backdrop-blur-md shadow-lg transition-all cursor-pointer ${
                 touchRotateEnabled 
                   ? 'bg-emerald-950/85 text-emerald-300 border-emerald-500/50 hover:bg-emerald-900/90' 
                   : 'bg-surface/85 hover:bg-surface text-text-muted hover:text-white border-border/80'
               }`}
               title="Toggle single-finger touch interaction vs. page scrolling"
             >
-              <span>{touchRotateEnabled ? '👆 Touch to Spin: ON' : '📜 Scroll Friendly'}</span>
+              <span>{touchRotateEnabled ? 'Touch 3D: ON' : 'Page Scroll'}</span>
             </button>
           )}
 
@@ -597,7 +867,7 @@ export default function PointCloudHero() {
             )}
           </div>
 
-          {/* Orbit Auto-Rotation Toggle Button (Matching Top 3D View Button) */}
+          {/* Orbit Auto-Rotation Toggle Button */}
           <button 
             onClick={() => setIsRotating(!isRotating)}
             className={`pointer-events-auto flex items-center gap-2 px-3 py-1.5 rounded-xl border backdrop-blur-md text-xs font-mono transition-all cursor-pointer shadow-lg ${
@@ -609,6 +879,34 @@ export default function PointCloudHero() {
           >
             <span className={`w-2 h-2 rounded-full ${isRotating ? 'bg-emerald-400 animate-pulse' : 'bg-text-dim'}`}></span>
             <span className="font-semibold">{isRotating ? 'Rotate: ON' : 'Rotate: OFF'}</span>
+          </button>
+
+          {/* 6ft Surveyor Scale Toggle Button */}
+          <button 
+            type="button"
+            onClick={() => setShowScale(!showScale)}
+            className={`pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-md text-xs font-mono transition-all cursor-pointer shadow-lg ${
+              showScale
+                ? 'bg-amber-950/85 text-amber-300 border-amber-500/50 hover:bg-amber-900/90'
+                : 'bg-surface/85 hover:bg-surface text-text-muted hover:text-white border-border/80'
+            }`}
+            title="Toggle 6-foot (1.83 m) human surveyor scale figure"
+          >
+            <span className={`w-2 h-2 rounded-full ${showScale ? 'bg-amber-400 animate-pulse' : 'bg-text-dim'}`}></span>
+            <span className="font-semibold">{showScale ? 'Scale: 6ft ON' : 'Scale: 6ft OFF'}</span>
+          </button>
+
+          {/* Reset View Button */}
+          <button 
+            type="button"
+            onClick={handleResetView}
+            className="pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-md text-xs font-mono transition-all cursor-pointer shadow-lg bg-surface/85 hover:bg-surface text-text-muted hover:text-white border-border/80 hover:border-accent/40"
+            title="Reset camera view to initial framing"
+          >
+            <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span className="font-semibold">Reset</span>
           </button>
         </div>
       )}

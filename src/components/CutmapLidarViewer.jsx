@@ -52,7 +52,8 @@ const vertexShader = `
     vElevation = clamp((position.y - uMinY) / range, 0.0, 1.0);
     
     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-    gl_PointSize = uPointSize * (300.0 / -mvPosition.z);
+    float pSize = uPointSize * (160.0 / -mvPosition.z);
+    gl_PointSize = clamp(pSize, 1.0, 48.0);
     gl_Position = projectionMatrix * mvPosition;
   }
 `;
@@ -169,6 +170,7 @@ function extractGeometry(scene, standId) {
 // Sub-component: Point Cloud Mesh with dynamic uniforms
 const ForestPointCloudMesh = ({ standId, colorMode, pointSize }) => {
   const { scene } = useGLTF(`/models/${standId}.glb`);
+  const materialRef = useRef(null);
 
   const { geometry, minY, maxY } = useMemo(() => {
     return extractGeometry(scene, standId);
@@ -180,19 +182,30 @@ const ForestPointCloudMesh = ({ standId, colorMode, pointSize }) => {
     uMaxY: { value: maxY },
     uColorMode: { value: colorMode },
     uOpacity: { value: 0.90 }
-  }), [minY, maxY]);
+  }), []);
 
   useEffect(() => {
-    if (uniforms.uColorMode) uniforms.uColorMode.value = colorMode;
-    if (uniforms.uPointSize) uniforms.uPointSize.value = pointSize;
-    if (uniforms.uMinY) uniforms.uMinY.value = minY;
-    if (uniforms.uMaxY) uniforms.uMaxY.value = maxY;
-  }, [colorMode, pointSize, minY, maxY, uniforms]);
+    if (materialRef.current && materialRef.current.uniforms) {
+      if (materialRef.current.uniforms.uColorMode) {
+        materialRef.current.uniforms.uColorMode.value = colorMode;
+      }
+      if (materialRef.current.uniforms.uPointSize) {
+        materialRef.current.uniforms.uPointSize.value = pointSize;
+      }
+      if (materialRef.current.uniforms.uMinY) {
+        materialRef.current.uniforms.uMinY.value = minY;
+      }
+      if (materialRef.current.uniforms.uMaxY) {
+        materialRef.current.uniforms.uMaxY.value = maxY;
+      }
+    }
+  }, [colorMode, pointSize, minY, maxY]);
 
   return (
     <points>
       <primitive object={geometry} attach="geometry" />
       <shaderMaterial
+        ref={materialRef}
         attach="material"
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
@@ -235,7 +248,7 @@ const CameraPresetsHandler = ({ presetTrigger, controlsRef }) => {
 export default function CutmapLidarViewer() {
   const [currentStandId, setCurrentStandId] = useState('livox_forest_grove');
   const [colorMode, setColorMode] = useState(0); // 0: Elevation Gradient, 1: Monochrome Laser
-  const [pointSize, setPointSize] = useState(0.08);
+  const [pointSize, setPointSize] = useState(0.6);
   const [isRotating, setIsRotating] = useState(true);
   const [presetTrigger, setPresetTrigger] = useState({ mode: 'orbit', ts: Date.now() });
 
@@ -260,6 +273,7 @@ export default function CutmapLidarViewer() {
           
           <Suspense fallback={null}>
             <ForestPointCloudMesh
+              key={currentStandId}
               standId={currentStandId}
               colorMode={colorMode}
               pointSize={pointSize}

@@ -1,5 +1,115 @@
 # Progress Log
 
+## [2026-10-08 10:45:00 EDT] — Mobile Hero Identity Collapse & Point Cloud HUD Collision Fix
+
+* **Status:** Completed & Build Verified
+* **Focus:** Mobile Responsive Layout, Z-Index Hierarchy, WebGL Bottom HUD Controls
+* **Summary:**
+  1. **Decoupled Collapsed Pill Button (`src/pages/index.astro`):**
+     - Shifted `#hero-expand-btn` (`Show Info ↑`) from inside the bottom-anchored container to an independent absolute position (`bottom-24 sm:bottom-10 left-4 sm:left-8 z-30`).
+     - On mobile screens (<640px), the collapsed pill floats safely ~96px from the bottom, clearing the 3D controls below with generous touch padding.
+     - Elevated `#hero-identity-container` to `z-30` so the expanded card stays cleanly above WebGL background elements.
+  2. **Refactored 3D HUD Bottom Bar (`src/components/PointCloudHero.jsx`):**
+     - Adjusted container positioning from edge-to-edge `bottom-6 left-4 right-4 justify-between` to right-anchored `bottom-4 sm:bottom-6 right-4 sm:right-6 left-auto z-20 justify-end gap-2 sm:gap-2.5`.
+     - Removed emojis from the mobile touch button (`👆 Touch to Spin: ON` / `📜 Scroll Friendly` -> `Touch 3D: ON` / `Page Scroll`) adhering strictly to the zero-emoji contest mandate and reducing horizontal width by ~25%.
+  3. **Build & Live Verification:** Static compilation cleanly verified across all 20 pages in 7.06s; live on local preview server.
+
+## [2026-10-06 16:45:00 EDT] — Manually Cleaned Point Cloud Re-Compilation & Surveyor Label Placement
+
+* **Status:** Completed & Build Verified
+* **Focus:** 3D GLB Re-Generation, UI Callout Ergonomics, Static Site Build
+* **Summary:**
+  1. **Manually Cleaned Point Cloud Conversion (`scripts/convert_trees_to_glb.py`):**
+     - Recompiled Sugar Maple from updated `3D_models/SUGAR_MAPLE_CLEAN.laz` (1.36M points -> 170,016 WebGL points, H = 23.35 m, Spread = 27.93 m, `public/models/sugar_maple.glb`, 3.89 MB).
+     - Recompiled Bur Oak from updated `3D_models/BUR_OAK_CLEAN.laz` (466k points -> 155,479 WebGL points, H = 26.98 m, Spread = 27.75 m, `public/models/bur_oak.glb`, 3.56 MB).
+  2. **Surveyor Label Placement Below Figure (`src/components/PointCloudHero.jsx`):**
+     - Shifted the 3D perspective HTML callout (`6' 0" (1.83 m) Surveyor`) from head height to beneath the surveyor's stance and ground ring (`position={[0.0, -0.45, 0]}`).
+     - Prevents visual occlusion of the hardhat, face, and 2-meter optical prism while maintaining scale reference.
+  3. **Build & Live Verification:** Static Astro build succeeded across all 20 pages in 6.32s; live on local preview server.
+
+## [2026-10-06 16:35:00 EDT] — 6-Foot (1.83 m) Point Cloud Surveyor Scale Figure Integration
+
+* **Status:** Completed & Build Verified
+* **Focus:** 3D Scientific Storytelling, Procedural Geometry, Visual Human Scale
+* **Summary:**
+  1. **Procedural Surveyor Point Cloud (`src/components/PointCloudHero.jsx`):**
+     - Constructed an authentic 650-point forestry surveyor figure scaled to exact metric 1:1 dimensions ($1.83\text{ m} / 6\text{ ft } 0\text{ in}$ crown height).
+     - Features field boots ($y \in [0.0, 0.08\text{ m}]$), work pants ($y \in [0.08, 0.95\text{ m}]$), ANSI Class 2/3 Safety High-Vis Orange vest with reflective fluorescent lime-yellow stripes ($y \in [0.95, 1.55\text{ m}]$), yellow safety hardhat ($y \in [1.68, 1.83\text{ m}]$), a standard 2.0-meter forestry range pole with alternating 20 cm red/white bands and top cyan optical prism, and a ground station benchmark ring ($r = 0.50\text{ m}$).
+  2. **Dedicated High-Visibility Shader & Differentiation:**
+     - Surveyor points render using an independent shader (`surveyorVertexShader` / `surveyorFragmentShader`) preserving explicit ANSI safety colors across all 6 tree elevation colormaps.
+     - Positioned at $[3.2, \text{minY}, 0.5]$ at the ground plane of whatever tree is selected.
+     - Includes a 3D perspective-tracked HTML callout: `6' 0" (1.83 m) Surveyor` with pulsing amber indicator.
+  3. **Interactive HUD Controls:**
+     - Added `[ Scale: 6ft ON / OFF ]` toggle button in the bottom HUD bar, allowing visitors to inspect pure tree geometry or enable human scale reference.
+  4. **Build & Live Verification:** Static compilation cleanly verified across all 20 pages; live on local preview server.
+
+## [2026-10-06 15:45:00 EDT] — CUTMAP Field Cart Cover Photo & White Pine 3D Specimen Integration
+
+* **Status:** Completed & Build Verified
+* **Focus:** Visual Assets, Field Photography, Point Cloud Specimen Telemetry
+* **Summary:**
+  1. **CUTMAP Field Cart Cover Photo Update (`src/components/PortfolioGrid.astro`, `src/pages/cutmap.astro`):**
+     - Replaced indoor bench test photo with high-resolution field photography (`public/images/cutmap_cover_photo.jpg`, 3141 × 2634 px, 3.6 MB).
+     - Captured on forest trail in Harvard Forest, highlighting the rugged chassis, display, power bank, stereo vision pair, and Livox Mid-360 LiDAR mast.
+     - Updated homepage portfolio card and `/cutmap` OpenGraph / Twitter preview card (`og:image`).
+  2. **White Pine Specimen Integration (`src/components/PointCloudHero.jsx`):**
+     - Incorporated 4th specimen into the landing page hero point cloud selector: *Pinus strobus* (Eastern White Pine, `public/models/white_pine.glb`, 179k points, height 20.1 m, crown spread 10.9 m, Stand 1 isolation).
+  3. **Build & Live Verification:** Static compilation cleanly verified across all 20 static pages; live on local preview server.
+
+## [2026-10-06 14:40:00 EDT] — Point Cloud Hero Shader Uniforms & Dynamic Point Size Calibration
+
+* **Status:** Completed & Build Verified
+* **Focus:** WebGL Shader Materials, React Three Fiber Lifecycle, Interactive Controls
+* **Summary:**
+  1. **Dynamic Point Size Calibration (`src/components/PointCloudHero.jsx`, `src/components/CutmapLidarViewer.jsx`):**
+     - Resolved sub-pixel GPU rasterizer clamping where sizes under 1.0 px evaluated to uniform 1-pixel dots regardless of preset.
+     - Calibrated vertex shader formula `pSize = uPointSize * (160.0 / -mvPosition.z)` with `clamp(pSize, 1.0, 48.0)`.
+     - Hero tree presets: Fine (`0.7`, ~2.7 px), Normal (`1.5`, ~5.7 px), Dense (`3.0`, ~11.4 px) for distinct visual contrast at survey distance.
+     - Calibrated CUTMAP forest stand default `pointSize` to `0.6` (~3.2 px at 30 m oblique orbit) for crisp understory returns without crown clumping.
+  2. **Shader Uniform Lifecycle Stabilization:**
+     - Fixed React Three Fiber uniform detachment where selecting a new tree mutated a detached JavaScript dictionary while the compiled Three.js material remained bound to the old instance.
+     - Stabilized uniforms dictionary with `useMemo(() => ({ ... }), [])` per mesh instance.
+     - Attached `ref={materialRef}` to `<shaderMaterial>` and synchronized `uColorMode`, `uPointSize`, `uMinY`, `uMaxY` directly onto active Three.js material uniforms in `useEffect`.
+     - Added `key={currentSceneId}` to `<PointCloudMesh>` and `key={currentStandId}` to `<ForestPointCloudMesh>` ensuring clean unmount/remount lifecycles across specimens.
+  3. **Build & Live Verification:** Static compilation cleanly verified across all 20 pages; updated build live on preview server.
+
+## [2026-10-06 14:15:00 EDT] — Mount Auburn Landmark Specimen Tree Point Clouds & Hero Controls Upgrade
+
+* **Status:** Completed & Build Verified
+* **Focus:** 3D WebGL Point Cloud Engineering, Scientific Data Storytelling, User Controls
+* **Summary:**
+  1. **Landmark Tree GLB Generation (`scripts/convert_trees_to_glb.py`):**
+     - Converted `3D_models/SUGAR_MAPLE_CLEAN_manual.laz` (1.36M points) to `public/models/sugar_maple.glb` (3.89 MB, 170,016 points, height 23.35 m, crown spread 27.93 m).
+     - Converted `3D_models/BUR_OAK_CLEAN_manual.laz` (466k points) to `public/models/bur_oak.glb` (3.56 MB, 155,479 points, height 26.98 m, crown spread 27.75 m).
+     - Packed normalized 16-bit LiDAR intensity into vertex color channels for real-time reflectance shading alongside height elevation ramps.
+  2. **Homepage Hero Calibration (`src/components/PointCloudHero.jsx`):**
+     - Dedicated the homepage hero viewer exclusively to Mount Auburn's 3 monumental specimen trees (Red Oak, Sugar Maple, Bur Oak), reserving the forest grove scans exclusively for `/cutmap`.
+     - Integrated scientific and botanical metadata HUD telemetry: species botanical nomenclature, Livox Mid-360 sensor spec, point counts, tree height, and canopy spread.
+  3. **Interactive & Style Controls:**
+     - Point Splat Size Selector: Fine (`0.05`), Normal (`0.08`), Dense (`0.12`).
+     - Scientific Colormaps: Forest Elevation, Viridis, Magma, LiDAR Intensity Reflectance, Turbo, and Cividis (colorblind-safe).
+     - Camera Ergonomics: Automatic orbit target re-centering to `(0, 0, 0)` upon tree switching, plus a dedicated "Reset" view button in the bottom HUD.
+     - Mobile Gestures: Enabled mobile pinch-to-zoom and two-finger pan while respecting page scroll ergonomics.
+  4. **Build & Runtime Verification:** Static Astro build passed with 0 errors across all 20 pages.
+
+## [2026-10-05 16:20:00 EDT] — CUTMAP Phase 1 Promo Video Showcase & Pipeline Diagram Integration
+
+* **Status:** Completed & Build Verified
+* **Focus:** Visual Data Storytelling, Video Player Engineering, Algorithmic Pipeline Architecture
+* **Summary:**
+  1. **Phase 1 Promo Video Web Optimization (`public/videos/cutmap/cutmap_phase1_promo.mp4`):**
+     - Transcoded `/home/cgarms/Projects/CUTMAP/results/promo/CUTMAP_P1_PROMO_WIDE.mp4` (82 MB, 12 Mbps) to web-optimized 1080p H.264 (`yuv420p`, CRF 27, AAC stereo 128k, `-movflags +faststart`, 42.9 MB), safe for GitHub (<50MB) and optimized for instant mobile streaming.
+     - Extracted 1080p high-contrast Harvard Forest poster frame (`public/images/cutmap/cutmap_promo_poster.jpg`).
+  2. **Dual Video Showcase Hub (`src/pages/cutmap.astro`):**
+     - Restructured Section 5 into `#video-showcase` featuring:
+       * Primary: 56s Phase 1 Milestone Video ("From the Bench to Harvard Forest") with audio controls and Harvard Forest poster.
+       * Secondary: 10s onboard NVIDIA Jetson AGX Orin screen recording ("Real-Time Edge Perception in Action").
+     - Updated Hero CTA anchor to `Watch Project Promo & Demos` linking directly to `#video-showcase`.
+  3. **Algorithmic Pipeline Diagram (`src/pages/cutmap.astro`):**
+     - Integrated `<CutmapPipelineDiagram />` as Section 6 ("Computational Engine: System Architecture & Processing Pipeline"), displaying 3-stage sensor fusion, SAM prompting, and geometry-constrained RANSAC cylinder fitting.
+  4. **Build Verification:**
+     - Compiled cleanly with `npm run build` across all 20 static routes in 4.66s with 0 errors.
+
 ## [2026-10-02 18:15:00 EDT] — USDA-NIFA Embargo Lift, Site Updates & Public Campaign Launch
 
 * **Status:** Completed, Deployed & Live
