@@ -1,5 +1,16 @@
 # Progress Log
 
+## [2026-10-08 12:30:00 EDT] — Vercel Web Analytics Integration & Layout Setup
+
+* **Status:** Completed & Build Verified
+* **Focus:** Privacy-Friendly Web Analytics, Vercel Insights, Base Layout Integration
+* **Summary:**
+  1. **Package Installation:** Installed `@vercel/analytics` (`^2.0.1`) configured via `--legacy-peer-deps` to preserve React 19 / Three.js dependency alignment.
+  2. **Base Layout Integration (`src/layouts/Layout.astro`):**
+     - Imported `Analytics` from `@vercel/analytics/astro`.
+     - Placed `<Analytics />` directly ahead of the closing `</body>` tag, ensuring universal page-view metrics across all 20 static routes (`/`, `/cutmap`, `/unjitr`, `/research`, `/cv`, `/reading-list`, `/notes/*`).
+  3. **Build & Live Verification:** Full static build cleanly verified in 6.45s across all 20 pages with 0 errors.
+
 ## [2026-10-08 10:45:00 EDT] — Mobile Hero Identity Collapse & Point Cloud HUD Collision Fix
 
 * **Status:** Completed & Build Verified

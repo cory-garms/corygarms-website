@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
 	title: string;
@@ -397,5 +398,6 @@ const isLibrary = currentPath.startsWith('/reading-list');
 				}
 			});
 		</script>
+		<Analytics />
 	</body>
 </html>
