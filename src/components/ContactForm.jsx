@@ -43,10 +43,14 @@ export default function ContactForm() {
     if (status === 'success') {
         return (
             <div className="p-8 bg-green-900/20 border border-green-500/50 rounded-xl text-center shadow-lg">
-                <div className="text-4xl mb-4">✅</div>
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-accent">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
                 <h3 className="text-xl font-bold text-green-100 mb-2">Message Sent!</h3>
                 <p className="text-green-200/80 font-mono text-sm">Thank you for reaching out. I'll get back to you as soon as possible.</p>
-                <button onClick={() => setStatus('')} className="mt-6 text-sm underline text-green-400 hover:text-green-300">
+                <button onClick={() => setStatus('')} className="mt-6 text-sm underline text-green-400 hover:text-green-300 cursor-pointer">
                     Send another message
                 </button>
             </div>
@@ -108,8 +112,11 @@ export default function ContactForm() {
             </button>
 
             {status === 'error' && (
-                <div className="p-4 bg-red-950/30 border border-red-500/40 rounded-lg text-red-200 text-xs font-mono mt-2">
-                    ⚠️ Something went wrong transmitting your message. Please try again or reach out directly at coryglenngarms@gmail.com.
+                <div className="p-4 bg-red-950/30 border border-red-500/40 rounded-lg text-red-200 text-xs font-mono mt-2 flex items-center gap-2.5">
+                    <svg className="w-4 h-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <span>Something went wrong transmitting your message. Please try again or reach out directly at coryglenngarms@gmail.com.</span>
                 </div>
             )}
             

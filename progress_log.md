@@ -1,5 +1,24 @@
 # Progress Log
 
+## [2026-10-14 14:22:00 EDT] — BPAW 2026 Contest Pre-Flight Audit & Targeted Polishes
+
+* **Status:** Completed & Build Verified
+* **Focus:** BPAW Contest Submission Readiness, Internal Link Integrity, Zero-Emoji Academic Compliance, Scholarly Catalog Parity
+* **Summary:**
+  1. **Automated Pre-Flight Site Audit:**
+     - Compiled and parsed all 20 static HTML routes in `dist/`.
+     - Verified 100% of internal image and asset references exist on disk.
+     - Confirmed all internal hyperlinks and in-page anchor IDs resolve with zero broken targets.
+  2. **UNJITR Restoration Engine CTA Anchor Fix (`src/pages/unjitr.astro`):**
+     - Updated section tag from `id="algorithm"` to `id="pipeline"` to align with the Hero CTA button (`href="#pipeline"`).
+     - Clicking "Restoration Pipeline" now smoothly navigates visitors directly to the 4-step discrete mathematical engine stepper.
+  3. **Zero-Emoji Contest Polish (`src/pages/reading-list.astro`, `src/components/ContactForm.jsx`):**
+     - Replaced `📚 Bookshelf` and `🗂 Grid View` button labels on `/reading-list` with sleek SVG book/grid icons and clean typography.
+     - Replaced unicode checkmark (`✅`) and warning (`⚠️`) in `ContactForm.jsx` with accessible inline SVG icons, ensuring 100% zero-emoji compliance across the site.
+  4. **Scholarly Catalog Parity on CV (`src/pages/cv.astro`):**
+     - Added Dr. Garms' 2016 LSU Master's Thesis (*"Relative Resistance to Breaking of Pinus taeda L. and Pinus palustris"*) to the Select Publications section on `/cv`, aligning with the full catalog on `/research`.
+  5. **Static Build Verification:** Cleanly compiled across all 20 static routes in 6.35s with 0 errors.
+
 ## [2026-10-08 18:30:00 EDT] — 3D Tree Viewer Guide Modal & Schema.org Person JSON-LD
 
 * **Status:** Completed & Build Verified
