@@ -243,16 +243,19 @@ import ContactSection from "../components/ContactSection.astro";
           </a>
         </div>
 
-        <div class="p-6 bg-surface rounded-2xl border border-border flex flex-col justify-between hover:border-accent/40 transition-all">
+        <div class="p-6 bg-surface rounded-2xl border border-emerald-500/30 hover:border-emerald-400/70 flex flex-col justify-between transition-all group">
           <div>
-            <div class="text-[11px] font-mono text-accent mb-2">3D Lidar & Forestry &bull; 2021</div>
-            <h3 class="text-lg font-bold text-white mb-2">Assessing lean and positional error of individual mature Douglas-fir</h3>
+            <div class="flex items-center gap-1.5 text-[11px] font-mono text-emerald-300 mb-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>USDA-NIFA STTR &bull; 2026</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2 group-hover:text-emerald-200 transition-colors">CUTMAP: Autonomous Forest Mensuration</h3>
             <p class="text-xs text-text-muted leading-relaxed mb-4">
-              Measures tree lean and trunk curvature to improve the accuracy of airborne laser forest inventories.
+              Real-time mobile LiDAR and stereo platform measuring tree diameter, lean, and timber volume under dense canopy with zero GPS.
             </p>
           </div>
-          <a href="/research#douglas-fir-lean" class="text-xs font-mono text-text-main hover:text-accent transition-colors flex items-center gap-1">
-            <span>View publication & summary &rarr;</span>
+          <a href="/cutmap" class="text-xs font-mono text-emerald-300 hover:text-emerald-200 transition-colors flex items-center gap-1">
+            <span>View system showcase &rarr;</span>
           </a>
         </div>
 

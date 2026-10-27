@@ -1,5 +1,42 @@
 # Progress Log
 
+## [2026-10-27 13:21:00 EDT] — Point Cloud Hero Default Palette & Size Calibration
+
+* **Status:** Completed & Build Verified
+* **Focus:** 3D WebGL Visualization, Point Cloud Density & Colormap Defaults
+* **Summary:**
+  1. **Default Colormap Standardized to Turbo (`src/components/PointCloudHero.jsx`):**
+     - Updated initial `colorMode` state from `0` (Forest Elevation) to `4` (Turbo Scientific Colormap), rendering the 5-stop high-contrast spectral rainbow ramp on initial hero load.
+  2. **Default Point Splat Size Standardized to Fine (`src/components/PointCloudHero.jsx`):**
+     - Updated initial `pointSize` state from `1.5` (Normal) to `0.7` (Fine), providing crisp, high-density individual LiDAR pulse returns suitable for retina and 4K displays.
+  3. **Static Build Verification:** Clean static Astro build passed across all 20 routes in 6.38s with zero errors.
+
+## [2026-10-27 12:54:00 EDT] — CUTMAP Homepage Spotlight, Dissertation Scholarly Linking & WCAG AA Contrast Tuning
+
+* **Status:** Completed & Build Verified
+* **Focus:** Scientific Storytelling, Scholarly Artifact Discoverability, WCAG 2.1 AA Contrast Compliance
+* **Summary:**
+  1. **CUTMAP Homepage Research Spotlight (`src/pages/index.astro`):**
+     - Replaced individual Douglas-fir card in the homepage Research & Publications preview with a dedicated CUTMAP spotlight card featuring an emerald badge (`USDA-NIFA STTR • 2026`), system description, and direct link to `/cutmap`.
+     - Positions Dr. Garms' two flagship 2026 breakthroughs (UNJITR & CUTMAP) side-by-side as primary research entry points.
+  2. **Scholarly Artifact Linking for Ph.D. Dissertation (`src/pages/research.astro`):**
+     - Enriched 2020 Oregon State University Ph.D. Dissertation entry with direct repository URL (`https://ir.library.oregonstate.edu/`) and BibTeX `@phdthesis` metadata, surfacing the "Read Repository &rarr;" action button.
+  3. **WCAG 2.1 AA Color Contrast Micro-Tuning (`src/styles/global.css`):**
+     - Brightened `--color-text-dim` from `#5c7366` to `#718c7d`, boosting contrast ratio to >5.2:1 against elevated card and dark surface backgrounds to ensure flawless automated accessibility audit scores.
+  4. **Static Astro Build Verification:** Cleanly compiled across all 20 static routes in 6.15s with zero errors.
+
+## [2026-10-27 12:41:00 EDT] — Spurs Tracker Destination Update & CV Alignment
+
+* **Status:** Completed & Build Verified
+* **Focus:** Portfolio Links, Live Web Application Discoverability, CV Synchronization
+* **Summary:**
+  1. **Spurs Tracker Card Update (`src/components/PortfolioGrid.astro`):**
+     - Updated portfolio card destination from GitHub repository to the live interactive web app (`https://cory-garms.github.io/spurs-tracker/`).
+     - Updated card title to *Spurs Stats HQ: NBA Analytics*, badge to *Live Web App*, action label to *Launch Dashboard*, and tags to `["NBA Analytics", "Python", "Live App"]`.
+  2. **Curriculum Vitae Linkage (`src/pages/cv.astro`):**
+     - Added direct link to *Spurs Stats HQ* in the Interests & Avocations section alongside *Dirty Water*.
+  3. **Static Build Verification:** Clean static Astro build passed across all 20 routes in 4.82s with zero errors.
+
 ## [2026-10-14 14:22:00 EDT] — BPAW 2026 Contest Pre-Flight Audit & Targeted Polishes
 
 * **Status:** Completed & Build Verified

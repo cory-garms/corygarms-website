@@ -552,11 +552,11 @@ const PointCloudMesh = ({ sceneId, colorMode, pointSize, showScale }) => {
 
 export default function PointCloudHero() {
   const [currentSceneId, setCurrentSceneId] = useState('huge_oak');
-  const [colorMode, setColorMode] = useState(0); // 0: Forestry, 1: Viridis, 2: Magma, 3: Reflectance, 4: Laser Emerald, 5: Electric Cyan
+  const [colorMode, setColorMode] = useState(4); // 4: Turbo Scientific (0: Forestry, 1: Viridis, 2: Magma, 3: Reflectance, 4: Turbo, 5: Cividis)
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [isSizeOpen, setIsSizeOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
-  const [pointSize, setPointSize] = useState(1.5);
+  const [pointSize, setPointSize] = useState(0.7); // 0.7: Fine (1.5: Normal, 3.0: Dense)
   const [showScale, setShowScale] = useState(true);
   const [isRotating, setIsRotating] = useState(true);
   const [is3DActive, setIs3DActive] = useState(true);
