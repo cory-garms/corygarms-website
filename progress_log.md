@@ -1,5 +1,18 @@
 # Progress Log
 
+## [2026-10-27 14:45:00 EDT] — Portfolio Side Projects Streamlining & Symmetrical Grid
+
+* **Status:** Completed & Build Verified
+* **Focus:** Portfolio Segmentation, Visual Symmetry, Clean Typography
+* **Summary:**
+  1. **Side Projects Simplification (`src/components/PortfolioGrid.astro`):**
+     - Shortened section title from *Side Projects & Quantitative Explorations* to *Side Projects*.
+     - Removed the *Autonomous Bass Species Detector* repository card, focusing the section cleanly on live deployed interactive sports web applications (*Dirty Water: Boston Red Sox Analytics Suite* and *Spurs Stats HQ: NBA Analytics*).
+     - Adjusted the subtitle copy to: *"Applying spatial statistics and machine learning to sports analytics and personal interests."*
+  2. **Grid Geometry & Visual Symmetry (`src/components/PortfolioGrid.astro`):**
+     - Shifted layout from a 3-column grid (`md:grid-cols-3`) to a balanced 2-column grid (`md:grid-cols-2`), matching the layout of the primary research cards above.
+  3. **Static Build Verification:** Static Astro build passed cleanly across all 20 routes in 6.29s with zero errors.
+
 ## [2026-10-27 13:21:00 EDT] — Point Cloud Hero Default Palette & Size Calibration
 
 * **Status:** Completed & Build Verified

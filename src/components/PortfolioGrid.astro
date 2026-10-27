@@ -69,16 +69,6 @@ const sideProjects: Project[] = [
     isGithub: false
   },
   {
-    title: "Autonomous Bass Species Detector",
-    badge: "Edge Computer Vision",
-    description: "Real-time underwater YOLOv8 computer vision model detecting and tracking black bass species in varied aquatic clarity.",
-    image: "/images/bass_detection.jpg",
-    tags: ["YOLOv8", "Computer Vision", "Python", "Ecology"],
-    link: "https://github.com/cory-garms/bass-detector",
-    linkText: "Source Repository",
-    isGithub: true
-  },
-  {
     title: "Spurs Stats HQ: NBA Analytics",
     badge: "Live Web App",
     description: "Interactive analytics dashboard tracking San Antonio Spurs game pace, defensive ratings, and spatial shot distributions.",
@@ -157,21 +147,21 @@ const sideProjects: Project[] = [
 			))}
 		</div>
 
-		<!-- Tier 2 Header: Side Projects & Explorations -->
+		<!-- Tier 2 Header: Side Projects -->
 		<div class="flex items-center justify-between mb-4">
 			<div class="flex items-center gap-3 flex-grow mr-6">
 				<span class="w-2 h-2 rounded-sm bg-topo"></span>
-				<h2 class="text-xs font-mono uppercase tracking-widest text-topo">Side Projects &amp; Quantitative Explorations</h2>
+				<h2 class="text-xs font-mono uppercase tracking-widest text-topo">Side Projects</h2>
 				<div class="h-px bg-border flex-grow ml-4"></div>
 			</div>
 			<span class="text-xs font-mono text-text-dim shrink-0">Applied Tools</span>
 		</div>
 		<p class="text-xs font-mono text-text-muted mb-10 max-w-2xl">
-			Applying spatial statistics, machine learning, and computer vision to sports analytics, ecology, and personal interests.
+			Applying spatial statistics and machine learning to sports analytics and personal interests.
 		</p>
 
 		<!-- Tier 2 Grid -->
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-7">
 			{sideProjects.map((project, index) => (
 				<a href={project.link} target={project.link.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer" class="group block bg-surface rounded-2xl border border-border hover:border-accent/40 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 flex flex-col h-full overflow-hidden reveal" style={`transition-delay: ${index * 100}ms;`}>
 					
