@@ -1,5 +1,16 @@
 # Progress Log
 
+## [2026-10-28 16:49:00 EDT] — Spurs Analytics Brand Update: La Tabla Spurs
+
+* **Status:** Completed & Build Verified
+* **Focus:** Portfolio Link Branding, CV Synchronization
+* **Summary:**
+  1. **Portfolio Card Rebranded (`src/components/PortfolioGrid.astro`):**
+     - Updated title from *Spurs Stats HQ: NBA Analytics* to *La Tabla Spurs: NBA Analytics*, keeping the live application link and analytics metadata aligned.
+  2. **Curriculum Vitae Linkage Synchronized (`src/pages/cv.astro`):**
+     - Updated the Interests & Avocations anchor text from *Spurs Stats HQ* to *La Tabla Spurs*.
+  3. **Static Build Verification:** Clean static Astro build passed across all 20 routes in 6.34s with zero errors.
+
 ## [2026-10-28 11:21:00 EDT] — Notes Navigation & Homepage Feed Streamlining
 
 * **Status:** Completed & Build Verified
