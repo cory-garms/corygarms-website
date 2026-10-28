@@ -1,5 +1,18 @@
 # Progress Log
 
+## [2026-10-28 11:21:00 EDT] — Notes Navigation & Homepage Feed Streamlining
+
+* **Status:** Completed & Build Verified
+* **Focus:** Academic Portfolio Focus, Clean Navigation Architecture, Content Preservation
+* **Summary:**
+  1. **Navigation Menu Unlinking (`src/layouts/Layout.astro`):**
+     - Removed the `NOTES` tab from both the desktop header navigation and the mobile slide-out menu, tightening the top-level site navigation directly around primary scholarly targets: *ABOUT*, *RESEARCH*, *PROJECTS*, *CV*, *BOOKSHELF*, and *CONTACT*.
+  2. **Homepage Feed Cleanup (`src/pages/index.astro`):**
+     - Removed the `<NotesList />` component from the homepage feed, enabling a seamless visual transition from the *Portfolio* section (*Core Science* & *Side Projects*) straight into *Contact / Collaboration Pathways*.
+  3. **Content & Asset Preservation:**
+     - 100% of all 11 technical note markdown files (`src/content/notes/*.mdx`), the `<NotesList />` component, and route handlers remain completely preserved on disk for seamless future reactivation.
+  4. **Static Astro Build Verification:** Clean static compilation passed across all 20 routes in 6.32s with zero errors.
+
 ## [2026-10-28 11:10:00 EDT] — Bookshelf Subtitle Copy Refinement
 
 * **Status:** Completed & Build Verified
