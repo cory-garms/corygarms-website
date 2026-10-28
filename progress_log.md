@@ -1,5 +1,14 @@
 # Progress Log
 
+## [2026-10-28 11:10:00 EDT] — Bookshelf Subtitle Copy Refinement
+
+* **Status:** Completed & Build Verified
+* **Focus:** Understated SciComm Copy, UI Ergonomics
+* **Summary:**
+  1. **Bookshelf Subtitle Streamlining (`src/pages/reading-list.astro`):**
+     - Simplified the subtitle copy from *"Hover over any book spine (or tap on mobile) to pull the hardcover forward and reveal its scientific and personal takeaway."* to: *"Fifty titles that shaped my thinking across science, history, philosophy, and fiction. Hover or tap any volume to explore."*
+  2. **Static Build Verification:** Clean static Astro build passed across all 20 routes in 6.51s with zero errors.
+
 ## [2026-10-28 10:55:00 EDT] — Interactive Bookshelf Expansion: 50 Volumes & Dedicated Horror Shelf
 
 * **Status:** Completed & Build Verified
