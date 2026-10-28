@@ -1,5 +1,19 @@
 # Progress Log
 
+## [2026-10-28 10:55:00 EDT] — Interactive Bookshelf Expansion: 50 Volumes & Dedicated Horror Shelf
+
+* **Status:** Completed & Build Verified
+* **Focus:** Interactive 3D CSS Bookshelf, Oregon Literary History, Curated Horror Masterworks
+* **Summary:**
+  1. **Pacific Northwest Forestry Epic on Shelf II (`src/pages/reading-list.astro`):**
+     - Replaced *Misery* on *The American West & History* shelf with Ken Kesey's monumental Oregon logging epic *Sometimes a Great Notion* (1964, 627 pages), rendered in rich PNW coastal spruce green cloth with debossed cream foil typography.
+  2. **Dedicated Horror Shelf Added (`src/pages/reading-list.astro`):**
+     - Created **Shelf V (Horror)** featuring 10 classic volumes in chronological order: *At the Mountains of Madness* (Lovecraft, 1936), *I Am Legend* (Matheson, 1954), *The Haunting of Hill House* (Jackson, 1959), *Something Wicked This Way Comes* (Bradbury, 1962), *Rosemary's Baby* (Levin, 1967), *The Exorcist* (Blatty, 1971), *The Shining* (King, 1977), *Pet Sematary* (King, 1983), *Misery* (King, 1987), and *The Terror* (Simmons, 2007).
+     - Styled each volume with authentic 3D CSS cloth spines, custom dimensions, foil debossed titles, and period-appropriate striped headbands.
+  3. **Collection Telemetry Synchronized (`src/pages/index.astro`, `src/pages/reading-list.astro`):**
+     - Updated total collection counters and descriptions across the homepage and bookshelf from 40 to 50 hardcover volumes.
+  4. **Static Astro Build Verification:** Clean static build completed across all 20 routes in 6.29s with zero errors.
+
 ## [2026-10-27 14:55:00 EDT] — Portfolio Header Polish: Core Science
 
 * **Status:** Completed & Build Verified
