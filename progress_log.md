@@ -1,5 +1,15 @@
 # Progress Log
 
+## [2026-10-27 14:55:00 EDT] — Portfolio Header Polish: Core Science
+
+* **Status:** Completed & Build Verified
+* **Focus:** Visual Symmetry, Compact Semantic Headings
+* **Summary:**
+  1. **Portfolio Tier 1 Header Shortened (`src/components/PortfolioGrid.astro`):**
+     - Shortened primary research section title from *Core Scientific Systems & Platforms* to *Core Science*.
+     - Harmonizes with *Side Projects* below for a punchy, balanced typographic pair across the portfolio.
+  2. **Static Build Verification:** Clean static Astro build passed across all 20 routes in 6.98s with zero errors.
+
 ## [2026-10-27 14:45:00 EDT] — Portfolio Side Projects Streamlining & Symmetrical Grid
 
 * **Status:** Completed & Build Verified
