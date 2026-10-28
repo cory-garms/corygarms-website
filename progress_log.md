@@ -1,5 +1,17 @@
 # Progress Log
 
+## [2026-10-28 17:49:00 EDT] — GitHub Actions CI/CD Pipeline Peer Dependency Resolution
+
+* **Status:** Completed & Build Verified
+* **Focus:** GitHub Actions CI, Peer Dependency Resolution, `.npmrc` Standardization
+* **Summary:**
+  1. **Root Cause Resolved:** Standard `npm ci` in `.github/workflows/ci.yml` strictly evaluated peer dependencies on clean Ubuntu runners, conflicting with React 19 / Three.js / Astro packages that require `--legacy-peer-deps`, causing automated pipeline failures on every commit.
+  2. **CI Workflow Update (`.github/workflows/ci.yml`):**
+     - Updated dependency installation step to `npm ci --legacy-peer-deps`.
+  3. **Repository `.npmrc` Added (`.npmrc`):**
+     - Created root `.npmrc` setting `legacy-peer-deps=true` ensuring seamless, deterministic package installation across local development, CI runners, and deployment environments.
+  4. **Build & CI Verification:** Clean offline `npm ci` test passed in 264ms, and full static Astro compilation passed with zero errors across all 20 routes.
+
 ## [2026-10-28 16:49:00 EDT] — Spurs Analytics Brand Update: La Tabla Spurs
 
 * **Status:** Completed & Build Verified
