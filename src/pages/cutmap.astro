@@ -3,133 +3,139 @@ import Layout from "../layouts/Layout.astro";
 import CutmapLidarViewer from "../components/CutmapLidarViewer.jsx";
 import CutmapPipelineDiagram from "../components/CutmapPipelineDiagram.astro";
 
-// Key Performance Numbers: Simple, bold, high-contrast
+// Verified Key Performance Indicators (Section 3 of WEBSITE_UPDATE_GUIDE_20261109.md)
 const kpis = [
   {
-    value: "~$2,200",
-    label: "Hardware Payload Cost",
-    detail: "25× cheaper than $50k–$100k commercial MLS rigs",
+    value: "~$4,439",
+    label: "Sensor & Compute BOM",
+    detail: "Phase I list price (Livox Mid-360 + 2× Blackfly + Jetson AGX Orin; $6,297 at Nov 2026 replacement prices)",
     color: "text-accent"
   },
   {
-    value: "80 mm",
-    label: "Canopy Drift over 425 m",
-    detail: "Zero GPS required under dense closed canopy",
+    value: "0.010–0.037 m",
+    label: "Marked-Loop Closure / 100 m",
+    detail: "17.8 mm over 178 m & 80 mm over 425 m under arboretum canopy (no GPS)",
     color: "text-emerald-400"
   },
   {
-    value: "98.6%",
-    label: "Field Tree Tally Recall",
-    detail: "73 of 74 trees confirmed across 3 native stands",
+    value: "+2.84 ± 1.46 cm",
+    label: "Full-Ring DBH (n=42)",
+    detail: "RMSE 3.18 cm, R² = 0.984 (1.46 cm spread around outer-bark offset on ≥340° white pine rings)",
     color: "text-cyan-400"
   },
   {
-    value: "R² = 0.98",
-    label: "Logger's Tape Accuracy",
-    detail: "Validated against physical diameter tape (RMSE 3.1 cm)",
+    value: "+3.26 ± 2.53 cm",
+    label: "All-View DBH (n=65)",
+    detail: "RMSE 4.12 cm, R² = 0.951; partial-arc slope +2.79 cm / 100° missing trunk arc",
     color: "text-amber-300"
   },
   {
-    value: "< 5 sec",
-    label: "Stand Compute Turnaround",
-    detail: "Instant real-time edge processing on Jetson AGX Orin",
+    value: "+1.92 ± 3.44 cm",
+    label: "Lidar-Gated Camera DBH",
+    detail: "Single-view optical silhouette + lidar range (n=52, pooled across both cameras)",
     color: "text-emerald-300"
   },
   {
-    value: "< $5 / acre",
-    label: "Estimated Survey Cost",
-    detail: "100% census vs. $25+/acre for 5% manual sampling",
+    value: "87.0% / 93.1%",
+    label: "ForestGEO (≥ 10 cm DBH)",
+    detail: "87.0% Recall / 93.1% Precision on sealed 12-cell benchmark across 3.26 km Harvard Forest trail network",
     color: "text-accent-light"
   }
 ];
 
-// 3 Simple How It Works Steps
-const howItWorks = [
+// Measured Phase I Limitations (Section 4.7 / Slide 11)
+const phase1Limitations = [
   {
-    step: "01",
-    title: "Traverse Without GPS",
-    desc: "A forester, UTV, or robotic rover rolls the low-cost sensor cart through the stand. Real-time LiDAR-inertial SLAM maps the terrain with zero satellite dependency."
+    num: "01",
+    title: "Small-Stem (1–10 cm) Inflation (+14.9 cm) & Under-Detection",
+    detail: "354 mapped/ha vs. 1,194 census/ha on 1–10 cm saplings in HF253 (where 2–3 cm lidar beam divergence and range noise inflate small-ring fits). Must be resolved via camera silhouette fusion to support precommercial wildfire fuel thinning and double-sampling variance reduction."
   },
   {
-    step: "02",
-    title: "Automatic Breast-Height Slicing",
-    desc: "Onboard algorithms calculate ground elevation under the cart, isolating a thin LiDAR slice at exact 1.37 m breast height while ignoring low brush and ground clutter."
+    num: "02",
+    title: "Single-Sided Partial-Arc Bias (+2.79 cm / 100° Missing Arc)",
+    detail: "Across 65 taped white pine stems, diameter error varied with angular coverage at −2.791 cm per 100° of sweep (R² = 0.273, p = 8.2 × 10⁻⁶). Must be corrected online for single-pass trail and vehicle traverses."
   },
   {
-    step: "03",
-    title: "Instant Digital Inventory",
-    desc: "In under 5 seconds per stand, cylinders lock onto individual trees, outputting exact diameters, stem coordinates, and GIS-ready shapefiles for immediate analysis."
+    num: "03",
+    title: "Camera-to-Camera Plane Disagreement & 3-Station Scale Gate",
+    detail: "13 mm RMS (up to 34.5 mm) inter-camera plane disagreement and the 3-station stereo scale gate (2–4 m) require multi-station scale-gate expansion and hardware-synchronized cameras (<1 ms PTP timing)."
+  },
+  {
+    num: "04",
+    title: "Residual Map-Frame Tilt Across Long Traverses",
+    detail: "0.6–1.3° residual tilt on 8 of 9 Mount Auburn runs (1.9° on one) requires continuous gravity-constrained trajectory optimization beyond stationary initial levelling."
   }
 ];
 
-// 4 Simple Partner Tracks
+// 4 Partner Teaming Pathways
 const teamingTracks = [
   {
-    title: "Timberland Managers & TIMOs",
-    summary: "Replace slow, expensive 5% manual cruise samples with continuous 100% stem census data (<$5/acre) ready for ArcGIS, Remsoft, and carbon registries."
+    title: "Timberland Managers & Silviculturists",
+    summary: "Co-design single-tree stem mapping and two-phase double-sampling workflows tailored for commercial sawtimber thinning and precommercial wildfire fuel reduction."
   },
   {
     title: "Machinery & Autonomous OEMs",
-    summary: "Integrate a compact, low-power (<40W) perception payload into harvester cabs, forwarders, tracked rovers, or quadruped scouts."
+    summary: "Evaluate modular Phase II perception configurations across backpack, ATV, and harvester cab/boom deployments sharing one quick-swap edge computer."
   },
   {
     title: "Federal Co-Funding (Phase II STTR)",
-    summary: "Partner on upcoming USDA-NIFA Phase II STTR grants to co-develop customized sensor packaging and regional timberland validation at low financial risk."
+    summary: "Partner with Spectral Sciences, Inc. and the Oregon State University College of Forestry on USDA-NIFA Phase II STTR field validation pilots."
   },
   {
-    title: "Commercial Licensing & Exclusivity",
-    summary: "Secure preferential commercial licensing terms and territory rights for Spectral Sciences' proprietary multi-sensor calibration and forest AI stack."
+    title: "Commercial Licensing & Research Integration",
+    summary: "License multi-sensor calibration diagnostics, lidar-gated optical mensuration pipelines, and OSU MARS Lab heuristic thinning integration."
   }
 ];
 
-// Publications & Academic Disclosures
+// Presentations & Manuscripts (Section 4.8)
 const publications = [
   {
-    id: "cutmap-calibration-2026",
-    authors: "Garms, C.G., Strimbu, B., et al. (2026)",
-    title: "Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation",
-    venue: "Target: Journal of Field Robotics (In Final Preparation)",
-    tag: "Primary Methodological Paper",
-    status: "In Final Preparation",
-    takeaway: "Demonstrates how multi-sensor calibration integrity achieves sub-millimeter precision from low-cost solid-state perception.",
-    bibtex: `@article{garms2026cutmap_calibration,
-  title={Calibrating a Low-SWaP-C Lidar--Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation},
-  author={Garms, Cory G. and Strimbu, Bogdan M. and others},
-  journal={Journal of Field Robotics},
-  year={2026}
+    id: "cutmap-nemo-2026",
+    authors: "Garms, C.G. & Strimbu, B.M. (2026)",
+    title: "CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration",
+    venue: "2026 Joint Meeting of the Northeastern Mensurationists Organization (NEMO) & Southern Mensurationists (SOMENS), November 10, 2026",
+    tag: "Conference Presentation",
+    status: "Presented Nov 10, 2026",
+    takeaway: "Presents Phase I hardware architecture, calibration failure coupling, 65-stem white pine validation, Mount Auburn grate loop closures, and Harvard Forest (HF253) double-sampling results.",
+    bibtex: `@inproceedings{garms2026cutmap_nemo,
+  title={CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration},
+  author={Garms, Cory G. and Strimbu, Bogdan M.},
+  booktitle={2026 Joint Meeting of the Northeastern Mensurationists Organization (NEMO) and Southern Mensurationists (SOMENS)},
+  year={2026},
+  month={nov}
 }`
   },
   {
-    id: "cutmap-nemo-2026",
-    authors: "Garms, C.G., Strimbu, B., et al. (2026)",
-    title: "CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping",
-    venue: "2026 Joint Meeting of the Northeastern Mensurationist Organization (NEMO) & Southern Mensurationists (SOMENS), Portland, ME",
-    tag: "Conference Proceeding",
-    status: "Accepted / Invited",
-    takeaway: "Field validation against 65 logger's-tape stems across native forest stands in Burlington, MA.",
-    bibtex: `@inproceedings{garms2026cutmap_nemo,
-  title={CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration: Calibration Integrity, Sensor Fusion, and Ground-Truth Prototyping},
+    id: "cutmap-calibration-2026",
+    authors: "Garms, C.G., Strimbu, B.M., et al. (2026)",
+    title: "Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation",
+    venue: "In preparation for Journal of Field Robotics",
+    tag: "Calibration & Validation Manuscript",
+    status: "In Preparation",
+    takeaway: "Documents how a 2.50 mm target curl over a 320 mm span biased focal length 4.6% low and induced a 133 mm lateral / ~140 mm fore-aft extrinsic shift, resolved via a rigid flat target, external laser scale gate, and count^2.0 plane weighting.",
+    bibtex: `@unpublished{garms2026cutmap_calibration,
+  title={Calibrating a Low-SWaP-C Lidar--Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation},
   author={Garms, Cory G. and Strimbu, Bogdan M. and others},
-  booktitle={2026 Joint Meeting of NEMO & SOMENS},
+  note={In preparation for Journal of Field Robotics},
   year={2026}
 }`
   },
   {
     id: "garms-stemlean-2021",
-    authors: "Garms, C.G. & Strimbu, B. (2021)",
+    authors: "Garms, C.G. & Strimbu, B.M. (2021)",
     title: "Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans",
-    venue: "Canadian Journal of Forest Research, 51(8), 1184–1195",
+    venue: "Canadian Journal of Forest Research, 51(8), 1117–1130",
     tag: "Foundational Lean Research",
     status: "Published",
     doi: "https://doi.org/10.1139/cjfr-2020-0082",
-    takeaway: "Formulates non-destructive 3D cylinder fitting to eliminate systemic bias in merchantable volume calculations.",
+    takeaway: "Formulates non-destructive 3D cylinder fitting to eliminate systemic lean bias in diameter and merchantable stem volume estimation.",
     bibtex: `@article{garms2021stemlean,
   title={Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans},
   author={Garms, Cory G. and Strimbu, Bogdan M.},
   journal={Canadian Journal of Forest Research},
   volume={51},
   number={8},
-  pages={1184--1195},
+  pages={1117--1130},
   year={2021}
 }`
   }
@@ -137,19 +143,19 @@ const publications = [
 ---
 
 <Layout 
-  title="CUTMAP: Autonomous Forest Mensuration"
-  description="CUTMAP: a low-SWaP-C ($2,200) autonomous under-canopy perception payload delivering sub-centimeter forest biometrics, zero-GPS canopy navigation, and real-time edge processing."
+  title="CUTMAP: Comprehensive Utility for Thinning Mechanically via Automated Prescription"
+  description="CUTMAP: A low-SWaP-C (~$4,439 Phase I BOM) under-canopy lidar-camera platform for single-tree forest mensuration and automated thinning prescriptions. USDA-NIFA STTR Phase I (#2025-70436-44908) by Spectral Sciences, Inc. and Oregon State University."
   image="/images/cutmap_cover_photo.jpg"
 >
 
-  <!-- SECTION 1: HERO -->
+  <!-- SECTION 1: HERO BANNER & PROJECT PURPOSE -->
   <section class="relative pt-12 pb-16 overflow-hidden border-b border-border">
     <div class="absolute inset-0 bg-gradient-to-b from-forest-950 via-background to-background pointer-events-none"></div>
 
     <div class="max-w-5xl mx-auto px-6 relative z-10">
 
-      <!-- Sponsor & Company Bar -->
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+      <!-- Sponsor, Company & Award Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
         <div class="flex flex-wrap items-center gap-3">
           <a 
             href="https://www.spectral.com" 
@@ -173,7 +179,7 @@ const publications = [
             target="_blank" 
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2.5 bg-surface hover:bg-forest-900 px-3.5 py-2 rounded-xl shadow-md border border-border/60 hover:border-[#D73F09]/60 transition-all group"
-            title="Academic Teaming Partner: Dr. Bogdan Strimbu, Oregon State University College of Forestry"
+            title="Academic Teaming Partner: Dr. Bogdan M. Strimbu, Oregon State University College of Forestry"
           >
             <span class="w-6 h-6 rounded-lg bg-[#D73F09]/15 border border-[#D73F09]/40 flex items-center justify-center text-[#D73F09] font-black text-xs font-mono">
               OSU
@@ -183,7 +189,7 @@ const publications = [
                 College of Forestry
               </span>
               <span class="text-[10px] font-mono text-text-dim leading-tight">
-                Oregon State University &bull; Dr. Bogdan Strimbu
+                Oregon State University &bull; Dr. Bogdan M. Strimbu
               </span>
             </div>
           </a>
@@ -194,37 +200,59 @@ const publications = [
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/50 hover:border-emerald-400 text-xs font-mono text-emerald-300 transition-all shadow-sm group"
-          title="View Official USDA-NIFA Small Business Award Announcement"
+          title="USDA-NIFA STTR Phase I Award #2025-70436-44908 (Topic 8.1 Forest and Related Resources)"
         >
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>USDA-NIFA Awarded &bull; Phase II Teaming Open</span>
+          <span>USDA-NIFA STTR Phase I (#2025-70436-44908) &bull; Spectral Sciences, Inc. &amp; Oregon State University</span>
           <svg class="w-3.5 h-3.5 text-emerald-400 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </a>
       </div>
 
-      <!-- Main Headline & Value Proposition -->
-      <div class="space-y-6">
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
-          Real-Time Forest Inventory from a $2,200 Sensor Payload
+      <!-- NEMO / SOMENS 2026 Conference Callout -->
+      <div class="mb-6 p-3.5 rounded-xl bg-forest-900/80 border border-accent/40 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+        <div class="flex items-center gap-2.5 text-emerald-300">
+          <span class="px-2 py-0.5 rounded bg-accent/20 text-accent font-bold uppercase tracking-wider text-[10px]">NEMO / SOMENS 2026</span>
+          <span>
+            Presenting <strong class="text-white">"CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration"</strong> &bull; Tuesday, Nov 10, 2026 (10:45 AM)
+          </span>
+        </div>
+        <a href="#field-campaigns" class="text-accent hover:text-accent-light font-semibold underline">
+          Jump to Phase I Results &darr;
+        </a>
+      </div>
+
+      <!-- Main Headline, Subtitle & Lead Copy -->
+      <div class="space-y-5">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest">
+          Phase I of a Low-Cost Hardware and Software Prototype for Thinning Prescriptions
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-[1.12]">
+          CUTMAP: Comprehensive Utility for Thinning Mechanically via Automated Prescription
         </h1>
 
-        <p class="text-lg sm:text-xl text-emerald-300 font-medium leading-relaxed max-w-3xl">
-          Replacing $100,000 LiDAR rigs with an automated mobile perception cart that maps 100% of trees under dense canopy with zero GPS.
+        <p class="text-lg sm:text-xl text-emerald-300 font-medium leading-relaxed max-w-4xl">
+          A Low-SWaP-C Under-Canopy Lidar–Camera Platform for Single-Tree Forest Mensuration and Thinning Prescriptions
         </p>
 
-        <p class="text-base sm:text-lg text-text-muted leading-relaxed max-w-3xl">
-          Traditional forest inventory relies on slow manual calipers or expensive laser scanners. Funded by the <strong class="text-white">USDA-NIFA STTR Program</strong>, <strong class="text-white">CUTMAP</strong> pairs a solid-state LiDAR and stereo cameras with edge AI on an NVIDIA Jetson—measuring tree diameters with sub-centimeter accuracy in seconds. Developed by <strong class="text-white">Spectral Sciences, Inc.</strong> in partnership with <strong class="text-white">Dr. Bogdan Strimbu</strong> at the <strong class="text-white">Oregon State University College of Forestry</strong>.
-        </p>
+        <div class="space-y-4 text-sm sm:text-base text-text-muted leading-relaxed max-w-4xl">
+          <p>
+            Forest thinning—whether commercial thinning to accelerate sawtimber yield or precommercial thinning to remove small-diameter wildfire ladder fuels—is decided <strong class="text-white">one tree at a time</strong>. Traditional fixed-radius cruise plots estimate stand-level averages, but cannot tell a forester or harvester operator which individual stem to cut or leave. Meanwhile, research mobile laser scanners achieve high accuracy (e.g., 1.93 cm DBH RMSE in Freißmuth <em>et al.</em> 2024) but carry hardware costs comparable to terrestrial laser scanners, which Mattamala <em>et al.</em> (2025) identify as the primary barrier to operational adoption.
+          </p>
+          <p>
+            <strong class="text-white">CUTMAP</strong> bridges the gap between low-cost edge sensors and quantitative silviculture. Developed by <strong class="text-white">Spectral Sciences, Inc. (SSI)</strong> and the <strong class="text-white">Oregon State University (OSU) College of Forestry</strong>, our Phase I proof-of-concept integrates a solid-state 3D lidar, 200 Hz IMU, dual global-shutter cameras, and an NVIDIA Jetson AGX Orin (<strong class="text-white">~$4,439 Phase I component list price</strong>) to map understory stems at walking speed without GPS.
+          </p>
+        </div>
 
         <!-- CTAs -->
         <div class="flex flex-wrap items-center gap-4 pt-2">
           <a 
-            href="#teaming-partnership" 
+            href="#field-campaigns" 
             class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-accent hover:bg-accent-light text-forest-950 font-bold text-sm font-mono transition-all shadow-lg hover:shadow-emerald-500/20 cursor-pointer"
           >
-            <span>Partner With Us on Phase II</span>
+            <span>Explore Field Validation</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
@@ -245,7 +273,14 @@ const publications = [
             <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
               <path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
             </svg>
-            <span>Watch Project Promo & Demos</span>
+            <span>Watch Phase I Promo Video</span>
+          </a>
+
+          <a 
+            href="#teaming-partnership" 
+            class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-forest-900/80 hover:bg-forest-800 text-text-muted hover:text-white border border-border text-sm font-mono transition-all"
+          >
+            <span>Phase II Teaming</span>
           </a>
         </div>
       </div>
@@ -253,40 +288,20 @@ const publications = [
     </div>
   </section>
 
-  <!-- SECTION 2: INTERACTIVE 3D LIDAR STAND VIEWER (FRONT & CENTER VISUAL HOOK) -->
-  <section id="interactive-3d-viewer" class="py-16 bg-surface/30 border-b border-border">
-    <div class="max-w-5xl mx-auto px-6">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
-        <div>
-          <div class="text-xs font-mono text-emerald-300 uppercase tracking-widest mb-1">Live WebGL Visualization</div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Interactive 3D Understory Scans</h2>
-        </div>
-        <p class="text-xs sm:text-sm text-text-muted max-w-md">
-          Drag to spin the 3D trees. Use the top buttons to switch between stands or toggle the elevation height colormap.
-        </p>
-      </div>
-
-      <!-- Clean Embedded 3D Viewer -->
-      <CutmapLidarViewer client:load />
-
-    </div>
-  </section>
-
-  <!-- SECTION 3: 6 KEY NUMBERS (BIG, BOLD, SCANNABLE) -->
+  <!-- KPI COUNTER GRID (SECTION 3 OF UPDATE GUIDE) -->
   <section class="py-16 bg-background border-b border-border">
     <div class="max-w-5xl mx-auto px-6">
       
       <div class="text-center max-w-2xl mx-auto mb-10">
-        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Operational Benchmarks</div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">The Numbers at a Glance</h2>
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Verified Phase I Evidence</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Phase I Benchmarks at a Glance</h2>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {kpis.map(kpi => (
           <div class="p-5 sm:p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all flex flex-col justify-between">
             <div>
-              <div class={`text-2xl sm:text-4xl font-black font-mono ${kpi.color} mb-2 tracking-tight`}>
+              <div class={`text-2xl sm:text-3xl font-black font-mono ${kpi.color} mb-2 tracking-tight`}>
                 {kpi.value}
               </div>
               <div class="text-xs sm:text-sm font-bold text-white mb-1">
@@ -303,43 +318,332 @@ const publications = [
     </div>
   </section>
 
-  <!-- SECTION 4: HOW IT WORKS (SIMPLE & CLEAR 3-STEP CONCEPT) -->
-  <section class="py-16 bg-surface/30 border-b border-border">
+  <!-- INTERACTIVE 3D LIDAR STAND VIEWER -->
+  <section id="interactive-3d-viewer" class="py-16 bg-surface/30 border-b border-border">
     <div class="max-w-5xl mx-auto px-6">
       
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Simple Concept</div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">How CUTMAP Works in the Field</h2>
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+        <div>
+          <div class="text-xs font-mono text-emerald-300 uppercase tracking-widest mb-1">Live WebGL Visualization</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Interactive 3D Understory Scans (Burlington White Pine Groves)</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-text-muted max-w-md">
+          Drag to orbit the 3D eastern white pine stands mapped with Livox Mid-360 lidar-inertial odometry. Switch between Groves 1–3 or toggle the height colormap.
+        </p>
+      </div>
+
+      <CutmapLidarViewer client:load />
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: PLATFORM ARCHITECTURE & THE EMPIRICAL PIVOT TO LIDAR-INERTIAL ODOMETRY -->
+  <section id="platform-architecture" class="py-16 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6">
+      
+      <div class="mb-10">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Section 02 &bull; Platform Architecture &amp; Odometry</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Low-SWaP-C Hardware &amp; The Optical-to-Lidar Pivot
+        </h2>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {howItWorks.map(item => (
-          <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between hover:border-accent/40 transition-all">
-            <div>
-              <div class="text-2xl font-mono font-black text-accent mb-3">{item.step}</div>
-              <h3 class="text-lg font-bold text-white mb-2">{item.title}</h3>
-              <p class="text-xs sm:text-sm text-text-muted leading-relaxed">{item.desc}</p>
-            </div>
+        <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono text-accent font-bold uppercase tracking-wider mb-2">Hardware Stack</div>
+            <h3 class="text-lg font-bold text-white mb-3">~$4,439 Phase I Prototype</h3>
+            <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+              A pulled utility cart carrying a <strong class="text-white">Livox Mid-360</strong> solid-state 3D lidar (200,000 pts/s, non-repetitive circular scan) with an integrated 200 Hz IMU, <strong class="text-white">two rear-facing FLIR Blackfly (<code>BFLY-U3-13S2C</code>)</strong> global-shutter color cameras on a 457.2 mm stereo baseline, a Garmin GLO 2 GNSS logger, and an <strong class="text-white">NVIDIA Jetson AGX Orin Developer Kit</strong> (12 cores, 32 GB RAM, 275 TOPS, running ROS 2 Humble in MAXN mode), logging 63 field bags at an average capture rate of <strong class="text-white">28.96 MB/s (104 GB/h)</strong>.
+            </p>
           </div>
-        ))}
+          <div class="mt-4 pt-3 border-t border-border/60 text-[11px] font-mono text-text-dim">
+            $2,440 sensors/battery + $1,999 Jetson Orin Dev Kit ($6,297 at Nov 2026 replacement prices)
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider mb-2">Empirical Pivot</div>
+            <h3 class="text-lg font-bold text-white mb-3">Why Below-Canopy Lidar Is Essential</h3>
+            <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+              Phase I explicitly tested whether passive cameras and an Extended Kalman Filter (EKF) could map the forest understory without lidar. Across three spring 2026 trials, pure stereo visual odometry collapsed in dense foliage (<strong class="text-white">0.00 m tracked</strong>, May 2026), monocular visual odometry suffered <strong class="text-white">23–98% scale drift</strong> against GPS, and the 15-state EKF proved unstable (April 2026). On July 24, 2026, the team pivoted positioning entirely to tightly coupled lidar-inertial odometry (<code>FAST-LIO2</code>), retaining the stereo cameras for semantic bark/foliage segmentation and optical silhouette mensuration.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-border/60 text-[11px] font-mono text-text-dim">
+            Livox Mid-360 + 200 Hz IMU (FAST-LIO2) + Optical Silhouette Fusion
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider mb-2">Frame Alignment</div>
+            <h3 class="text-lg font-bold text-white mb-3">Stationary Gravity Levelling</h3>
+            <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+              Because <code>FAST-LIO2</code> initializes its coordinate frame from the starting IMU pose and never levels the map frame, small initial pitch/roll tilts produce large vertical excursions over hundreds of meters (a 220.9 m outdoor loop exhibited <strong class="text-white">7.23 m of vertical swing</strong> from frame tilt alone, reduced to 2.6 m after levelling). Integrating a brief stationary accelerometer gravity-vector alignment levels the local ground plane—collapsing ground elevation spread in Grove A from <strong class="text-white">0.52 m to 0.05 m</strong>—and achieves <strong class="text-white">0.010–0.037 m per 100 m closure error</strong> across all five indoor and outdoor loops started on a physical tape or grate mark.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-border/60 text-[11px] font-mono text-text-dim">
+            5 Marked Loops: 0.029 &amp; 0.013 m/100m (outdoor), 0.037 m/100m (indoor), 0.010 &amp; 0.019 m/100m (Mount Auburn)
+          </div>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <!-- SECTION 5: VIDEO DEMONSTRATIONS HUB -->
-  <section id="video-showcase" class="py-16 bg-background border-b border-border">
-    <div class="max-w-5xl mx-auto px-6 space-y-12">
+  <!-- SECTION 3: MULTI-SENSOR CALIBRATION PHYSICS -->
+  <section id="calibration-physics" class="py-16 bg-surface/30 border-b border-border">
+    <div class="max-w-5xl mx-auto px-6">
       
-      <!-- Primary Video: Project Promo -->
+      <div class="mb-10">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Section 03 &bull; Multi-Sensor Calibration Physics</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Calibration Integrity: Unmasking Failure Coupling with an External Laser Scale Gate
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 sm:p-8 rounded-2xl bg-surface border border-border">
+          <div class="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider mb-2">
+            The Failure-Coupling Mechanism
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">
+            2.50 mm Target Curl &rarr; 4.6% Focal Bias &rarr; ~140 mm Extrinsic Shift
+          </h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-4">
+            Low-cost multi-sensor platforms chain intrinsic camera calibration into stereo baseline estimation and finally into 3D lidar-to-camera extrinsic registration. During Phase I, a <strong class="text-white">2.50 mm peak-to-peak curl over a 320 mm span</strong> on a cardboard-backed checkerboard target biased the solved camera focal length <strong class="text-white">4.6% low</strong>.
+          </p>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            Standard internal camera calibration checks were completely blind to the defect (reprojection residuals remained under a pixel). When that focal error passed into the lidar-camera extrinsic solver, it forced a <strong class="text-white">133 mm lateral and ~140 mm fore-aft phantom shift</strong> in solved camera position.
+          </p>
+        </div>
+
+        <div class="p-6 sm:p-8 rounded-2xl bg-surface border border-accent/40">
+          <div class="text-xs font-mono text-accent font-bold uppercase tracking-wider mb-2">
+            Flat-Backed Target &amp; External Laser Scale Gate
+          </div>
+          <h3 class="text-xl font-bold text-white mb-3">
+            0.66% Baseline Concordance &amp; 6.6 mm Extrinsic Centering
+          </h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed mb-4">
+            Replacing the curled target with a rigid flat backing restored stereo baseline concordance to <strong class="text-white">454.20 mm vs. 457.2 mm physical tape (0.66% agreement, 0.309 px stereo RMS)</strong>.
+          </p>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            To prevent focal-scale coupling from passing undetected, we introduced an independent <strong class="text-white">external laser-rangefinder scale gate</strong> (lidar range slope <strong class="text-white">0.9964</strong> across 5 stations from 2–6 m; current stereo scale slope <strong class="text-white">0.9836 [−1.64%, SE ~0.95%]</strong> across 3 measured stations from 2–4 m at the 457.2 mm baseline) alongside <code>count^2.0</code> plane weighting that reduced lateral extrinsic centering error from <strong class="text-white">40.9 mm to 6.6 mm</strong>.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4: FIELD CAMPAIGN 1 — 65 TAPED TREES & PARTIAL-ARC COVERAGE -->
+  <section id="field-campaigns" class="py-16 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-10">
+      
+      <div>
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Section 04 &bull; Field Campaign 1 (Burlington, MA)</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Single-Tree Mensuration Physics: 65 Taped White Pine Stems
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider mb-2">Full-Ring Stems (&ge;340&deg;, n=42)</div>
+          <h3 class="text-lg font-bold text-white mb-2">+2.84 &plusmn; 1.46 cm (R&sup2; = 0.9836)</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            Across three eastern white pine groves in Burlington, MA (65 stems taped at breast height, <code>z = 1.37 m</code>), stems observed over nearly complete walked rings (&ge;340&deg; angular sweep, <code>n = 42</code>) achieved <strong class="text-white">R&sup2; = 0.9836 and RMSE 3.18 cm</strong>, consisting of a nearly constant <strong class="text-white">+2.84 cm outer-bark offset</strong> and a tight <strong class="text-white">&plusmn;1.46 cm spread</strong> (41 of 42 stems read slightly high because lidar pulses reflect from outer bark ridges and lichens). Across <strong class="text-white">all 65 taped stems</strong> regardless of angular coverage, agreement was <strong class="text-white">+3.26 &plusmn; 2.53 cm (RMSE 4.12 cm, R&sup2; = 0.951)</strong>.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider mb-2">Partial-Arc Coverage Effect</div>
+          <h3 class="text-lg font-bold text-white mb-2">+2.79 cm per 100&deg; Missing Arc</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            Trail-side walks and harvesting machines view most trunks from one side. Across the 65 taped stems, diameter error varied systematically with the visible arc angle at a slope of <strong class="text-white">&minus;2.791 cm per 100&deg; of coverage</strong>—meaning a stem viewed from one side reads <strong class="text-white">+2.79 cm wider for every 100&deg; of missing trunk arc</strong> (<code>R&sup2; = 0.273, p = 8.2 &times; 10⁻⁶</code>).
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="text-xs font-mono text-emerald-300 font-bold uppercase tracking-wider mb-2">Lidar-Gated Optical Mensuration</div>
+          <h3 class="text-lg font-bold text-white mb-2">+1.92 &plusmn; 3.44 cm (n=52, Pooled)</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            When the lidar point cloud certifies that the line of sight to a trunk is unobstructed, prompting the Segment Anything Model (<code>SAM ViT-B</code>) with projected 3D lidar trunk priors recovers single-viewpoint optical DBH at <strong class="text-white">+1.92 &plusmn; 3.44 cm (n = 52, pooled across both cameras)</strong>—bypassing the partial-arc circle-fitting inflation from a single viewpoint.
+          </p>
+        </div>
+      </div>
+
+      <!-- Verified Figures for Burlington White Pine Groves -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <figure class="rounded-2xl bg-surface border border-border overflow-hidden flex flex-col justify-between">
+          <div class="p-3 bg-black/40">
+            <img 
+              src="/images/cutmap/fig_multi_stand_stem_maps.png" 
+              alt="Top-down SLAM trajectories and breast-height stem slices across the three Burlington eastern white pine groves" 
+              class="w-full h-auto rounded-lg object-contain"
+              loading="lazy"
+            />
+          </div>
+          <figcaption class="p-4 text-xs text-text-muted border-t border-border/60 leading-relaxed">
+            <strong class="text-white font-mono">Burlington White Pine Groves 1–3:</strong> Top-down <code>FAST-LIO2</code> trajectories and gravity-levelled breast-height (<code>z = 1.37 m</code>) stem maps across 65 taped eastern white pine stems.
+          </figcaption>
+        </figure>
+
+        <figure class="rounded-2xl bg-surface border border-border overflow-hidden flex flex-col justify-between">
+          <div class="p-3 bg-black/40">
+            <img 
+              src="/images/cutmap/fig7_multi_stand_validation.png" 
+              alt="Validation across 65 taped eastern white pine stems showing full-ring and partial-arc coverage dependence" 
+              class="w-full h-auto rounded-lg object-contain"
+              loading="lazy"
+            />
+          </div>
+          <figcaption class="p-4 text-xs text-text-muted border-t border-border/60 leading-relaxed">
+            <strong class="text-white font-mono">65-Stem Tape Validation:</strong> Full-ring stems (&ge;340&deg;, <code>n=42</code>) achieve <code>+2.84 &plusmn; 1.46 cm</code> (RMSE 3.18 cm, <code>R&sup2; = 0.9836</code>); all 65 stems achieve <code>+3.26 &plusmn; 2.53 cm</code> (RMSE 4.12 cm, <code>R&sup2; = 0.951</code>) with a partial-arc slope of <code>+2.79 cm per 100&deg;</code> of missing trunk arc.
+          </figcaption>
+        </figure>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5: FIELD CAMPAIGN 2 — MOUNT AUBURN ARBORETUM SURVEY -->
+  <section id="mount-auburn" class="py-16 bg-surface/30 border-b border-border">
+    <div class="max-w-5xl mx-auto px-6">
+      
+      <div class="mb-10">
+        <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-1">Section 05 &bull; Field Campaign 2 (Cambridge, MA)</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Arboretum Scale &amp; Loop Closure: Mount Auburn Cemetery (Cambridge, MA)
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="text-2xl font-mono font-black text-emerald-400 mb-1">2,638 m &bull; 12.0 ha</div>
+          <div class="text-xs font-mono text-text-dim uppercase tracking-wider mb-3">2.64 km Under-Canopy Survey</div>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            On September 16, 2026, CUTMAP completed <strong class="text-white">9 mobile scans totaling 2,638 m walked (44.6 minutes)</strong> across Mount Auburn Cemetery &amp; Arboretum, mapping <strong class="text-white">12.0 hectares (29.7 acres)</strong> within 30 m of the trajectories and observing <strong class="text-white">62% (308 of 493)</strong> of the institution's curated living tree records within 15 m (525 labeled trees total).
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-accent/40">
+          <div class="text-2xl font-mono font-black text-accent mb-1">17.8 mm &amp; 80.0 mm</div>
+          <div class="text-xs font-mono text-text-dim uppercase tracking-wider mb-3">Centimeter Closure on Surveyed Grates</div>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            Two loops started and ended on physical cast-iron drainage grates under mature arboretum canopy: the <strong class="text-white">178 m Hazel Dell loop closed to 17.8 mm (0.010 m per 100 m)</strong>, and the <strong class="text-white">425 m Halcyon Lake loop closed to 80.0 mm (0.019 m per 100 m)</strong> without GPS.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="text-2xl font-mono font-black text-cyan-400 mb-1">5.37 cm Median Error</div>
+          <div class="text-xs font-mono text-text-dim uppercase tracking-wider mb-3">Held-Out Arboretum Stem Mensuration</div>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            On 60 measurable held-out stems scored once against Mount Auburn's institutional botanical records, CUTMAP achieved a <strong class="text-white">median absolute error of 5.37 cm</strong> (mean bias +2.45 cm; overall RMSE 11.38 cm across all 60 stems, or <strong class="text-white">6.79 cm RMSE</strong> excluding three extreme co-dominant/flared ornamental specimens that accounted for 66% of the squared error).
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 6: FIELD CAMPAIGN 3 — HARVARD FOREST SMITHSONIAN FORESTGEO BENCHMARK (HF253) -->
+  <section id="harvard-forest" class="py-16 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-8">
+      
+      <div>
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Section 06 &bull; Field Campaign 3 (Petersham, MA)</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Natural Mixed-Forest Benchmark &amp; Double Sampling: Harvard Forest (HF253)
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="text-xs font-mono text-accent font-bold uppercase tracking-wider mb-2">3.26 km Trail Network</div>
+          <h3 class="text-lg font-bold text-white mb-2">87.0% Recall / 93.1% Precision (&ge;10 cm DBH)</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            On September 24, 2026, CUTMAP surveyed <strong class="text-white">3,264 m of forest trails across 17 walks (65 minutes, 779M lidar points, 113 GB)</strong> inside the 35-hectare Smithsonian ForestGEO plot at Harvard Forest (<code>HF253</code>), covering <strong class="text-white">4.39 hectares</strong> within 15 m of the trail network. On a sealed 12-cell benchmark scored once against reviewed scan labels, the detector achieved <strong class="text-white">87.0% recall and 93.1% precision on merchantable stems (&ge;10 cm DBH)</strong>, and <strong class="text-white">72.0% recall / 86.2% precision across all stems (&ge;1 cm)</strong>.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-border">
+          <div class="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider mb-2">Size-Dependent Diameter Error</div>
+          <h3 class="text-lg font-bold text-white mb-2">+0.2 cm on Large Sawtimber (&ge;40 cm)</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            Against census-matched stems, median diameter bias decreased monotonically with tree size: <strong class="text-white">+0.2 cm</strong> on large sawtimber (&ge;40 cm DBH, <code>n=14</code>), <strong class="text-white">+2.4 cm</strong> on 20–40 cm stems (<code>n=32</code>), <strong class="text-white">+4.8 cm</strong> on 10–20 cm poles (<code>n=30</code>), and <strong class="text-white">+14.9 cm</strong> on 1–10 cm saplings (<code>n=48</code>, where 2–3 cm lidar beam divergence and range noise inflate small-ring fits).
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-surface border border-accent/40">
+          <div class="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider mb-2">Two-Phase Double Sampling</div>
+          <h3 class="text-lg font-bold text-white mb-2">45.98 [40.19, 52.30] m&sup2;/ha vs. 47.44 Truth</h3>
+          <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+            Across 441 grid cells (4.41 ha), the uncorrected lidar map overestimated stand basal area by 57% (74.34 vs. <strong class="text-white">47.44 m&sup2;/ha census truth</strong>). Applying classical <strong class="text-white">two-phase double-sampling ratio estimation</strong> calibrated with 40 reference cells removed the bias and recovered stand basal area at <strong class="text-white">45.98 [40.19, 52.30] m&sup2;/ha</strong> (held-out transfer test: <strong class="text-white">45.71 [39.17, 53.35] m&sup2;/ha</strong> vs. 47.32 m&sup2;/ha truth). Critically, because 40 reference cells alone yielded <strong class="text-white">45.63 [39.94, 51.44] m&sup2;/ha</strong>, Phase I revealed that diameter noise on small stems (&lt;10 cm) currently limits cell-level basal-area correlation (<code>&rho; &approx; 0.37</code>), defining the exact small-stem camera-fusion requirement for Phase II.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 7: HONEST PHASE I LIMITATIONS & THE PHASE II HORIZON -->
+  <section id="limitations-roadmap" class="py-16 bg-surface/30 border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-10">
+      
+      <div>
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Section 07 &bull; Engineering Transparency</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Engineering Transparency: Phase I Limits &amp; The Phase II Roadmap
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {phase1Limitations.map(item => (
+          <div class="p-6 rounded-2xl bg-surface border border-border flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30">
+                  LIMITATION {item.num}
+                </span>
+              </div>
+              <h3 class="text-base sm:text-lg font-bold text-white mb-2">{item.title}</h3>
+              <p class="text-xs sm:text-sm text-text-muted leading-relaxed">{item.detail}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Phase II Horizon Callout (Approved D5 Public Framing) -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-forest-950 border border-accent/50 shadow-xl space-y-4">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest font-bold">
+          Phase II Development Horizon
+        </div>
+        <blockquote class="text-base sm:text-lg text-white font-medium leading-relaxed border-l-4 border-accent pl-4">
+          "In Phase II, we are working toward near real-time mensuration and automated thinning prescriptions on embedded edge compute, and evaluating modular deployment configurations across backpack, ATV, and harvesting machinery."
+        </blockquote>
+        <p class="text-xs sm:text-sm text-text-muted leading-relaxed">
+          In Phase II, Spectral Sciences and Oregon State University are working toward <strong class="text-white">near real-time mensuration and automated thinning prescriptions</strong> on embedded edge compute—integrating a 4-camera hardware-synchronized optical array, an NDAA-compliant 3D lidar, and OSU's MARS Lab heuristic tree-selection and <code>SEEM</code> growth-and-yield models across modular <strong class="text-white">backpack</strong>, <strong class="text-white">ATV</strong>, and <strong class="text-white">harvester cab/boom</strong> configurations sharing one quick-swap edge computer.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VIDEO SHOWCASE (APPROVED PHASE I PROMO VIDEO ONLY) -->
+  <section id="video-showcase" class="py-16 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6">
+      
       <div>
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
           <div>
-            <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-1">Phase I Project Milestone</div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">From the Bench to Harvard Forest</h2>
+            <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-1">Phase I Project Overview</div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">From the Calibration Bench to Harvard Forest</h2>
           </div>
           <p class="text-xs sm:text-sm text-text-muted max-w-md">
-            A 56-second overview of the hardware development, laboratory calibration, and zero-GPS understory mapping in Harvard Forest.
+            Overview of the Phase I mobile cart hardware, multi-sensor calibration, and zero-GPS understory mapping in Harvard Forest.
           </p>
         </div>
 
@@ -360,136 +664,39 @@ const publications = [
           <div class="p-5 bg-forest-950 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-text-muted">
             <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-accent"></span>
-              <span class="text-white font-semibold">Phase I Trajectory:</span>
-              <span>Sensor prototyping &bull; Extrinsic calibration &bull; Harvard Forest closed-loop traverse</span>
+              <span class="text-white font-semibold">Phase I Proof-of-Concept:</span>
+              <span>Livox Mid-360 + Dual FLIR Blackfly &bull; Extrinsic calibration &bull; Under-canopy traverse</span>
             </div>
             <span class="text-emerald-400 font-semibold text-[11px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">Audio Enabled</span>
           </div>
         </div>
       </div>
 
-      <!-- Secondary Video: Onboard Jetson Telemetry -->
-      <div>
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-          <div>
-            <div class="text-xs font-mono text-cyan-300 uppercase tracking-widest mb-1">Operational Telemetry</div>
-            <h3 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Real-Time Edge Perception on Jetson AGX Orin</h3>
-          </div>
-          <p class="text-xs sm:text-sm text-text-muted max-w-md">
-            Direct screen capture from the sensor cart showing 17 tree cylinders fitting in 3.9 seconds as the cart traverses a native pine stand.
-          </p>
-        </div>
-
-        <div class="rounded-3xl border border-border bg-black overflow-hidden shadow-2xl">
-          <div class="relative aspect-[16/9] bg-black">
-            <video 
-              playsinline 
-              autoplay 
-              muted 
-              loop 
-              controls
-              preload="auto"
-              poster="/images/cutmap/rapid_mensuration_poster.jpg"
-              class="w-full h-full object-cover"
-            >
-              <source src="/videos/cutmap/rapid_mensuration_live_demo.mp4" type="video/mp4" />
-              <source src="/videos/cutmap/rapid_mensuration_live_demo.webm" type="video/webm" />
-              <p class="text-xs text-text-dim p-4">Your browser does not support HTML5 video.</p>
-            </video>
-          </div>
-
-          <div class="p-5 bg-forest-950 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-text-muted">
-            <div class="flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-              <span class="text-white font-semibold">Native Pine Stand 1:</span>
-              <span>3.94s stand turnaround &bull; 95.4% point volume reduction &bull; ±2.0 cm accuracy target: PASS</span>
-            </div>
-            <a 
-              href="#teaming-partnership" 
-              class="text-accent hover:text-accent-light transition-colors font-bold"
-            >
-              Explore Teaming Options &rarr;
-            </a>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- SECTION 6: ALGORITHMIC PIPELINE & SYSTEM ARCHITECTURE -->
+  <!-- ALGORITHMIC PIPELINE & SYSTEM ARCHITECTURE -->
   <section id="pipeline-architecture" class="py-16 bg-surface/30 border-b border-border">
     <div class="max-w-5xl mx-auto px-6">
-      
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Computational Engine</div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">System Architecture & Processing Pipeline</h2>
-        <p class="text-xs sm:text-sm text-text-muted mt-2">
-          From multi-sensor odometry to sub-pixel SAM bark boundary segmentation and geometry-constrained 3D RANSAC cylinder fitting.
-        </p>
-      </div>
-
       <CutmapPipelineDiagram />
-
     </div>
   </section>
 
-  <!-- SECTION 6: 4 PARTNER TEAMING PATHWAYS -->
-  <section id="teaming-partnership" class="py-16 bg-forest-950 border-b border-border">
-    <div class="max-w-5xl mx-auto px-6">
-      
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Commercialization Hub</div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Four Ways to Team With Us</h2>
-        <p class="text-xs sm:text-sm text-text-muted mt-2">
-          Spectral Sciences, Inc. is actively structuring Phase II teaming agreements for joint field pilots and commercial licensing.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-        {teamingTracks.map((track, idx) => (
-          <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all flex flex-col justify-between shadow-lg">
-            <div>
-              <div class="text-xs font-mono text-accent font-bold mb-2">Track 0{idx + 1}</div>
-              <h3 class="text-lg sm:text-xl font-bold text-white mb-2">{track.title}</h3>
-              <p class="text-xs sm:text-sm text-text-muted leading-relaxed">{track.summary}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <!-- Direct Teaming Email Banner -->
-      <div class="p-6 sm:p-8 rounded-2xl bg-surface border border-accent/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div>
-          <h3 class="text-lg font-bold text-white mb-1">Discuss a Phase II Field Pilot</h3>
-          <p class="text-xs sm:text-sm text-text-muted">Connect directly with Principal Investigator Dr. Cory Glenn Garms.</p>
-        </div>
-        <a 
-          href="mailto:cgarms@spectral.com?subject=CUTMAP%20Phase%20II%20Commercialization%20Teaming%20Inquiry"
-          class="px-6 py-3 rounded-xl bg-accent hover:bg-accent-light text-forest-950 font-bold text-xs sm:text-sm font-mono transition-all shadow-md whitespace-nowrap cursor-pointer"
-        >
-          Email: cgarms@spectral.com &rarr;
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SECTION 7: PUBLICATIONS -->
-  <section class="py-16 bg-surface/30 border-b border-border">
+  <!-- SECTION 8: PRESENTATIONS & PUBLICATIONS -->
+  <section id="publications" class="py-16 bg-background border-b border-border">
     <div class="max-w-5xl mx-auto px-6">
       
       <div class="mb-8">
-        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Scientific Backing</div>
-        <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Peer-Reviewed Publications</h2>
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Section 08 &bull; Scholarly Output</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Presentations &amp; Manuscripts</h2>
       </div>
 
       <div class="space-y-4">
         {publications.map(pub => (
-          <div class="p-5 rounded-xl bg-surface border border-border hover:border-accent/40 transition-all">
-            <div class="flex items-center justify-between gap-2 mb-1">
+          <div class="p-5 sm:p-6 rounded-xl bg-surface border border-border hover:border-accent/40 transition-all">
+            <div class="flex items-center justify-between gap-2 mb-1.5">
               <span class="text-xs font-mono text-accent font-semibold">{pub.tag}</span>
-              <span class="text-xs font-mono text-text-dim">{pub.status}</span>
+              <span class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-forest-900 border border-border text-text-muted">{pub.status}</span>
             </div>
             <h3 class="text-sm sm:text-base font-bold text-white mb-1">{pub.title}</h3>
             <div class="text-xs text-text-muted mb-2 font-mono">
@@ -513,14 +720,55 @@ const publications = [
     </div>
   </section>
 
-  <!-- SECTION 8: EXECUTIVE CONTACT & FOOTER -->
+  <!-- PARTNER TEAMING PATHWAYS -->
+  <section id="teaming-partnership" class="py-16 bg-forest-950 border-b border-border">
+    <div class="max-w-5xl mx-auto px-6">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Commercialization &amp; Research Teaming</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Four Ways to Team With Us on Phase II</h2>
+        <p class="text-xs sm:text-sm text-text-muted mt-2">
+          Spectral Sciences, Inc. and the Oregon State University College of Forestry are structuring Phase II teaming partnerships for field validation and modular deployment.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        {teamingTracks.map((track, idx) => (
+          <div class="p-6 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all flex flex-col justify-between shadow-lg">
+            <div>
+              <div class="text-xs font-mono text-accent font-bold mb-2">Track 0{idx + 1}</div>
+              <h3 class="text-lg sm:text-xl font-bold text-white mb-2">{track.title}</h3>
+              <p class="text-xs sm:text-sm text-text-muted leading-relaxed">{track.summary}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Direct Teaming Email Banner -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-surface border border-accent/40 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-lg font-bold text-white mb-1">Discuss a Phase II Field Pilot or Collaboration</h3>
+          <p class="text-xs sm:text-sm text-text-muted">Connect directly with Project Director Dr. Cory G. Garms (Spectral Sciences, Inc.) and Co-PD Dr. Bogdan M. Strimbu (Oregon State University).</p>
+        </div>
+        <a 
+          href="mailto:cgarms@spectral.com?subject=CUTMAP%20Phase%20II%20Commercialization%20Teaming%20Inquiry"
+          class="px-6 py-3 rounded-xl bg-accent hover:bg-accent-light text-forest-950 font-bold text-xs sm:text-sm font-mono transition-all shadow-md whitespace-nowrap cursor-pointer"
+        >
+          Email: cgarms@spectral.com &rarr;
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXECUTIVE CONTACT & FOOTER -->
   <section class="py-16 bg-forest-950">
     <div class="max-w-5xl mx-auto px-6">
       <div class="p-8 rounded-2xl bg-surface border border-border flex flex-col sm:flex-row items-center justify-between gap-6">
         <div class="space-y-1">
           <div class="text-white font-bold text-base">Dr. Cory Glenn Garms</div>
-          <div class="text-xs font-mono text-accent">Senior Scientist & CUTMAP Principal Investigator</div>
-          <div class="text-xs text-text-dim">Spectral Sciences, Inc. &bull; Burlington, MA</div>
+          <div class="text-xs font-mono text-accent">Senior Scientist &amp; CUTMAP Project Director (USDA-NIFA Award #2025-70436-44908)</div>
+          <div class="text-xs text-text-dim">Spectral Sciences, Inc. &bull; Burlington, MA &bull; Co-PD: Dr. Bogdan M. Strimbu (OSU College of Forestry)</div>
         </div>
 
         <div class="flex items-center gap-4">
@@ -542,7 +790,7 @@ const publications = [
       </div>
 
       <div class="mt-6 text-center text-xs font-mono text-text-dim leading-relaxed">
-        Sponsored by <strong class="text-white">USDA-NIFA</strong> under the SBIR/STTR Program &bull; Academic Teaming Partner: <a href="https://forestry.oregonstate.edu" target="_blank" rel="noopener noreferrer" class="text-white hover:text-orange-400 underline transition-colors">Oregon State University College of Forestry</a> (Dr. Bogdan Strimbu) &bull; Proprietary Technology &copy; 2026 Spectral Sciences, Inc.
+        Funded by <strong class="text-white">USDA-NIFA STTR Phase I Award No. 2025-70436-44908</strong> (Topic 8.1 <em>Forest and Related Resources</em>) &bull; Academic Teaming Partner: <a href="https://forestry.oregonstate.edu" target="_blank" rel="noopener noreferrer" class="text-white hover:text-orange-400 underline transition-colors">Oregon State University College of Forestry</a> (Dr. Bogdan M. Strimbu) &bull; &copy; 2026 Spectral Sciences, Inc.
       </div>
     </div>
   </section>

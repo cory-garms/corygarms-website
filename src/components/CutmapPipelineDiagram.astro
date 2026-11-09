@@ -20,21 +20,21 @@ const stages = [
     ],
     algorithms: [
       {
-        name: "FAST-LIO2 SLAM",
-        desc: "Iterated error-state Kalman filter tight-coupled to IMU, mapping dense understory geometry without GPS ephemeris."
+        name: "FAST-LIO2 + Stationary Gravity Levelling",
+        desc: "Tightly coupled lidar-inertial odometry (200 Hz IMU) with stationary accelerometer gravity-vector alignment to level the local ground plane."
       },
       {
-        name: "Multi-View Disparity Engine",
-        desc: "Hardware-synchronized disparity matching isolating foreground vegetation and sub-pixel trunk boundaries."
+        name: "External Laser Scale Gate & Plane Weighting",
+        desc: "Multi-station laser-rangefinder scale gate (0.9964 lidar slope) and count^2.0 plane weighting reducing lateral extrinsic centering error from 40.9 mm to 6.6 mm."
       },
       {
-        name: "Aerial-to-Terrestrial Coregistration",
-        desc: "Progressive multi-resolution alignment registering terrestrial stem manifolds to top-of-canopy crowns."
+        name: "Understory Trail & Plot Traverse Mapping",
+        desc: "Continuous sub-canopy mapping at walking speed without GPS across forest groves, arboretum loops, and multi-kilometer trail networks."
       }
     ],
     outputs: [
-      { metric: "1.0098 ± 0.0137", label: "SLAM Scale Rigidity", note: "<1% scale dilation over 97m loops" },
-      { metric: "0.87 mm", label: "Extrinsic Precision", note: "Pitch-symmetric weak-axis conditioning" }
+      { metric: "0.010–0.037 m", label: "Closure Error / 100 m", note: "Marked-loop closures across 5 indoor & outdoor runs" },
+      { metric: "6.6 mm", label: "Extrinsic Centering", note: "Reduced from 40.9 mm via count^2.0 plane weighting" }
     ]
   },
   {
@@ -45,62 +45,62 @@ const stages = [
     color: "spectral",
     borderColor: "border-spectral/40",
     badgeBg: "bg-spectral/10 text-spectral border-spectral/20",
-    summary: "Extracts individual tree identities, computes sub-centimeter DBH, vectors 3D stem lean, and refines boundaries with SAM.",
+    summary: "Extracts individual tree identities, computes breast-height diameter (DBH), quantifies partial-arc coverage effects, and fuses lidar-gated optical silhouettes.",
     inputs: [
-      { label: "Breast-Height LiDAR Slice", desc: "z = 1.37 m ± 0.05 m point ring band" },
-      { label: "Calibrated Camera Frames", desc: "Undistorted optical machine vision frames" },
-      { label: "3D Trunk Centroids", desc: "Rough spatial coordinate seeds for prompting" }
+      { label: "Breast-Height Lidar Slice", desc: "z = 1.37 m point ring band above levelled ground" },
+      { label: "Calibrated Stereo Frames", desc: "Dual FLIR Blackfly BFLY-U3-13S2C (457.2 mm baseline)" },
+      { label: "3D Trunk Priors", desc: "Lidar-certified unobstructed trunk sightlines" }
     ],
     algorithms: [
       {
-        name: "SAM ViT-B Prior Prompting",
-        desc: "Forward-projecting 3D LiDAR stem bounds to prompt Segment Anything Model, isolating optical bark boundaries."
+        name: "SAM ViT-B Lidar-Gated Prompting",
+        desc: "Projecting 3D lidar trunk priors onto unobstructed camera views to prompt Segment Anything Model (SAM ViT-B) for single-view optical DBH."
       },
       {
-        name: "Perspective Coverage Normalization",
-        desc: "Proprietary geometric compensation adjusting for partial-arc scanner vantage angles."
+        name: "Angular Coverage Characterization",
+        desc: "Quantifying single-sided partial-arc bias (+2.79 cm wider per 100° of missing trunk arc across 65 taped eastern white pine stems)."
       },
       {
         name: "3D Lean & Taper Vectoring",
-        desc: "Garms & Strimbu (2021) non-destructive cylinder fitting modeling stem curvature, lean angle, and true merchantable volume."
+        desc: "Garms & Strimbu (2021) non-destructive 3D cylinder fitting modeling stem curvature, lean angle, and merchantable volume."
       }
     ],
     outputs: [
-      { metric: "+1.60 ± 2.78 cm", label: "Single-View Camera DBH", note: "Zero walkaround traverse penalty" },
-      { metric: "+2.83 ± 1.45 cm", label: "360° Ring DBH Accuracy", note: "R² = 0.9833 vs. 65 physical taped stems" }
+      { metric: "+2.84 ± 1.46 cm", label: "Full-Ring DBH (n=42)", note: "RMSE 3.18 cm, R² = 0.9836 on ≥340° white pine rings" },
+      { metric: "+1.92 ± 3.44 cm", label: "Lidar-Gated Camera DBH", note: "Single-view optical silhouette + lidar range (n=52, both cameras)" }
     ]
   },
   {
     step: "03",
     id: "stage-3",
-    name: "Heuristic Silvicultural Thinning",
-    tag: "Prescription Optimization",
+    name: "Stand Estimation & Thinning Prescriptions",
+    tag: "Double Sampling & Phase II Horizon",
     color: "topo",
     borderColor: "border-topo/40",
     badgeBg: "bg-topo/10 text-topo border-topo/20",
-    summary: "Computes spatial competition indices and executes heuristic combinatorial search to prescribe optimal tree harvests.",
+    summary: "Calibrates wall-to-wall lidar stem maps with two-phase double sampling and feeds OSU's heuristic single-tree thinning models.",
     inputs: [
-      { label: "Tree Coordinate Map (x,y,z)", desc: "Meter-precision individual stem positions" },
-      { label: "Individual DBH & Taper", desc: "Empirically measured stem metrics" },
-      { label: "Crown Projection Area", desc: "Extracted crown radius and height to base" }
+      { label: "Sub-Canopy Stem Map (x,y,DBH)", desc: "87.0% recall / 93.1% precision on stems ≥10 cm DBH" },
+      { label: "Reference Cruise Cells", desc: "Two-phase double-sampling ratio calibration plots" },
+      { label: "Stand Competition Geometry", desc: "Inter-tree spacing and basal area distribution" }
     ],
     algorithms: [
       {
-        name: "Spatial Neighborhood Competition Analysis",
-        desc: "Proprietary spatial competition modeling evaluating individual tree vigor, crown competition, and biological growth potential."
+        name: "Two-Phase Double-Sampling Ratio Estimation",
+        desc: "Combines the wall-to-wall mobile lidar map with a small subsample of reference cells to remove raw map bias and recover stand basal area."
       },
       {
-        name: "Hero Heuristic Optimization",
-        desc: "West, Sessions & Strimbu (2021) rapid combinatorial selection evaluating thinning interventions in O(N log N) time."
+        name: "Heuristic Tree-Selection & SEEM Models",
+        desc: "Phase II integration with OSU MARS Lab heuristic combinatorial optimization (West, Sessions & Strimbu 2021) and SEEM growth-and-yield models."
       },
       {
-        name: "Monte Carlo & Genetic Algorithms",
-        desc: "Simulated Annealing and Tabu Search exploring complex spatial harvest regimes across rotation intervals."
+        name: "Modular Edge Deployment (Phase II)",
+        desc: "Working toward near real-time mensuration and automated thinning prescriptions across backpack, ATV, and harvester cab/boom configurations."
       }
     ],
     outputs: [
-      { metric: "+5.1% to 10.1%", label: "LEV Improvement", note: "Land Expectation Value gain over status quo" },
-      { metric: "100%", label: "Prescription Traceability", note: "Every stem mapped with cut/leave justification" }
+      { metric: "45.98 m²/ha", label: "Double-Sampled Basal Area", note: "95% CI [40.19, 52.30] vs. 47.44 m²/ha HF253 census truth" },
+      { metric: "87.0% / 93.1%", label: "Recall / Precision (≥10 cm)", note: "Sealed 12-cell benchmark in Harvard Forest (HF253)" }
     ]
   }
 ];
