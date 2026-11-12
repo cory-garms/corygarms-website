@@ -59,25 +59,24 @@ const vertexShader = `
 `;
 
 const fragmentShader = `
-  uniform int uColorMode; // 0: Elevation Gradient, 1: Monochrome Laser Emerald
+  uniform int uColorMode; // 0: Turbo Elevation Gradient, 1: Monochrome Laser Emerald
   uniform float uOpacity;
   varying float vElevation;
 
-  // Curated scientific colormap for forestry mensuration:
-  // Ground duff (deep teal) -> Trunk (emerald) -> Crown (chartreuse / cyan)
-  vec3 getElevationColor(float t) {
-    vec3 cGround = vec3(0.04, 0.22, 0.16);   // Deep forest floor
-    vec3 cTrunk  = vec3(0.063, 0.725, 0.506); // Laser Emerald DBH
-    vec3 cBranch = vec3(0.204, 0.827, 0.6);   // Branch structure
-    vec3 cCanopy = vec3(0.22, 0.741, 0.973);  // Foliage / crown
-    
-    if (t < 0.25) {
-      return mix(cGround, cTrunk, t / 0.25);
-    } else if (t < 0.65) {
-      return mix(cTrunk, cBranch, (t - 0.25) / 0.4);
-    } else {
-      return mix(cBranch, cCanopy, (t - 0.65) / 0.35);
-    }
+  // Google Turbo Colormap: Perceptually continuous scientific elevation ramp
+  // Ground duff (blue-violet) -> Understory stems (cyan/green) -> Crown (yellow/red)
+  vec3 getTurboColor(float t) {
+    const vec3 c0 = vec3(0.188, 0.071, 0.231); // #30123b (blue-violet)
+    const vec3 c1 = vec3(0.129, 0.545, 0.953); // #218bf3 (blue)
+    const vec3 c2 = vec3(0.102, 0.894, 0.714); // #1ae4b6 (cyan-green)
+    const vec3 c3 = vec3(0.643, 0.988, 0.235); // #a4fc3c (bright green)
+    const vec3 c4 = vec3(0.996, 0.745, 0.165); // #febe2a (yellow-gold)
+    const vec3 c5 = vec3(0.478, 0.016, 0.012); // #7a0403 (deep red)
+    if (t < 0.2) return mix(c0, c1, t / 0.2);
+    if (t < 0.4) return mix(c1, c2, (t - 0.2) / 0.2);
+    if (t < 0.6) return mix(c2, c3, (t - 0.4) / 0.2);
+    if (t < 0.8) return mix(c3, c4, (t - 0.6) / 0.2);
+    return mix(c4, c5, (t - 0.8) / 0.2);
   }
 
   void main() {
@@ -90,7 +89,7 @@ const fragmentShader = `
     
     vec3 color;
     if (uColorMode == 0) {
-      color = getElevationColor(vElevation);
+      color = getTurboColor(vElevation);
     } else {
       color = vec3(0.063, 0.725, 0.506); // Solid Laser Emerald
     }
@@ -247,8 +246,8 @@ const CameraPresetsHandler = ({ presetTrigger, controlsRef }) => {
 
 export default function CutmapLidarViewer() {
   const [currentStandId, setCurrentStandId] = useState('livox_forest_grove');
-  const [colorMode, setColorMode] = useState(0); // 0: Elevation Gradient, 1: Monochrome Laser
-  const [pointSize, setPointSize] = useState(0.6);
+  const [colorMode, setColorMode] = useState(0); // 0: Turbo Elevation Gradient, 1: Monochrome Laser
+  const [pointSize, setPointSize] = useState(0.45); // Decreased slightly for crisp point fidelity
   const [isRotating, setIsRotating] = useState(true);
   const [presetTrigger, setPresetTrigger] = useState({ mode: 'orbit', ts: Date.now() });
 
@@ -322,17 +321,17 @@ export default function CutmapLidarViewer() {
           <button
             onClick={() => setColorMode(colorMode === 0 ? 1 : 0)}
             className="px-3 py-1.5 rounded-xl bg-forest-900/90 backdrop-blur-md border border-border hover:border-accent/40 text-xs font-mono text-text-muted hover:text-white transition-all cursor-pointer flex items-center gap-1.5 shadow-lg"
-            title="Toggle between Elevation Height Gradient and Monochrome Laser Emerald"
+            title="Toggle between Turbo Elevation Ramp and Monochrome Laser Emerald"
           >
             <span className="w-2.5 h-2.5 rounded-full flex overflow-hidden border border-border">
               {colorMode === 0 ? (
-                <span className="w-full h-full bg-gradient-to-r from-emerald-600 via-emerald-400 to-cyan-400"></span>
+                <span className="w-full h-full bg-gradient-to-r from-blue-600 via-emerald-400 via-amber-400 to-rose-600"></span>
               ) : (
                 <span className="w-full h-full bg-emerald-400"></span>
               )}
             </span>
-            <span className="hidden sm:inline">{colorMode === 0 ? 'Elevation Colormap' : 'Laser Monochrome'}</span>
-            <span className="sm:hidden">{colorMode === 0 ? 'Elevation' : 'Laser'}</span>
+            <span className="hidden sm:inline">{colorMode === 0 ? 'Turbo Colormap' : 'Laser Monochrome'}</span>
+            <span className="sm:hidden">{colorMode === 0 ? 'Turbo' : 'Laser'}</span>
           </button>
 
           {/* Auto-Rotation Toggle */}
