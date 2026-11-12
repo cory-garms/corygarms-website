@@ -2,310 +2,240 @@
 import Layout from "../layouts/Layout.astro";
 import CutmapLidarViewer from "../components/CutmapLidarViewer.jsx";
 
-// 1. Verified KPI Bubbles (click for full metric breakdown)
-const kpis = [
+// 6 Core Benchmarks: High-impact metric tiles
+const kpiMetrics = [
   {
-    id: "kpi-bom",
     value: "~$4,439",
-    label: "Low-SWaP-C BOM",
-    color: "text-accent",
-    modalTitle: "Phase I Hardware & Compute BOM (~$4,439)",
-    modalSubtitle: "Component List Price Breakdown",
-    modalBullets: [
-      "Sensors & battery: $2,440 (Livox Mid-360 solid-state 3D lidar + integrated 200 Hz IMU, two FLIR Blackfly BFLY-U3-13S2C global-shutter cameras, Garmin GLO 2 GNSS logger).",
-      "Edge compute: $1,999 (NVIDIA Jetson AGX Orin Developer Kit, 12 cores, 32 GB RAM, 275 TOPS, running ROS 2 Humble in MAXN mode).",
-      "Note: Replacement pricing as of November 2026 totals $6,297. Existing mobile laser scanners carry costs comparable to terrestrial laser scanners (Mattamala et al. 2025)."
-    ]
+    label: "Sensor & Compute BOM",
+    subtext: "Livox Mid-360 + 2× Blackfly + Jetson Orin",
+    color: "text-accent"
   },
   {
-    id: "kpi-closure",
     value: "0.010–0.037 m",
-    label: "Loop Closure / 100 m",
-    color: "text-emerald-400",
-    modalTitle: "Marked-Loop Closure Error (No GPS)",
-    modalSubtitle: "0.010–0.037 m per 100 m across 5 physical-mark runs",
-    modalBullets: [
-      "Mount Auburn Hazel Dell grate loop: 17.8 mm closure over 178 m (0.010 m per 100 m).",
-      "Mount Auburn Halcyon Lake grate loop: 80.0 mm closure over 425 m (0.019 m per 100 m).",
-      "Burlington outdoor loops (221–223 m): 0.029 and 0.013 m per 100 m; 76.4 m indoor loop: 0.037 m per 100 m.",
-      "Stationary accelerometer gravity levelling flattened Grove A ground elevation spread from 0.52 m to 0.05 m."
-    ]
+    label: "Closure / 100 m Walked",
+    subtext: "17.8 mm over 178 m & 80 mm over 425 m (no GPS)",
+    color: "text-emerald-400"
   },
   {
-    id: "kpi-fullring",
     value: "+2.84 ± 1.46 cm",
     label: "Full-Ring DBH (n=42)",
-    color: "text-cyan-400",
-    modalTitle: "Full-Ring Stem Mensuration (n = 42)",
-    modalSubtitle: "Eastern white pine stems with ≥ 340° angular sweep",
-    modalBullets: [
-      "Diameter accuracy: +2.84 cm constant outer-bark offset ± 1.46 cm spread, RMSE 3.18 cm, R² = 0.9836.",
-      "41 of 42 stems read slightly high because lidar pulses reflect from outer bark ridges and lichens rather than compressed tape diameter.",
-      "Evaluated against physical logger's tape at breast height (z = 1.37 m) across three groves in Burlington, MA."
-    ]
+    subtext: "R² = 0.984 on ≥340° eastern white pine stems",
+    color: "text-cyan-400"
   },
   {
-    id: "kpi-allview",
     value: "+3.26 ± 2.53 cm",
     label: "All-View DBH (n=65)",
-    color: "text-amber-300",
-    modalTitle: "All-View Stem Mensuration & Partial-Arc Effect (n = 65)",
-    modalSubtitle: "All taped eastern white pine stems regardless of angular sweep",
-    modalBullets: [
-      "Overall agreement across all 65 taped stems: +3.26 ± 2.53 cm, RMSE 4.12 cm, R² = 0.951.",
-      "Partial-arc sensitivity: −2.791 cm per 100° of angular coverage—meaning a stem viewed from one side reads +2.79 cm wider for every 100° of missing trunk arc (R² = 0.273, p = 8.2 × 10⁻⁶).",
-      "Quantifying this angular-coverage law informs Phase II online correction for single-pass trail and vehicle traverses."
-    ]
+    subtext: "R² = 0.951; +2.79 cm / 100° missing trunk arc",
+    color: "text-amber-300"
   },
   {
-    id: "kpi-camera",
     value: "+1.92 ± 3.44 cm",
     label: "Camera DBH (n=52)",
-    color: "text-emerald-300",
-    modalTitle: "Lidar-Gated Single-View Camera DBH (n = 52)",
-    modalSubtitle: "Pooled across both FLIR Blackfly global-shutter cameras",
-    modalBullets: [
-      "When lidar certifies an unobstructed line of sight, projected 3D trunk priors prompt SAM ViT-B to segment optical bark silhouettes.",
-      "Single-viewpoint optical DBH achieves +1.92 ± 3.44 cm (n = 52, pooled across both cameras) using lidar range for metric scale.",
-      "Bypasses single-view circle-fitting inflation without requiring a full walkaround ring."
-    ]
+    subtext: "Single-view SAM ViT-B optical silhouette + lidar range",
+    color: "text-emerald-300"
   },
   {
-    id: "kpi-forestgeo",
     value: "87.0% / 93.1%",
     label: "ForestGEO Recall / Prec.",
-    color: "text-accent-light",
-    modalTitle: "Harvard Forest ForestGEO (HF253) Detection Benchmark",
-    modalSubtitle: "Sealed 12-cell evaluation across 3.26 km trail network",
-    modalBullets: [
-      "Merchantable stems (≥ 10 cm DBH): 87.0% recall and 93.1% precision.",
-      "All stems (≥ 1 cm DBH): 72.0% recall and 86.2% precision across 779M lidar points (4.39 ha mapped within 15 m of 17 walks).",
-      "Two-phase double sampling (441 lidar cells + 40 reference cells) recovered stand basal area at 45.98 [40.19, 52.30] m²/ha vs. 47.44 m²/ha census truth."
+    subtext: "Sealed 12-cell benchmark on stems ≥ 10 cm DBH",
+    color: "text-accent-light"
+  }
+];
+
+// Interactive Figure Explorer items (Scientific figures with annotated telemetry)
+const figureGallery = [
+  {
+    id: "fig-stem-maps",
+    title: "Burlington 3-Stand Stem Maps",
+    badge: "SLAM Trajectories",
+    imgSrc: "/images/cutmap/fig_multi_stand_stem_maps.png",
+    alt: "Top-down SLAM trajectories and breast-height stem slices across three forest stands in Burlington, MA",
+    telemetry: "FAST-LIO2 Trajectory • z = 1.37 m Slice • 65 Taped Stems",
+    caption: "Top-down understory SLAM trajectories and gravity-levelled breast-height stem slices across three native eastern white pine stands in Burlington, MA. Zero GPS dependency under closed canopy."
+  },
+  {
+    id: "fig-cart-hardware",
+    title: "Field Prototype Cart",
+    badge: "Mobile Payload",
+    imgSrc: "/images/cutmap_cover_photo.jpg",
+    alt: "CUTMAP mobile lidar cart deployed in the forest understory",
+    telemetry: "Livox Mid-360 • Dual Blackfly • Jetson AGX Orin • 28.96 MB/s",
+    caption: "The CUTMAP mobile cart navigating dense undergrowth. The rigid sensor mast holds the solid-state 3D lidar, dual global-shutter cameras on a 457.2 mm baseline, and onboard edge compute."
+  },
+  {
+    id: "fig-validation",
+    title: "Trunk DBH & Partial-Arc Law",
+    badge: "Logger's Tape Ground Truth",
+    imgSrc: "/images/cutmap/fig7_multi_stand_validation.png",
+    alt: "Scatter plots of mobile lidar diameter estimates against physical logger's tape measurements",
+    telemetry: "Full Rings: RMSE 3.18 cm • All 65: RMSE 4.12 cm • Coverage Slope: +2.79 cm / 100°",
+    caption: "Empirical validation against 65 taped white pine stems. Stems with complete walked rings achieve R² = 0.984 around an outer-bark offset; partial views follow a systematic +2.79 cm expansion per 100° of missing arc."
+  },
+  {
+    id: "fig-sam-optical",
+    title: "Optical Bark Segmentation",
+    badge: "Lidar-Gated SAM ViT-B",
+    imgSrc: "/images/cutmap/fig8_sam_camera_mensuration.png",
+    alt: "Segment Anything Model prompt projections isolating trunk boundaries in camera frames",
+    telemetry: "SAM ViT-B Prior Prompting • +1.92 ± 3.44 cm (n=52) • 2-Camera Pooled",
+    caption: "Single-view optical mensuration bypassing partial-arc circle fitting. 3D lidar trunk priors prompt SAM ViT-B to extract sub-pixel bark silhouettes scaled by direct lidar range."
+  },
+  {
+    id: "fig-corridor",
+    title: "Corridor Registration",
+    badge: "Loop Closure",
+    imgSrc: "/images/cutmap/fig_corridor_registration_alignment.png",
+    alt: "Corridor registration and multi-view alignment diagram",
+    telemetry: "0.010–0.037 m / 100 m Error • Stationary Gravity Alignment",
+    caption: "Multi-traverse point cloud alignment and loop closure. Brief stationary accelerometer alignment constrains coordinate tilt, locking ground elevation spread to 0.05 m over extended traverses."
+  }
+];
+
+// Interactive 3-Stage Pipeline Architecture Data
+const pipelineStages = [
+  {
+    step: "01",
+    id: "pipe-perception",
+    name: "Perception & Odometry",
+    tag: "Sensor Fusion",
+    summary: "Solid-state 3D lidar and 200 Hz IMU tightly coupled in FAST-LIO2, stabilized by stationary gravity levelling.",
+    sensors: "Livox Mid-360 (200k pts/s) + 200 Hz IMU + Garmin GLO 2",
+    outputMetric: "0.010–0.037 m / 100 m",
+    outputLabel: "Marked Loop Closure"
+  },
+  {
+    step: "02",
+    id: "pipe-calibration",
+    name: "Calibration & Scale Gate",
+    tag: "Integrity Verification",
+    summary: "External laser-rangefinder scale gate and rigid planar targets preventing focal-extrinsic error propagation.",
+    sensors: "Dual FLIR Blackfly (457.2 mm baseline) + Laser Scale Gate",
+    outputMetric: "6.6 mm Centering",
+    outputLabel: "count² Plane Weighting"
+  },
+  {
+    step: "03",
+    id: "pipe-silviculture",
+    name: "Silviculture & Prescriptions",
+    tag: "Biometrics & Optimization",
+    summary: "Extracts individual stem coordinates, DBH, and lean; calibrates stand basal area with two-phase double sampling.",
+    sensors: "SAM ViT-B Silhouette Fusion + OSU MARS Heuristic Engine",
+    outputMetric: "45.98 m²/ha",
+    outputLabel: "Double-Sampled Basal Area"
+  }
+];
+
+// 3 Field Campaign Cards (Zero lists: clean visual cards with stats)
+const fieldCampaigns = [
+  {
+    name: "Burlington White Pines",
+    location: "Burlington, MA",
+    badge: "Managed Conifer Stands",
+    highlightStat: "+2.84 ± 1.46 cm",
+    statLabel: "Full-Ring DBH (n=42)",
+    accentColor: "border-cyan-500/40 text-cyan-400",
+    desc: "Survey of 65 eastern white pine stems taped at breast height across three native forest groves. Established the fundamental partial-arc coverage slope of +2.79 cm per 100° of missing trunk arc.",
+    keyMetrics: [
+      { label: "R² Fit", val: "0.984" },
+      { label: "RMSE", val: "3.18 cm" },
+      { label: "Camera DBH", val: "+1.92 cm" }
+    ]
+  },
+  {
+    name: "Mount Auburn Arboretum",
+    location: "Cambridge, MA",
+    badge: "175-Acre Living Collection",
+    highlightStat: "17.8 mm / 178 m",
+    statLabel: "Surveyed Grate Closure",
+    accentColor: "border-emerald-500/40 text-emerald-400",
+    desc: "Mapped 12.0 hectares (29.7 acres) across 9 mobile walks totaling 2,638 m in 44.6 minutes, observing 62% of curated living trees. Marked loops on iron grates closed to 0.010–0.019 m per 100 m.",
+    keyMetrics: [
+      { label: "Area Mapped", val: "12.0 ha" },
+      { label: "425m Loop", val: "80 mm" },
+      { label: "Median Error", val: "5.37 cm" }
+    ]
+  },
+  {
+    name: "Harvard Forest (HF253)",
+    location: "Petersham, MA",
+    badge: "Smithsonian ForestGEO",
+    highlightStat: "87.0% / 93.1%",
+    statLabel: "Recall / Precision (≥10 cm)",
+    accentColor: "border-accent/50 text-accent",
+    desc: "Traversed 3,264 m of forest trails (17 walks, 779M points, 4.39 ha). Sealed 12-cell benchmark validated two-phase double sampling, recovering stand basal area at 45.98 vs. 47.44 m²/ha census truth.",
+    keyMetrics: [
+      { label: "Trail Length", val: "3.26 km" },
+      { label: "Large Sawtimber", val: "+0.2 cm" },
+      { label: "Stand Truth", val: "47.44 m²/ha" }
     ]
   }
 ];
 
-// 2. Architecture Bubbles (compact on card, full detail on click)
-const architectureCards = [
+// Broad Sector Capabilities (Icon/Diagram cards, zero bullets)
+const capabilities = [
   {
-    id: "arch-hardware",
-    tag: "01 • Edge Payload",
-    title: "~$4,439 Prototype",
-    bullets: [
-      "Livox Mid-360 lidar + 200 Hz IMU",
-      "2× FLIR Blackfly cameras (457.2 mm baseline)",
-      "Jetson AGX Orin (ROS 2 Humble, 28.96 MB/s)"
-    ],
-    modalTitle: "Low-SWaP-C Sensor & Compute Stack",
-    modalSubtitle: "Phase I utility-cart prototype ($2,440 sensors/battery + $1,999 Jetson Dev Kit)",
-    modalBullets: [
-      "Lidar & IMU: Livox Mid-360 solid-state 3D lidar (200,000 pts/s non-repetitive circular scan) with integrated 200 Hz IMU.",
-      "Optical Array: Two rear-facing FLIR Blackfly (BFLY-U3-13S2C) global-shutter color cameras on a 457.2 mm baseline, plus a Garmin GLO 2 GNSS logger.",
-      "Edge Compute: NVIDIA Jetson AGX Orin Developer Kit (12 cores, 32 GB RAM, 275 TOPS, MAXN mode), logging 63 field bags at 28.96 MB/s (104 GB/h).",
-      "Replacement pricing as of November 2026 is $6,297."
-    ]
+    title: "Precision Silviculture",
+    role: "Single-Tree Thinning",
+    summary: "Maps individual stems and competition geometry to drive automated single-tree cut/leave prescriptions for sawtimber yield.",
+    badge: "Commercial Forestry"
   },
   {
-    id: "arch-odometry",
-    tag: "02 • Odometry Pivot",
-    title: "FAST-LIO2 + Levelling",
-    bullets: [
-      "Passive VO failed under foliage; pivoted to lidar",
-      "Gravity levelling flattens terrain (0.52 → 0.05 m)",
-      "0.010–0.037 m / 100 m marked-loop closure"
-    ],
-    modalTitle: "The Empirical Pivot to Lidar–Inertial Odometry",
-    modalSubtitle: "Why sub-canopy lidar is essential (July 24, 2026 architecture pivot)",
-    modalBullets: [
-      "Spring 2026 passive trials: Pure stereo VO collapsed in dense foliage (0.00 m tracked, May 2026); monocular VO suffered 23–98% scale drift vs. GPS; 15-state EKF proved unstable (April 2026).",
-      "Pivoted positioning to tightly coupled lidar-inertial odometry (FAST-LIO2), keeping cameras for bark/foliage segmentation and optical silhouette mensuration.",
-      "Stationary Gravity Levelling: FAST-LIO2 initializes unlevelled (causing a 7.23 m vertical swing on a 220.9 m loop, cut to 2.6 m after levelling; Grove A ground spread collapsed from 0.52 m to 0.05 m)."
-    ]
+    title: "Wildfire Fuel Mitigation",
+    role: "Ladder Fuel Density",
+    summary: "Quantifies understory ladder-fuel volume below dense canopy cover where airborne laser scanning cannot penetrate.",
+    badge: "Precommercial Thinning"
   },
   {
-    id: "arch-calibration",
-    tag: "03 • Calibration Gate",
-    title: "Scale-Gate Integrity",
-    bullets: [
-      "Caught 2.50 mm target curl → ~140 mm shift",
-      "Flat target restored 0.66% baseline agreement",
-      "Laser scale gate + count² weighting (6.6 mm)"
-    ],
-    modalTitle: "Multi-Sensor Calibration & Failure Coupling",
-    modalSubtitle: "External laser-rangefinder scale gate + rigid flat checkerboard",
-    modalBullets: [
-      "Failure coupling: A 2.50 mm peak-to-peak curl over 320 mm on a cardboard checkerboard biased focal length 4.6% low and forced a 133 mm lateral / ~140 mm fore-aft extrinsic shift while camera residuals stayed < 1 px.",
-      "Flat target fix: Rigid flat backing restored stereo baseline concordance to 454.20 mm vs. 457.2 mm physical tape (0.66% agreement, 0.309 px stereo RMS).",
-      "External scale gate & weighting: Lidar range slope 0.9964 (5 stations, 2–6 m); stereo scale slope 0.9836 (−1.64%, SE ~0.95%, 3 stations 2–4 m); count^2.0 plane weighting reduced lateral centering sum from 40.9 mm to 6.6 mm."
-    ]
-  }
-];
-
-// 3. Field Campaign Bubbles (compact on card, full detail on click)
-const campaignCards = [
-  {
-    id: "camp-burlington",
-    tag: "Burlington, MA",
-    title: "65 Taped White Pines",
-    accent: "text-cyan-400",
-    bullets: [
-      "Full rings (n=42): +2.84 ± 1.46 cm (R² = 0.984)",
-      "Partial-arc slope: +2.79 cm / 100° missing arc",
-      "Camera DBH (n=52): +1.92 ± 3.44 cm"
-    ],
-    modalTitle: "Field Campaign 1: 65 Taped White Pine Stems (Burlington, MA)",
-    modalSubtitle: "Three eastern white pine groves taped at breast height (z = 1.37 m)",
-    modalBullets: [
-      "Full-ring sweeps (≥ 340°, n = 42): +2.84 cm outer-bark offset ± 1.46 cm spread, RMSE 3.18 cm, R² = 0.9836 (41/42 read slightly high due to outer bark ridges and lichens).",
-      "All 65 stems regardless of coverage: +3.26 ± 2.53 cm, RMSE 4.12 cm, R² = 0.951.",
-      "Partial-arc law: −2.791 cm per 100° of visible arc (+2.79 cm wider per 100° of missing arc, R² = 0.273, p = 8.2 × 10⁻⁶).",
-      "Lidar-gated optical DBH (SAM ViT-B, n = 52 pooled across both cameras): +1.92 ± 3.44 cm on unobstructed stems."
-    ]
-  },
-  {
-    id: "camp-mtauburn",
-    tag: "Cambridge, MA",
-    title: "Mount Auburn Arboretum",
-    accent: "text-emerald-400",
-    bullets: [
-      "2,638 m walked in 44.6 min (12.0 ha mapped)",
-      "Grate closures: 17.8 mm/178 m & 80 mm/425 m",
-      "60 held-out stems: 5.37 cm median error"
-    ],
-    modalTitle: "Field Campaign 2: Mount Auburn Cemetery & Arboretum (Sep 16, 2026)",
-    modalSubtitle: "9 mobile scans across a 175-acre living tree collection",
-    modalBullets: [
-      "Coverage: 2,638 m walked (44.6 min) mapping 12.0 ha (29.7 acres) within 30 m of trajectories; observed 62% (308 of 493) of curated botanical records within 15 m (525 labeled trees).",
-      "Marked-loop closures on physical cast-iron drainage grates: 17.8 mm over 178 m (0.010 m/100m, Hazel Dell) and 80.0 mm over 425 m (0.019 m/100m, Halcyon Lake).",
-      "Held-out stem DBH (n = 60 scored once against institutional records): 5.37 cm median absolute error, +2.45 cm mean bias, 6.79 cm RMSE excluding 3 extreme co-dominant/flared ornamental specimens (11.38 cm overall)."
-    ]
-  },
-  {
-    id: "camp-hf253",
-    tag: "Petersham, MA",
-    title: "Harvard Forest (HF253)",
-    accent: "text-accent",
-    bullets: [
-      "87.0% recall / 93.1% prec. (≥ 10 cm DBH)",
-      "+0.2 cm bias on large sawtimber (≥ 40 cm)",
-      "Double sampling: 45.98 vs. 47.44 m²/ha truth"
-    ],
-    modalTitle: "Field Campaign 3: Harvard Forest Smithsonian ForestGEO (HF253, Sep 24, 2026)",
-    modalSubtitle: "3,264 m trail network across 17 walks (65 min, 779M points, 113 GB, 4.39 ha)",
-    modalBullets: [
-      "Sealed 12-cell detection benchmark: 87.0% recall / 93.1% precision on merchantable stems (≥ 10 cm DBH); 72.0% recall / 86.2% precision across all stems (≥ 1 cm).",
-      "Size-dependent median diameter bias: +0.2 cm (≥ 40 cm, n=14), +2.4 cm (20–40 cm, n=32), +4.8 cm (10–20 cm, n=30), and +14.9 cm on 1–10 cm saplings (n=48).",
-      "Two-phase double sampling (441 grid cells + 40 reference cells): removed raw map overestimation (74.34 m²/ha) to recover stand basal area at 45.98 [40.19, 52.30] m²/ha vs. 47.44 m²/ha census truth (held-out test: 45.71 [39.17, 53.35] vs. 47.32 m²/ha)."
-    ]
-  }
-];
-
-// 4. Broad Sector Capabilities (compact on card, full detail on click)
-const sectorCards = [
-  {
-    id: "sec-silviculture",
-    title: "Silviculture & Thinning",
-    summary: "Single-tree stem maps & double sampling for thinning prescriptions.",
-    modalTitle: "Commercial & Precommercial Silviculture",
-    modalSubtitle: "Closing the gap between plot averages and tree-level harvest decisions",
-    modalBullets: [
-      "Forest thinning is decided one tree at a time; fixed-radius plots give stand averages but cannot tell a forester or harvester which stem to cut or leave.",
-      "Pairs walk-speed lidar stem maps with classical two-phase double sampling to calibrate stand basal area and drive OSU MARS Lab heuristic thinning and SEEM growth-and-yield models."
-    ]
-  },
-  {
-    id: "sec-wildfire",
-    title: "Wildfire Fuels & Corridors",
-    summary: "Sub-canopy ladder-fuel density & right-of-way encroachment.",
-    modalTitle: "Wildfire Fuel Reduction & Utility Corridors",
-    modalSubtitle: "Mapping small-diameter ladder fuels and obstructed rights-of-way",
-    modalBullets: [
-      "Precommercial thinning requires mapping dense understory ladder fuels where aerial lidar is occluded by the upper canopy.",
-      "Phase II optical silhouette fusion targets the 1–10 cm sapling size class (+14.9 cm lidar inflation in Phase I) to support fuel-treatment verification and corridor clearance."
-    ]
-  },
-  {
-    id: "sec-urban",
     title: "Urban & Agricultural",
-    summary: "GPS-denied municipal inventories, arboretums & orchard phenotyping.",
-    modalTitle: "Urban Forestry, Arboretums & High-Value Crops",
-    modalSubtitle: "Validated across 12.0 ha at Mount Auburn Cemetery & Arboretum",
-    modalBullets: [
-      "Produces centimeter-closed local maps under dense ornamental canopies and urban canyons where GNSS multipathing degrades positioning.",
-      "Achieved 5.37 cm median DBH error against curated botanical records and generalizes directly to orchard trunk/canopy geometry and specialty crop phenotyping."
-    ]
+    role: "GNSS-Denied Audits",
+    summary: "Provides centimeter-level walk-speed mapping under dense street tree canopies, botanical arboretums, and high-value fruit orchards.",
+    badge: "Phenotyping & Inventories"
   },
   {
-    id: "sec-autonomy",
     title: "Modular Autonomy",
-    summary: "Quick-swap edge payload across backpacks, ATVs & harvesters.",
-    modalTitle: "Modular Multi-Platform Deployment (Phase II)",
-    modalSubtitle: "Approved Phase II development horizon",
-    modalBullets: [
-      "In Phase II, we are working toward near real-time mensuration and automated thinning prescriptions on embedded edge compute, and evaluating modular deployment configurations across backpack, ATV, and harvesting machinery.",
-      "Integrates a 4-camera hardware-synchronized optical array and an NDAA-compliant 3D lidar around a single quick-swap edge computer."
-    ]
+    role: "Multi-Platform Deployment",
+    summary: "Engineered around a quick-swap edge compute core ready for backpack, ATV, forwarder, and harvester boom integration.",
+    badge: "Robotic Perception"
   }
 ];
 
-// 5. Phase I Limitations Modal Data
-const limitationsModalData = {
-  id: "phase1-limits",
-  modalTitle: "Measured Phase I Limitations Driving Phase II",
-  modalSubtitle: "Engineering transparency from Burlington, Mount Auburn & Harvard Forest",
-  modalBullets: [
-    "Small-stem (1–10 cm) inflation (+14.9 cm) and under-detection (354 mapped/ha vs. 1,194 census/ha in HF253): currently limits cell-level basal-area correlation (ρ ≈ 0.37); targeted by Phase II camera silhouette fusion.",
-    "Single-sided partial-arc bias (+2.79 cm per 100° missing trunk arc): requires online angular-coverage correction for single-pass trail and vehicle traverses.",
-    "Camera-to-camera plane disagreement (13 mm RMS, up to 34.5 mm) and 3-station stereo scale gate (2–4 m): requires multi-station scale-gate expansion and <1 ms PTP hardware synchronization.",
-    "Residual map-frame tilt (0.6–1.3° on 8/9 Mount Auburn runs; 1.9° on one): requires continuous gravity-constrained trajectory optimization beyond stationary initial levelling."
-  ]
-};
-
-// 6. Publications & Presentations
+// Scholarly Output
 const publications = [
   {
-    authors: "Garms, C.G. & Strimbu, B.M. (2026)",
     title: "CUTMAP: A Low-SWaP-C Mobile Mapping Platform for Forest Mensuration",
-    venue: "NEMO & SOMENS Joint Meeting (Nov 10, 2026)",
-    status: "Presented"
+    authors: "Garms, C.G. & Strimbu, B.M. (2026)",
+    venue: "2026 Joint Meeting of NEMO & SOMENS (Presented Nov 10, 2026)",
+    status: "Conference Presentation"
   },
   {
-    authors: "Garms, C.G., Strimbu, B.M., et al. (2026)",
     title: "Calibrating a Low-SWaP-C Lidar–Stereo Platform: Staged Procedures, Failure Coupling, and Operational Validation",
+    authors: "Garms, C.G., Strimbu, B.M., et al. (2026)",
     venue: "Target: Journal of Field Robotics",
     status: "In Preparation"
   },
   {
-    authors: "Garms, C.G. & Strimbu, B.M. (2021)",
     title: "Impact of stem lean on estimation of Douglas-fir diameter and volume using mobile lidar scans",
+    authors: "Garms, C.G. & Strimbu, B.M. (2021)",
     venue: "Canadian Journal of Forest Research, 51(8), 1117–1130",
     status: "Published",
     doi: "https://doi.org/10.1139/cjfr-2020-0082"
   }
 ];
-
-const allModalItems = [
-  ...kpis,
-  ...architectureCards,
-  ...campaignCards,
-  ...sectorCards,
-  limitationsModalData
-];
 ---
 
 <Layout 
   title="CUTMAP | Low-SWaP-C Mobile Lidar–Stereo Mapping Platform"
-  description="CUTMAP: A low-SWaP-C (~$4,439 BOM) mobile lidar-stereo platform for GPS-denied forest mensuration, thinning prescriptions, and outdoor mapping. USDA-NIFA STTR Phase I (#2025-70436-44908)."
+  description="CUTMAP: A low-SWaP-C (~$4,439 Phase I BOM) mobile lidar-stereo platform for GPS-denied forest mensuration, thinning prescriptions, and outdoor mapping. USDA-NIFA STTR Phase I (#2025-70436-44908)."
   image="/images/cutmap_cover_photo.jpg"
 >
 
-  <!-- 1. HERO & CLICKABLE KPI BUBBLES -->
-  <section class="relative pt-10 pb-14 overflow-hidden border-b border-border">
+  <!-- 1. HERO SECTION & CORE VALUE HOOK -->
+  <section class="relative pt-10 pb-12 overflow-hidden border-b border-border">
     <div class="absolute inset-0 bg-gradient-to-b from-forest-950 via-background to-background pointer-events-none"></div>
 
     <div class="max-w-5xl mx-auto px-6 relative z-10 space-y-8">
 
-      <!-- Sponsor Bar -->
+      <!-- Teaming & Award Ribbon -->
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-center gap-2.5">
           <a 
@@ -339,24 +269,31 @@ const allModalItems = [
         </a>
       </div>
 
-      <!-- Concise Headline -->
-      <div class="space-y-4 max-w-3xl">
-        <div class="text-xs font-mono text-accent uppercase tracking-widest">
+      <!-- Main Headline & Narrative Thesis (Short, cohesive, zero bullets) -->
+      <div class="space-y-4 max-w-4xl">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest font-semibold">
           CUTMAP &bull; Comprehensive Utility for Thinning Mechanically via Automated Prescription
         </div>
         <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-[1.1]">
           Low-SWaP-C Mobile Lidar–Stereo Mapping for Forestry &amp; Beyond
         </h1>
-        <p class="text-sm sm:text-lg text-text-muted leading-relaxed">
-          Solid-state 3D lidar, 200 Hz inertial odometry, and calibrated stereo vision (~$4,439 Phase I BOM) for GPS-denied stem mapping, thinning prescriptions, and modular outdoor perception.
+        <p class="text-base sm:text-xl text-emerald-300 font-medium leading-relaxed">
+          Tightly coupled solid-state 3D lidar, 200 Hz inertial odometry, and calibrated stereo vision (~$4,439 BOM) mapping understory stems at walking speed with zero satellite dependence.
+        </p>
+        <p class="text-sm sm:text-base text-text-muted leading-relaxed">
+          Forest thinning decisions are made one tree at a time, but commercial laser scanners remain cost-prohibitive. Developed by Spectral Sciences, Inc. and Oregon State University, CUTMAP bridges low-cost edge sensors with automated silvicultural prescriptions—generalizing across timberland management, wildfire fuel mapping, urban tree inventories, and off-road robotics.
         </p>
 
+        <!-- Action Pills -->
         <div class="flex flex-wrap items-center gap-3 pt-1">
-          <a href="#visual-showcase" class="px-5 py-2.5 rounded-xl bg-accent hover:bg-accent-light text-forest-950 font-bold text-xs font-mono transition-all">
-            3D Scans &amp; Video
+          <a href="#interactive-3d" class="px-5 py-2.5 rounded-xl bg-accent hover:bg-accent-light text-forest-950 font-bold text-xs font-mono transition-all">
+            Interactive 3D Point Cloud
           </a>
-          <a href="#field-campaigns" class="px-5 py-2.5 rounded-xl bg-surface hover:bg-forest-850 text-white border border-border text-xs font-mono transition-all">
-            Field Benchmarks
+          <a href="#figure-explorer" class="px-5 py-2.5 rounded-xl bg-surface hover:bg-forest-850 text-white border border-border text-xs font-mono transition-all">
+            Scientific Data Explorer
+          </a>
+          <a href="#pipeline" class="px-5 py-2.5 rounded-xl bg-surface hover:bg-forest-850 text-white border border-border text-xs font-mono transition-all">
+            System Architecture
           </a>
           <a href="#teaming" class="px-5 py-2.5 rounded-xl bg-forest-900/80 hover:bg-forest-800 text-text-muted hover:text-white border border-border text-xs font-mono transition-all">
             Phase II Teaming
@@ -364,223 +301,318 @@ const allModalItems = [
         </div>
       </div>
 
-      <!-- 6 Compact KPI Bubbles (Click any bubble for full metrics) -->
-      <div>
-        <div class="flex items-center justify-between mb-2.5">
-          <span class="text-[11px] font-mono uppercase tracking-wider text-text-dim">Verified Phase I Benchmarks</span>
-          <span class="text-[11px] font-mono text-accent">Click any bubble for details +</span>
+      <!-- 6 Key Performance Metric Tiles -->
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-4 pt-2">
+        {kpiMetrics.map(kpi => (
+          <div class="p-4 sm:p-5 rounded-2xl bg-surface/90 border border-border hover:border-accent/40 transition-all flex flex-col justify-between shadow-sm">
+            <div>
+              <div class={`text-xl sm:text-2xl font-black font-mono ${kpi.color} tracking-tight`}>
+                {kpi.value}
+              </div>
+              <div class="text-xs font-bold text-white mt-1">
+                {kpi.label}
+              </div>
+            </div>
+            <div class="text-[11px] text-text-dim mt-2 pt-2 border-t border-border/50 leading-snug">
+              {kpi.subtext}
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. INTERACTIVE 3D POINT CLOUD TOOL -->
+  <section id="interactive-3d" class="py-14 bg-surface/30 border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-6">
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <div class="text-xs font-mono text-emerald-300 uppercase tracking-widest mb-1">Interactive 3D WebGL Tool</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Real-Time Understory Point Clouds</h2>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-          {kpis.map(kpi => (
+        <p class="text-xs sm:text-sm text-text-muted max-w-sm">
+          Drag to orbit the 3D conifer stands mapped with Livox Mid-360 lidar-inertial odometry. Use controls to switch stands or elevation shading.
+        </p>
+      </div>
+
+      <!-- WebGL Interactive Viewer -->
+      <CutmapLidarViewer client:load />
+
+    </div>
+  </section>
+
+  <!-- 3. INTERACTIVE SCIENTIFIC FIGURE EXPLORER -->
+  <section id="figure-explorer" class="py-14 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-6">
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Empirical Evidence</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Interactive Scientific Data Explorer</h2>
+        </div>
+        <div class="text-xs font-mono text-text-dim">
+          Click tabs below to inspect verified field data &amp; hardware figures
+        </div>
+      </div>
+
+      <!-- Figure Viewer Container -->
+      <div class="rounded-2xl border border-border bg-surface overflow-hidden shadow-2xl">
+        
+        <!-- Tab Navigation Bar -->
+        <div class="flex flex-wrap items-center gap-1.5 p-2 bg-forest-950 border-b border-border/80 text-xs font-mono" id="figure-tabs">
+          {figureGallery.map((fig, idx) => (
             <button
               type="button"
-              data-modal-id={kpi.id}
-              aria-haspopup="dialog"
-              class="bubble-trigger text-left p-4 sm:p-5 rounded-2xl bg-surface/90 border border-border hover:border-accent/60 hover:bg-forest-900/60 transition-all cursor-pointer group flex flex-col justify-between"
+              data-fig-index={idx}
+              class={`fig-tab-btn px-3 py-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+                idx === 0 
+                  ? 'bg-accent/15 text-accent border border-accent/40 font-bold' 
+                  : 'text-text-muted hover:text-white hover:bg-forest-900 border border-transparent'
+              }`}
             >
-              <div class="flex items-start justify-between gap-2 w-full">
-                <div class={`text-xl sm:text-2xl font-black font-mono ${kpi.color} tracking-tight`}>
-                  {kpi.value}
-                </div>
-                <span class="w-5 h-5 rounded-full bg-forest-900 border border-border group-hover:border-accent/60 text-text-dim group-hover:text-accent text-[11px] font-mono flex items-center justify-center shrink-0 transition-colors">+</span>
-              </div>
-              <div class="text-xs font-semibold text-white mt-1.5">{kpi.label}</div>
+              <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+              <span>{fig.title}</span>
             </button>
           ))}
         </div>
+
+        <!-- Dynamic Image Display Canvas -->
+        <div class="relative bg-black aspect-[16/9] sm:aspect-[21/9] flex items-center justify-center p-2 sm:p-4 overflow-hidden">
+          <img 
+            id="active-fig-img"
+            src={figureGallery[0].imgSrc} 
+            alt={figureGallery[0].alt}
+            class="max-w-full max-h-full object-contain transition-all duration-300"
+          />
+          
+          <!-- Floating Telemetry Overlay -->
+          <div class="absolute bottom-3 left-3 right-3 sm:right-auto px-3.5 py-1.5 rounded-xl bg-forest-950/90 border border-border/80 backdrop-blur-md text-[11px] font-mono text-emerald-300 flex items-center gap-2 shadow-lg">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span id="active-fig-telemetry">{figureGallery[0].telemetry}</span>
+          </div>
+        </div>
+
+        <!-- Descriptive Caption Bar -->
+        <div class="p-4 sm:p-5 bg-surface border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <p id="active-fig-caption" class="text-text-muted leading-relaxed max-w-3xl">
+            {figureGallery[0].caption}
+          </p>
+          <span id="active-fig-badge" class="px-2.5 py-1 rounded-lg bg-forest-900 border border-border text-[11px] font-mono text-accent whitespace-nowrap self-start sm:self-auto">
+            {figureGallery[0].badge}
+          </span>
+        </div>
+
       </div>
 
     </div>
   </section>
 
-  <!-- 2. VISUAL SHOWCASE: 3D POINT CLOUD + PROMO VIDEO -->
-  <section id="visual-showcase" class="py-14 bg-surface/30 border-b border-border">
-    <div class="max-w-5xl mx-auto px-6 space-y-10">
-
-      <div>
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5">
-          <div>
-            <div class="text-xs font-mono text-emerald-300 uppercase tracking-widest mb-1">Live WebGL Scans</div>
-            <h2 class="text-2xl font-extrabold text-white tracking-tight">Interactive 3D Understory Point Clouds</h2>
-          </div>
-          <p class="text-xs text-text-muted">Burlington, MA white pine groves &bull; Drag to orbit</p>
-        </div>
-        <CutmapLidarViewer client:load />
-      </div>
-
-      <div>
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5">
-          <div>
-            <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-1">Phase I Overview</div>
-            <h3 class="text-xl font-bold text-white tracking-tight">From Calibration Bench to Harvard Forest</h3>
-          </div>
-          <p class="text-xs text-text-muted">Hardware cart, calibration &amp; GPS-denied traverse</p>
-        </div>
-        <div class="rounded-2xl border border-border bg-black overflow-hidden shadow-xl">
-          <div class="relative aspect-[16/9] bg-black">
-            <video playsinline controls preload="metadata" poster="/images/cutmap/cutmap_promo_poster.jpg" class="w-full h-full object-cover">
-              <source src="/videos/cutmap/cutmap_phase1_promo.mp4" type="video/mp4" />
-              <p class="text-xs text-text-dim p-4">Your browser does not support HTML5 video.</p>
-            </video>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 3. PLATFORM ARCHITECTURE (3 CLICKABLE BUBBLES) -->
-  <section id="architecture" class="py-14 bg-background border-b border-border">
-    <div class="max-w-5xl mx-auto px-6">
-      
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-8">
-        <div>
-          <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Platform Architecture</div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Hardware, Odometry &amp; Calibration</h2>
-        </div>
-        <span class="text-xs font-mono text-accent">Click any bubble for specs +</span>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {architectureCards.map(card => (
-          <button
-            type="button"
-            data-modal-id={card.id}
-            aria-haspopup="dialog"
-            class="bubble-trigger text-left p-6 rounded-2xl bg-surface border border-border hover:border-accent/60 hover:bg-forest-900/50 transition-all cursor-pointer group flex flex-col justify-between"
-          >
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <span class="text-xs font-mono text-accent font-bold uppercase">{card.tag}</span>
-                <span class="text-[11px] font-mono text-text-dim group-hover:text-accent transition-colors">Details +</span>
-              </div>
-              <h3 class="text-lg font-bold text-white mb-3">{card.title}</h3>
-              <ul class="space-y-1.5 text-xs text-text-muted list-disc list-inside">
-                {card.bullets.map(b => <li>{b}</li>)}
-              </ul>
-            </div>
-          </button>
-        ))}
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 4. FIELD VALIDATION (3 CLICKABLE BUBBLES + 2 FIGURES) -->
-  <section id="field-campaigns" class="py-14 bg-surface/30 border-b border-border">
+  <!-- 4. VISUAL PIPELINE & SYSTEM ARCHITECTURE DIAGRAM -->
+  <section id="pipeline" class="py-14 bg-surface/30 border-b border-border">
     <div class="max-w-5xl mx-auto px-6 space-y-8">
-      
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-        <div>
-          <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Field Validation</div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Three Field Campaigns</h2>
-        </div>
-        <span class="text-xs font-mono text-accent">Click any bubble for full data +</span>
+
+      <div class="max-w-3xl">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">System Architecture</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Three-Stage Computational Flow
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted mt-2">
+          From high-rate spatial photon returns to certified single-tree harvest prescriptions. Click any stage to inspect the pipeline flow.
+        </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {campaignCards.map(card => (
-          <button
-            type="button"
-            data-modal-id={card.id}
-            aria-haspopup="dialog"
-            class="bubble-trigger text-left p-6 rounded-2xl bg-surface border border-border hover:border-accent/60 hover:bg-forest-900/50 transition-all cursor-pointer group flex flex-col justify-between"
+      <!-- 3-Stage Interactive Stepper Diagram -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="pipeline-stepper">
+        {pipelineStages.map((stage, idx) => (
+          <div 
+            class={`pipe-stage-card p-5 rounded-2xl bg-surface border transition-all cursor-pointer flex flex-col justify-between ${
+              idx === 0 ? 'border-accent shadow-lg shadow-accent/5' : 'border-border hover:border-accent/40'
+            }`}
+            data-stage-idx={idx}
           >
             <div>
               <div class="flex items-center justify-between gap-2 mb-2">
-                <span class={`text-xs font-mono font-bold uppercase ${card.accent}`}>{card.tag}</span>
-                <span class="text-[11px] font-mono text-text-dim group-hover:text-accent transition-colors">Details +</span>
+                <span class="text-xs font-mono text-accent font-bold">STAGE {stage.step}</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-forest-950 border border-border text-text-dim uppercase">
+                  {stage.tag}
+                </span>
               </div>
-              <h3 class="text-lg font-bold text-white mb-3">{card.title}</h3>
-              <ul class="space-y-1.5 text-xs text-text-muted list-disc list-inside">
-                {card.bullets.map(b => <li>{b}</li>)}
-              </ul>
+              <h3 class="text-base font-bold text-white mb-2">{stage.name}</h3>
+              <p class="text-xs text-text-muted leading-relaxed">{stage.summary}</p>
             </div>
-          </button>
+
+            <div class="mt-4 pt-3 border-t border-border/60 flex items-center justify-between text-xs font-mono">
+              <span class="text-text-dim text-[11px]">{stage.outputLabel}:</span>
+              <span class="text-accent font-bold">{stage.outputMetric}</span>
+            </div>
+          </div>
         ))}
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <figure class="rounded-2xl bg-surface border border-border overflow-hidden">
-          <div class="p-2.5 bg-black/40">
-            <img src="/images/cutmap/fig_multi_stand_stem_maps.png" alt="Burlington white pine SLAM stem maps" class="w-full h-auto rounded-lg object-contain" loading="lazy" />
+      <!-- Active Stage Schematic Panel -->
+      <div class="p-6 rounded-2xl bg-forest-950 border border-border flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-mono text-accent uppercase tracking-wider font-semibold">Active Hardware &amp; Algorithmic Path</div>
+          <div id="pipe-detail-sensors" class="text-sm font-mono text-white font-bold">
+            {pipelineStages[0].sensors}
           </div>
-          <figcaption class="px-4 py-3 text-xs text-text-muted border-t border-border/60">
-            <strong class="text-white font-mono">Burlington Groves 1–3:</strong> Top-down SLAM paths &amp; 1.37 m stem maps.
-          </figcaption>
-        </figure>
-
-        <figure class="rounded-2xl bg-surface border border-border overflow-hidden">
-          <div class="p-2.5 bg-black/40">
-            <img src="/images/cutmap/fig7_multi_stand_validation.png" alt="65-stem eastern white pine DBH validation" class="w-full h-auto rounded-lg object-contain" loading="lazy" />
-          </div>
-          <figcaption class="px-4 py-3 text-xs text-text-muted border-t border-border/60">
-            <strong class="text-white font-mono">65-Stem Validation:</strong> Full-ring (n=42) &amp; partial-arc DBH accuracy.
-          </figcaption>
-        </figure>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- 5. CAPABILITIES ACROSS FORESTRY & BEYOND + PHASE II HORIZON -->
-  <section id="capabilities" class="py-14 bg-background border-b border-border">
-    <div class="max-w-5xl mx-auto px-6 space-y-8">
-      
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-        <div>
-          <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Broad Capabilities</div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Forestry &amp; Beyond</h2>
-        </div>
-        <span class="text-xs font-mono text-accent">Click any bubble for use cases +</span>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {sectorCards.map(sec => (
-          <button
-            type="button"
-            data-modal-id={sec.id}
-            aria-haspopup="dialog"
-            class="bubble-trigger text-left p-5 rounded-2xl bg-surface border border-border hover:border-accent/60 hover:bg-forest-900/50 transition-all cursor-pointer group flex flex-col justify-between"
-          >
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <h3 class="text-sm sm:text-base font-bold text-white">{sec.title}</h3>
-                <span class="text-[11px] font-mono text-text-dim group-hover:text-accent shrink-0">+</span>
-              </div>
-              <p class="text-xs text-text-muted leading-relaxed">{sec.summary}</p>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      <!-- Compact Phase II Horizon + Clickable Phase I Limits Trigger -->
-      <div class="p-6 rounded-2xl bg-forest-950 border border-accent/40 flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div class="space-y-2 max-w-2xl">
-          <div class="text-xs font-mono text-accent uppercase tracking-widest font-bold">Phase II Horizon</div>
-          <p class="text-sm text-white leading-relaxed">
-            "In Phase II, we are working toward near real-time mensuration and automated thinning prescriptions on embedded edge compute, and evaluating modular deployment configurations across backpack, ATV, and harvesting machinery."
+          <p id="pipe-detail-summary" class="text-xs text-text-muted max-w-2xl leading-relaxed">
+            {pipelineStages[0].summary}
           </p>
         </div>
-        <button
-          type="button"
-          data-modal-id="phase1-limits"
-          aria-haspopup="dialog"
-          class="bubble-trigger px-4 py-3 rounded-xl bg-surface hover:bg-forest-900 border border-amber-500/40 hover:border-amber-400 text-xs font-mono text-amber-300 font-semibold whitespace-nowrap shrink-0 cursor-pointer transition-all"
-        >
-          Measured Phase I Limits (4) +
-        </button>
+        <div class="px-4 py-2.5 rounded-xl bg-surface border border-accent/40 text-center shrink-0">
+          <div id="pipe-detail-metric" class="text-lg font-mono font-black text-accent">{pipelineStages[0].outputMetric}</div>
+          <div id="pipe-detail-label" class="text-[10px] font-mono text-text-dim uppercase">{pipelineStages[0].outputLabel}</div>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <!-- 6. PUBLICATIONS & TEAMING FOOTER -->
+  <!-- 5. FIELD CAMPAIGN VALIDATION CARDS (Visual Cards, Zero Lists) -->
+  <section id="campaigns" class="py-14 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-8">
+
+      <div class="max-w-3xl">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Operational Validation</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Three Field Campaigns
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted mt-2">
+          Rigorous field evaluations spanning managed conifer groves, urban arboretums, and natural mixed-species research plots.
+        </p>
+      </div>
+
+      <!-- 3 Rich Campaign Cards with Micro-Metrics -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {fieldCampaigns.map(camp => (
+          <div class={`p-6 rounded-2xl bg-surface border ${camp.accentColor} flex flex-col justify-between shadow-lg`}>
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-xs font-mono font-bold uppercase">{camp.location}</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-forest-950 border border-border text-text-dim">
+                  {camp.badge}
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">{camp.name}</h3>
+              <p class="text-xs text-text-muted leading-relaxed mb-4">{camp.desc}</p>
+            </div>
+
+            <div class="space-y-3 pt-3 border-t border-border/60">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-text-dim text-[11px]">{camp.statLabel}:</span>
+                <span class="text-white font-bold">{camp.highlightStat}</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 p-2 rounded-xl bg-forest-950 border border-border/70 text-center text-xs font-mono">
+                {camp.keyMetrics.map(m => (
+                  <div>
+                    <div class="text-accent font-bold text-[11px]">{m.val}</div>
+                    <div class="text-[10px] text-text-dim">{m.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. VIDEO DEMONSTRATION -->
+  <section class="py-14 bg-surface/30 border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-6">
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+        <div>
+          <div class="text-xs font-mono text-emerald-400 uppercase tracking-widest mb-1">Traverse Video</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">From the Bench to Harvard Forest</h2>
+        </div>
+        <p class="text-xs sm:text-sm text-text-muted max-w-sm">
+          56-second overview of the physical cart, calibration bench, and understory traverse.
+        </p>
+      </div>
+
+      <div class="rounded-3xl border border-border bg-black overflow-hidden shadow-2xl max-w-4xl mx-auto">
+        <div class="relative aspect-[16/9] bg-black">
+          <video 
+            playsinline 
+            controls
+            preload="metadata"
+            poster="/images/cutmap/cutmap_promo_poster.jpg"
+            class="w-full h-full object-cover"
+          >
+            <source src="/videos/cutmap/cutmap_phase1_promo.mp4" type="video/mp4" />
+            <p class="text-xs text-text-dim p-4">Your browser does not support HTML5 video.</p>
+          </video>
+        </div>
+        <div class="p-4 bg-forest-950 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-text-muted">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span>Livox Mid-360 • Dual Blackfly • Jetson AGX Orin • Harvard Forest Traverse</span>
+          </div>
+          <span class="text-emerald-400 font-semibold text-[11px] uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">Audio Enabled</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. SECTOR CAPABILITIES & PHASE II ROADMAP -->
+  <section id="capabilities" class="py-14 bg-background border-b border-border">
+    <div class="max-w-5xl mx-auto px-6 space-y-8">
+
+      <div class="max-w-3xl">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Platform Versatility</div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Capabilities Across Forestry &amp; Beyond
+        </h2>
+        <p class="text-xs sm:text-sm text-text-muted mt-2">
+          A modular perception platform built for single-tree forestry, expanding seamlessly into wildfire mitigation, agriculture, and mobile robotics.
+        </p>
+      </div>
+
+      <!-- 4 Visual Capability Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {capabilities.map(cap => (
+          <div class="p-5 rounded-2xl bg-surface border border-border hover:border-accent/40 transition-all flex flex-col justify-between shadow-sm">
+            <div>
+              <div class="text-[10px] font-mono uppercase tracking-wider text-accent font-semibold mb-1">
+                {cap.badge}
+              </div>
+              <h3 class="text-base font-bold text-white mb-1">{cap.title}</h3>
+              <div class="text-xs font-mono text-text-dim mb-3">{cap.role}</div>
+              <p class="text-xs text-text-muted leading-relaxed">{cap.summary}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Phase II Modular Roadmap Panel -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-forest-950 border border-accent/40 shadow-xl space-y-4">
+        <div class="flex items-center justify-between gap-3">
+          <div class="text-xs font-mono text-accent uppercase tracking-widest font-bold">Phase II Development Horizon</div>
+          <span class="px-2.5 py-0.5 rounded-full bg-accent/15 border border-accent/30 text-[11px] font-mono text-accent">Teaming Open</span>
+        </div>
+        <blockquote class="text-base sm:text-lg text-white font-medium leading-relaxed border-l-4 border-accent pl-4">
+          "In Phase II, we are working toward near real-time mensuration and automated thinning prescriptions on embedded edge compute, and evaluating modular deployment configurations across backpack, ATV, and harvesting machinery."
+        </blockquote>
+        <p class="text-xs sm:text-sm text-text-muted leading-relaxed max-w-3xl">
+          Spectral Sciences and Oregon State University are advancing a 4-camera hardware-synchronized optical array, an NDAA-compliant 3D lidar, and OSU MARS Lab heuristic tree-selection and SEEM growth-and-yield models sharing one quick-swap edge compute package.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8. SCHOLARLY OUTPUT & TEAMING FOOTER -->
   <section id="teaming" class="py-14 bg-forest-950">
     <div class="max-w-5xl mx-auto px-6 space-y-8">
 
       <div>
-        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Publications</div>
+        <div class="text-xs font-mono text-accent uppercase tracking-widest mb-1">Scholarly Output</div>
         <h2 class="text-2xl font-extrabold text-white tracking-tight mb-5">Presentations &amp; Manuscripts</h2>
         <div class="space-y-3">
           {publications.map(pub => (
@@ -600,103 +632,100 @@ const allModalItems = [
         </div>
       </div>
 
-      <div class="p-6 rounded-2xl bg-surface border border-accent/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h3 class="text-base sm:text-lg font-bold text-white">Phase II Partnerships &amp; Field Pilots</h3>
-          <p class="text-xs text-text-muted mt-0.5">Connect with Project Director Dr. Cory G. Garms (SSI) &amp; Co-PD Dr. Bogdan M. Strimbu (OSU).</p>
+      <!-- Teaming CTA Banner -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-surface border border-accent/40 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div class="space-y-1">
+          <div class="text-xs font-mono text-accent uppercase tracking-wider font-bold">Phase II Field Pilots &amp; Licensing</div>
+          <h3 class="text-lg sm:text-xl font-bold text-white">Team With Spectral Sciences &amp; Oregon State University</h3>
+          <p class="text-xs sm:text-sm text-text-muted max-w-xl leading-relaxed">
+            Structuring Phase II collaborative agreements with timberland managers, machinery OEMs, and research partners. Connect with Dr. Cory G. Garms and Dr. Bogdan M. Strimbu.
+          </p>
         </div>
         <a 
           href="mailto:cgarms@spectral.com?subject=CUTMAP%20Phase%20II%20Teaming%20Inquiry"
-          class="px-5 py-3 rounded-xl bg-accent hover:bg-accent-light text-forest-950 font-bold text-xs font-mono transition-all whitespace-nowrap shrink-0"
+          class="px-6 py-3.5 rounded-xl bg-accent hover:bg-accent-light text-forest-950 font-bold text-xs sm:text-sm font-mono transition-all shadow-md whitespace-nowrap shrink-0 cursor-pointer"
         >
           cgarms@spectral.com &rarr;
         </a>
       </div>
 
-      <div class="text-center text-xs font-mono text-text-dim pt-2 border-t border-border/60">
-        USDA-NIFA STTR Phase I Award #2025-70436-44908 &bull; <a href="https://forestry.oregonstate.edu" target="_blank" rel="noopener noreferrer" class="text-white hover:text-orange-400 underline">Oregon State University</a> &bull; &copy; 2026 <a href="https://www.spectral.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-accent underline">Spectral Sciences, Inc.</a>
+      <!-- Legal / Sponsor Footer -->
+      <div class="text-center text-xs font-mono text-text-dim pt-2 border-t border-border/60 leading-relaxed">
+        Funded by <strong class="text-white">USDA-NIFA STTR Phase I Award #2025-70436-44908</strong> (Topic 8.1 <em>Forest and Related Resources</em>) &bull; Academic Partner: <a href="https://forestry.oregonstate.edu" target="_blank" rel="noopener noreferrer" class="text-white hover:text-orange-400 underline transition-colors">Oregon State University College of Forestry</a> &bull; &copy; 2026 <a href="https://www.spectral.com" target="_blank" rel="noopener noreferrer" class="text-white hover:text-accent underline transition-colors">Spectral Sciences, Inc.</a>
       </div>
 
     </div>
   </section>
 
-  <!-- DETAIL MODAL FOR CLICKABLE BUBBLES -->
-  <div 
-    id="bubble-modal" 
-    class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modal-title"
-  >
-    <div class="relative w-full max-w-xl rounded-2xl bg-surface border border-accent/50 shadow-2xl p-6 sm:p-8 space-y-4">
-      <div class="flex items-start justify-between gap-4">
-        <div>
-          <div id="modal-subtitle" class="text-xs font-mono text-accent uppercase tracking-wider mb-1"></div>
-          <h3 id="modal-title" class="text-xl font-bold text-white leading-snug"></h3>
-        </div>
-        <button 
-          type="button" 
-          id="modal-close"
-          aria-label="Close details"
-          class="w-8 h-8 rounded-lg bg-forest-900 hover:bg-forest-800 border border-border text-text-muted hover:text-white flex items-center justify-center text-sm font-mono cursor-pointer shrink-0"
-        >
-          &times;
-        </button>
-      </div>
-      <ul id="modal-bullets" class="space-y-2.5 text-xs sm:text-sm text-text-muted leading-relaxed list-disc list-inside pt-2 border-t border-border/60"></ul>
-    </div>
-  </div>
-
 </Layout>
 
-<script define:vars={{ allModalItems }}>
+<script define:vars={{ figureGallery, pipelineStages }}>
   document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('bubble-modal');
-    const titleEl = document.getElementById('modal-title');
-    const subtitleEl = document.getElementById('modal-subtitle');
-    const bulletsEl = document.getElementById('modal-bullets');
-    const closeBtn = document.getElementById('modal-close');
-    const triggers = document.querySelectorAll('.bubble-trigger');
+    // 1. Interactive Scientific Figure Explorer Controller
+    const tabBtns = document.querySelectorAll('.fig-tab-btn');
+    const figImg = document.getElementById('active-fig-img');
+    const figTelemetry = document.getElementById('active-fig-telemetry');
+    const figCaption = document.getElementById('active-fig-caption');
+    const figBadge = document.getElementById('active-fig-badge');
 
-    const itemMap = new Map(allModalItems.map(item => [item.id, item]));
-
-    function openModal(id) {
-      const item = itemMap.get(id);
-      if (!item || !modal) return;
-      titleEl.textContent = item.modalTitle;
-      subtitleEl.textContent = item.modalSubtitle;
-      bulletsEl.innerHTML = '';
-      item.modalBullets.forEach(text => {
-        const li = document.createElement('li');
-        li.textContent = text;
-        bulletsEl.appendChild(li);
-      });
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      closeBtn?.focus();
-    }
-
-    function closeModal() {
-      if (!modal) return;
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    triggers.forEach(btn => {
+    tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-modal-id');
-        if (id) openModal(id);
+        const idx = parseInt(btn.getAttribute('data-fig-index') || '0', 10);
+        const data = figureGallery[idx];
+        if (!data) return;
+
+        // Reset tab styles
+        tabBtns.forEach(b => {
+          b.classList.remove('bg-accent/15', 'text-accent', 'border-accent/40', 'font-bold');
+          b.classList.add('text-text-muted', 'border-transparent');
+        });
+
+        // Activate clicked tab
+        btn.classList.add('bg-accent/15', 'text-accent', 'border-accent/40', 'font-bold');
+        btn.classList.remove('text-text-muted', 'border-transparent');
+
+        // Animate image switch
+        if (figImg) {
+          figImg.style.opacity = '0';
+          setTimeout(() => {
+            figImg.src = data.imgSrc;
+            figImg.alt = data.alt;
+            figImg.style.opacity = '1';
+          }, 150);
+        }
+
+        if (figTelemetry) figTelemetry.textContent = data.telemetry;
+        if (figCaption) figCaption.textContent = data.caption;
+        if (figBadge) figBadge.textContent = data.badge;
       });
     });
 
-    closeBtn?.addEventListener('click', closeModal);
-    modal?.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-        closeModal();
-      }
+    // 2. Interactive Pipeline Architecture Stepper
+    const stageCards = document.querySelectorAll('.pipe-stage-card');
+    const detailSensors = document.getElementById('pipe-detail-sensors');
+    const detailSummary = document.getElementById('pipe-detail-summary');
+    const detailMetric = document.getElementById('pipe-detail-metric');
+    const detailLabel = document.getElementById('pipe-detail-label');
+
+    stageCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const idx = parseInt(card.getAttribute('data-stage-idx') || '0', 10);
+        const stage = pipelineStages[idx];
+        if (!stage) return;
+
+        stageCards.forEach(c => {
+          c.classList.remove('border-accent', 'shadow-lg', 'shadow-accent/5');
+          c.classList.add('border-border');
+        });
+
+        card.classList.add('border-accent', 'shadow-lg', 'shadow-accent/5');
+        card.classList.remove('border-border');
+
+        if (detailSensors) detailSensors.textContent = stage.sensors;
+        if (detailSummary) detailSummary.textContent = stage.summary;
+        if (detailMetric) detailMetric.textContent = stage.outputMetric;
+        if (detailLabel) detailLabel.textContent = stage.outputLabel;
+      });
     });
   });
 </script>
